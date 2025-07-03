@@ -2,32 +2,649 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login - UoP Auth</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UoP - Asset Management</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #800000; /* University Maroon */
+            --primary-dark: #600000; /* Darker maroon for gradient */
+            --primary-light: #a04040;
+            --secondary-color: #f8f9fa;
+            --accent-color: #ffc107; /* Gold/Amber for highlights */
+            --text-dark: #343a40;
+            --text-light: #f8f9fa; /* White/Off-white for text on dark backgrounds */
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif; /* Changed to Poppins for a modern feel */
+            background-color: #f5f5f5;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .main-header {
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark)); /* Header gradient */
+            color: var(--text-light); /* Ensure text is light on dark header */
+            box-shadow: var(--shadow);
+            padding: 0.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 50px;
+            margin-right: 15px;
+            filter: brightness(1.1) drop-shadow(0 0 2px rgba(0,0,0,0.3)); /* Slight adjustment for better look on dark bg */
+        }
+
+        .logo-container h5 { /* Adjusted font size */
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        .logo-container small { /* Adjusted font size */
+            font-size: 0.75rem;
+            display: block;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            flex-grow: 1; /* Allow navigation to take available space */
+            justify-content: center; /* Center main nav items */
+        }
+
+        .nav-link {
+            color: var(--text-light); /* Links are light */
+            padding: 0.6rem 1rem; /* Adjusted padding for smaller font */
+            margin: 0 0.4rem; /* Adjusted margin */
+            border-radius: 6px; /* Slightly more rounded corners */
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.9rem; /* Adjusted font size */
+            display: flex; /* For icon and text alignment */
+            align-items: center;
+        }
+
+        .nav-link:hover {
+            color: var(--text-light); /* Keep text light on hover */
+            background-color: rgba(255, 255, 255, 0.15); /* Light transparent background on hover */
+            text-decoration: none;
+        }
+
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.25); /* More prominent background for active link */
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .nav-link i {
+            margin-right: 8px; /* Space between icon and text */
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-menu .dropdown-toggle {
+            color: var(--text-light); /* User dropdown button text is light */
+            background-color: transparent;
+            border: none;
+            padding: 0.6rem 1rem; /* Adjusted padding for smaller font */
+            transition: var(--transition);
+            border-radius: 4px;
+            font-size: 0.9rem; /* Adjusted font size */
+        }
+
+        .user-menu .dropdown-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: var(--text-light);
+        }
+
+        .user-menu .dropdown-toggle i {
+            margin-right: 5px;
+        }
+
+        .dropdown-menu {
+            background-color: white; /* Dropdown menu background */
+            border: none;
+            box-shadow: var(--shadow);
+            font-size: 0.9rem; /* Adjusted font size for dropdown items */
+        }
+
+        .dropdown-menu .dropdown-item {
+            color: var(--text-dark); /* Dropdown items text dark */
+            padding: 0.6rem 1rem; /* Adjusted padding */
+            transition: var(--transition);
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #e9ecef; /* Light gray on hover for dropdown items */
+            color: var(--primary-color);
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--accent-color); /* Use accent color for avatar background */
+            color: var(--text-dark); /* Dark text on accent color */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Search Bar Styles */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            margin-right: 1rem; /* Space between search and account */
+        }
+
+        .search-bar input {
+            border: none;
+            border-radius: 5px;
+            padding: 0.3rem 0.7rem; /* Adjusted padding */
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--text-light);
+            transition: var(--transition);
+            width: 140px; /* Adjust width as needed */
+            font-size: 0.85rem; /* Adjusted font size */
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-bar input:focus {
+            background-color: rgba(255, 255, 255, 0.3);
+            outline: none;
+            width: 180px; /* Expand on focus */
+        }
+
+        .search-bar button {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            margin-left: -28px; /* Overlap with input for icon positioning */
+            padding: 0.3rem 0.7rem; /* Adjusted padding */
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem; /* Adjusted font size */
+        }
+
+        .search-bar button:hover {
+            color: var(--accent-color);
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            height: calc(100vh - 70px); /* Adjust height based on header height */
+            position: sticky;
+            top: 70px; /* Position below the sticky header */
+            transition: var(--transition);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding-top: 1rem;
+        }
+
+        .sidebar-menu {
+            padding: 0; /* Remove top/bottom padding as it's in .sidebar */
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            margin: 0.25rem 0;
+            border-left: 4px solid transparent;
+            font-size: 0.9rem; /* Adjusted font size */
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--accent-color);
+            text-decoration: none;
+            color: white;
+        }
+
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid var(--accent-color);
+            font-weight: 500;
+        }
+
+        .menu-icon {
+            margin-right: 12px;
+            font-size: 1rem; /* Adjusted icon size */
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin: 1rem;
+            overflow-y: auto; /* Enable scrolling for content if it overflows */
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Dashboard Card Styles (improved) */
+        .card {
+            border: none;
+            border-radius: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden; /* Ensures border-left is within rounded corners */
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card.border-left-primary { border-left: .25rem solid var(--primary-color) !important;}
+        .card.border-left-success { border-left: .25rem solid #28a745 !important; }
+        .card.border-left-info { border-left: .25rem solid #17a2b8 !important; }
+        .card.border-left-warning { border-left: .25rem solid #ffc107 !important; }
+
+        .card-body .text-xs {
+            font-size: 0.7rem; /* Slightly smaller for captions */
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        .card-body .h5 {
+            font-size: 1.1rem; /* Slightly smaller for card numbers */
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        .card-body .fa-2x {
+            font-size: 1.8rem; /* Adjusted icon size */
+            color: #dee2e6; /* Lighter gray for card icons */
+        }
+
+        /* Activity Feed Styles */
+        .activity-feed {
+            position: relative;
+            padding-left: 25px; /* Space for the badges */
+        }
+
+        .activity-feed::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background-color: #e0e0e0;
+        }
+
+        .activity-item {
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .activity-badge {
+            width: 22px; /* Slightly smaller badge */
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem; /* Smaller icon in badge */
+            position: absolute;
+            left: -11px; /* Center over the line */
+            top: 0;
+            z-index: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .activity-content {
+            margin-left: 25px;
+            flex-grow: 1;
+        }
+
+        .activity-content small {
+            display: block;
+            margin-bottom: 3px;
+            color: #888;
+            font-size: 0.75rem; /* Smaller date/time */
+        }
+
+        .activity-content p {
+            font-size: 0.9rem; /* Smaller activity text */
+            line-height: 1.4;
+            margin-bottom: 0;
+        }
+
+        /* Footer Styles */
+        .main-footer {
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary-color)); /* Footer gradient */
+            color: white;
+            padding: 1.2rem 0; /* Slightly reduced padding */
+            margin-top: auto;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            font-size: 0.85rem; /* Smaller footer text */
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+        }
+
+        .footer-link {
+            color: white;
+            margin-right: 1.2rem; /* Adjusted margin */
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .social-icons {
+            display: flex;
+        }
+
+        .social-icon {
+            color: white;
+            margin-left: 0.8rem; /* Adjusted margin */
+            font-size: 1.1rem; /* Slightly smaller social icons */
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            color: var(--accent-color);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .main-nav {
+                justify-content: flex-start; /* Align main nav left on smaller screens */
+                flex-wrap: wrap; /* Allow nav items to wrap */
+            }
+            .nav-link {
+                padding: 0.5rem 0.8rem;
+                margin: 0.2rem;
+                font-size: 0.85rem;
+            }
+
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+
+            .menu-text {
+                display: none;
+            }
+
+            .menu-icon {
+                margin-right: 0;
+                font-size: 1.1rem;
+            }
+
+            .search-bar {
+                margin-right: 0.5rem;
+            }
+
+            .search-bar input {
+                width: 90px; /* Further adjust for smaller screens */
+                font-size: 0.8rem;
+            }
+
+            .search-bar input:focus {
+                width: 130px;
+            }
+
+            .search-bar button {
+                font-size: 0.8rem;
+            }
+
+            .user-menu .dropdown-toggle {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 0.5rem 1rem;
+            }
+            .main-nav {
+                display: none; /* Hide main nav on very small screens, rely on sidebar */
+            }
+
+            .sidebar {
+                position: fixed;
+                height: 100vh;
+                top: 0; /* Align sidebar to top when fixed */
+                z-index: 900;
+                transform: translateX(-100%);
+                padding-top: 70px; /* Space for header if it's not hidden */
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .mobile-menu-btn {
+                display: block !important;
+                color: var(--primary-color); /* Adjust color for menu button on white header */
+            }
+
+            .main-content {
+                margin: 0.5rem;
+                padding: 1.5rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links, .social-icons {
+                margin-top: 1rem;
+            }
+
+            .footer-link {
+                margin: 0 0.75rem;
+            }
+
+            .search-bar {
+                display: none; /* Hide search bar on smaller screens if space is limited */
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        /* Utility Classes */
+        .flex-grow {
+            flex-grow: 1;
+        }
+
+        .text-accent {
+            color: var(--accent-color);
+        }
+
+        .bg-primary-light {
+            background-color: var(--primary-light);
+        }
+    </style>
 </head>
-<body class="bg-light">
-
-<div class="container mt-5">
-    <h2 class="mb-4">Login</h2>
-
-    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
-
-    <form th:action="@{/login}" method="post">
-        <div class="form-group">
-            <label>Email</label>
-            <input type="email" name="username" class="form-control" placeholder="Enter your email" required>
+<body>
+<header class="main-header">
+    <div class="container-fluid d-flex align-items-center">
+        <button class="mobile-menu-btn mr-3">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="logo-container">
+            <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png"
+                 alt="University Logo" class="logo-img">
+            <div>
+                <h5 class="mb-0 text-light">University of Peradeniya</h5> <small class="text-light">Asset Management System</small> </div>
         </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
-        </div>
+    </div>
+</header>
 
-        <button type="submit" class="btn btn-primary">Login</button>
-        <a href="/register" class="btn btn-link">Create account</a>
-        <a href="/forgot-password" class="btn btn-link">Forgot Password?</a>
-    </form>
+
+
+    <main class="flex-grow">
+        <div class="main-content">
+            <div class="container mt-5">
+                <h2 class="mb-4">Login</h2>
+
+                <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+
+                <form th:action="@{/login}" method="post">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="username" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <a href="/register" class="btn btn-link">Create account</a>
+                    <a href="/forgot-password" class="btn btn-link">Forgot Password?</a>
+                </form>
+            </div>
+
+        </div>
+    </main>
 </div>
 
+<footer class="main-footer">
+    <div class="container-fluid">
+        <div class="footer-content">
+            <div class="copyright">
+                &copy; 2025 University of Peradeniya. All rights reserved. </div>
+            <div class="footer-links">
+                <a href="/privacy" class="footer-link">Privacy Policy</a>
+                <a href="/terms" class="footer-link">Terms of Service</a>
+                <a href="/contact" class="footer-link">Contact Us</a>
+            </div>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Mobile menu toggle
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+        document.querySelector('.sidebar').classList.toggle('active');
+    });
+
+    // Initialize chart
+    document.addEventListener('DOMContentLoaded', function() {
+        var ctx = document.getElementById('assetDistributionChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Computers', 'Furniture', 'Electronics', 'Lab Equipment', 'Vehicles', 'Other'],
+                datasets: [{
+                    label: 'Assets by Category',
+                    data: [420, 300, 200, 150, 80, 50],
+                    backgroundColor: [
+                        'rgba(128, 0, 0, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(128, 0, 0, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>
+
