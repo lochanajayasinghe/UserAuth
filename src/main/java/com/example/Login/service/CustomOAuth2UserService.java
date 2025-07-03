@@ -1,7 +1,9 @@
 package com.example.Login.service;
 
-import org.springframework.security.oauth2.client.userinfo.*;
-import org.springframework.security.oauth2.core.user.*;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +15,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
         OAuth2User user = delegate.loadUser(userRequest);
 
-        // Optional: You can save user details in DB or do additional processing here
-
+        // You can save user details or map to your User entity here if needed
         return user;
     }
 }
