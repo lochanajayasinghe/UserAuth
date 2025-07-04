@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
-
     private final AuthService authService;
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
+    }
 
     @GetMapping("/register")
     public String showRegisterPage(Model model) {
@@ -29,7 +33,6 @@ public class AuthController {
             model.addAttribute("error", result);
         }
         return "register";
-        
     }
 
     @GetMapping("/verify")
@@ -76,4 +79,8 @@ public class AuthController {
         return "reset-password";
     }
 
+    @GetMapping("/user/home")
+    public String userHome() {
+        return "user-home";
+    }
 }
