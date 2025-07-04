@@ -1,9 +1,12 @@
 package com.example.Login.controller;
 
 import com.example.Login.model.User;
+import com.example.Login.repository.RoleRepository;
 import com.example.Login.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +21,16 @@ public class AuthController {
         return "login";
     }
 
-    @GetMapping("/register")
-    public String showRegisterPage(Model model) {
-        model.addAttribute("user", new User());
-        return "register";
-    }
+    @Autowired
+    private RoleRepository roleRepository;
+
+   @GetMapping("/register")
+public String showRegistrationForm(Model model) {
+    model.addAttribute("user", new User());
+    model.addAttribute("allRoles", roleRepository.findAll()); // roleRepository should return Role entities
+    return "register";
+}
+
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") User user, HttpServletRequest request, Model model) {
