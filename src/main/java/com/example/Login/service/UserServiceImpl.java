@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         String token = UUID.randomUUID().toString();
-        VerificationToken verificationToken = VerificationToken.builder()
+        VerificationToken verificationToken = com.example.Login.model.VerificationToken.builder()
                 .token(token)
                 .user(user)
                 .expiryDate(LocalDateTime.now().plusMinutes(30))
