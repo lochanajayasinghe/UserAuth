@@ -14,19 +14,19 @@ public class AuthController {
 
     private final AuthService authService;
 
-    // Show registration page
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
         model.addAttribute("user", new User());
         return "register";
     }
 
-    // Handle registration
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") User user, HttpServletRequest request, Model model) {
+    public String register(@ModelAttribute("user") User user,
+                           HttpServletRequest request,
+                           Model model) {
         String result = authService.register(user, request);
-        if (result.equals("success")) {
-            model.addAttribute("message", "Verification email sent. Please check your inbox.");
+        if ("success".equals(result)) {
+            model.addAttribute("message", "Check your email to verify your account.");
             return "login";
         } else {
             model.addAttribute("error", result);

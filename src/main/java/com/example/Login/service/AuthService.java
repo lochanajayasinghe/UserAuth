@@ -11,8 +11,8 @@ public class AuthService {
 
     private final UserService userService;
 
-    public String register(User user, HttpServletRequest request) {
-        return userService.registerUser(user, request);
+   public String register(User user, HttpServletRequest request) {
+    return userService.registerUser(user, request);
     }
 
     public String verifyEmail(String token) {
