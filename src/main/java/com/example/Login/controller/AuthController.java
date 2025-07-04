@@ -29,6 +29,7 @@ public class AuthController {
             model.addAttribute("error", result);
         }
         return "register";
+        
     }
 
     @GetMapping("/verify")
@@ -74,4 +75,5 @@ public class AuthController {
         }
         return "reset-password";
     }
+
 }

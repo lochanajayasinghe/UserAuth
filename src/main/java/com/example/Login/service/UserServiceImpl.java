@@ -24,19 +24,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String registerUser(User user, HttpServletRequest request) {
+        // Check if email is already registered
         if (userRepository.existsByEmail(user.getEmail())) {
             return "Email already registered!";
         }
 
+        // Encode password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(false);
 
-        Role userRole = roleRepository.findByName("ROLE_USER").orElseThrow();
-        user.getRoles().add(userRole);
+        // Get user role (safely)
+        Optional<Role> userRoleOpt = roleRepository.findByName("ROLE_USER");
+        if (userRoleOpt.isEmpty()) {
+            return "User role not found in database!";
+        }
+
+        user.getRoles().add(userRoleOpt.get());
         userRepository.save(user);
 
+        // Generate verification token
         String token = UUID.randomUUID().toString();
-        VerificationToken verificationToken = com.example.Login.model.VerificationToken.builder()
+        VerificationToken verificationToken = VerificationToken.builder()
                 .token(token)
                 .user(user)
                 .expiryDate(LocalDateTime.now().plusMinutes(30))
@@ -44,9 +52,11 @@ public class UserServiceImpl implements UserService {
 
         verificationTokenRepository.save(verificationToken);
 
+        // Construct verification link
         String verificationLink = request.getRequestURL().toString().replace("/register", "") +
                 "/verify?token=" + token;
 
+        // Send email
         emailService.sendEmail(user.getEmail(), "Verify your account", "Click the link: " + verificationLink);
 
         return "success";
@@ -56,6 +66,7 @@ public class UserServiceImpl implements UserService {
     public String verifyUser(String token) {
         Optional<VerificationToken> optionalToken = verificationTokenRepository.findByToken(token);
         if (optionalToken.isEmpty()) return "Invalid token!";
+
         VerificationToken verificationToken = optionalToken.get();
 
         if (verificationToken.getExpiryDate().isBefore(LocalDateTime.now())) {
@@ -74,6 +85,7 @@ public class UserServiceImpl implements UserService {
     public String createPasswordResetToken(String email, HttpServletRequest request) {
         Optional<User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isEmpty()) return "Email not found!";
+
         User user = optionalUser.get();
 
         String token = UUID.randomUUID().toString();
@@ -97,6 +109,7 @@ public class UserServiceImpl implements UserService {
     public String resetPassword(String token, String newPassword) {
         Optional<PasswordResetToken> optionalToken = passwordResetTokenRepository.findByToken(token);
         if (optionalToken.isEmpty()) return "Invalid token!";
+
         PasswordResetToken resetToken = optionalToken.get();
 
         if (resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
