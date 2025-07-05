@@ -547,39 +547,74 @@
     </div>
 </header>
 
-<main class="flex-grow">
+<main class="flex-grow bg-light">
     <div class="main-content">
-    <div class="container mt-5">
-        <h2 class="mb-4">Register</h2>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="card shadow-sm my-5">
+                        <div class="card-body p-4 p-md-5">
+                            <div class="text-center mb-4">
+                                <h2 class="h4 font-weight-bold text-primary">Create Your Account</h2>
+                                <p class="text-muted small">Join us to get started</p>
+                            </div>
 
-        <!-- Alert Messages -->
-        <div th:if="${error}" id="registerError" class="alert alert-danger" th:text="${error}"></div>
-        <div th:if="${message}" id="registerMessage" class="alert alert-success" th:text="${message}"></div>
+                            <!-- Alert Messages -->
+                            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show small" id="registerError" th:text="${error}" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div th:if="${message}" class="alert alert-success alert-dismissible fade show small" id="registerMessage" th:text="${message}" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
 
-        <!-- Register Form -->
-        <form th:action="@{/register}" th:object="${user}" method="post">
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" th:field="*{fullName}" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" th:field="*{username}" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" th:field="*{email}" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" th:field="*{password}" class="form-control" required>
-            </div>
+                            <!-- Register Form -->
+                            <form th:action="@{/register}" th:object="${user}" method="post">
+                                <div class="form-group">
+                                    <label class="font-weight-medium small">Full Name</label>
+                                    <input type="text" th:field="*{fullName}" class="form-control" placeholder="Enter your full name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="font-weight-medium small">Username</label>
+                                    <input type="text" th:field="*{username}" class="form-control" placeholder="Choose a username" required>
+                                    <small class="form-text text-muted small">This will be your public profile name</small>
+                                </div>
+                                <div class="form-group">
+                                    <label class="font-weight-medium small">Email</label>
+                                    <input type="email" th:field="*{email}" class="form-control" placeholder="Enter your email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="font-weight-medium small">Password</label>
+                                    <input type="password" th:field="*{password}" class="form-control" placeholder="Create a password" required>
+                                    <small class="form-text text-muted small">Use at least 8 characters with a mix of letters and numbers</small>
+                                </div>
 
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="termsCheck" required>
+                                    <label class="form-check-label small" for="termsCheck">
+                                        I agree to the <a href="#" class="text-decoration-none">Terms of Service</a> and <a href="#" class="text-decoration-none">Privacy Policy</a>
+                                    </label>
+                                </div>
 
-        <p class="mt-3">Already have an account? <a th:href="@{/login}">Login here</a></p>
-    </div>
+                                <button type="submit" class="btn btn-primary btn-block py-2">
+                                    <i class="fas fa-user-plus mr-2"></i> Create Account
+                                </button>
+                            </form>
+
+                            <div class="text-center mt-4">
+                                <p class="mb-0 small">
+                                    Already have an account? 
+                                    <a th:href="@{/login}" class="font-weight-medium text-decoration-none">Sign in</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 
