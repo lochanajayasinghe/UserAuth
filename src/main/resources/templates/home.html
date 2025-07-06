@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Management System | University of Peradeniya</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #f8f9fa;
+            --accent-color: #ffc107;
+            --dark-color: #343a40;
+            --light-color: #ffffff;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            margin-right: 15px;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .logo-text p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid var(--accent-color);
+        }
+        
+        .user-details {
+            text-align: right;
+        }
+        
+        .user-details .name {
+            font-weight: 600;
+        }
+        
+        .user-details .role {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        .nav-container {
+            background-color: var(--dark-color);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            position: relative;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-links a.active {
+            background-color: var(--primary-color);
+        }
+        
+        .logout-btn {
+            background-color: var(--danger-color);
+            padding: 1rem 1.5rem;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-title h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+        
+        .dashboard-title p {
+            color: #666;
+        }
+        
+        .search-bar {
+            display: flex;
+            width: 300px;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+        }
+        
+        .search-bar button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 1rem;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .stat-card.total-assets .icon {
+            background-color: rgba(0, 86, 179, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .stat-card.available .icon {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+        
+        .stat-card.assigned .icon {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .stat-card.maintenance .icon {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--accent-color);
+        }
+        
+        .stat-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+        
+        .stat-card .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-card .change {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .change.positive {
+            color: var(--success-color);
+        }
+        
+        .change.negative {
+            color: var(--danger-color);
+        }
+        
+        .main-sections {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-header h3 {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+        
+        .section-header a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .recent-assets table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .recent-assets th, .recent-assets td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .recent-assets th {
+            color: #666;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .recent-assets tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .status {
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status.available {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+        
+        .status.assigned {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .status.maintenance {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--accent-color);
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 1rem;
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark-color);
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            background-color: #e9ecef;
+            transform: translateY(-3px);
+        }
+        
+        .action-btn i {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary-color);
+        }
+        
+        .action-btn span {
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .upcoming-maintenance {
+            margin-top: 1.5rem;
+        }
+        
+        .maintenance-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .maintenance-item:last-child {
+            border-bottom: none;
+        }
+        
+        .maintenance-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .maintenance-details h4 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .maintenance-details p {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .footer p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 1024px) {
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .main-sections {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem;
+            }
+            
+            .logo {
+                margin-bottom: 1rem;
+                justify-content: center;
+            }
+            
+            .user-info {
+                justify-content: center;
+                margin-top: 1rem;
+            }
+            
+            .user-details {
+                text-align: center;
+            }
+            
+            nav {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+            }
+            
+            .logout-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .search-bar {
+                width: 100%;
+                margin-top: 1rem;
+            }
+            
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="https://www.pdn.ac.lk/wp-content/themes/pdn/images/logo.png" alt="University of Peradeniya Logo">
+            <div class="logo-text">
+                <h1>University of Peradeniya</h1>
+                <p>Asset Management System</p>
+            </div>
+        </div>
+        <div class="user-info">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Profile">
+            <div class="user-details">
+                <div class="name">Dr. Saman Kumara</div>
+                <div class="role">Department of Computer Engineering</div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="nav-container">
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="#"><i class="fas fa-boxes"></i> Assets</a></li>
+                <li><a href="#"><i class="fas fa-users"></i> Employees</a></li>
+                <li><a href="#"><i class="fas fa-tools"></i> Maintenance</a></li>
+                <li><a href="#"><i class="fas fa-file-alt"></i> Reports</a></li>
+            </ul>
+            <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </nav>
+    </div>
+    
+    <div class="main-content">
+        <div class="dashboard-header">
+            <div class="dashboard-title">
+                <h2>Dashboard</h2>
+                <p>Overview of university assets and management</p>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search assets...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+        
+        <div class="stats-cards">
+            <div class="stat-card total-assets">
+                <div class="icon">
+                    <i class="fas fa-boxes"></i>
+                </div>
+                <h3>Total Assets</h3>
+                <div class="number">1,248</div>
+                <div class="change positive"><i class="fas fa-arrow-up"></i> 5.2% from last month</div>
+            </div>
+            
+            <div class="stat-card available">
+                <div class="icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Available</h3>
+                <div class="number">843</div>
+                <div class="change positive"><i class="fas fa-arrow-up"></i> 2.1% from last month</div>
+            </div>
+            
+            <div class="stat-card assigned">
+                <div class="icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <h3>Assigned</h3>
+                <div class="number">372</div>
+                <div class="change negative"><i class="fas fa-arrow-down"></i> 1.8% from last month</div>
+            </div>
+            
+            <div class="stat-card maintenance">
+                <div class="icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3>Maintenance</h3>
+                <div class="number">33</div>
+                <div class="change positive"><i class="fas fa-arrow-up"></i> 0.5% from last month</div>
+            </div>
+        </div>
+        
+        <div class="main-sections">
+            <div class="section recent-assets">
+                <div class="section-header">
+                    <h3>Recently Added Assets</h3>
+                    <a href="#">View All <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Asset ID</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Date Added</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#AST-2023-587</td>
+                            <td>Dell OptiPlex 7080</td>
+                            <td>Computer</td>
+                            <td>CS Dept - Lab 3</td>
+                            <td><span class="status available">Available</span></td>
+                            <td>2023-10-15</td>
+                        </tr>
+                        <tr>
+                            <td>#AST-2023-586</td>
+                            <td>Epson Projector EB-995F</td>
+                            <td>AV Equipment</td>
+                            <td>Engineering Faculty</td>
+                            <td><span class="status assigned">Assigned</span></td>
+                            <td>2023-10-14</td>
+                        </tr>
+                        <tr>
+                            <td>#AST-2023-585</td>
+                            <td>Canon ImageRunner 2530</td>
+                            <td>Printer</td>
+                            <td>Admin Building</td>
+                            <td><span class="status maintenance">Maintenance</span></td>
+                            <td>2023-10-12</td>
+                        </tr>
+                        <tr>
+                            <td>#AST-2023-584</td>
+                            <td>Steel Cabinet 4-Door</td>
+                            <td>Furniture</td>
+                            <td>Library - 2nd Floor</td>
+                            <td><span class="status available">Available</span></td>
+                            <td>2023-10-10</td>
+                        </tr>
+                        <tr>
+                            <td>#AST-2023-583</td>
+                            <td>HP EliteBook 840 G8</td>
+                            <td>Laptop</td>
+                            <td>Registrar's Office</td>
+                            <td><span class="status assigned">Assigned</span></td>
+                            <td>2023-10-08</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="section quick-links">
+                <div class="section-header">
+                    <h3>Quick Actions</h3>
+                </div>
+                <div class="quick-actions">
+                    <a href="#" class="action-btn">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Add New Asset</span>
+                    </a>
+                    <a href="#" class="action-btn">
+                        <i class="fas fa-user-tag"></i>
+                        <span>Assign Asset</span>
+                    </a>
+                    <a href="#" class="action-btn">
+                        <i class="fas fa-barcode"></i>
+                        <span>Generate Barcode</span>
+                    </a>
+                    <a href="#" class="action-btn">
+                        <i class="fas fa-file-export"></i>
+                        <span>Export Report</span>
+                    </a>
+                </div>
+                
+                <div class="upcoming-maintenance">
+                    <div class="section-header">
+                        <h3>Upcoming Maintenance</h3>
+                        <a href="#">View All <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="maintenance-item">
+                        <div class="maintenance-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div class="maintenance-details">
+                            <h4>Air Conditioner Service</h4>
+                            <p>Admin Building - 15 devices | Due: 2023-11-05</p>
+                        </div>
+                    </div>
+                    
+                    <div class="maintenance-item">
+                        <div class="maintenance-icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <div class="maintenance-details">
+                            <h4>Computer Lab Maintenance</h4>
+                            <p>CS Dept - Lab 2 | Due: 2023-11-10</p>
+                        </div>
+                    </div>
+                    
+                    <div class="maintenance-item">
+                        <div class="maintenance-icon">
+                            <i class="fas fa-projector"></i>
+                        </div>
+                        <div class="maintenance-details">
+                            <h4>Projector Lamp Replacement</h4>
+                            <p>Engineering Lecture Hall | Due: 2023-11-15</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2023 University of Peradeniya - Asset Management System. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Simple JavaScript for interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Logout button functionality
+            document.querySelector('.logout-btn').addEventListener('click', function() {
+                if(confirm('Are you sure you want to logout?')) {
+                    // In a real application, this would redirect to logout endpoint
+                    alert('Logging out...');
+                }
+            });
+            
+            // Search functionality
+            document.querySelector('.search-bar button').addEventListener('click', function() {
+                const searchTerm = document.querySelector('.search-bar input').value;
+                if(searchTerm.trim() !== '') {
+                    alert(`Searching for: ${searchTerm}`);
+                    // In a real application, this would trigger a search request
+                }
+            });
+            
+            // Allow search on Enter key
+            document.querySelector('.search-bar input').addEventListener('keypress', function(e) {
+                if(e.key === 'Enter') {
+                    document.querySelector('.search-bar button').click();
+                }
+            });
+            
+            // Table row click functionality
+            document.querySelectorAll('.recent-assets tbody tr').forEach(row => {
+                row.addEventListener('click', function() {
+                    const assetId = this.cells[0].textContent;
+                    alert(`Viewing details for asset: ${assetId}`);
+                    // In a real application, this would navigate to asset details
+                });
+            });
+        });
+    </script>
+</body>
+</html>
