@@ -656,12 +656,11 @@
         </nav>
     </aside>
 
-    <main class="flex-grow">
-        <div class="main-content">
-    <a href="/login" class="btn btn-danger">Logout</a>
-</div>
+    
+    <div class="main-content">
     <!-- Main Content -->
     <main class="container-fluid py-4">
+       
         <!-- Welcome Banner -->
         <div class="row mb-4">
             <div class="col-12">
@@ -894,7 +893,8 @@
         </div>
     </main>
 
-<footer class="main-footer">
+
+    <footer class="main-footer">
     <div class="container-fluid">
         <div class="footer-content">
             <div class="copyright">
@@ -920,25 +920,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script>
-    // Mobile menu toggle
-    document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
-        document.querySelector('.sidebar')?.classList.toggle('active');
-    });
 
-    // Auto-hide alerts after 3 seconds
-    setTimeout(() => {
-        const errorEl = document.getElementById("loginError");
-        const messageEl = document.getElementById("loginMessage");
-        if (errorEl) errorEl.style.display = 'none';
-        if (messageEl) messageEl.style.display = 'none';
-    }, 3000);
-
-    // Remove error on reload
-    if (performance.navigation.type === 1) {
-        const errorEl = document.getElementById("loginError");
-        if (errorEl) errorEl.remove();
-    }
-</script>
 </body>
 </html>
+    
+ 
