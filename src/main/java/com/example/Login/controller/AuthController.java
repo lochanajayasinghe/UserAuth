@@ -21,6 +21,11 @@ public class AuthController {
         return "home/home"; 
     }
 
+    @GetMapping("/AboutUs")
+    public String aboutUs(Model model) {
+        return "home/aboutUs"; 
+    }
+
     @GetMapping("/login")
 public String loginPage(@RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "logout", required = false) String logout,
