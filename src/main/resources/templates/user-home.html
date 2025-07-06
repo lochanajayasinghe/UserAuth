@@ -21,7 +21,7 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif; /* Changed to Poppins for a modern feel */
+            font-family: 'Poppins', sans-serif;
             background-color: #f5f5f5;
             color: var(--text-dark);
             display: flex;
@@ -31,8 +31,8 @@
 
         /* Header Styles */
         .main-header {
-            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark)); /* Header gradient */
-            color: var(--text-light); /* Ensure text is light on dark header */
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+            color: var(--text-light);
             box-shadow: var(--shadow);
             padding: 0.5rem 2rem;
             position: sticky;
@@ -48,15 +48,15 @@
         .logo-img {
             height: 50px;
             margin-right: 15px;
-            filter: brightness(1.1) drop-shadow(0 0 2px rgba(0,0,0,0.3)); /* Slight adjustment for better look on dark bg */
+            filter: brightness(1.1) drop-shadow(0 0 2px rgba(0,0,0,0.3));
         }
 
-        .logo-container h5 { /* Adjusted font size */
+        .logo-container h5 {
             font-size: 1.1rem;
             margin-bottom: 0;
         }
 
-        .logo-container small { /* Adjusted font size */
+        .logo-container small {
             font-size: 0.75rem;
             display: block;
         }
@@ -71,36 +71,36 @@
         .main-nav {
             display: flex;
             align-items: center;
-            flex-grow: 1; /* Allow navigation to take available space */
-            justify-content: center; /* Center main nav items */
+            flex-grow: 1;
+            justify-content: center;
         }
 
         .nav-link {
-            color: var(--text-light); /* Links are light */
-            padding: 0.6rem 1rem; /* Adjusted padding for smaller font */
-            margin: 0 0.4rem; /* Adjusted margin */
-            border-radius: 6px; /* Slightly more rounded corners */
+            color: var(--text-light);
+            padding: 0.6rem 1rem;
+            margin: 0 0.4rem;
+            border-radius: 6px;
             transition: var(--transition);
             font-weight: 500;
-            font-size: 0.9rem; /* Adjusted font size */
-            display: flex; /* For icon and text alignment */
+            font-size: 0.9rem;
+            display: flex;
             align-items: center;
         }
 
         .nav-link:hover {
-            color: var(--text-light); /* Keep text light on hover */
-            background-color: rgba(255, 255, 255, 0.15); /* Light transparent background on hover */
+            color: var(--text-light);
+            background-color: rgba(255, 255, 255, 0.15);
             text-decoration: none;
         }
 
         .nav-link.active {
-            background-color: rgba(255, 255, 255, 0.25); /* More prominent background for active link */
+            background-color: rgba(255, 255, 255, 0.25);
             font-weight: 600;
             color: var(--text-light);
         }
 
         .nav-link i {
-            margin-right: 8px; /* Space between icon and text */
+            margin-right: 8px;
         }
 
         .user-menu {
@@ -109,13 +109,13 @@
         }
 
         .user-menu .dropdown-toggle {
-            color: var(--text-light); /* User dropdown button text is light */
+            color: var(--text-light);
             background-color: transparent;
             border: none;
-            padding: 0.6rem 1rem; /* Adjusted padding for smaller font */
+            padding: 0.6rem 1rem;
             transition: var(--transition);
             border-radius: 4px;
-            font-size: 0.9rem; /* Adjusted font size */
+            font-size: 0.9rem;
         }
 
         .user-menu .dropdown-toggle:hover {
@@ -128,20 +128,20 @@
         }
 
         .dropdown-menu {
-            background-color: white; /* Dropdown menu background */
+            background-color: white;
             border: none;
             box-shadow: var(--shadow);
-            font-size: 0.9rem; /* Adjusted font size for dropdown items */
+            font-size: 0.9rem;
         }
 
         .dropdown-menu .dropdown-item {
-            color: var(--text-dark); /* Dropdown items text dark */
-            padding: 0.6rem 1rem; /* Adjusted padding */
+            color: var(--text-dark);
+            padding: 0.6rem 1rem;
             transition: var(--transition);
         }
 
         .dropdown-menu .dropdown-item:hover {
-            background-color: #e9ecef; /* Light gray on hover for dropdown items */
+            background-color: #e9ecef;
             color: var(--primary-color);
         }
 
@@ -149,8 +149,8 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background-color: var(--accent-color); /* Use accent color for avatar background */
-            color: var(--text-dark); /* Dark text on accent color */
+            background-color: var(--accent-color);
+            color: var(--text-dark);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -164,18 +164,18 @@
         .search-bar {
             display: flex;
             align-items: center;
-            margin-right: 1rem; /* Space between search and account */
+            margin-right: 1rem;
         }
 
         .search-bar input {
             border: none;
             border-radius: 5px;
-            padding: 0.3rem 0.7rem; /* Adjusted padding */
+            padding: 0.3rem 0.7rem;
             background-color: rgba(255, 255, 255, 0.2);
             color: var(--text-light);
             transition: var(--transition);
-            width: 140px; /* Adjust width as needed */
-            font-size: 0.85rem; /* Adjusted font size */
+            width: 140px;
+            font-size: 0.85rem;
         }
 
         .search-bar input::placeholder {
@@ -185,18 +185,18 @@
         .search-bar input:focus {
             background-color: rgba(255, 255, 255, 0.3);
             outline: none;
-            width: 180px; /* Expand on focus */
+            width: 180px;
         }
 
         .search-bar button {
             background: none;
             border: none;
             color: var(--text-light);
-            margin-left: -28px; /* Overlap with input for icon positioning */
-            padding: 0.3rem 0.7rem; /* Adjusted padding */
+            margin-left: -28px;
+            padding: 0.3rem 0.7rem;
             cursor: pointer;
             transition: var(--transition);
-            font-size: 0.85rem; /* Adjusted font size */
+            font-size: 0.85rem;
         }
 
         .search-bar button:hover {
@@ -208,16 +208,16 @@
             width: 250px;
             background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
             color: white;
-            height: calc(100vh - 70px); /* Adjust height based on header height */
+            height: calc(100vh - 70px);
             position: sticky;
-            top: 70px; /* Position below the sticky header */
+            top: 70px;
             transition: var(--transition);
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
             padding-top: 1rem;
         }
 
         .sidebar-menu {
-            padding: 0; /* Remove top/bottom padding as it's in .sidebar */
+            padding: 0;
         }
 
         .menu-item {
@@ -229,7 +229,7 @@
             transition: var(--transition);
             margin: 0.25rem 0;
             border-left: 4px solid transparent;
-            font-size: 0.9rem; /* Adjusted font size */
+            font-size: 0.9rem;
         }
 
         .menu-item:hover {
@@ -247,12 +247,17 @@
 
         .menu-icon {
             margin-right: 12px;
-            font-size: 1rem; /* Adjusted icon size */
+            font-size: 1rem;
             width: 24px;
             text-align: center;
         }
 
         /* Main Content Styles */
+        .main-content-container {
+            flex: 1;
+            display: flex;
+        }
+
         .main-content {
             flex: 1;
             padding: 2rem;
@@ -260,7 +265,7 @@
             border-radius: 8px;
             box-shadow: var(--shadow);
             margin: 1rem;
-            overflow-y: auto; /* Enable scrolling for content if it overflows */
+            overflow-y: auto;
         }
 
         .content-header {
@@ -272,12 +277,12 @@
             border-bottom: 1px solid #eee;
         }
 
-        /* Dashboard Card Styles (improved) */
+        /* Dashboard Card Styles */
         .card {
             border: none;
             border-radius: 8px;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
-            overflow: hidden; /* Ensures border-left is within rounded corners */
+            overflow: hidden;
         }
 
         .card:hover {
@@ -291,25 +296,25 @@
         .card.border-left-warning { border-left: .25rem solid #ffc107 !important; }
 
         .card-body .text-xs {
-            font-size: 0.7rem; /* Slightly smaller for captions */
+            font-size: 0.7rem;
             font-weight: 700;
             text-transform: uppercase;
             margin-bottom: 0.5rem;
         }
         .card-body .h5 {
-            font-size: 1.1rem; /* Slightly smaller for card numbers */
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--text-dark);
         }
         .card-body .fa-2x {
-            font-size: 1.8rem; /* Adjusted icon size */
-            color: #dee2e6; /* Lighter gray for card icons */
+            font-size: 1.8rem;
+            color: #dee2e6;
         }
 
         /* Activity Feed Styles */
         .activity-feed {
             position: relative;
-            padding-left: 25px; /* Space for the badges */
+            padding-left: 25px;
         }
 
         .activity-feed::before {
@@ -330,15 +335,15 @@
         }
 
         .activity-badge {
-            width: 22px; /* Slightly smaller badge */
+            width: 22px;
             height: 22px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.75rem; /* Smaller icon in badge */
+            font-size: 0.75rem;
             position: absolute;
-            left: -11px; /* Center over the line */
+            left: -11px;
             top: 0;
             z-index: 1;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -353,23 +358,22 @@
             display: block;
             margin-bottom: 3px;
             color: #888;
-            font-size: 0.75rem; /* Smaller date/time */
+            font-size: 0.75rem;
         }
 
         .activity-content p {
-            font-size: 0.9rem; /* Smaller activity text */
+            font-size: 0.9rem;
             line-height: 1.4;
             margin-bottom: 0;
         }
 
         /* Footer Styles */
         .main-footer {
-            background: linear-gradient(90deg, var(--primary-dark), var(--primary-color)); /* Footer gradient */
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary-color));
             color: white;
-            padding: 1.2rem 0; /* Slightly reduced padding */
-            margin-top: auto;
+            padding: 1.2rem 0;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            font-size: 0.85rem; /* Smaller footer text */
+            font-size: 0.85rem;
         }
 
         .footer-content {
@@ -384,7 +388,7 @@
 
         .footer-link {
             color: white;
-            margin-right: 1.2rem; /* Adjusted margin */
+            margin-right: 1.2rem;
             text-decoration: none;
             transition: var(--transition);
         }
@@ -400,8 +404,8 @@
 
         .social-icon {
             color: white;
-            margin-left: 0.8rem; /* Adjusted margin */
-            font-size: 1.1rem; /* Slightly smaller social icons */
+            margin-left: 0.8rem;
+            font-size: 1.1rem;
             transition: var(--transition);
         }
 
@@ -409,124 +413,7 @@
             color: var(--accent-color);
         }
 
-        /* Responsive Adjustments */
-        @media (max-width: 992px) {
-            .main-nav {
-                justify-content: flex-start; /* Align main nav left on smaller screens */
-                flex-wrap: wrap; /* Allow nav items to wrap */
-            }
-            .nav-link {
-                padding: 0.5rem 0.8rem;
-                margin: 0.2rem;
-                font-size: 0.85rem;
-            }
-
-            .sidebar {
-                width: 70px;
-                overflow: hidden;
-            }
-
-            .menu-text {
-                display: none;
-            }
-
-            .menu-icon {
-                margin-right: 0;
-                font-size: 1.1rem;
-            }
-
-            .search-bar {
-                margin-right: 0.5rem;
-            }
-
-            .search-bar input {
-                width: 90px; /* Further adjust for smaller screens */
-                font-size: 0.8rem;
-            }
-
-            .search-bar input:focus {
-                width: 130px;
-            }
-
-            .search-bar button {
-                font-size: 0.8rem;
-            }
-
-            .user-menu .dropdown-toggle {
-                font-size: 0.85rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .main-header {
-                padding: 0.5rem 1rem;
-            }
-            .main-nav {
-                display: none; /* Hide main nav on very small screens, rely on sidebar */
-            }
-
-            .sidebar {
-                position: fixed;
-                height: 100vh;
-                top: 0; /* Align sidebar to top when fixed */
-                z-index: 900;
-                transform: translateX(-100%);
-                padding-top: 70px; /* Space for header if it's not hidden */
-            }
-
-            .sidebar.active {
-                transform: translateX(0);
-            }
-
-            .mobile-menu-btn {
-                display: block !important;
-                color: var(--primary-color); /* Adjust color for menu button on white header */
-            }
-
-            .main-content {
-                margin: 0.5rem;
-                padding: 1.5rem;
-            }
-
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .footer-links, .social-icons {
-                margin-top: 1rem;
-            }
-
-            .footer-link {
-                margin: 0 0.75rem;
-            }
-
-            .search-bar {
-                display: none; /* Hide search bar on smaller screens if space is limited */
-            }
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            cursor: pointer;
-        }
-
-        /* Utility Classes */
-        .flex-grow {
-            flex-grow: 1;
-        }
-
-        .text-accent {
-            color: var(--accent-color);
-        }
-
-        .bg-primary-light {
-            background-color: var(--primary-light);
-        }
+        /* Dashboard Specific Styles */
         .dashboard-card {
             transition: transform 0.3s, box-shadow 0.3s;
             border-radius: 10px;
@@ -576,6 +463,125 @@
         .text-primary {
             color: #800000 !important;
         }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .main-nav {
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+            .nav-link {
+                padding: 0.5rem 0.8rem;
+                margin: 0.2rem;
+                font-size: 0.85rem;
+            }
+
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+
+            .menu-text {
+                display: none;
+            }
+
+            .menu-icon {
+                margin-right: 0;
+                font-size: 1.1rem;
+            }
+
+            .search-bar {
+                margin-right: 0.5rem;
+            }
+
+            .search-bar input {
+                width: 90px;
+                font-size: 0.8rem;
+            }
+
+            .search-bar input:focus {
+                width: 130px;
+            }
+
+            .search-bar button {
+                font-size: 0.8rem;
+            }
+
+            .user-menu .dropdown-toggle {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 0.5rem 1rem;
+            }
+            .main-nav {
+                display: none;
+            }
+
+            .sidebar {
+                position: fixed;
+                height: 100vh;
+                top: 0;
+                z-index: 900;
+                transform: translateX(-100%);
+                padding-top: 70px;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .mobile-menu-btn {
+                display: block !important;
+                color: var(--primary-color);
+            }
+
+            .main-content {
+                margin: 0.5rem;
+                padding: 1.5rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links, .social-icons {
+                margin-top: 1rem;
+            }
+
+            .footer-link {
+                margin: 0 0.75rem;
+            }
+
+            .search-bar {
+                display: none;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        /* Utility Classes */
+        .flex-grow {
+            flex-grow: 1;
+        }
+
+        .text-accent {
+            color: var(--accent-color);
+        }
+
+        .bg-primary-light {
+            background-color: var(--primary-light);
+        }
     </style>
 </head>
 <body>
@@ -619,7 +625,7 @@
     </div>
 </header>
 
-<div class="container-fluid flex-grow d-flex p-0">
+<div class="main-content-container">
     <aside class="sidebar">
         <nav class="sidebar-menu">
             <a href="/dashboard" class="menu-item active">
@@ -652,16 +658,10 @@
             <a href="/#" class="menu-item">
                 <span class="menu-text">Transfer</span>
             </a>
-
         </nav>
     </aside>
 
-    <main class="flex-grow">
-        <div class="main-content">
-    
-</div>
-    <!-- Main Content -->
-    <main class="container-fluid py-4">
+    <div class="main-content">
         <!-- Welcome Banner -->
         <div class="row mb-4">
             <div class="col-12">
@@ -892,7 +892,8 @@
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</div>
 
 <footer class="main-footer">
     <div class="container-fluid">
@@ -921,24 +922,10 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    // Mobile menu toggle
-    document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
-        document.querySelector('.sidebar')?.classList.toggle('active');
+    // Mobile menu toggle functionality
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+        document.querySelector('.sidebar').classList.toggle('active');
     });
-
-    // Auto-hide alerts after 3 seconds
-    setTimeout(() => {
-        const errorEl = document.getElementById("loginError");
-        const messageEl = document.getElementById("loginMessage");
-        if (errorEl) errorEl.style.display = 'none';
-        if (messageEl) messageEl.style.display = 'none';
-    }, 3000);
-
-    // Remove error on reload
-    if (performance.navigation.type === 1) {
-        const errorEl = document.getElementById("loginError");
-        if (errorEl) errorEl.remove();
-    }
 </script>
 </body>
 </html>
