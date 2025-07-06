@@ -1,730 +1,880 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asset Management System | University of Peradeniya</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>UoP - Asset Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #0056b3;
+            --primary-color: #800000; /* University Maroon */
+            --primary-dark: #600000; /* Darker maroon for gradient */
+            --primary-light: #a04040;
             --secondary-color: #f8f9fa;
-            --accent-color: #ffc107;
-            --dark-color: #343a40;
-            --light-color: #ffffff;
-            --success-color: #28a745;
-            --danger-color: #dc3545;
+            --accent-color: #ffc107; /* Gold/Amber for highlights */
+            --text-dark: #343a40;
+            --text-light: #f8f9fa; /* White/Off-white for text on dark backgrounds */
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
+
         body {
+            font-family: 'Poppins', sans-serif; /* Changed to Poppins for a modern feel */
             background-color: #f5f5f5;
-            color: #333;
-        }
-        
-        .header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem 2rem;
+            color: var(--text-dark);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            flex-direction: column;
+            min-height: 100vh;
         }
-        
-        .logo {
+
+        /* Header Styles */
+        .main-header {
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark)); /* Header gradient */
+            color: var(--text-light); /* Ensure text is light on dark header */
+            box-shadow: var(--shadow);
+            padding: 0.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-container {
             display: flex;
             align-items: center;
         }
-        
-        .logo img {
+
+        .logo-img {
             height: 50px;
             margin-right: 15px;
+            filter: brightness(1.1) drop-shadow(0 0 2px rgba(0,0,0,0.3)); /* Slight adjustment for better look on dark bg */
         }
-        
-        .logo-text h1 {
-            font-size: 1.5rem;
-            margin-bottom: 0.2rem;
+
+        .logo-container h5 { /* Adjusted font size */
+            font-size: 1.1rem;
+            margin-bottom: 0;
         }
-        
-        .logo-text p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-        }
-        
-        .user-info img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-            border: 2px solid var(--accent-color);
-        }
-        
-        .user-details {
-            text-align: right;
-        }
-        
-        .user-details .name {
-            font-weight: 600;
-        }
-        
-        .user-details .role {
-            font-size: 0.8rem;
-            opacity: 0.8;
-        }
-        
-        .nav-container {
-            background-color: var(--dark-color);
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav-links li {
-            position: relative;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 1rem 1.5rem;
+
+        .logo-container small { /* Adjusted font size */
+            font-size: 0.75rem;
             display: block;
-            transition: all 0.3s ease;
         }
-        
-        .nav-links a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .nav-links a.active {
-            background-color: var(--primary-color);
-        }
-        
-        .logout-btn {
-            background-color: var(--danger-color);
-            padding: 1rem 1.5rem;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .logout-btn:hover {
-            background-color: #c82333;
-        }
-        
-        .main-content {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        
-        .dashboard-header {
+
+        .nav-container {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            justify-content: space-between;
+            width: 100%;
         }
-        
-        .dashboard-title h2 {
-            color: var(--primary-color);
-            font-size: 1.8rem;
-        }
-        
-        .dashboard-title p {
-            color: #666;
-        }
-        
-        .search-bar {
+
+        .main-nav {
             display: flex;
-            width: 300px;
+            align-items: center;
+            flex-grow: 1; /* Allow navigation to take available space */
+            justify-content: center; /* Center main nav items */
         }
-        
-        .search-bar input {
-            flex: 1;
-            padding: 0.5rem 1rem;
-            border: 1px solid #ddd;
-            border-radius: 4px 0 0 4px;
-            outline: none;
+
+        .nav-link {
+            color: var(--text-light); /* Links are light */
+            padding: 0.6rem 1rem; /* Adjusted padding for smaller font */
+            margin: 0 0.4rem; /* Adjusted margin */
+            border-radius: 6px; /* Slightly more rounded corners */
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.9rem; /* Adjusted font size */
+            display: flex; /* For icon and text alignment */
+            align-items: center;
         }
-        
-        .search-bar button {
-            background-color: var(--primary-color);
-            color: white;
+
+        .nav-link:hover {
+            color: var(--text-light); /* Keep text light on hover */
+            background-color: rgba(255, 255, 255, 0.15); /* Light transparent background on hover */
+            text-decoration: none;
+        }
+
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.25); /* More prominent background for active link */
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .nav-link i {
+            margin-right: 8px; /* Space between icon and text */
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-menu .dropdown-toggle {
+            color: var(--text-light); /* User dropdown button text is light */
+            background-color: transparent;
             border: none;
-            padding: 0 1rem;
-            border-radius: 0 4px 4px 0;
-            cursor: pointer;
+            padding: 0.6rem 1rem; /* Adjusted padding for smaller font */
+            transition: var(--transition);
+            border-radius: 4px;
+            font-size: 0.9rem; /* Adjusted font size */
         }
-        
-        .stats-cards {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+
+        .user-menu .dropdown-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: var(--text-light);
         }
-        
-        .stat-card {
-            background-color: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s;
+
+        .user-menu .dropdown-toggle i {
+            margin-right: 5px;
         }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
+
+        .dropdown-menu {
+            background-color: white; /* Dropdown menu background */
+            border: none;
+            box-shadow: var(--shadow);
+            font-size: 0.9rem; /* Adjusted font size for dropdown items */
         }
-        
-        .stat-card .icon {
-            width: 50px;
-            height: 50px;
+
+        .dropdown-menu .dropdown-item {
+            color: var(--text-dark); /* Dropdown items text dark */
+            padding: 0.6rem 1rem; /* Adjusted padding */
+            transition: var(--transition);
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #e9ecef; /* Light gray on hover for dropdown items */
+            color: var(--primary-color);
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
+            background-color: var(--accent-color); /* Use accent color for avatar background */
+            color: var(--text-dark); /* Dark text on accent color */
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
+            margin-left: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
-        
-        .stat-card.total-assets .icon {
-            background-color: rgba(0, 86, 179, 0.1);
-            color: var(--primary-color);
+
+        /* Search Bar Styles */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            margin-right: 1rem; /* Space between search and account */
         }
-        
-        .stat-card.available .icon {
-            background-color: rgba(40, 167, 69, 0.1);
-            color: var(--success-color);
+
+        .search-bar input {
+            border: none;
+            border-radius: 5px;
+            padding: 0.3rem 0.7rem; /* Adjusted padding */
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--text-light);
+            transition: var(--transition);
+            width: 140px; /* Adjust width as needed */
+            font-size: 0.85rem; /* Adjusted font size */
         }
-        
-        .stat-card.assigned .icon {
-            background-color: rgba(220, 53, 69, 0.1);
-            color: var(--danger-color);
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
         }
-        
-        .stat-card.maintenance .icon {
-            background-color: rgba(255, 193, 7, 0.1);
+
+        .search-bar input:focus {
+            background-color: rgba(255, 255, 255, 0.3);
+            outline: none;
+            width: 180px; /* Expand on focus */
+        }
+
+        .search-bar button {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            margin-left: -28px; /* Overlap with input for icon positioning */
+            padding: 0.3rem 0.7rem; /* Adjusted padding */
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem; /* Adjusted font size */
+        }
+
+        .search-bar button:hover {
             color: var(--accent-color);
         }
-        
-        .stat-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--dark-color);
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            height: calc(100vh - 70px); /* Adjust height based on header height */
+            position: sticky;
+            top: 70px; /* Position below the sticky header */
+            transition: var(--transition);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding-top: 1rem;
         }
-        
-        .stat-card .number {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+
+        .sidebar-menu {
+            padding: 0; /* Remove top/bottom padding as it's in .sidebar */
         }
-        
-        .stat-card .change {
-            font-size: 0.9rem;
-            color: #666;
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            margin: 0.25rem 0;
+            border-left: 4px solid transparent;
+            font-size: 0.9rem; /* Adjusted font size */
         }
-        
-        .change.positive {
-            color: var(--success-color);
+
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--accent-color);
+            text-decoration: none;
+            color: white;
         }
-        
-        .change.negative {
-            color: var(--danger-color);
+
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid var(--accent-color);
+            font-weight: 500;
         }
-        
-        .main-sections {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 1.5rem;
+
+        .menu-icon {
+            margin-right: 12px;
+            font-size: 1rem; /* Adjusted icon size */
+            width: 24px;
+            text-align: center;
         }
-        
-        .section {
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
             background-color: white;
             border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow);
+            margin: 1rem;
+            overflow-y: auto; /* Enable scrolling for content if it overflows */
         }
-        
-        .section-header {
+
+        .content-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
+            padding-bottom: 1rem;
             border-bottom: 1px solid #eee;
         }
-        
-        .section-header h3 {
-            color: var(--primary-color);
-            font-size: 1.3rem;
-        }
-        
-        .section-header a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        .recent-assets table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .recent-assets th, .recent-assets td {
-            padding: 0.8rem;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .recent-assets th {
-            color: #666;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-        
-        .recent-assets tr:hover {
-            background-color: #f9f9f9;
-        }
-        
-        .status {
-            padding: 0.3rem 0.6rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-        
-        .status.available {
-            background-color: rgba(40, 167, 69, 0.1);
-            color: var(--success-color);
-        }
-        
-        .status.assigned {
-            background-color: rgba(220, 53, 69, 0.1);
-            color: var(--danger-color);
-        }
-        
-        .status.maintenance {
-            background-color: rgba(255, 193, 7, 0.1);
-            color: var(--accent-color);
-        }
-        
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-        
-        .action-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem 1rem;
-            background-color: var(--secondary-color);
+
+        /* Dashboard Card Styles (improved) */
+        .card {
+            border: none;
             border-radius: 8px;
-            text-decoration: none;
-            color: var(--dark-color);
-            transition: all 0.3s;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden; /* Ensures border-left is within rounded corners */
         }
-        
-        .action-btn:hover {
-            background-color: #e9ecef;
+
+        .card:hover {
             transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
-        
-        .action-btn i {
-            font-size: 1.8rem;
-            margin-bottom: 0.8rem;
-            color: var(--primary-color);
+
+        .card.border-left-primary { border-left: .25rem solid var(--primary-color) !important;}
+        .card.border-left-success { border-left: .25rem solid #28a745 !important; }
+        .card.border-left-info { border-left: .25rem solid #17a2b8 !important; }
+        .card.border-left-warning { border-left: .25rem solid #ffc107 !important; }
+
+        .card-body .text-xs {
+            font-size: 0.7rem; /* Slightly smaller for captions */
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
         }
-        
-        .action-btn span {
-            font-weight: 500;
-            text-align: center;
+        .card-body .h5 {
+            font-size: 1.1rem; /* Slightly smaller for card numbers */
+            font-weight: 700;
+            color: var(--text-dark);
         }
-        
-        .upcoming-maintenance {
-            margin-top: 1.5rem;
+        .card-body .fa-2x {
+            font-size: 1.8rem; /* Adjusted icon size */
+            color: #dee2e6; /* Lighter gray for card icons */
         }
-        
-        .maintenance-item {
+
+        /* Activity Feed Styles */
+        .activity-feed {
+            position: relative;
+            padding-left: 25px; /* Space for the badges */
+        }
+
+        .activity-feed::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background-color: #e0e0e0;
+        }
+
+        .activity-item {
+            position: relative;
             display: flex;
-            align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid #eee;
+            align-items: flex-start;
+            margin-bottom: 1rem;
         }
-        
-        .maintenance-item:last-child {
-            border-bottom: none;
-        }
-        
-        .maintenance-icon {
-            width: 40px;
-            height: 40px;
+
+        .activity-badge {
+            width: 22px; /* Slightly smaller badge */
+            height: 22px;
             border-radius: 50%;
-            background-color: rgba(255, 193, 7, 0.1);
-            color: var(--accent-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 1rem;
-            flex-shrink: 0;
+            font-size: 0.75rem; /* Smaller icon in badge */
+            position: absolute;
+            left: -11px; /* Center over the line */
+            top: 0;
+            z-index: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        
-        .maintenance-details h4 {
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
+
+        .activity-content {
+            margin-left: 25px;
+            flex-grow: 1;
         }
-        
-        .maintenance-details p {
-            font-size: 0.8rem;
-            color: #666;
+
+        .activity-content small {
+            display: block;
+            margin-bottom: 3px;
+            color: #888;
+            font-size: 0.75rem; /* Smaller date/time */
         }
-        
-        .footer {
-            background-color: var(--dark-color);
+
+        .activity-content p {
+            font-size: 0.9rem; /* Smaller activity text */
+            line-height: 1.4;
+            margin-bottom: 0;
+        }
+
+        /* Footer Styles */
+        .main-footer {
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary-color)); /* Footer gradient */
             color: white;
-            text-align: center;
-            padding: 1.5rem;
-            margin-top: 2rem;
+            padding: 1.2rem 0; /* Slightly reduced padding */
+            margin-top: auto;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            font-size: 0.85rem; /* Smaller footer text */
         }
-        
-        .footer p {
-            font-size: 0.9rem;
-            opacity: 0.8;
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        
-        @media (max-width: 1024px) {
-            .stats-cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .main-sections {
-                grid-template-columns: 1fr;
-            }
+
+        .footer-links {
+            display: flex;
         }
-        
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                text-align: center;
-                padding: 1rem;
+
+        .footer-link {
+            color: white;
+            margin-right: 1.2rem; /* Adjusted margin */
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .social-icons {
+            display: flex;
+        }
+
+        .social-icon {
+            color: white;
+            margin-left: 0.8rem; /* Adjusted margin */
+            font-size: 1.1rem; /* Slightly smaller social icons */
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            color: var(--accent-color);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .main-nav {
+                justify-content: flex-start; /* Align main nav left on smaller screens */
+                flex-wrap: wrap; /* Allow nav items to wrap */
             }
-            
-            .logo {
-                margin-bottom: 1rem;
-                justify-content: center;
+            .nav-link {
+                padding: 0.5rem 0.8rem;
+                margin: 0.2rem;
+                font-size: 0.85rem;
             }
-            
-            .user-info {
-                justify-content: center;
-                margin-top: 1rem;
+
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
             }
-            
-            .user-details {
-                text-align: center;
+
+            .menu-text {
+                display: none;
             }
-            
-            nav {
-                flex-direction: column;
+
+            .menu-icon {
+                margin-right: 0;
+                font-size: 1.1rem;
             }
-            
-            .nav-links {
-                flex-direction: column;
-            }
-            
-            .logout-btn {
-                width: 100%;
-                text-align: center;
-            }
-            
-            .dashboard-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
+
             .search-bar {
-                width: 100%;
+                margin-right: 0.5rem;
+            }
+
+            .search-bar input {
+                width: 90px; /* Further adjust for smaller screens */
+                font-size: 0.8rem;
+            }
+
+            .search-bar input:focus {
+                width: 130px;
+            }
+
+            .search-bar button {
+                font-size: 0.8rem;
+            }
+
+            .user-menu .dropdown-toggle {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 0.5rem 1rem;
+            }
+            .main-nav {
+                display: none; /* Hide main nav on very small screens, rely on sidebar */
+            }
+
+            .sidebar {
+                position: fixed;
+                height: 100vh;
+                top: 0; /* Align sidebar to top when fixed */
+                z-index: 900;
+                transform: translateX(-100%);
+                padding-top: 70px; /* Space for header if it's not hidden */
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .mobile-menu-btn {
+                display: block !important;
+                color: var(--primary-color); /* Adjust color for menu button on white header */
+            }
+
+            .main-content {
+                margin: 0.5rem;
+                padding: 1.5rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links, .social-icons {
                 margin-top: 1rem;
             }
-            
-            .stats-cards {
-                grid-template-columns: 1fr;
+
+            .footer-link {
+                margin: 0 0.75rem;
             }
-            
-            .quick-actions {
-                grid-template-columns: 1fr;
+
+            .search-bar {
+                display: none; /* Hide search bar on smaller screens if space is limited */
             }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        /* Utility Classes */
+        .flex-grow {
+            flex-grow: 1;
+        }
+
+        .text-accent {
+            color: var(--accent-color);
+        }
+
+        .bg-primary-light {
+            background-color: var(--primary-light);
+        }
+        .dashboard-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 10px;
+            border: none;
+            height: 100%;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        .up-color-primary {
+            background-color: #800000;
+            color: white;
+        }
+        .up-color-secondary {
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .quick-actions a {
+            text-decoration: none;
+            color: #495057;
+            transition: color 0.2s;
+        }
+        .quick-actions a:hover {
+            color: #800000;
+        }
+        .recent-activity-item {
+            border-left: 3px solid #800000;
+            padding-left: 15px;
+            margin-bottom: 15px;
+        }
+        .system-status {
+            border-radius: 10px;
+        }
+        .btn-outline-primary {
+            color: #800000;
+            border-color: #800000;
+        }
+        .btn-outline-primary:hover {
+            background-color: #800000;
+            color: white;
+        }
+        .text-primary {
+            color: #800000 !important;
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="logo">
-            <img src="https://www.pdn.ac.lk/wp-content/themes/pdn/images/logo.png" alt="University of Peradeniya Logo">
-            <div class="logo-text">
-                <h1>University of Peradeniya</h1>
-                <p>Asset Management System</p>
-            </div>
-        </div>
-        <div class="user-info">
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Profile">
-            <div class="user-details">
-                <div class="name">Dr. Saman Kumara</div>
-                <div class="role">Department of Computer Engineering</div>
-            </div>
-        </div>
-    </header>
-    
-    <div class="nav-container">
-        <nav>
-            <ul class="nav-links">
-                <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="#"><i class="fas fa-boxes"></i> Assets</a></li>
-                <li><a href="#"><i class="fas fa-users"></i> Employees</a></li>
-                <li><a href="#"><i class="fas fa-tools"></i> Maintenance</a></li>
-                <li><a href="#"><i class="fas fa-file-alt"></i> Reports</a></li>
-            </ul>
-            <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
-        </nav>
-    </div>
-    
-    <div class="main-content">
-        <div class="dashboard-header">
-            <div class="dashboard-title">
-                <h2>Dashboard</h2>
-                <p>Overview of university assets and management</p>
-            </div>
-            <div class="search-bar">
-                <input type="text" placeholder="Search assets...">
-                <button><i class="fas fa-search"></i></button>
-            </div>
-        </div>
-        
-        <div class="stats-cards">
-            <div class="stat-card total-assets">
-                <div class="icon">
-                    <i class="fas fa-boxes"></i>
-                </div>
-                <h3>Total Assets</h3>
-                <div class="number">1,248</div>
-                <div class="change positive"><i class="fas fa-arrow-up"></i> 5.2% from last month</div>
-            </div>
-            
-            <div class="stat-card available">
-                <div class="icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <h3>Available</h3>
-                <div class="number">843</div>
-                <div class="change positive"><i class="fas fa-arrow-up"></i> 2.1% from last month</div>
-            </div>
-            
-            <div class="stat-card assigned">
-                <div class="icon">
-                    <i class="fas fa-user-check"></i>
-                </div>
-                <h3>Assigned</h3>
-                <div class="number">372</div>
-                <div class="change negative"><i class="fas fa-arrow-down"></i> 1.8% from last month</div>
-            </div>
-            
-            <div class="stat-card maintenance">
-                <div class="icon">
-                    <i class="fas fa-tools"></i>
-                </div>
-                <h3>Maintenance</h3>
-                <div class="number">33</div>
-                <div class="change positive"><i class="fas fa-arrow-up"></i> 0.5% from last month</div>
-            </div>
-        </div>
-        
-        <div class="main-sections">
-            <div class="section recent-assets">
-                <div class="section-header">
-                    <h3>Recently Added Assets</h3>
-                    <a href="#">View All <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Asset ID</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Location</th>
-                            <th>Status</th>
-                            <th>Date Added</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#AST-2023-587</td>
-                            <td>Dell OptiPlex 7080</td>
-                            <td>Computer</td>
-                            <td>CS Dept - Lab 3</td>
-                            <td><span class="status available">Available</span></td>
-                            <td>2023-10-15</td>
-                        </tr>
-                        <tr>
-                            <td>#AST-2023-586</td>
-                            <td>Epson Projector EB-995F</td>
-                            <td>AV Equipment</td>
-                            <td>Engineering Faculty</td>
-                            <td><span class="status assigned">Assigned</span></td>
-                            <td>2023-10-14</td>
-                        </tr>
-                        <tr>
-                            <td>#AST-2023-585</td>
-                            <td>Canon ImageRunner 2530</td>
-                            <td>Printer</td>
-                            <td>Admin Building</td>
-                            <td><span class="status maintenance">Maintenance</span></td>
-                            <td>2023-10-12</td>
-                        </tr>
-                        <tr>
-                            <td>#AST-2023-584</td>
-                            <td>Steel Cabinet 4-Door</td>
-                            <td>Furniture</td>
-                            <td>Library - 2nd Floor</td>
-                            <td><span class="status available">Available</span></td>
-                            <td>2023-10-10</td>
-                        </tr>
-                        <tr>
-                            <td>#AST-2023-583</td>
-                            <td>HP EliteBook 840 G8</td>
-                            <td>Laptop</td>
-                            <td>Registrar's Office</td>
-                            <td><span class="status assigned">Assigned</span></td>
-                            <td>2023-10-08</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="section quick-links">
-                <div class="section-header">
-                    <h3>Quick Actions</h3>
-                </div>
-                <div class="quick-actions">
-                    <a href="#" class="action-btn">
-                        <i class="fas fa-plus-circle"></i>
-                        <span>Add New Asset</span>
-                    </a>
-                    <a href="#" class="action-btn">
-                        <i class="fas fa-user-tag"></i>
-                        <span>Assign Asset</span>
-                    </a>
-                    <a href="#" class="action-btn">
-                        <i class="fas fa-barcode"></i>
-                        <span>Generate Barcode</span>
-                    </a>
-                    <a href="#" class="action-btn">
-                        <i class="fas fa-file-export"></i>
-                        <span>Export Report</span>
-                    </a>
-                </div>
-                
-                <div class="upcoming-maintenance">
-                    <div class="section-header">
-                        <h3>Upcoming Maintenance</h3>
-                        <a href="#">View All <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="maintenance-item">
-                        <div class="maintenance-icon">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                        <div class="maintenance-details">
-                            <h4>Air Conditioner Service</h4>
-                            <p>Admin Building - 15 devices | Due: 2023-11-05</p>
-                        </div>
-                    </div>
-                    
-                    <div class="maintenance-item">
-                        <div class="maintenance-icon">
-                            <i class="fas fa-desktop"></i>
-                        </div>
-                        <div class="maintenance-details">
-                            <h4>Computer Lab Maintenance</h4>
-                            <p>CS Dept - Lab 2 | Due: 2023-11-10</p>
-                        </div>
-                    </div>
-                    
-                    <div class="maintenance-item">
-                        <div class="maintenance-icon">
-                            <i class="fas fa-projector"></i>
-                        </div>
-                        <div class="maintenance-details">
-                            <h4>Projector Lamp Replacement</h4>
-                            <p>Engineering Lecture Hall | Due: 2023-11-15</p>
-                        </div>
-                    </div>
-                </div>
+<header class="main-header">
+    <div class="container-fluid d-flex align-items-center">
+        <button class="mobile-menu-btn mr-3">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="logo-container">
+            <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
+            <div>
+                <h5 class="mb-0 text-light">University of Peradeniya</h5>
+                <small class="text-light">Asset Management System</small>
             </div>
         </div>
     </div>
-    
-    <footer class="footer">
-        <p>&copy; 2023 University of Peradeniya - Asset Management System. All rights reserved.</p>
-    </footer>
-    
-    <script>
-        // Simple JavaScript for interactive elements
-        document.addEventListener('DOMContentLoaded', function() {
-            // Logout button functionality
-            document.querySelector('.logout-btn').addEventListener('click', function() {
-                if(confirm('Are you sure you want to logout?')) {
-                    // In a real application, this would redirect to logout endpoint
-                    alert('Logging out...');
-                }
-            });
-            
-            // Search functionality
-            document.querySelector('.search-bar button').addEventListener('click', function() {
-                const searchTerm = document.querySelector('.search-bar input').value;
-                if(searchTerm.trim() !== '') {
-                    alert(`Searching for: ${searchTerm}`);
-                    // In a real application, this would trigger a search request
-                }
-            });
-            
-            // Allow search on Enter key
-            document.querySelector('.search-bar input').addEventListener('keypress', function(e) {
-                if(e.key === 'Enter') {
-                    document.querySelector('.search-bar button').click();
-                }
-            });
-            
-            // Table row click functionality
-            document.querySelectorAll('.recent-assets tbody tr').forEach(row => {
-                row.addEventListener('click', function() {
-                    const assetId = this.cells[0].textContent;
-                    alert(`Viewing details for asset: ${assetId}`);
-                    // In a real application, this would navigate to asset details
-                });
-            });
-        });
-    </script>
+</header>
+    <!-- Main Content -->
+    <main class="container-fluid py-4">
+        <!-- Welcome Banner -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card up-color-primary">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h2 class="card-title">Welcome to Asset Management System</h2>
+                                <p class="card-text">University of Peradeniya</p>
+                            </div>
+                            <div class="d-none d-md-block">
+                                <img src="https://www.pdn.ac.lk/wp-content/themes/pdnbase/assets/images/logo.png" alt="UOP Logo" height="80">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card dashboard-card up-color-secondary">
+                    <div class="card-body text-center">
+                        <i class="fas fa-laptop card-icon text-primary"></i>
+                        <h5 class="card-title">Total Assets</h5>
+                        <h2 class="mb-0">1,245</h2>
+                        <p class="text-muted">+12 this month</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card dashboard-card up-color-secondary">
+                    <div class="card-body text-center">
+                        <i class="fas fa-wrench card-icon text-warning"></i>
+                        <h5 class="card-title">Maintenance</h5>
+                        <h2 class="mb-0">24</h2>
+                        <p class="text-muted">Pending requests</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card dashboard-card up-color-secondary">
+                    <div class="card-body text-center">
+                        <i class="fas fa-exchange-alt card-icon text-info"></i>
+                        <h5 class="card-title">Transfers</h5>
+                        <h2 class="mb-0">18</h2>
+                        <p class="text-muted">In progress</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card dashboard-card up-color-secondary">
+                    <div class="card-body text-center">
+                        <i class="fas fa-calendar-check card-icon text-success"></i>
+                        <h5 class="card-title">Audits</h5>
+                        <h2 class="mb-0">3</h2>
+                        <p class="text-muted">Scheduled</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Row -->
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-lg-8 mb-4">
+                <!-- Quick Actions -->
+                <div class="card mb-4">
+                    <div class="card-header up-color-primary text-white">
+                        <h5 class="mb-0">Quick Actions</h5>
+                    </div>
+                    <div class="card-body quick-actions">
+                        <div class="row text-center">
+                            <div class="col-4 col-md-2 mb-3">
+                                <a href="#" class="d-block">
+                                    <i class="fas fa-plus-circle fa-2x mb-2 text-primary"></i>
+                                    <span>Add Asset</span>
+                                </a>
+                            </div>
+                            <div class="col-4 col-md-2 mb-3">
+                                <a href="#" class="d-block">
+                                    <i class="fas fa-search fa-2x mb-2 text-primary"></i>
+                                    <span>Search</span>
+                                </a>
+                            </div>
+                            <div class="col-4 col-md-2 mb-3">
+                                <a href="#" class="d-block">
+                                    <i class="fas fa-file-export fa-2x mb-2 text-primary"></i>
+                                    <span>Report</span>
+                                </a>
+                            </div>
+                            <div class="col-4 col-md-2 mb-3">
+                                <a href="#" class="d-block">
+                                    <i class="fas fa-tools fa-2x mb-2 text-primary"></i>
+                                    <span>Maintenance</span>
+                                </a>
+                            </div>
+                            <div class="col-4 col-md-2 mb-3">
+                                <a href="#" class="d-block">
+                                    <i class="fas fa-user-tie fa-2x mb-2 text-primary"></i>
+                                    <span>Staff</span>
+                                </a>
+                            </div>
+                            <div class="col-4 col-md-2 mb-3">
+                                <a href="#" class="d-block">
+                                    <i class="fas fa-cog fa-2x mb-2 text-primary"></i>
+                                    <span>Settings</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="card">
+                    <div class="card-header up-color-primary text-white">
+                        <h5 class="mb-0">Recent Activities</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="recent-activity-item">
+                            <h6>New Laptop Added</h6>
+                            <p class="text-muted small mb-1">Dell XPS 15 - Serial: DXPS15742</p>
+                            <p class="text-muted small">Today, 10:45 AM by Dr. Saman Perera</p>
+                        </div>
+                        <div class="recent-activity-item">
+                            <h6>Maintenance Request</h6>
+                            <p class="text-muted small mb-1">Projector in SC/04 not working</p>
+                            <p class="text-muted small">Yesterday, 2:30 PM by Prof. Nimali Fernando</p>
+                        </div>
+                        <div class="recent-activity-item">
+                            <h6>Asset Transfer Approved</h6>
+                            <p class="text-muted small mb-1">PC moved from ENG/12 to SCI/08</p>
+                            <p class="text-muted small">Yesterday, 11:15 AM by Mr. Kamal Silva</p>
+                        </div>
+                        <div class="recent-activity-item">
+                            <h6>Quarterly Audit Completed</h6>
+                            <p class="text-muted small mb-1">Faculty of Science - 98% accuracy</p>
+                            <p class="text-muted small">Monday, 9:00 AM by Audit Team</p>
+                        </div>
+                        <a href="#" class="btn btn-outline-primary mt-2">View All Activities</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-lg-4">
+                <!-- System Status -->
+                <div class="card mb-4">
+                    <div class="card-header up-color-primary text-white">
+                        <h5 class="mb-0">System Status</h5>
+                    </div>
+                    <div class="card-body system-status">
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Database</span>
+                                <span class="text-success">Online</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Storage</span>
+                                <span>65% used</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Users Online</span>
+                                <span>24</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: 30%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Last Backup</span>
+                                <span>Today, 2:00 AM</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Events -->
+                <div class="card">
+                    <div class="card-header up-color-primary text-white">
+                        <h5 class="mb-0">Upcoming Events</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex mb-3">
+                            <div class="flex-shrink-0 me-3 text-center text-primary">
+                                <h4 class="mb-0">15</h4>
+                                <small>JUL</small>
+                            </div>
+                            <div>
+                                <h6>Annual Asset Audit</h6>
+                                <p class="text-muted small">Faculty of Engineering</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-3">
+                            <div class="flex-shrink-0 me-3 text-center text-primary">
+                                <h4 class="mb-0">22</h4>
+                                <small>JUL</small>
+                            </div>
+                            <div>
+                                <h6>IT Equipment Upgrade</h6>
+                                <p class="text-muted small">Computer Lab 3</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="flex-shrink-0 me-3 text-center text-primary">
+                                <h4 class="mb-0">30</h4>
+                                <small>JUL</small>
+                            </div>
+                            <div>
+                                <h6>Training Session</h6>
+                                <p class="text-muted small">New Asset Management Procedures</p>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-outline-primary mt-3">View Calendar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<footer class="main-footer">
+    <div class="container-fluid">
+        <div class="footer-content">
+            <div class="copyright">
+                &copy; 2025 University of Peradeniya. All rights reserved.
+            </div>
+            <div class="footer-links">
+                <a href="/privacy" class="footer-link">Privacy Policy</a>
+                <a href="/terms" class="footer-link">Terms of Service</a>
+                <a href="/contact" class="footer-link">Contact Us</a>
+            </div>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Mobile menu toggle
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+        document.querySelector('.sidebar')?.classList.toggle('active');
+    });
+
+    // Auto-hide alerts after 3 seconds
+    setTimeout(() => {
+        const errorEl = document.getElementById("loginError");
+        const messageEl = document.getElementById("loginMessage");
+        if (errorEl) errorEl.style.display = 'none';
+        if (messageEl) messageEl.style.display = 'none';
+    }, 3000);
+
+    // Remove error on reload
+    if (performance.navigation.type === 1) {
+        const errorEl = document.getElementById("loginError");
+        if (errorEl) errorEl.remove();
+    }
+</script>
 </body>
 </html>
