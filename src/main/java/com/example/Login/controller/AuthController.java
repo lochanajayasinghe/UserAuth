@@ -21,9 +21,14 @@ public class AuthController {
         return "home/home"; 
     }
 
-    @GetMapping("/aboutUs")
+    @GetMapping("/about")
     public String aboutUs(Model model) {
-        return "home/aboutUs"; 
+        return "home/about"; 
+    }
+
+     @GetMapping("/contactUs")
+    public String contactUs(Model model) {
+        return "home/contactUs"; 
     }
 
     @GetMapping("/login")

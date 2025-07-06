@@ -18,6 +18,7 @@
             --text-light: #f8f9fa; /* White/Off-white for text on dark backgrounds */
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
+            --success-color: #28a745;
         }
 
         body {
@@ -277,94 +278,187 @@
             border-bottom: 1px solid #eee;
         }
 
-        /* Dashboard Card Styles */
-        .card {
-            border: none;
+        /* About Page Specific Styles */
+        .page-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .page-header h1 {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .about-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+
+        .about-content {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .mission, .vision {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
             border-radius: 8px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .mission h3, .vision h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .mission h3 i, .vision h3 i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .member-image {
+            height: 200px;
             overflow: hidden;
         }
 
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        .member-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
         }
 
-        .card.border-left-primary { border-left: .25rem solid var(--primary-color) !important;}
-        .card.border-left-success { border-left: .25rem solid #28a745 !important; }
-        .card.border-left-info { border-left: .25rem solid #17a2b8 !important; }
-        .card.border-left-warning { border-left: .25rem solid #ffc107 !important; }
+        .team-member:hover .member-image img {
+            transform: scale(1.05);
+        }
 
-        .card-body .text-xs {
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
+        .member-info {
+            padding: 1.5rem;
+        }
+
+        .member-info h3 {
+            color: var(--primary-color);
             margin-bottom: 0.5rem;
         }
-        .card-body .h5 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-        .card-body .fa-2x {
-            font-size: 1.8rem;
-            color: #dee2e6;
-        }
 
-        /* Activity Feed Styles */
-        .activity-feed {
-            position: relative;
-            padding-left: 25px;
-        }
-
-        .activity-feed::before {
-            content: '';
-            position: absolute;
-            left: 8px;
-            top: 0;
-            height: 100%;
-            width: 2px;
-            background-color: #e0e0e0;
-        }
-
-        .activity-item {
-            position: relative;
-            display: flex;
-            align-items: flex-start;
+        .position {
+            display: block;
+            color: var(--accent-color);
+            font-weight: 500;
             margin-bottom: 1rem;
         }
 
-        .activity-badge {
-            width: 22px;
-            height: 22px;
+        .member-info p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: var(--primary-color);
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
+            background-color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.75rem;
-            position: absolute;
-            left: -11px;
-            top: 0;
-            z-index: 1;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        .activity-content {
-            margin-left: 25px;
-            flex-grow: 1;
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
         }
 
-        .activity-content small {
-            display: block;
-            margin-bottom: 3px;
-            color: #888;
-            font-size: 0.75rem;
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
         }
 
-        .activity-content p {
-            font-size: 0.9rem;
-            line-height: 1.4;
-            margin-bottom: 0;
+        .contact-card {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .contact-card i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .contact-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .contact-card p {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
         }
 
         /* Footer Styles */
@@ -411,57 +505,6 @@
 
         .social-icon:hover {
             color: var(--accent-color);
-        }
-
-        /* Dashboard Specific Styles */
-        .dashboard-card {
-            transition: transform 0.3s, box-shadow 0.3s;
-            border-radius: 10px;
-            border: none;
-            height: 100%;
-        }
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        .card-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-        .up-color-primary {
-            background-color: #800000;
-            color: white;
-        }
-        .up-color-secondary {
-            background-color: #f8f9fa;
-            color: #212529;
-        }
-        .quick-actions a {
-            text-decoration: none;
-            color: #495057;
-            transition: color 0.2s;
-        }
-        .quick-actions a:hover {
-            color: #800000;
-        }
-        .recent-activity-item {
-            border-left: 3px solid #800000;
-            padding-left: 15px;
-            margin-bottom: 15px;
-        }
-        .system-status {
-            border-radius: 10px;
-        }
-        .btn-outline-primary {
-            color: #800000;
-            border-color: #800000;
-        }
-        .btn-outline-primary:hover {
-            background-color: #800000;
-            color: white;
-        }
-        .text-primary {
-            color: #800000 !important;
         }
 
         /* Responsive Adjustments */
@@ -559,6 +602,10 @@
             .search-bar {
                 display: none;
             }
+
+            .mission-vision, .team-grid, .contact-info {
+                grid-template-columns: 1fr;
+            }
         }
 
         .mobile-menu-btn {
@@ -598,9 +645,9 @@
         </div>
 
         <nav class="main-nav">
-            <a href="/home" class="nav-link active">Home</a>
-            <a href="/about" class="nav-link">About</a>
-            <a href="/contactUs" class="nav-link">Contact Us</a>
+            <a href="/home" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a href="/about" class="nav-link"><i class="fas fa-info-circle"></i> About</a>
+            <a href="/contactUs" class="nav-link active"><i class="fas fa-envelope"></i> Contact Us</a>
         </nav>
 
         <div class="search-bar">
@@ -612,7 +659,7 @@
             <div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" id="userDropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Account
+                    <i class="fas fa-user-circle"></i> Account
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item" href="/profile"><i class="fas fa-user mr-2"></i>Profile</a>
@@ -628,269 +675,85 @@
 <div class="main-content-container">
     <aside class="sidebar">
         <nav class="sidebar-menu">
-            <a href="/dashboard" class="menu-item active">
+            <a href="/dashboard" class="menu-item">
+                <i class="fas fa-tachometer-alt menu-icon"></i>
                 <span class="menu-text">Dashboard</span>
             </a>
             <a href="/#" class="menu-item">
+                <i class="fas fa-history menu-icon"></i>
                 <span class="menu-text">User History</span>
             </a>
             <a href="/#" class="menu-item">
+                <i class="fas fa-tools menu-icon"></i>
                 <span class="menu-text">Maintain</span>
             </a>
             <a href="/#" class="menu-item">
-               <span class="menu-text">Condemn</span>
+                <i class="fas fa-trash-alt menu-icon"></i>
+                <span class="menu-text">Condemn</span>
             </a>
             <a href="/#" class="menu-item">
-                <span class="menu-text">Asset Histoey</span>
+                <i class="fas fa-book menu-icon"></i>
+                <span class="menu-text">Asset History</span>
             </a>
             <a href="/#" class="menu-item">
+                <i class="fas fa-boxes menu-icon"></i>
                 <span class="menu-text">Asset</span>
             </a>
             <a href="/#" class="menu-item">
+                <i class="fas fa-check-circle menu-icon"></i>
                 <span class="menu-text">Yearly Verification</span>
             </a>
             <a href="/#" class="menu-item">
+                <i class="fas fa-file-invoice menu-icon"></i>
                 <span class="menu-text">Invoice</span>
             </a>
             <a href="/#" class="menu-item">
+                <i class="fas fa-exchange-alt menu-icon"></i>
                 <span class="menu-text">Movement</span>
             </a>
             <a href="/#" class="menu-item">
+                <i class="fas fa-truck-moving menu-icon"></i>
                 <span class="menu-text">Transfer</span>
             </a>
         </nav>
     </aside>
 
+<div class="main-content-container">
+    <aside class="sidebar bg-dark text-white p-3" style="min-width: 200px;">
+        <h5 class="text-warning">Navigation</h5>
+        <ul class="list-unstyled">
+            <li><a href="/dashboard" class="text-white"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/history" class="text-white"><i class="fas fa-history"></i> History</a></li>
+            <li><a href="/assets" class="text-white"><i class="fas fa-box"></i> Assets</a></li>
+        </ul>
+    </aside>
+
     <div class="main-content">
-        <!-- Welcome Banner -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card up-color-primary">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h2 class="card-title">Welcome to Asset Management System</h2>
-                                <p class="card-text">University of Peradeniya</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="page-header">
+            <h1>Contact Us</h1>
+            <p>If you have any questions, concerns, or feedback, feel free to reach out using the form below.</p>
         </div>
 
-        <!-- Dashboard Cards -->
-        <div class="row mb-4">
-            <div class="col-md-3 mb-3">
-                <div class="card dashboard-card up-color-secondary">
-                    <div class="card-body text-center">
-                        <i class="fas fa-laptop card-icon text-primary"></i>
-                        <h5 class="card-title">Total Assets</h5>
-                        <h2 class="mb-0">1,245</h2>
-                        <p class="text-muted">+12 this month</p>
-                    </div>
+        <div class="contact-form">
+            <form action="/sendMessage" method="post">
+                <div class="form-group">
+                    <label for="name"><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Your full name" required>
                 </div>
-            </div>
-            <div class="col-md-3 mb-3">
-                <div class="card dashboard-card up-color-secondary">
-                    <div class="card-body text-center">
-                        <i class="fas fa-wrench card-icon text-warning"></i>
-                        <h5 class="card-title">Maintenance</h5>
-                        <h2 class="mb-0">24</h2>
-                        <p class="text-muted">Pending requests</p>
-                    </div>
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
                 </div>
-            </div>
-            <div class="col-md-3 mb-3">
-                <div class="card dashboard-card up-color-secondary">
-                    <div class="card-body text-center">
-                        <i class="fas fa-exchange-alt card-icon text-info"></i>
-                        <h5 class="card-title">Transfers</h5>
-                        <h2 class="mb-0">18</h2>
-                        <p class="text-muted">In progress</p>
-                    </div>
+                <div class="form-group">
+                    <label for="subject"><i class="fas fa-heading"></i> Subject</label>
+                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject of your message" required>
                 </div>
-            </div>
-            <div class="col-md-3 mb-3">
-                <div class="card dashboard-card up-color-secondary">
-                    <div class="card-body text-center">
-                        <i class="fas fa-calendar-check card-icon text-success"></i>
-                        <h5 class="card-title">Audits</h5>
-                        <h2 class="mb-0">3</h2>
-                        <p class="text-muted">Scheduled</p>
-                    </div>
+                <div class="form-group">
+                    <label for="message"><i class="fas fa-comment-dots"></i> Message</label>
+                    <textarea class="form-control" id="message" name="message" rows="5" placeholder="Type your message here..." required></textarea>
                 </div>
-            </div>
-        </div>
-
-        <!-- Main Content Row -->
-        <div class="row">
-            <!-- Left Column -->
-            <div class="col-lg-8 mb-4">
-                <!-- Quick Actions -->
-                <div class="card mb-4">
-                    <div class="card-header up-color-primary text-white">
-                        <h5 class="mb-0">Quick Actions</h5>
-                    </div>
-                    <div class="card-body quick-actions">
-                        <div class="row text-center">
-                            <div class="col-4 col-md-2 mb-3">
-                                <a href="#" class="d-block">
-                                    <i class="fas fa-plus-circle fa-2x mb-2 text-primary"></i>
-                                    <span>Add Asset</span>
-                                </a>
-                            </div>
-                            <div class="col-4 col-md-2 mb-3">
-                                <a href="#" class="d-block">
-                                    <i class="fas fa-search fa-2x mb-2 text-primary"></i>
-                                    <span>Search</span>
-                                </a>
-                            </div>
-                            <div class="col-4 col-md-2 mb-3">
-                                <a href="#" class="d-block">
-                                    <i class="fas fa-file-export fa-2x mb-2 text-primary"></i>
-                                    <span>Report</span>
-                                </a>
-                            </div>
-                            <div class="col-4 col-md-2 mb-3">
-                                <a href="#" class="d-block">
-                                    <i class="fas fa-tools fa-2x mb-2 text-primary"></i>
-                                    <span>Maintenance</span>
-                                </a>
-                            </div>
-                            <div class="col-4 col-md-2 mb-3">
-                                <a href="#" class="d-block">
-                                    <i class="fas fa-user-tie fa-2x mb-2 text-primary"></i>
-                                    <span>Staff</span>
-                                </a>
-                            </div>
-                            <div class="col-4 col-md-2 mb-3">
-                                <a href="#" class="d-block">
-                                    <i class="fas fa-cog fa-2x mb-2 text-primary"></i>
-                                    <span>Settings</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recent Activities -->
-                <div class="card">
-                    <div class="card-header up-color-primary text-white">
-                        <h5 class="mb-0">Recent Activities</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="recent-activity-item">
-                            <h6>New Laptop Added</h6>
-                            <p class="text-muted small mb-1">Dell XPS 15 - Serial: DXPS15742</p>
-                            <p class="text-muted small">Today, 10:45 AM by Dr. Saman Perera</p>
-                        </div>
-                        <div class="recent-activity-item">
-                            <h6>Maintenance Request</h6>
-                            <p class="text-muted small mb-1">Projector in SC/04 not working</p>
-                            <p class="text-muted small">Yesterday, 2:30 PM by Prof. Nimali Fernando</p>
-                        </div>
-                        <div class="recent-activity-item">
-                            <h6>Asset Transfer Approved</h6>
-                            <p class="text-muted small mb-1">PC moved from ENG/12 to SCI/08</p>
-                            <p class="text-muted small">Yesterday, 11:15 AM by Mr. Kamal Silva</p>
-                        </div>
-                        <div class="recent-activity-item">
-                            <h6>Quarterly Audit Completed</h6>
-                            <p class="text-muted small mb-1">Faculty of Science - 98% accuracy</p>
-                            <p class="text-muted small">Monday, 9:00 AM by Audit Team</p>
-                        </div>
-                        <a href="#" class="btn btn-outline-primary mt-2">View All Activities</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Column -->
-            <div class="col-lg-4">
-                <!-- System Status -->
-                <div class="card mb-4">
-                    <div class="card-header up-color-primary text-white">
-                        <h5 class="mb-0">System Status</h5>
-                    </div>
-                    <div class="card-body system-status">
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between mb-1">
-                                <span>Database</span>
-                                <span class="text-success">Online</span>
-                            </div>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between mb-1">
-                                <span>Storage</span>
-                                <span>65% used</span>
-                            </div>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: 65%"></div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between mb-1">
-                                <span>Users Online</span>
-                                <span>24</span>
-                            </div>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-primary" role="progressbar" style="width: 30%"></div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between mb-1">
-                                <span>Last Backup</span>
-                                <span>Today, 2:00 AM</span>
-                            </div>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Upcoming Events -->
-                <div class="card">
-                    <div class="card-header up-color-primary text-white">
-                        <h5 class="mb-0">Upcoming Events</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex mb-3">
-                            <div class="flex-shrink-0 me-3 text-center text-primary">
-                                <h4 class="mb-0">15</h4>
-                                <small>JUL</small>
-                            </div>
-                            <div>
-                                <h6>Annual Asset Audit</h6>
-                                <p class="text-muted small">Faculty of Engineering</p>
-                            </div>
-                        </div>
-                        <div class="d-flex mb-3">
-                            <div class="flex-shrink-0 me-3 text-center text-primary">
-                                <h4 class="mb-0">22</h4>
-                                <small>JUL</small>
-                            </div>
-                            <div>
-                                <h6>IT Equipment Upgrade</h6>
-                                <p class="text-muted small">Computer Lab 3</p>
-                            </div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="flex-shrink-0 me-3 text-center text-primary">
-                                <h4 class="mb-0">30</h4>
-                                <small>JUL</small>
-                            </div>
-                            <div>
-                                <h6>Training Session</h6>
-                                <p class="text-muted small">New Asset Management Procedures</p>
-                            </div>
-                        </div>
-                        <a href="#" class="btn btn-outline-primary mt-3">View Calendar</a>
-                    </div>
-                </div>
-            </div>
+                <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+            </form>
         </div>
     </div>
 </div>
