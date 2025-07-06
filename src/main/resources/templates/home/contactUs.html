@@ -278,7 +278,7 @@
             border-bottom: 1px solid #eee;
         }
 
-        /* About Page Specific Styles */
+        /* Contact Page Specific Styles */
         .page-header {
             margin-bottom: 2rem;
             padding-bottom: 1rem;
@@ -290,175 +290,52 @@
             font-weight: 700;
         }
 
-        .about-section {
-            margin-bottom: 3rem;
+        .contact-form {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .section-title {
-            color: var(--primary-color);
-            font-weight: 600;
+        .form-group {
             margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 0.5rem;
         }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 60px;
-            height: 3px;
-            background-color: var(--accent-color);
-        }
-
-        .about-content {
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-        }
-
-        .mission-vision {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .mission, .vision {
-            background-color: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-        }
-
-        .mission h3, .vision h3 {
+        .form-group label {
+            font-weight: 500;
             color: var(--primary-color);
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
         }
 
-        .mission h3 i, .vision h3 i {
+        .form-group label i {
             margin-right: 10px;
             color: var(--accent-color);
         }
 
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .team-member {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding: 0.75rem 1rem;
             transition: var(--transition);
         }
 
-        .team-member:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(128, 0, 0, 0.25);
         }
 
-        .member-image {
-            height: 200px;
-            overflow: hidden;
-        }
-
-        .member-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-
-        .team-member:hover .member-image img {
-            transform: scale(1.05);
-        }
-
-        .member-info {
-            padding: 1.5rem;
-        }
-
-        .member-info h3 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .position {
-            display: block;
-            color: var(--accent-color);
-            font-weight: 500;
-            margin-bottom: 1rem;
-        }
-
-        .member-info p {
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-links a {
-            color: var(--primary-color);
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background-color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .social-links a:hover {
+        .btn-primary {
             background-color: var(--primary-color);
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        .contact-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .contact-card {
-            background-color: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            text-align: center;
+            border-color: var(--primary-color);
+            padding: 0.75rem;
+            font-weight: 500;
             transition: var(--transition);
         }
 
-        .contact-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        .contact-card i {
-            font-size: 2rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .contact-card h3 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .contact-card p {
-            margin-bottom: 0.5rem;
-            line-height: 1.6;
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
         /* Footer Styles */
@@ -602,10 +479,6 @@
             .search-bar {
                 display: none;
             }
-
-            .mission-vision, .team-grid, .contact-info {
-                grid-template-columns: 1fr;
-            }
         }
 
         .mobile-menu-btn {
@@ -717,17 +590,7 @@
             </a>
         </nav>
     </aside>
-
-<div class="main-content-container">
-    <aside class="sidebar bg-dark text-white p-3" style="min-width: 200px;">
-        <h5 class="text-warning">Navigation</h5>
-        <ul class="list-unstyled">
-            <li><a href="/dashboard" class="text-white"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-            <li><a href="/history" class="text-white"><i class="fas fa-history"></i> History</a></li>
-            <li><a href="/assets" class="text-white"><i class="fas fa-box"></i> Assets</a></li>
-        </ul>
-    </aside>
-
+   
     <div class="main-content">
         <div class="page-header">
             <h1>Contact Us</h1>
@@ -757,7 +620,7 @@
         </div>
     </div>
 </div>
-
+    
 <footer class="main-footer">
     <div class="container-fluid">
         <div class="footer-content">
