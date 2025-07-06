@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
 
+    @GetMapping("/home")
+    public String homePage(Model model) {
+        return "home/home"; 
+    }
+
     @GetMapping("/login")
 public String loginPage(@RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "logout", required = false) String logout,
