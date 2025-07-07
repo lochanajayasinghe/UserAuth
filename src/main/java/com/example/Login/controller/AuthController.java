@@ -80,38 +80,48 @@ public String showRegistrationForm(Model model) {
         return "login";
     }
 
-    @GetMapping("/forgot-password")
-    public String forgotPasswordPage() {
-        return "forgot-password";
-    }
-
-    @PostMapping("/forgot-password")
-    public String sendResetLink(@RequestParam String email, HttpServletRequest request, Model model) {
+@PostMapping("/forgot-password")
+public String sendResetLink(@RequestParam String email, HttpServletRequest request, Model model) {
+    try {
         String result = authService.sendPasswordResetLink(email, request);
         if ("success".equals(result)) {
             model.addAttribute("message", "Password reset link sent to your email.");
-        } else {
-            model.addAttribute("error", result);
         }
+    } catch (RuntimeException e) {
+        model.addAttribute("error", e.getMessage());
+    }
+    return "forgot-password";
+}
+
+@GetMapping("/reset-password")
+public String resetPasswordForm(@RequestParam String token, Model model) {
+    try {
+        // Just validate the token exists and is not expired
+        authService.validatePasswordResetToken(token);
+        model.addAttribute("token", token);
+    } catch (RuntimeException e) {
+        model.addAttribute("error", e.getMessage());
         return "forgot-password";
     }
+    return "reset-password";
+}
 
-    @GetMapping("/reset-password")
-    public String resetPasswordForm(@RequestParam String token, Model model) {
-        model.addAttribute("token", token);
-        return "reset-password";
-    }
-
-    @PostMapping("/reset-password")
-    public String resetPassword(@RequestParam String token, @RequestParam String password, Model model) {
+@PostMapping("/reset-password")
+public String resetPassword(@RequestParam String token, 
+                          @RequestParam String password, 
+                          Model model) {
+    try {
         String result = authService.resetPassword(token, password);
         if ("success".equals(result)) {
-            model.addAttribute("message", "Password updated successfully.");
-        } else {
-            model.addAttribute("error", result);
+            model.addAttribute("message", "Password updated successfully. You can now login.");
+            return "login";
         }
-        return "reset-password";
+    } catch (RuntimeException e) {
+        model.addAttribute("error", e.getMessage());
+        model.addAttribute("token", token);
     }
+    return "reset-password";
+}
 
     @GetMapping("/user/home")
     public String userHome() {

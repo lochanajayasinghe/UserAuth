@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -63,6 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public String verifyUser(String token) {
         Optional<VerificationToken> optionalToken = verificationTokenRepository.findByToken(token);
         if (optionalToken.isEmpty()) return "Invalid token!";
@@ -82,12 +84,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public String createPasswordResetToken(String email, HttpServletRequest request) {
         Optional<User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isEmpty()) return "Email not found!";
 
         User user = optionalUser.get();
 
+        // Delete any existing tokens for this user first
+        passwordResetTokenRepository.deleteByUser(user);
+
+        // Generate new token
         String token = UUID.randomUUID().toString();
         PasswordResetToken resetToken = PasswordResetToken.builder()
                 .token(token)
@@ -97,15 +104,19 @@ public class UserServiceImpl implements UserService {
 
         passwordResetTokenRepository.save(resetToken);
 
-        String resetLink = request.getRequestURL().toString().replace("/forgot-password", "") +
-                "/reset-password?token=" + token;
+        // Construct reset link
+        String resetLink = request.getRequestURL().toString()
+                .replace(request.getRequestURI(), "")
+                + "/reset-password?token=" + token;
 
-        emailService.sendEmail(email, "Reset your password", "Click here to reset: " + resetLink);
+        // Send email with proper HTML template
+        emailService.sendPasswordResetEmail(user.getEmail(), resetLink);
 
         return "success";
     }
 
     @Override
+    @Transactional
     public String resetPassword(String token, String newPassword) {
         Optional<PasswordResetToken> optionalToken = passwordResetTokenRepository.findByToken(token);
         if (optionalToken.isEmpty()) return "Invalid token!";
@@ -120,8 +131,23 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
 
+        // Delete the used token
         passwordResetTokenRepository.delete(resetToken);
 
         return "success";
     }
+
+    @Override
+    public void validatePasswordResetToken(String token) {
+        Optional<PasswordResetToken> optionalToken = passwordResetTokenRepository.findByToken(token);
+        if (optionalToken.isEmpty()) {
+            throw new RuntimeException("Invalid token");
+        }
+
+        PasswordResetToken resetToken = optionalToken.get();
+        if (resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("Token has expired");
+        }
+    }
 }
+

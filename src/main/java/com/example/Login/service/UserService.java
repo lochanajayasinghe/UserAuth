@@ -9,3 +9,4 @@ public interface UserService {
     String createPasswordResetToken(String email, HttpServletRequest request);
     String resetPassword(String token, String newPassword);
 }
+

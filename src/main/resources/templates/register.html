@@ -10,97 +10,538 @@
     <style>
         :root {
             --primary-color: #800000; /* University Maroon */
-            --primary-dark: #600000; /* Darker maroon */
-            --primary-light: #a04040; /* Lighter maroon */
-            --accent-color: #ffc107; /* Gold accent */
-            --text-light: #f8f9fa; /* Light text */
+            --primary-dark: #600000; /* Darker maroon for gradient */
+            --primary-light: #a04040;
+            --secondary-color: #f8f9fa;
+            --accent-color: #ffc107; /* Gold/Amber for highlights */
+            --text-dark: #343a40;
+            --text-light: #f8f9fa; /* White/Off-white for text on dark backgrounds */
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', sans-serif; /* Changed to Poppins for a modern feel */
             background-color: #f5f5f5;
-            min-height: 100vh;
+            color: var(--text-dark);
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
         }
 
         /* Header Styles */
         .main-header {
-            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
-            color: var(--text-light);
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark)); /* Header gradient */
+            color: var(--text-light); /* Ensure text is light on dark header */
+            box-shadow: var(--shadow);
             padding: 0.5rem 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
         }
 
         .logo-img {
             height: 50px;
-            filter: brightness(1.1);
+            margin-right: 15px;
+            filter: brightness(1.1) drop-shadow(0 0 2px rgba(0,0,0,0.3)); /* Slight adjustment for better look on dark bg */
         }
 
-        /* Main Content */
+        .logo-container h5 { /* Adjusted font size */
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        .logo-container small { /* Adjusted font size */
+            font-size: 0.75rem;
+            display: block;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            flex-grow: 1; /* Allow navigation to take available space */
+            justify-content: center; /* Center main nav items */
+        }
+
+        .nav-link {
+            color: var(--text-light); /* Links are light */
+            padding: 0.6rem 1rem; /* Adjusted padding for smaller font */
+            margin: 0 0.4rem; /* Adjusted margin */
+            border-radius: 6px; /* Slightly more rounded corners */
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.9rem; /* Adjusted font size */
+            display: flex; /* For icon and text alignment */
+            align-items: center;
+        }
+
+        .nav-link:hover {
+            color: var(--text-light); /* Keep text light on hover */
+            background-color: rgba(255, 255, 255, 0.15); /* Light transparent background on hover */
+            text-decoration: none;
+        }
+
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.25); /* More prominent background for active link */
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .nav-link i {
+            margin-right: 8px; /* Space between icon and text */
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-menu .dropdown-toggle {
+            color: var(--text-light); /* User dropdown button text is light */
+            background-color: transparent;
+            border: none;
+            padding: 0.6rem 1rem; /* Adjusted padding for smaller font */
+            transition: var(--transition);
+            border-radius: 4px;
+            font-size: 0.9rem; /* Adjusted font size */
+        }
+
+        .user-menu .dropdown-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: var(--text-light);
+        }
+
+        .user-menu .dropdown-toggle i {
+            margin-right: 5px;
+        }
+
+        .dropdown-menu {
+            background-color: white; /* Dropdown menu background */
+            border: none;
+            box-shadow: var(--shadow);
+            font-size: 0.9rem; /* Adjusted font size for dropdown items */
+        }
+
+        .dropdown-menu .dropdown-item {
+            color: var(--text-dark); /* Dropdown items text dark */
+            padding: 0.6rem 1rem; /* Adjusted padding */
+            transition: var(--transition);
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #e9ecef; /* Light gray on hover for dropdown items */
+            color: var(--primary-color);
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--accent-color); /* Use accent color for avatar background */
+            color: var(--text-dark); /* Dark text on accent color */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Search Bar Styles */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            margin-right: 1rem; /* Space between search and account */
+        }
+
+        .search-bar input {
+            border: none;
+            border-radius: 5px;
+            padding: 0.3rem 0.7rem; /* Adjusted padding */
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--text-light);
+            transition: var(--transition);
+            width: 140px; /* Adjust width as needed */
+            font-size: 0.85rem; /* Adjusted font size */
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-bar input:focus {
+            background-color: rgba(255, 255, 255, 0.3);
+            outline: none;
+            width: 180px; /* Expand on focus */
+        }
+
+        .search-bar button {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            margin-left: -28px; /* Overlap with input for icon positioning */
+            padding: 0.3rem 0.7rem; /* Adjusted padding */
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem; /* Adjusted font size */
+        }
+
+        .search-bar button:hover {
+            color: var(--accent-color);
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            height: calc(100vh - 70px); /* Adjust height based on header height */
+            position: sticky;
+            top: 70px; /* Position below the sticky header */
+            transition: var(--transition);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding-top: 1rem;
+        }
+
+        .sidebar-menu {
+            padding: 0; /* Remove top/bottom padding as it's in .sidebar */
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            margin: 0.25rem 0;
+            border-left: 4px solid transparent;
+            font-size: 0.9rem; /* Adjusted font size */
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--accent-color);
+            text-decoration: none;
+            color: white;
+        }
+
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid var(--accent-color);
+            font-weight: 500;
+        }
+
+        .menu-icon {
+            margin-right: 12px;
+            font-size: 1rem; /* Adjusted icon size */
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Main Content Styles */
         .main-content {
             flex: 1;
             padding: 2rem;
-            background: white;
+            background-color: white;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
             margin: 1rem;
+            overflow-y: auto; /* Enable scrolling for content if it overflows */
         }
 
-        /* Form Styles */
-        .form-control:focus {
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 0.2rem rgba(128, 0, 0, 0.25);
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
         }
 
-        /* Create Account Button */
-        .btn-create-account {
-            background-color: var(--primary-color);
-            border-color: var(--primary-dark);
-            color: white;
-            transition: all 0.3s ease;
+        /* Dashboard Card Styles (improved) */
+        .card {
+            border: none;
+            border-radius: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden; /* Ensures border-left is within rounded corners */
         }
 
-        .btn-create-account:hover {
-            background-color: var(--primary-dark);
-            border-color: #500000;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            color: white;
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
-        .btn-create-account:disabled {
-            background-color: var(--primary-light);
-            border-color: #904040;
-            opacity: 0.7;
+        .card.border-left-primary { border-left: .25rem solid var(--primary-color) !important;}
+        .card.border-left-success { border-left: .25rem solid #28a745 !important; }
+        .card.border-left-info { border-left: .25rem solid #17a2b8 !important; }
+        .card.border-left-warning { border-left: .25rem solid #ffc107 !important; }
+
+        .card-body .text-xs {
+            font-size: 0.7rem; /* Slightly smaller for captions */
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        .card-body .h5 {
+            font-size: 1.1rem; /* Slightly smaller for card numbers */
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        .card-body .fa-2x {
+            font-size: 1.8rem; /* Adjusted icon size */
+            color: #dee2e6; /* Lighter gray for card icons */
         }
 
-        /* Footer */
+        /* Activity Feed Styles */
+        .activity-feed {
+            position: relative;
+            padding-left: 25px; /* Space for the badges */
+        }
+
+        .activity-feed::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background-color: #e0e0e0;
+        }
+
+        .activity-item {
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .activity-badge {
+            width: 22px; /* Slightly smaller badge */
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem; /* Smaller icon in badge */
+            position: absolute;
+            left: -11px; /* Center over the line */
+            top: 0;
+            z-index: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .activity-content {
+            margin-left: 25px;
+            flex-grow: 1;
+        }
+
+        .activity-content small {
+            display: block;
+            margin-bottom: 3px;
+            color: #888;
+            font-size: 0.75rem; /* Smaller date/time */
+        }
+
+        .activity-content p {
+            font-size: 0.9rem; /* Smaller activity text */
+            line-height: 1.4;
+            margin-bottom: 0;
+        }
+
+        /* Footer Styles */
         .main-footer {
-            background: linear-gradient(90deg, var(--primary-dark), var(--primary-color));
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary-color)); /* Footer gradient */
             color: white;
-            padding: 1.2rem 0;
+            padding: 1.2rem 0; /* Slightly reduced padding */
+            margin-top: auto;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            font-size: 0.85rem; /* Smaller footer text */
         }
 
-        /* Responsive */
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+        }
+
+        .footer-link {
+            color: white;
+            margin-right: 1.2rem; /* Adjusted margin */
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .social-icons {
+            display: flex;
+        }
+
+        .social-icon {
+            color: white;
+            margin-left: 0.8rem; /* Adjusted margin */
+            font-size: 1.1rem; /* Slightly smaller social icons */
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            color: var(--accent-color);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .main-nav {
+                justify-content: flex-start; /* Align main nav left on smaller screens */
+                flex-wrap: wrap; /* Allow nav items to wrap */
+            }
+            .nav-link {
+                padding: 0.5rem 0.8rem;
+                margin: 0.2rem;
+                font-size: 0.85rem;
+            }
+
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+
+            .menu-text {
+                display: none;
+            }
+
+            .menu-icon {
+                margin-right: 0;
+                font-size: 1.1rem;
+            }
+
+            .search-bar {
+                margin-right: 0.5rem;
+            }
+
+            .search-bar input {
+                width: 90px; /* Further adjust for smaller screens */
+                font-size: 0.8rem;
+            }
+
+            .search-bar input:focus {
+                width: 130px;
+            }
+
+            .search-bar button {
+                font-size: 0.8rem;
+            }
+
+            .user-menu .dropdown-toggle {
+                font-size: 0.85rem;
+            }
+        }
+
         @media (max-width: 768px) {
+            .main-header {
+                padding: 0.5rem 1rem;
+            }
+            .main-nav {
+                display: none; /* Hide main nav on very small screens, rely on sidebar */
+            }
+
+            .sidebar {
+                position: fixed;
+                height: 100vh;
+                top: 0; /* Align sidebar to top when fixed */
+                z-index: 900;
+                transform: translateX(-100%);
+                padding-top: 70px; /* Space for header if it's not hidden */
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .mobile-menu-btn {
+                display: block !important;
+                color: var(--primary-color); /* Adjust color for menu button on white header */
+            }
+
             .main-content {
                 margin: 0.5rem;
                 padding: 1.5rem;
             }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links, .social-icons {
+                margin-top: 1rem;
+            }
+
+            .footer-link {
+                margin: 0 0.75rem;
+            }
+
+            .search-bar {
+                display: none; /* Hide search bar on smaller screens if space is limited */
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        /* Utility Classes */
+        .flex-grow {
+            flex-grow: 1;
+        }
+
+        .text-accent {
+            color: var(--accent-color);
+        }
+
+        .bg-primary-light {
+            background-color: var(--primary-light);
         }
     </style>
 </head>
 <body>
 
-<header class="main-header">
+<header class="main-header bg-dark py-3">
     <div class="container-fluid d-flex align-items-center">
+        <button class="mobile-menu-btn mr-3">
+            <i class="fas fa-bars text-white"></i>
+        </button>
         <div class="logo-container d-flex align-items-center">
-            <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" 
-                 alt="University Logo" class="logo-img mr-3">
+            <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png"
+                 alt="University Logo" class="logo-img mr-3" style="height: 50px;">
             <div>
-                <h5 class="mb-0">University of Peradeniya</h5>
-                <small>Asset Management System</small>
+                <h5 class="mb-0 text-light">University of Peradeniya</h5>
+                <small class="text-light">Asset Management System</small>
             </div>
         </div>
     </div>
@@ -114,41 +555,84 @@
                     <div class="card shadow-sm my-5">
                         <div class="card-body p-4 p-md-5">
                             <div class="text-center mb-4">
-                                <h2 class="h4 font-weight-bold" style="color: #800000;">Create Your Account</h2>
+                                <h2 class="h4 font-weight-bold text-primary">Create Your Account</h2>
                                 <p class="text-muted small">Join us to get started</p>
                             </div>
 
-                            <!-- Registration Form -->
-                            <form th:action="@{/register}" method="post">
+                            <!-- Alert Messages -->
+                            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show small" id="registerError" th:text="${error}" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div th:if="${message}" class="alert alert-success alert-dismissible fade show small" id="registerMessage" th:text="${message}" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <!-- Register Form -->
+                            <form th:action="@{/register}" th:object="${user}" method="post" id="registrationForm">
                                 <div class="form-group">
                                     <label class="font-weight-medium small">Full Name</label>
-                                    <input type="text" class="form-control" placeholder="Enter your full name" required>
+                                    <input type="text" th:field="*{fullName}" class="form-control" placeholder="Enter your full name" required>
                                 </div>
-                                
+                                <div class="form-group">
+                                    <label class="font-weight-medium small">Username</label>
+                                    <input type="text" th:field="*{username}" class="form-control" placeholder="Choose a username" required>
+                                    <small class="form-text text-muted small">This will be your public profile name</small>
+                                </div>
                                 <div class="form-group">
                                     <label class="font-weight-medium small">Email</label>
-                                    <input type="email" class="form-control" placeholder="Enter your email" required>
+                                    <input type="email" th:field="*{email}" class="form-control" placeholder="Enter your email" required>
                                 </div>
-                                
                                 <div class="form-group">
                                     <label class="font-weight-medium small">Password</label>
-                                    <input type="password" class="form-control" placeholder="Create a password" required>
+                                    <div class="input-group">
+                                        <input type="password" th:field="*{password}" id="password" class="form-control" 
+                                               placeholder="Create a password" 
+                                               pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
+                                               required
+                                               oninput="validatePassword()">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <small class="form-text text-muted small">
+                                        Password must contain:
+                                        <ul class="list-unstyled mb-0">
+                                            <li id="lengthCheck"><i class="fas fa-circle small mr-1"></i> At least 8 characters</li>
+                                            <li id="uppercaseCheck"><i class="fas fa-circle small mr-1"></i> At least one uppercase letter</li>
+                                            <li id="lowercaseCheck"><i class="fas fa-circle small mr-1"></i> At least one lowercase letter</li>
+                                            <li id="numberCheck"><i class="fas fa-circle small mr-1"></i> At least one number</li>
+                                        </ul>
+                                    </small>
+                                    <div class="progress mt-2" style="height: 5px;">
+                                        <div id="passwordStrength" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                    </div>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="font-weight-medium small">Confirm Password</label>
-                                    <input type="password" class="form-control" placeholder="Re-enter your password" required>
+                                    <input type="password" id="confirmPassword" class="form-control" 
+                                           placeholder="Re-enter your password" 
+                                           required
+                                           oninput="validatePassword()">
+                                    <small id="passwordMatch" class="form-text text-danger small" style="display: none;">
+                                        <i class="fas fa-exclamation-circle mr-1"></i> Passwords do not match
+                                    </small>
                                 </div>
-                                
+
                                 <div class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" id="termsCheck" required>
                                     <label class="form-check-label small" for="termsCheck">
-                                        I agree to the terms and conditions
+                                        I agree to the <a href="#" class="text-decoration-none">Terms of Service</a> and <a href="#" class="text-decoration-none">Privacy Policy</a>
                                     </label>
                                 </div>
 
-                                <!-- Create Account Button -->
-                                <button type="submit" class="btn btn-create-account btn-block py-2">
+                                <button type="submit" class="btn btn-primary btn-block py-2" id="submitButton" disabled>
                                     <i class="fas fa-user-plus mr-2"></i> Create Account
                                 </button>
                             </form>
@@ -169,9 +653,20 @@
 
 <footer class="main-footer">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 text-center">
-                <p class="mb-0">&copy; 2023 University of Peradeniya. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="copyright">
+                &copy; 2025 University of Peradeniya. All rights reserved.
+            </div>
+            <div class="footer-links">
+                <a href="/privacy" class="footer-link">Privacy Policy</a>
+                <a href="/terms" class="footer-link">Terms of Service</a>
+                <a href="/contact" class="footer-link">Contact Us</a>
+            </div>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
             </div>
         </div>
     </div>
@@ -180,5 +675,104 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Auto-hide alerts -->
+<script>
+
+    // Password validation function
+    function validatePassword() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const submitButton = document.getElementById('submitButton');
+        const passwordMatch = document.getElementById('passwordMatch');
+        
+        // Password requirements checks
+        const hasMinLength = password.length >= 8;
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasNumber = /\d/.test(password);
+        const passwordsMatch = password === confirmPassword && password.length > 0;
+        
+        // Update requirement indicators
+        document.getElementById('lengthCheck').firstElementChild.className = hasMinLength ? 'fas fa-check text-success small mr-1' : 'fas fa-circle small mr-1';
+        document.getElementById('uppercaseCheck').firstElementChild.className = hasUpperCase ? 'fas fa-check text-success small mr-1' : 'fas fa-circle small mr-1';
+        document.getElementById('lowercaseCheck').firstElementChild.className = hasLowerCase ? 'fas fa-check text-success small mr-1' : 'fas fa-circle small mr-1';
+        document.getElementById('numberCheck').firstElementChild.className = hasNumber ? 'fas fa-check text-success small mr-1' : 'fas fa-circle small mr-1';
+        
+        // Update password match indicator
+        if (confirmPassword.length > 0) {
+            passwordMatch.style.display = passwordsMatch ? 'none' : 'block';
+        } else {
+            passwordMatch.style.display = 'none';
+        }
+        
+        // Calculate password strength
+        let strength = 0;
+        if (hasMinLength) strength += 25;
+        if (hasUpperCase) strength += 25;
+        if (hasLowerCase) strength += 25;
+        if (hasNumber) strength += 25;
+        
+        // Update strength meter
+        const strengthBar = document.getElementById('passwordStrength');
+        strengthBar.style.width = strength + '%';
+        strengthBar.className = 'progress-bar ' + 
+            (strength < 50 ? 'bg-danger' : 
+             strength < 75 ? 'bg-warning' : 'bg-success');
+        
+        // Enable/disable submit button
+        const isValid = hasMinLength && hasUpperCase && hasLowerCase && hasNumber && passwordsMatch;
+        submitButton.disabled = !isValid;
+    }
+    
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordInput = document.getElementById('password');
+        const icon = this.querySelector('i');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.className = 'fas fa-eye-slash';
+        } else {
+            passwordInput.type = 'password';
+            icon.className = 'fas fa-eye';
+        }
+    });
+    
+    // Initialize validation on load
+    document.addEventListener('DOMContentLoaded', function() {
+        validatePassword();
+    });
+
+    // Mobile menu toggle
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+        document.querySelector('.sidebar')?.classList.toggle('active');
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const errorDiv = document.getElementById('registerError');
+        const messageDiv = document.getElementById('registerMessage');
+
+        if (errorDiv) {
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        if (messageDiv) {
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        if (performance.navigation.type === 1) {
+            if (errorDiv) errorDiv.remove();
+            if (messageDiv) messageDiv.remove();
+        }
+
+        
+    });
+</script>
+
 </body>
 </html>
