@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
 
+    
+
     @GetMapping("/home")
     public String homePage(Model model) {
         return "home/home"; 
@@ -80,18 +82,28 @@ public String showRegistrationForm(Model model) {
         return "login";
     }
 
-@PostMapping("/forgot-password")
-public String sendResetLink(@RequestParam String email, HttpServletRequest request, Model model) {
-    try {
-        String result = authService.sendPasswordResetLink(email, request);
-        if ("success".equals(result)) {
-            model.addAttribute("message", "Password reset link sent to your email.");
-        }
-    } catch (RuntimeException e) {
-        model.addAttribute("error", e.getMessage());
+@GetMapping("/forgot-password")
+    public String showForgotPasswordForm(Model model) {
+        return "forgot-password"; // This should match your Thymeleaf template name
     }
-    return "forgot-password";
-}
+
+    @PostMapping("/forgot-password")
+    public String processForgotPassword(
+            @RequestParam String email,
+            HttpServletRequest request,
+            Model model) {
+        try {
+            String result = authService.sendPasswordResetLink(email, request);
+            if ("success".equals(result)) {
+                model.addAttribute("message", "Password reset link sent to your email");
+            } else {
+                model.addAttribute("error", result);
+            }
+        } catch (RuntimeException e) {
+            model.addAttribute("error", e.getMessage());
+        }
+        return "forgot-password";
+    }
 
 @GetMapping("/reset-password")
 public String resetPasswordForm(@RequestParam String token, Model model) {
