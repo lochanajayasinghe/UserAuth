@@ -2,17 +2,15 @@ package com.example.Login.service;
 
 import com.example.Login.model.PasswordResetToken;
 import com.example.Login.model.User;
+import com.example.Login.repository.PasswordResetTokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-
-import java.time.LocalDateTime;
-
 import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-
     private final UserService userService;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
 

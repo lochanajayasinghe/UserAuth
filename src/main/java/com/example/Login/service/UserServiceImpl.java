@@ -7,15 +7,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
     private final UserRepository userRepository;
     private final VerificationTokenRepository verificationTokenRepository;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
@@ -25,16 +22,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String registerUser(User user, HttpServletRequest request) {
-        // Check if email is already registered
         if (userRepository.existsByEmail(user.getEmail())) {
             return "Email already registered!";
         }
 
-        // Encode password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(false);
 
-        // Get user role (safely)
         Optional<Role> userRoleOpt = roleRepository.findByName("ROLE_USER");
         if (userRoleOpt.isEmpty()) {
             return "User role not found in database!";
@@ -43,22 +37,20 @@ public class UserServiceImpl implements UserService {
         user.getRoles().add(userRoleOpt.get());
         userRepository.save(user);
 
-        // Generate verification token
         String token = UUID.randomUUID().toString();
         VerificationToken verificationToken = VerificationToken.builder()
                 .token(token)
                 .user(user)
-                .expiryDate(LocalDateTime.now().plusMinutes(30))
+                .expiryDate(LocalDateTime.now().plusHours(24))
                 .build();
 
         verificationTokenRepository.save(verificationToken);
 
-        // Construct verification link
-        String verificationLink = request.getRequestURL().toString().replace("/register", "") +
-                "/verify?token=" + token;
+        String verificationLink = request.getRequestURL().toString()
+                .replace(request.getRequestURI(), "")
+                + "/verify?token=" + token;
 
-        // Send email
-        emailService.sendEmail(user.getEmail(), "Verify your account", "Click the link: " + verificationLink);
+        emailService.sendVerificationEmail(user, verificationLink);
 
         return "success";
     }
@@ -70,7 +62,6 @@ public class UserServiceImpl implements UserService {
         if (optionalToken.isEmpty()) return "Invalid token!";
 
         VerificationToken verificationToken = optionalToken.get();
-
         if (verificationToken.getExpiryDate().isBefore(LocalDateTime.now())) {
             return "Token expired!";
         }
@@ -90,27 +81,22 @@ public class UserServiceImpl implements UserService {
         if (optionalUser.isEmpty()) return "Email not found!";
 
         User user = optionalUser.get();
-
-        // Delete any existing tokens for this user first
         passwordResetTokenRepository.deleteByUser(user);
 
-        // Generate new token
         String token = UUID.randomUUID().toString();
         PasswordResetToken resetToken = PasswordResetToken.builder()
                 .token(token)
                 .user(user)
-                .expiryDate(LocalDateTime.now().plusMinutes(30))
+                .expiryDate(LocalDateTime.now().plusHours(1))
                 .build();
 
         passwordResetTokenRepository.save(resetToken);
 
-        // Construct reset link
         String resetLink = request.getRequestURL().toString()
                 .replace(request.getRequestURI(), "")
                 + "/reset-password?token=" + token;
 
-        // Send email with proper HTML template
-        emailService.sendPasswordResetEmail(user.getEmail(), resetLink);
+        emailService.sendPasswordResetEmail(email, resetLink);
 
         return "success";
     }
@@ -122,7 +108,6 @@ public class UserServiceImpl implements UserService {
         if (optionalToken.isEmpty()) return "Invalid token!";
 
         PasswordResetToken resetToken = optionalToken.get();
-
         if (resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
             return "Token expired!";
         }
@@ -130,24 +115,8 @@ public class UserServiceImpl implements UserService {
         User user = resetToken.getUser();
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
-
-        // Delete the used token
         passwordResetTokenRepository.delete(resetToken);
 
         return "success";
     }
-
-    @Override
-    public void validatePasswordResetToken(String token) {
-        Optional<PasswordResetToken> optionalToken = passwordResetTokenRepository.findByToken(token);
-        if (optionalToken.isEmpty()) {
-            throw new RuntimeException("Invalid token");
-        }
-
-        PasswordResetToken resetToken = optionalToken.get();
-        if (resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("Token has expired");
-        }
-    }
 }
-
