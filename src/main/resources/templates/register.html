@@ -233,6 +233,41 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
+         // Username availability check
+    function checkUsernameAvailability() {
+        const username = document.getElementById('username').value;
+        if (username.length > 3) {
+            fetch(`/check-username?username=${username}`)
+                .then(response => response.json())
+                .then(data => {
+                    const usernameFeedback = document.getElementById('usernameFeedback');
+                    if (data.available) {
+                        usernameFeedback.style.display = 'none';
+                    } else {
+                        usernameFeedback.style.display = 'block';
+                        usernameFeedback.textContent = 'Username is already taken';
+                    }
+                    validateForm();
+                });
+        }
+    }
+
+    // Add this to your existing validation
+    function validateForm() {
+        const username = document.getElementById('username').value;
+        const usernameAvailable = document.getElementById('usernameFeedback').style.display === 'none';
+        const passwordValid = document.getElementById('passwordStrength').style.width === '100%';
+        const passwordsMatch = document.getElementById('passwordMatch').style.display === 'none';
+        const termsChecked = document.getElementById('termsCheck').checked;
+        
+        document.getElementById('submitButton').disabled = 
+            !(username.length > 0 && usernameAvailable && passwordValid && passwordsMatch && termsChecked);
+    }
+
+    // Add event listeners
+    document.getElementById('username').addEventListener('blur', checkUsernameAvailability);
+    document.getElementById('termsCheck').addEventListener('change', validateForm);
+
         // Password validation function
         function validatePassword() {
             const password = document.getElementById('password').value;

@@ -11,12 +11,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Map;
+
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
-
-    
+    private final RoleRepository roleRepository;
 
     @GetMapping("/home")
     public String homePage(Model model) {
@@ -28,43 +30,44 @@ public class AuthController {
         return "home/about"; 
     }
 
-     @GetMapping("/contactUs")
+    @GetMapping("/contactUs")
     public String contactUs(Model model) {
         return "home/contactUs"; 
     }
 
     @GetMapping("/login")
-public String loginPage(@RequestParam(value = "error", required = false) String error,
-                        @RequestParam(value = "logout", required = false) String logout,
-                        Model model) {
-
-    if (error != null) {
-        model.addAttribute("error", "Invalid email or password.");
+    public String loginPage(@RequestParam(value = "error", required = false) String error,
+                          @RequestParam(value = "logout", required = false) String logout,
+                          Model model) {
+        if (error != null) {
+            model.addAttribute("error", "Invalid email or password.");
+        }
+        if (logout != null) {
+            model.addAttribute("message", "You have been logged out successfully.");
+        }
+        return "login";
     }
-    if (logout != null) {
-        model.addAttribute("message", "You have been logged out successfully.");
+
+    @GetMapping("/check-username")
+    @ResponseBody
+    public Map<String, Boolean> checkUsernameAvailability(@RequestParam String username) {
+        boolean available = !authService.existsByUsername(username);
+        return Collections.singletonMap("available", available);
     }
-    return "login";
-}
 
-
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-   @GetMapping("/register")
-public String showRegistrationForm(Model model) {
-    model.addAttribute("user", new User());
-    model.addAttribute("allRoles", roleRepository.findAll()); // roleRepository should return Role entities
-    return "register";
-}
-
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
+    }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") User user, HttpServletRequest request, Model model) {
-        String result = authService.register(user, request);
+    public String registerUser(@ModelAttribute("user") User user, 
+                             HttpServletRequest request, 
+                             Model model) {
+        String result = authService.registerUser(user, request);
         if ("success".equals(result)) {
-            model.addAttribute("message", "Check your email to verify your account.");
+            model.addAttribute("message", "Registration successful! Please check your email to verify your account.");
         } else {
             model.addAttribute("error", result);
         }
@@ -73,7 +76,7 @@ public String showRegistrationForm(Model model) {
 
     @GetMapping("/verify")
     public String verifyUser(@RequestParam("token") String token, Model model) {
-        String result = authService.verifyEmail(token);
+        String result = authService.verifyUser(token);
         if ("success".equals(result)) {
             model.addAttribute("message", "Email verified. You can now log in.");
         } else {
@@ -82,9 +85,9 @@ public String showRegistrationForm(Model model) {
         return "login";
     }
 
-@GetMapping("/forgot-password")
+    @GetMapping("/forgot-password")
     public String showForgotPasswordForm(Model model) {
-        return "forgot-password"; // This should match your Thymeleaf template name
+        return "forgot-password";
     }
 
     @PostMapping("/forgot-password")
@@ -93,7 +96,7 @@ public String showRegistrationForm(Model model) {
             HttpServletRequest request,
             Model model) {
         try {
-            String result = authService.sendPasswordResetLink(email, request);
+            String result = authService.createPasswordResetToken(email, request);
             if ("success".equals(result)) {
                 model.addAttribute("message", "Password reset link sent to your email");
             } else {
@@ -105,35 +108,34 @@ public String showRegistrationForm(Model model) {
         return "forgot-password";
     }
 
-@GetMapping("/reset-password")
-public String resetPasswordForm(@RequestParam String token, Model model) {
-    try {
-        // Just validate the token exists and is not expired
-        authService.validatePasswordResetToken(token);
-        model.addAttribute("token", token);
-    } catch (RuntimeException e) {
-        model.addAttribute("error", e.getMessage());
-        return "forgot-password";
-    }
-    return "reset-password";
-}
-
-@PostMapping("/reset-password")
-public String resetPassword(@RequestParam String token, 
-                          @RequestParam String password, 
-                          Model model) {
-    try {
-        String result = authService.resetPassword(token, password);
-        if ("success".equals(result)) {
-            model.addAttribute("message", "Password updated successfully. You can now login.");
-            return "login";
+    @GetMapping("/reset-password")
+    public String resetPasswordForm(@RequestParam String token, Model model) {
+        try {
+            authService.validatePasswordResetToken(token);
+            model.addAttribute("token", token);
+        } catch (RuntimeException e) {
+            model.addAttribute("error", e.getMessage());
+            return "forgot-password";
         }
-    } catch (RuntimeException e) {
-        model.addAttribute("error", e.getMessage());
-        model.addAttribute("token", token);
+        return "reset-password";
     }
-    return "reset-password";
-}
+
+    @PostMapping("/reset-password")
+    public String resetPassword(@RequestParam String token, 
+                              @RequestParam String password, 
+                              Model model) {
+        try {
+            String result = authService.resetPassword(token, password);
+            if ("success".equals(result)) {
+                model.addAttribute("message", "Password updated successfully. You can now login.");
+                return "login";
+            }
+        } catch (RuntimeException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("token", token);
+        }
+        return "reset-password";
+    }
 
     @GetMapping("/user/home")
     public String userHome() {

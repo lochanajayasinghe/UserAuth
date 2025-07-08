@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,12 +34,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String email = (String) attributes.get("email");
         String name = (String) attributes.get("name");
         
+        if (email == null || email.isEmpty()) {
+            throw new OAuth2AuthenticationException("Email not found from OAuth2 provider");
+        }
+
         User user = userRepository.findByEmail(email)
             .orElseGet(() -> {
                 User newUser = new User();
                 newUser.setEmail(email);
                 newUser.setFullName(name);
-                newUser.setUsername(email.split("@")[0]);
+                newUser.setUsername(generateUniqueUsername(email));
                 newUser.setEnabled(true);
                 
                 Role userRole = roleRepository.findByName("ROLE_USER")
@@ -48,9 +53,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 return userRepository.save(newUser);
             });
 
-        Collection<? extends GrantedAuthority> authorities = user.getRoles().stream()
+        Set<GrantedAuthority> authorities = user.getRoles().stream()
             .map(role -> new SimpleGrantedAuthority(role.getName()))
-            .collect(Collectors.toList());
+            .collect(Collectors.toSet());
 
         return new DefaultOAuth2User(
             authorities,
@@ -58,5 +63,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             "email"
         );
     }
-}
 
+    private String generateUniqueUsername(String email) {
+        String baseUsername = email.split("@")[0];
+        String username = baseUsername;
+        int counter = 1;
+        
+        while (userRepository.existsByEmail(username)) {
+            username = baseUsername + "_" + counter;
+            counter++;
+        }
+        
+        return username;
+    }
+}

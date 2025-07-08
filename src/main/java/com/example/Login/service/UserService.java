@@ -8,5 +8,6 @@ public interface UserService {
     String verifyUser(String token);
     String createPasswordResetToken(String email, HttpServletRequest request);
     String resetPassword(String token, String newPassword);
+    boolean existsByUsername(String username);
+    void validatePasswordResetToken(String token);
 }
-

@@ -23,19 +23,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for API endpoints (enable for production)
+            .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                    "/",
-                    "/register",
-                    "/login",
-                    "/verify",
-                    "/reset-password/**",
-                    "/forgot-password",
-                    "/css/**",
-                    "/js/**",
-                    "/images/**",
-                    "/webjars/**"
+                    "/", "/register", "/login", "/verify",
+                    "/reset-password/**", "/forgot-password",
+                    "/css/**", "/js/**", "/images/**",
+                    "/webjars/**", "/check-username"
                 ).permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
@@ -59,6 +53,9 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/user/home")
                 .userInfoEndpoint(user -> user.userService(oAuth2UserService))
                 .failureUrl("/login?error=oauth")
+                .authorizationEndpoint(auth -> auth
+                    .baseUri("/oauth2/authorization")
+                )
             )
             .exceptionHandling(exception -> exception
                 .accessDeniedPage("/access-denied")
@@ -70,7 +67,7 @@ public class SecurityConfig {
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12); // Increased strength for better security
+        return new BCryptPasswordEncoder(12);
     }
 
     @Bean
@@ -78,7 +75,7 @@ public class SecurityConfig {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
-        authProvider.setHideUserNotFoundExceptions(false); // Better error messages
+        authProvider.setHideUserNotFoundExceptions(false);
         return authProvider;
     }
 }
