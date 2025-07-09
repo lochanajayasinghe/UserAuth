@@ -20,6 +20,11 @@ public class AuthController {
     private final AuthService authService;
     private final RoleRepository roleRepository;
 
+    @GetMapping("/")
+    public String landing_page(Model model) {
+        return "home/landing_page"; 
+    }
+
     @GetMapping("/home")
     public String homePage(Model model) {
         return "home/home"; 
