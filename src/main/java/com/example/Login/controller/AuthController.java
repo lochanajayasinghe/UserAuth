@@ -146,4 +146,45 @@ public class AuthController {
     public String userHome() {
         return "user-home";
     }
+
+    @GetMapping("/Asset")
+    public String Asset(Model model) {
+        return "Asset/Asset"; 
+    }
+    @GetMapping("/AssetHistory")
+    public String AssetHistory(Model model) {
+        return "AssetHistory/AssetHistory"; 
+    }
+    @GetMapping("/Condemn")
+    public String Condemn(Model model) {
+        return "Condemn/Condemn"; 
+    }
+    @GetMapping("/Asset")
+    public String Asset(Model model) {
+        return "Asset/Asset"; 
+    }
+    @GetMapping("/Asset")
+    public String Asset(Model model) {
+        return "Asset/Asset"; 
+    }
+    @GetMapping("/Asset")
+    public String Asset(Model model) {
+        return "Asset/Asset"; 
+    }
+    @GetMapping("/Asset")
+    public String Asset(Model model) {
+        return "Asset/Asset"; 
+    }
+    @GetMapping("/Asset")
+    public String Asset(Model model) {
+        return "Asset/Asset"; 
+    }
+    @GetMapping("/Asset")
+    public String Asset(Model model) {
+        return "Asset/Asset"; 
+    }
+    @GetMapping("/Asset")
+    public String Asset(Model model) {
+        return "Asset/Asset"; 
+    }
 }
