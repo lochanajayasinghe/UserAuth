@@ -171,20 +171,13 @@ public class AuthController {
     public String Movement(Model model) {
         return "Movement/Movement"; 
     }
-    @GetMapping("/Asset")
-    public String Asset(Model model) {
-        return "Asset/Asset"; 
+    @GetMapping("/UserHistory")
+    public String UserHistory(Model model) {
+        return "UserHistory/UserHistory"; 
     }
-    @GetMapping("/Asset")
-    public String Asset(Model model) {
-        return "Asset/Asset"; 
+    @GetMapping("/Maintain")
+    public String Maintain(Model model) {
+        return "Maintain/Maintain"; 
     }
-    @GetMapping("/Asset")
-    public String Asset(Model model) {
-        return "Asset/Asset"; 
-    }
-    @GetMapping("/Asset")
-    public String Asset(Model model) {
-        return "Asset/Asset"; 
-    }
+    
 }
