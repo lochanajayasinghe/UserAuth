@@ -159,17 +159,17 @@ public class AuthController {
     public String Condemn(Model model) {
         return "Condemn/Condemn"; 
     }
-    @GetMapping("/Asset")
-    public String Asset(Model model) {
-        return "Asset/Asset"; 
+    @GetMapping("/Dashboard")
+    public String Dashboard(Model model) {
+        return "Dashboard/Dashboard"; 
     }
-    @GetMapping("/Asset")
-    public String Asset(Model model) {
-        return "Asset/Asset"; 
+    @GetMapping("/Invoice")
+    public String Invoice(Model model) {
+        return "Invoice/Invoice"; 
     }
-    @GetMapping("/Asset")
-    public String Asset(Model model) {
-        return "Asset/Asset"; 
+    @GetMapping("/Location")
+    public String Location(Model model) {
+        return "Location/Location"; 
     }
     @GetMapping("/Asset")
     public String Asset(Model model) {
