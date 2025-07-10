@@ -147,8 +147,7 @@
         }
         
         .menu-item {
-            display: flex; /* Changed from block to flex for icon alignment */
-            align-items: center;
+            display: block;
             padding: 0.8rem 1.5rem;
             color: white;
             text-decoration: none;
@@ -158,12 +157,6 @@
             font-size: 0.95rem;
             border-radius: 0 4px 4px 0;
             position: relative;
-        }
-        
-        .menu-item i {
-            margin-right: 10px; /* Space between icon and text */
-            width: 20px; /* Fixed width for consistent alignment */
-            text-align: center;
         }
         
         .menu-item:hover {
@@ -178,6 +171,22 @@
             font-weight: 500;
         }
         
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background-color: rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .menu-item:hover::before {
+            width: 100%;
+        }
+        
         /* Main Content Styles */
         .main-content {
             flex: 1;
@@ -188,100 +197,6 @@
             margin: 1rem;
         }
         
-        /* Movement Specific Styles */
-        .movement-section {
-            background-color: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            border: 1px solid #e9ecef;
-        }
-
-        .movement-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1.5rem;
-        }
-
-        .movement-table th {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 12px;
-            text-align: left;
-        }
-
-        .movement-table td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .movement-table tr:hover {
-            background-color: #f9f9f9;
-        }
-        
-        .action-btn {
-            padding: 5px 10px;
-            margin-right: 5px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            transition: var(--transition);
-        }
-
-        .action-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-view {
-            background-color: #e2e3e5;
-            color: #383d41;
-            border: none;
-        }
-
-        /* Toolbar styles */
-        .toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        
-        .search-filter-group {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        
-        .search-box {
-            position: relative;
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        .search-box input {
-            width: 100%;
-            padding: 10px 15px 10px 40px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        .search-box i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #777;
-        }
-        
-        .filter-select {
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: white;
-        }
-
-
         /* Footer Styles */
         .main-footer {
             background-color: var(--primary-color);
@@ -415,6 +330,55 @@
             font-size: 0.9rem;
         }
         
+        /* Button Styles */
+        .btn-hero {
+            padding: 0.8rem 1.8rem;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-hero-primary {
+            background-color: var(--accent-color);
+            color: #212529;
+            border: 2px solid transparent;
+        }
+        
+        .btn-hero-primary:hover {
+            background-color: #e0a800;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-hero-outline {
+            border: 2px solid white;
+            color: white;
+            background-color: transparent;
+        }
+        
+        .btn-hero-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Card Styles */
+        .feature-card {
+            border: none;
+            border-radius: 8px;
+            transition: var(--transition);
+            height: 100%;
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
         /* Responsive Adjustments */
         @media (max-width: 992px) {
             .footer-col {
@@ -483,6 +447,12 @@
                 color: var(--accent-color);
                 transform: scale(1.1);
             }
+            
+            .btn-hero {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+            }
         }
         
         .mobile-menu-btn {
@@ -491,6 +461,7 @@
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header class="main-header">
         <div class="header-container">
             <button class="mobile-menu-btn">
@@ -511,240 +482,31 @@
         </div>
     </header>
 
+    <!-- Main Content with Sidebar -->
     <div class="d-flex flex-grow-1">
+        <!-- Sidebar -->
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/Dashboard" class="menu-item"><i ></i> <span class="menu-text">Dashboard</span></a></li>
-                    <li><a href="/UserHistory" class="menu-item"><i ></i> <span class="menu-text">User History</span></a></li>
-                    <li><a href="/Maintain" class="menu-item active"><i ></i> <span class="menu-text">Maintain</span></a></li>
-                    <li><a href="/Condemn" class="menu-item"><i ></i> <span class="menu-text">Condemn</span></a></li>
-                    <li><a href="/AssetHistory" class="menu-item"><i ></i> <span class="menu-text">Asset History</span></a></li>
-                    <li><a href="/Asset" class="menu-item"><i ></i> <span class="menu-text">Asset</span></a></li>
-                    <li><a href="/Invoice" class="menu-item"><i ></i> <span class="menu-text">Invoice</span></a></li>
-                    <li><a href="/Movement" class="menu-item"><i ></i> <span class="menu-text">Movement</span></a></li>
+                    <li><a href="/Dashboard" class="menu-item ">Dashboard</a></li>
+                    <li><a href="/UserHistory" class="menu-item">User History</a></li>
+                    <li><a href="/Maintain" class="menu-item">Maintain</a></li>
+                    <li><a href="/Condemn" class="menu-item">Condemn</a></li>
+                    <li><a href="/AssetHistory" class="menu-item">Asset History</a></li>
+                    <li><a href="/Asset" class="menu-item">Asset</a></li>
+                    <li><a href="/Invoice" class="menu-item">Invoice</a></li>
+                    <li><a href="/Movement" class="menu-item active">Movement</a></li>
                 </ul>
             </nav>
         </aside>
 
+        <!-- Main Content -->
         <main class="main-content">
-            <h1 class="mb-4"><i class="fas fa-exchange-alt me-2"></i>Asset Movement Tracking</h1>
-
-            <div class="movement-section mb-5">
-                <h3 class="mb-3">Movement History</h3>
-
-                <div class="toolbar">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="movementSearchInput" placeholder="Search by Asset ID or Source/Destination...">
-                    </div>
-                    <div class="search-filter-group">
-                        <select class="filter-select" id="movementTypeFilter">
-                            <option value="">All Movement Types</option>
-                            <option value="Transfer">Transfer</option>
-                            <option value="Deployment">Deployment</option>
-                            <option value="Return">Return</option>
-                        </select>
-                        <select class="filter-select" id="dateFilter">
-                            <option value="">All Dates</option>
-                            <option value="today">Today</option>
-                            <option value="last7days">Last 7 Days</option>
-                            <option value="thisMonth">This Month</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="table-responsive">
-                    <table class="movement-table">
-                        <thead>
-                            <tr>
-                                <th>Movement ID</th>
-                                <th>Asset ID</th>
-                                <th>Movement Type</th>
-                                <th>Source Location</th>
-                                <th>Destination Location</th>
-                                <th>Moved By</th>
-                                <th>Date of Movement</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="movementTableBody">
-                            <tr data-movement-id="MOV-001" data-asset-id="UOP-LAP-005" data-movement-type="Transfer" data-source="IT Department" data-destination="Faculty of Arts" data-moved-by="John Doe" data-date="2024-07-01">
-                                <td>MOV-001</td>
-                                <td>UOP-LAP-005</td>
-                                <td>Transfer</td>
-                                <td>IT Department</td>
-                                <td>Faculty of Arts</td>
-                                <td>John Doe</td>
-                                <td>2024-07-01</td>
-                                <td>
-                                    <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#movementDetailsModal"><i class="fas fa-eye"></i></button>
-                                </td>
-                            </tr>
-                            <tr data-movement-id="MOV-002" data-asset-id="UOP-PRO-003" data-movement-type="Deployment" data-source="Storage" data-destination="Lecture Hall A" data-moved-by="Jane Smith" data-date="2024-06-28">
-                                <td>MOV-002</td>
-                                <td>UOP-PRO-003</td>
-                                <td>Deployment</td>
-                                <td>Storage</td>
-                                <td>Lecture Hall A</td>
-                                <td>Jane Smith</td>
-                                <td>2024-06-28</td>
-                                <td>
-                                    <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#movementDetailsModal"><i class="fas fa-eye"></i></button>
-                                </td>
-                            </tr>
-                            <tr data-movement-id="MOV-003" data-asset-id="UOP-DESK-015" data-movement-type="Return" data-source="Department of English" data-destination="Storage" data-moved-by="Peter Jones" data-date="2024-07-03">
-                                <td>MOV-003</td>
-                                <td>UOP-DESK-015</td>
-                                <td>Return</td>
-                                <td>Department of English</td>
-                                <td>Storage</td>
-                                <td>Peter Jones</td>
-                                <td>2024-07-03</td>
-                                <td>
-                                    <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#movementDetailsModal"><i class="fas fa-eye"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <nav aria-label="Page navigation" class="mt-4">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-
-            <div class="d-flex justify-content-start gap-3 mb-4 flex-wrap">
-                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#updateLocationModal">
-                    <i class="fas fa-map-marker-alt me-2"></i>Update Asset Location
-                </button>
-                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferAssetModal">
-                    <i class="fas fa-exchange-alt me-2"></i>Transfer Asset
-                </button>
-            </div>
+            <h1>Movement</h1>
         </main>
     </div>
 
-    <div class="modal fade" id="movementDetailsModal" tabindex="-1" aria-labelledby="movementDetailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="movementDetailsModalLabel">Movement Details - <span id="modalMovementId"></span></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <strong>Asset ID:</strong> <span id="modalAssetId"></span>
-                        </div>
-                        <div class="col-md-6">
-                            <strong>Movement Type:</strong> <span id="modalMovementType"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <strong>Source Location:</strong> <span id="modalSourceLocation"></span>
-                        </div>
-                        <div class="col-md-6">
-                            <strong>Destination Location:</strong> <span id="modalDestinationLocation"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <strong>Moved By:</strong> <span id="modalMovedBy"></span>
-                        </div>
-                        <div class="col-md-6">
-                            <strong>Date of Movement:</strong> <span id="modalDateOfMovement"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="updateLocationModal" tabindex="-1" aria-labelledby="updateLocationModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updateLocationModalLabel"><i class="fas fa-map-marker-alt me-2"></i>Update Asset Location</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="updateLocationForm">
-                        <div class="mb-3">
-                            <label for="updateAssetId" class="form-label">Asset ID</label>
-                            <input type="text" class="form-control" id="updateAssetId" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="newLocation" class="form-label">New Location</label>
-                            <input type="text" class="form-control" id="newLocation" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="updateReason" class="form-label">Reason for Update</label>
-                            <textarea class="form-control" id="updateReason" rows="3"></textarea>
-                        </div>
-                        <div class="d-flex justify-content-end gap-2">
-                            <button type="reset" class="btn btn-secondary"><i class="fas fa-times me-2"></i>Clear</button>
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save me-2"></i>Update Location</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="transferAssetModal" tabindex="-1" aria-labelledby="transferAssetModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="transferAssetModalLabel"><i class="fas fa-exchange-alt me-2"></i>Transfer Asset</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="transferAssetForm">
-                        <div class="mb-3">
-                            <label for="transferAssetId" class="form-label">Asset ID</label>
-                            <input type="text" class="form-control" id="transferAssetId" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="currentLocation" class="form-label">Current Location</label>
-                            <input type="text" class="form-control" id="currentLocation" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="transferNewLocation" class="form-label">New Location</label>
-                            <input type="text" class="form-control" id="transferNewLocation" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="transferredBy" class="form-label">Transferred By</label>
-                            <input type="text" class="form-control" id="transferredBy" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="transferDate" class="form-label">Transfer Date</label>
-                            <input type="date" class="form-control" id="transferDate" required>
-                        </div>
-                        <div class="d-flex justify-content-end gap-2">
-                            <button type="reset" class="btn btn-secondary"><i class="fas fa-times me-2"></i>Clear</button>
-                            <button type="submit" class="btn btn-success"><i class="fas fa-arrow-right-arrow-left me-2"></i>Initiate Transfer</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- Footer -->
     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-row">
@@ -795,143 +557,29 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mobile menu toggle functionality
-            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-            const sidebar = document.querySelector('.sidebar');
-            if (mobileMenuBtn && sidebar) {
-                mobileMenuBtn.addEventListener('click', function() {
-                    sidebar.classList.toggle('active');
+        // Mobile menu toggle functionality
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+        
+        // Add active class to current nav item
+        document.querySelectorAll('.main-nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.main-nav a').forEach(item => {
+                    item.classList.remove('active');
                 });
-            }
-
-            // Movement Table Search and Filter
-            const movementSearchInput = document.getElementById('movementSearchInput');
-            const movementTypeFilter = document.getElementById('movementTypeFilter');
-            const dateFilter = document.getElementById('dateFilter');
-            const movementTableBody = document.getElementById('movementTableBody');
-
-            function filterMovementTable() {
-                const searchTerm = movementSearchInput.value.toLowerCase();
-                const selectedMovementType = movementTypeFilter.value.toLowerCase();
-                const selectedDateFilter = dateFilter.value;
-                const today = new Date();
-                today.setHours(0, 0, 0, 0); // Normalize to start of day
-
-                Array.from(movementTableBody.rows).forEach(row => {
-                    const assetId = row.cells[1].textContent.toLowerCase();
-                    const sourceType = row.cells[3].textContent.toLowerCase();
-                    const destinationType = row.cells[4].textContent.toLowerCase();
-                    const movementType = row.cells[2].textContent.toLowerCase();
-                    const movementDate = new Date(row.cells[6].textContent);
-                    movementDate.setHours(0, 0, 0, 0); // Normalize to start of day
-
-                    const matchesSearch = assetId.includes(searchTerm) || sourceType.includes(searchTerm) || destinationType.includes(searchTerm);
-                    const matchesMovementType = selectedMovementType === '' || movementType === selectedMovementType;
-                    
-                    let matchesDate = true;
-                    if (selectedDateFilter === 'today') {
-                        matchesDate = movementDate.getTime() === today.getTime();
-                    } else if (selectedDateFilter === 'last7days') {
-                        const sevenDaysAgo = new Date(today);
-                        sevenDaysAgo.setDate(today.getDate() - 7);
-                        matchesDate = movementDate >= sevenDaysAgo && movementDate <= today;
-                    } else if (selectedDateFilter === 'thisMonth') {
-                        matchesDate = movementDate.getMonth() === today.getMonth() && movementDate.getFullYear() === today.getFullYear();
-                    }
-
-                    if (matchesSearch && matchesMovementType && matchesDate) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
-            }
-
-            if (movementSearchInput) {
-                movementSearchInput.addEventListener('keyup', filterMovementTable);
-                movementTypeFilter.addEventListener('change', filterMovementTable);
-                dateFilter.addEventListener('change', filterMovementTable);
-            }
-
-            // Movement Details Modal Data Population
-            const movementDetailsModal = document.getElementById('movementDetailsModal');
-            movementDetailsModal.addEventListener('show.bs.modal', function(event) {
-                const button = event.relatedTarget; // Button that triggered the modal
-                
-                const movementId = button.closest('tr').getAttribute('data-movement-id');
-                const assetId = button.closest('tr').getAttribute('data-asset-id');
-                const movementType = button.closest('tr').getAttribute('data-movement-type');
-                const sourceLocation = button.closest('tr').getAttribute('data-source');
-                const destinationLocation = button.closest('tr').getAttribute('data-destination');
-                const movedBy = button.closest('tr').getAttribute('data-moved-by');
-                const dateOfMovement = button.closest('tr').getAttribute('data-date');
-
-                // Populate the modal fields
-                document.getElementById('modalMovementId').textContent = movementId;
-                document.getElementById('modalAssetId').textContent = assetId;
-                document.getElementById('modalMovementType').textContent = movementType;
-                document.getElementById('modalSourceLocation').textContent = sourceLocation;
-                document.getElementById('modalDestinationLocation').textContent = destinationLocation;
-                document.getElementById('modalMovedBy').textContent = movedBy;
-                document.getElementById('modalDateOfMovement').textContent = dateOfMovement;
+                this.classList.add('active');
             });
-            
-            // Handle Update Location Form Submission (Client-side example)
-            const updateLocationForm = document.getElementById('updateLocationForm');
-            if (updateLocationForm) {
-                updateLocationForm.addEventListener('submit', function(event) {
-                    event.preventDefault(); // Prevent actual form submission
-
-                    const assetId = document.getElementById('updateAssetId').value;
-                    const newLocation = document.getElementById('newLocation').value;
-                    const reason = document.getElementById('updateReason').value;
-
-                    // For demonstration, log the values and simulate success
-                    console.log('Update Location Form Submitted:');
-                    console.log('Asset ID:', assetId);
-                    console.log('New Location:', newLocation);
-                    console.log('Reason:', reason);
-
-                    alert('Asset location update simulated successfully!');
-                    updateLocationForm.reset(); // Clear form fields
-                    // Optionally close the modal after submission
-                    const updateModal = bootstrap.Modal.getInstance(document.getElementById('updateLocationModal'));
-                    if (updateModal) {
-                        updateModal.hide();
-                    }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
                 });
-            }
-
-            // Handle Transfer Asset Form Submission (Client-side example)
-            const transferAssetForm = document.getElementById('transferAssetForm');
-            if (transferAssetForm) {
-                transferAssetForm.addEventListener('submit', function(event) {
-                    event.preventDefault(); // Prevent actual form submission
-
-                    const assetId = document.getElementById('transferAssetId').value;
-                    const currentLocation = document.getElementById('currentLocation').value;
-                    const newLocation = document.getElementById('transferNewLocation').value;
-                    const transferredBy = document.getElementById('transferredBy').value;
-                    const transferDate = document.getElementById('transferDate').value;
-
-                    // For demonstration, log the values and simulate success
-                    console.log('Transfer Asset Form Submitted:');
-                    console.log('Asset ID:', assetId);
-                    console.log('Current Location:', currentLocation);
-                    console.log('New Location:', newLocation);
-                    console.log('Transferred By:', transferredBy);
-                    console.log('Transfer Date:', transferDate);
-
-                    alert('Asset transfer simulated successfully!');
-                    transferAssetForm.reset(); // Clear form fields
-                    // Optionally close the modal after submission
-                    const transferModal = bootstrap.Modal.getInstance(document.getElementById('transferAssetModal'));
-                    if (transferModal) {
-                        transferModal.hide();
-                    }
-                });
-            }
+            });
         });
     </script>
 </body>
