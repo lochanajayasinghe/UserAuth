@@ -167,9 +167,9 @@ public class AuthController {
     public String Invoice(Model model) {
         return "Invoice/Invoice"; 
     }
-    @GetMapping("/Location")
-    public String Location(Model model) {
-        return "Location/Location"; 
+    @GetMapping("/Movement")
+    public String Movement(Model model) {
+        return "Movement/Movement"; 
     }
     @GetMapping("/Asset")
     public String Asset(Model model) {
