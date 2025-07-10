@@ -147,8 +147,7 @@
         }
         
         .menu-item {
-            display: flex; /* Changed from block to flex for icon alignment */
-            align-items: center;
+            display: block;
             padding: 0.8rem 1.5rem;
             color: white;
             text-decoration: none;
@@ -158,12 +157,6 @@
             font-size: 0.95rem;
             border-radius: 0 4px 4px 0;
             position: relative;
-        }
-        
-        .menu-item i {
-            margin-right: 10px; /* Space between icon and text */
-            width: 20px; /* Fixed width for consistent alignment */
-            text-align: center;
         }
         
         .menu-item:hover {
@@ -178,6 +171,22 @@
             font-weight: 500;
         }
         
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background-color: rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .menu-item:hover::before {
+            width: 100%;
+        }
+        
         /* Main Content Styles */
         .main-content {
             flex: 1;
@@ -188,99 +197,6 @@
             margin: 1rem;
         }
         
-        /* User History Specific Styles */
-        .user-history-section {
-            background-color: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            border: 1px solid #e9ecef;
-        }
-
-        .user-history-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1.5rem;
-        }
-
-        .user-history-table th {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 12px;
-            text-align: left;
-        }
-
-        .user-history-table td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .user-history-table tr:hover {
-            background-color: #f9f9f9;
-        }
-        
-        .action-btn {
-            padding: 5px 10px;
-            margin-right: 5px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            transition: var(--transition);
-        }
-
-        .action-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-view {
-            background-color: #e2e3e5;
-            color: #383d41;
-            border: none;
-        }
-
-        /* Toolbar styles */
-        .toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        
-        .search-filter-group {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        
-        .search-box {
-            position: relative;
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        .search-box input {
-            width: 100%;
-            padding: 10px 15px 10px 40px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        .search-box i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #777;
-        }
-        
-        .filter-select {
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: white;
-        }
-
         /* Footer Styles */
         .main-footer {
             background-color: var(--primary-color);
@@ -414,6 +330,55 @@
             font-size: 0.9rem;
         }
         
+        /* Button Styles */
+        .btn-hero {
+            padding: 0.8rem 1.8rem;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-hero-primary {
+            background-color: var(--accent-color);
+            color: #212529;
+            border: 2px solid transparent;
+        }
+        
+        .btn-hero-primary:hover {
+            background-color: #e0a800;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-hero-outline {
+            border: 2px solid white;
+            color: white;
+            background-color: transparent;
+        }
+        
+        .btn-hero-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Card Styles */
+        .feature-card {
+            border: none;
+            border-radius: 8px;
+            transition: var(--transition);
+            height: 100%;
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
         /* Responsive Adjustments */
         @media (max-width: 992px) {
             .footer-col {
@@ -482,6 +447,12 @@
                 color: var(--accent-color);
                 transform: scale(1.1);
             }
+            
+            .btn-hero {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+            }
         }
         
         .mobile-menu-btn {
@@ -490,6 +461,7 @@
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header class="main-header">
         <div class="header-container">
             <button class="mobile-menu-btn">
@@ -510,186 +482,31 @@
         </div>
     </header>
 
+    <!-- Main Content with Sidebar -->
     <div class="d-flex flex-grow-1">
+        <!-- Sidebar -->
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/Dashboard" class="menu-item"><i ></i> <span class="menu-text">Dashboard</span></a></li>
-                    <li><a href="/UserHistory" class="menu-item"><i ></i> <span class="menu-text">User History</span></a></li>
-                    <li><a href="/Maintain" class="menu-item active"><i ></i> <span class="menu-text">Maintain</span></a></li>
-                    <li><a href="/Condemn" class="menu-item"><i ></i> <span class="menu-text">Condemn</span></a></li>
-                    <li><a href="/AssetHistory" class="menu-item"><i ></i> <span class="menu-text">Asset History</span></a></li>
-                    <li><a href="/Asset" class="menu-item"><i ></i> <span class="menu-text">Asset</span></a></li>
-                    <li><a href="/Invoice" class="menu-item"><i ></i> <span class="menu-text">Invoice</span></a></li>
-                    <li><a href="/Movement" class="menu-item"><i ></i> <span class="menu-text">Movement</span></a></li>
+                    <li><a href="/Dashboard" class="menu-item ">Dashboard</a></li>
+                    <li><a href="/UserHistory" class="menu-item active">User History</a></li>
+                    <li><a href="/Maintain" class="menu-item ">Maintain</a></li>
+                    <li><a href="/Condemn" class="menu-item">Condemn</a></li>
+                    <li><a href="/AssetHistory" class="menu-item">Asset History</a></li>
+                    <li><a href="/Asset" class="menu-item">Asset</a></li>
+                    <li><a href="/Invoice" class="menu-item">Invoice</a></li>
+                    <li><a href="/Movement" class="menu-item">Movement</a></li>
                 </ul>
             </nav>
         </aside>
 
+        <!-- Main Content -->
         <main class="main-content">
-            <h1 class="mb-4"><i class="fas fa-history me-2"></i>User Activity History</h1>
-
-            <div class="user-history-section mb-5">
-                <h3 class="mb-3">Recent User Actions</h3>
-
-                <div class="toolbar">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="userHistorySearchInput" placeholder="Search by User ID, Name, or Action...">
-                    </div>
-                    <div class="search-filter-group">
-                        <select class="filter-select" id="actionTypeFilter">
-                            <option value="">All Action Types</option>
-                            <option value="Login">Login</option>
-                            <option value="Logout">Logout</option>
-                            <option value="Asset Creation">Asset Creation</option>
-                            <option value="Asset Update">Asset Update</option>
-                            <option value="Asset Deletion">Asset Deletion</option>
-                            <option value="Location Update">Location Update</option>
-                            <option value="Transfer">Transfer</option>
-                            <option value="Report Generation">Report Generation</option>
-                        </select>
-                        <select class="filter-select" id="userRoleFilter">
-                            <option value="">All User Roles</option>
-                            <option value="Admin">Admin</option>
-                            <option value="Staff">Staff</option>
-                            <option value="Auditor">Auditor</option>
-                        </select>
-                        <select class="filter-select" id="dateFilter">
-                            <option value="">All Dates</option>
-                            <option value="today">Today</option>
-                            <option value="last7days">Last 7 Days</option>
-                            <option value="thisMonth">This Month</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="table-responsive">
-                    <table class="user-history-table">
-                        <thead>
-                            <tr>
-                                <th>Log ID</th>
-                                <th>User ID</th>
-                                <th>User Name</th>
-                                <th>User Role</th>
-                                <th>Action Type</th>
-                                <th>Description</th>
-                                <th>Date/Time</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="userHistoryTableBody">
-                            <tr data-log-id="LOG-001" data-user-id="U-001" data-user-name="Alice Johnson" data-user-role="Admin" data-action-type="Asset Creation" data-description="Created new asset: UOP-LAP-010" data-datetime="2024-07-10 10:30:00">
-                                <td>LOG-001</td>
-                                <td>U-001</td>
-                                <td>Alice Johnson</td>
-                                <td>Admin</td>
-                                <td>Asset Creation</td>
-                                <td>Created new asset: UOP-LAP-010</td>
-                                <td>2024-07-10 10:30:00</td>
-                                <td>
-                                    <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#userHistoryDetailsModal"><i class="fas fa-eye"></i></button>
-                                </td>
-                            </tr>
-                            <tr data-log-id="LOG-002" data-user-id="U-002" data-user-name="Bob Williams" data-user-role="Staff" data-action-type="Location Update" data-description="Updated location of UOP-PRO-005 to Room 301" data-datetime="2024-07-09 14:15:00">
-                                <td>LOG-002</td>
-                                <td>U-002</td>
-                                <td>Bob Williams</td>
-                                <td>Staff</td>
-                                <td>Location Update</td>
-                                <td>Updated location of UOP-PRO-005 to Room 301</td>
-                                <td>2024-07-09 14:15:00</td>
-                                <td>
-                                    <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#userHistoryDetailsModal"><i class="fas fa-eye"></i></button>
-                                </td>
-                            </tr>
-                            <tr data-log-id="LOG-003" data-user-id="U-003" data-user-name="Charlie Brown" data-user-role="Auditor" data-action-type="Report Generation" data-description="Generated 'Monthly Asset Summary' report" data-datetime="2024-07-08 09:00:00">
-                                <td>LOG-003</td>
-                                <td>U-003</td>
-                                <td>Charlie Brown</td>
-                                <td>Auditor</td>
-                                <td>Report Generation</td>
-                                <td>Generated 'Monthly Asset Summary' report</td>
-                                <td>2024-07-08 09:00:00</td>
-                                <td>
-                                    <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#userHistoryDetailsModal"><i class="fas fa-eye"></i></button>
-                                </td>
-                            </tr>
-                            <tr data-log-id="LOG-004" data-user-id="U-001" data-user-name="Alice Johnson" data-user-role="Admin" data-action-type="Login" data-description="User logged in from IP: 192.168.1.100" data-datetime="2024-07-10 10:29:30">
-                                <td>LOG-004</td>
-                                <td>U-001</td>
-                                <td>Alice Johnson</td>
-                                <td>Admin</td>
-                                <td>Login</td>
-                                <td>User logged in from IP: 192.168.1.100</td>
-                                <td>2024-07-10 10:29:30</td>
-                                <td>
-                                    <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#userHistoryDetailsModal"><i class="fas fa-eye"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <nav aria-label="Page navigation" class="mt-4">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+            <h1>UserHistory</h1>
         </main>
     </div>
 
-    <div class="modal fade" id="userHistoryDetailsModal" tabindex="-1" aria-labelledby="userHistoryDetailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="userHistoryDetailsModalLabel">User Activity Details - <span id="modalLogId"></span></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <strong>User ID:</strong> <span id="modalUserId"></span>
-                        </div>
-                        <div class="col-md-6">
-                            <strong>User Name:</strong> <span id="modalUserName"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <strong>User Role:</strong> <span id="modalUserRole"></span>
-                        </div>
-                        <div class="col-md-6">
-                            <strong>Action Type:</strong> <span id="modalActionType"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-12">
-                            <strong>Description:</strong> <span id="modalDescription"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <strong>Date/Time:</strong> <span id="modalDateTime"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- Footer -->
     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-row">
@@ -740,91 +557,28 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mobile menu toggle functionality
-            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-            const sidebar = document.querySelector('.sidebar');
-            if (mobileMenuBtn && sidebar) {
-                mobileMenuBtn.addEventListener('click', function() {
-                    sidebar.classList.toggle('active');
+        // Mobile menu toggle functionality
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+        
+        // Add active class to current nav item
+        document.querySelectorAll('.main-nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.main-nav a').forEach(item => {
+                    item.classList.remove('active');
                 });
-            }
-
-            // User History Table Search and Filter
-            const userHistorySearchInput = document.getElementById('userHistorySearchInput');
-            const actionTypeFilter = document.getElementById('actionTypeFilter');
-            const userRoleFilter = document.getElementById('userRoleFilter');
-            const dateFilter = document.getElementById('dateFilter');
-            const userHistoryTableBody = document.getElementById('userHistoryTableBody');
-
-            function filterUserHistoryTable() {
-                const searchTerm = userHistorySearchInput.value.toLowerCase();
-                const selectedActionType = actionTypeFilter.value.toLowerCase();
-                const selectedUserRole = userRoleFilter.value.toLowerCase();
-                const selectedDateFilter = dateFilter.value;
-                const today = new Date();
-                today.setHours(0, 0, 0, 0); // Normalize to start of day
-
-                Array.from(userHistoryTableBody.rows).forEach(row => {
-                    const userId = row.cells[1].textContent.toLowerCase();
-                    const userName = row.cells[2].textContent.toLowerCase();
-                    const userRole = row.cells[3].textContent.toLowerCase();
-                    const actionType = row.cells[4].textContent.toLowerCase();
-                    const description = row.cells[5].textContent.toLowerCase();
-                    const dateTime = new Date(row.cells[6].textContent);
-                    dateTime.setHours(0, 0, 0, 0); // Normalize to start of day
-
-                    const matchesSearch = userId.includes(searchTerm) || userName.includes(searchTerm) || description.includes(searchTerm);
-                    const matchesActionType = selectedActionType === '' || actionType === selectedActionType;
-                    const matchesUserRole = selectedUserRole === '' || userRole === selectedUserRole;
-                    
-                    let matchesDate = true;
-                    if (selectedDateFilter === 'today') {
-                        matchesDate = dateTime.getTime() === today.getTime();
-                    } else if (selectedDateFilter === 'last7days') {
-                        const sevenDaysAgo = new Date(today);
-                        sevenDaysAgo.setDate(today.getDate() - 7);
-                        matchesDate = dateTime >= sevenDaysAgo && dateTime <= today;
-                    } else if (selectedDateFilter === 'thisMonth') {
-                        matchesDate = dateTime.getMonth() === today.getMonth() && dateTime.getFullYear() === today.getFullYear();
-                    }
-
-                    if (matchesSearch && matchesActionType && matchesUserRole && matchesDate) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
+                this.classList.add('active');
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
                 });
-            }
-
-            if (userHistorySearchInput) {
-                userHistorySearchInput.addEventListener('keyup', filterUserHistoryTable);
-                actionTypeFilter.addEventListener('change', filterUserHistoryTable);
-                userRoleFilter.addEventListener('change', filterUserHistoryTable);
-                dateFilter.addEventListener('change', filterUserHistoryTable);
-            }
-
-            // User History Details Modal Data Population
-            const userHistoryDetailsModal = document.getElementById('userHistoryDetailsModal');
-            userHistoryDetailsModal.addEventListener('show.bs.modal', function(event) {
-                const button = event.relatedTarget; // Button that triggered the modal
-                
-                const logId = button.closest('tr').getAttribute('data-log-id');
-                const userId = button.closest('tr').getAttribute('data-user-id');
-                const userName = button.closest('tr').getAttribute('data-user-name');
-                const userRole = button.closest('tr').getAttribute('data-user-role');
-                const actionType = button.closest('tr').getAttribute('data-action-type');
-                const description = button.closest('tr').getAttribute('data-description');
-                const dateTime = button.closest('tr').getAttribute('data-datetime');
-
-                // Populate the modal fields
-                document.getElementById('modalLogId').textContent = logId;
-                document.getElementById('modalUserId').textContent = userId;
-                document.getElementById('modalUserName').textContent = userName;
-                document.getElementById('modalUserRole').textContent = userRole;
-                document.getElementById('modalActionType').textContent = actionType;
-                document.getElementById('modalDescription').textContent = description;
-                document.getElementById('modalDateTime').textContent = dateTime;
             });
         });
     </script>
