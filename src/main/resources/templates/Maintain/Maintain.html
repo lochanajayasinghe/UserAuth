@@ -16,7 +16,7 @@
             --text-dark: #343a40;
             --transition: all 0.3s ease;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: var(--text-dark);
@@ -25,7 +25,7 @@
             min-height: 100vh;
             background-color: #f5f5f5;
         }
-        
+
         /* Header Styles */
         .main-header {
             background-color: var(--primary-color);
@@ -36,7 +36,7 @@
             top: 0;
             z-index: 1000;
         }
-        
+
         .header-container {
             display: flex;
             justify-content: space-between;
@@ -45,27 +45,27 @@
             margin: 0 auto;
             padding: 0 20px;
         }
-        
+
         .logo-container {
             display: flex;
             align-items: center;
             transition: var(--transition);
         }
-        
+
         .logo-container:hover {
             transform: translateX(3px);
         }
-        
+
         .logo-img {
             height: 40px;
             margin-right: 10px;
             transition: var(--transition);
         }
-        
+
         .logo-img:hover {
             transform: scale(1.05);
         }
-        
+
         .main-nav ul {
             display: flex;
             list-style: none;
@@ -73,12 +73,12 @@
             padding: 0;
             align-items: center;
         }
-        
+
         .main-nav li {
             margin-left: 15px;
             position: relative;
         }
-        
+
         .main-nav a {
             color: white;
             text-decoration: none;
@@ -87,12 +87,12 @@
             transition: var(--transition);
             display: inline-block;
         }
-        
+
         .main-nav a:not(.login-btn):hover {
             background-color: rgba(255, 255, 255, 0.15);
             transform: translateY(-2px);
         }
-        
+
         .main-nav a:not(.login-btn)::after {
             content: '';
             position: absolute;
@@ -104,11 +104,11 @@
             transition: var(--transition);
             transform: translateX(-50%);
         }
-        
+
         .main-nav a:not(.login-btn):hover::after {
             width: 70%;
         }
-        
+
         .login-btn {
             background-color: var(--accent-color);
             color: #212529;
@@ -120,14 +120,14 @@
             border: 2px solid transparent;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        
+
         .login-btn:hover {
             background-color: #e0a800;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-color: rgba(0, 0, 0, 0.1);
         }
-        
+
         /* Sidebar Styles */
         .sidebar {
             width: 250px;
@@ -140,14 +140,15 @@
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
             padding-top: 1rem;
         }
-        
+
         .sidebar-menu {
             padding: 0;
             list-style: none;
         }
-        
+
         .menu-item {
-            display: block;
+            display: flex; /* Changed from block to flex for icon alignment */
+            align-items: center;
             padding: 0.8rem 1.5rem;
             color: white;
             text-decoration: none;
@@ -158,35 +159,25 @@
             border-radius: 0 4px 4px 0;
             position: relative;
         }
-        
+
+        .menu-item i {
+            margin-right: 10px; /* Space between icon and text */
+            width: 20px; /* Fixed width for consistent alignment */
+            text-align: center;
+        }
+
         .menu-item:hover {
             background-color: rgba(255, 255, 255, 0.1);
             border-left: 4px solid var(--accent-color);
             transform: translateX(5px);
         }
-        
+
         .menu-item.active {
             background-color: rgba(255, 255, 255, 0.2);
             border-left: 4px solid var(--accent-color);
             font-weight: 500;
         }
-        
-        .menu-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 0;
-            background-color: rgba(255, 255, 255, 0.05);
-            transition: var(--transition);
-            z-index: -1;
-        }
-        
-        .menu-item:hover::before {
-            width: 100%;
-        }
-        
+
         /* Main Content Styles */
         .main-content {
             flex: 1;
@@ -196,38 +187,171 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin: 1rem;
         }
+
+        /* Maintenance Specific Styles */
+        .maintenance-form-section, .maintenance-history-section {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 1px solid #e9ecef;
+        }
+
+        .maintenance-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .maintenance-table th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .maintenance-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .maintenance-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-in-progress {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
         
+        .status-overdue {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            margin-right: 5px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-view {
+            background-color: #e2e3e5;
+            color: #383d41;
+            border: none;
+        }
+
+        .btn-update {
+            background-color: #cce5ff;
+            color: #004085;
+            border: none;
+        }
+
+        .btn-print {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border: none;
+        }
+        
+        /* Toolbar styles */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .search-filter-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .filter-select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+        }
+
+
         /* Footer Styles */
         .main-footer {
             background-color: var(--primary-color);
             color: var(--text-light);
             padding: 40px 0;
         }
-        
+
         .footer-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
+
         .footer-row {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
         }
-        
+
         .footer-col {
             width: 25%;
             margin-bottom: 20px;
         }
-        
+
         .footer-col h4 {
             color: var(--accent-color);
             margin-bottom: 1.2rem;
             position: relative;
             padding-bottom: 0.5rem;
         }
-        
+
         .footer-col h4::after {
             content: '';
             position: absolute;
@@ -237,21 +361,21 @@
             height: 2px;
             background-color: var(--accent-color);
         }
-        
+
         .footer-col ul {
             list-style: none;
             padding: 0;
         }
-        
+
         .footer-col li {
             margin-bottom: 0.6rem;
             transition: var(--transition);
         }
-        
+
         .footer-col li:hover {
             transform: translateX(5px);
         }
-        
+
         .footer-col a {
             color: white;
             text-decoration: none;
@@ -259,17 +383,17 @@
             display: inline-block;
             padding: 0.2rem 0;
         }
-        
+
         .footer-col a:hover {
             color: var(--accent-color);
             text-decoration: none;
         }
-        
+
         .social-icons {
             display: flex;
             margin-top: 1.5rem;
         }
-        
+
         .social-icons a {
             color: white;
             margin-right: 15px;
@@ -283,18 +407,18 @@
             transition: var(--transition);
             background-color: rgba(255, 255, 255, 0.1);
         }
-        
+
         .social-icons a:hover {
             background-color: var(--accent-color);
             color: var(--text-dark);
             transform: translateY(-3px);
         }
-        
+
         .newsletter-form {
             display: flex;
             margin-top: 1.5rem;
         }
-        
+
         .newsletter-form input {
             flex: 1;
             padding: 0.6rem;
@@ -302,7 +426,7 @@
             border-radius: 4px 0 0 4px;
             background-color: rgba(255, 255, 255, 0.9);
         }
-        
+
         .newsletter-form button {
             background-color: var(--accent-color);
             color: #212529;
@@ -313,112 +437,63 @@
             transition: var(--transition);
             cursor: pointer;
         }
-        
+
         .newsletter-form button:hover {
             background-color: #e0a800;
         }
-        
+
         .footer-divider {
             border-color: rgba(255,255,255,0.1);
             margin: 20px 0;
         }
-        
+
         .footer-bottom {
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 0.9rem;
         }
-        
-        /* Button Styles */
-        .btn-hero {
-            padding: 0.8rem 1.8rem;
-            font-weight: 600;
-            border-radius: 4px;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .btn-hero-primary {
-            background-color: var(--accent-color);
-            color: #212529;
-            border: 2px solid transparent;
-        }
-        
-        .btn-hero-primary:hover {
-            background-color: #e0a800;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .btn-hero-outline {
-            border: 2px solid white;
-            color: white;
-            background-color: transparent;
-        }
-        
-        .btn-hero-outline:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* Card Styles */
-        .feature-card {
-            border: none;
-            border-radius: 8px;
-            transition: var(--transition);
-            height: 100%;
-            border-top: 4px solid var(--primary-color);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        
+
         /* Responsive Adjustments */
         @media (max-width: 992px) {
             .footer-col {
                 width: 50%;
             }
-            
+
             .sidebar {
                 width: 70px;
                 overflow: hidden;
             }
-            
+
             .menu-text {
                 display: none;
             }
         }
-        
+
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
                 text-align: center;
             }
-            
+
             .main-nav {
                 margin-top: 1rem;
                 width: 100%;
             }
-            
+
             .main-nav ul {
                 justify-content: center;
                 flex-wrap: wrap;
             }
-            
+
             .main-nav li {
                 margin: 0.3rem;
             }
-            
+
             .footer-col {
                 width: 100%;
             }
-            
+
             .sidebar {
                 position: fixed;
                 height: 100vh;
@@ -427,11 +502,11 @@
                 transform: translateX(-100%);
                 padding-top: 60px;
             }
-            
+
             .sidebar.active {
                 transform: translateX(0);
             }
-            
+
             .mobile-menu-btn {
                 display: block !important;
                 background: none;
@@ -442,26 +517,32 @@
                 margin-right: 1rem;
                 transition: var(--transition);
             }
-            
+
             .mobile-menu-btn:hover {
                 color: var(--accent-color);
                 transform: scale(1.1);
             }
             
-            .btn-hero {
-                padding: 0.7rem 1.5rem;
-                font-size: 0.9rem;
-                margin-bottom: 0.5rem;
+            .toolbar {
+                flex-direction: column;
+            }
+
+            .search-filter-group {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .search-box, .filter-select {
+                width: 100%;
             }
         }
-        
+
         .mobile-menu-btn {
             display: none;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="main-header">
         <div class="header-container">
             <button class="mobile-menu-btn">
@@ -476,37 +557,263 @@
                     <li><a href="/home">Home</a></li>
                     <li><a href="/about">About</a></li>
                     <li><a href="/contactUs">Contact</a></li>
-                    <li><a th:href="@{/}" class="login-btn">Login</a></li>
+                    <li><a th:href="@{/login}" class="login-btn">Login</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Main Content with Sidebar -->
     <div class="d-flex flex-grow-1">
-        <!-- Sidebar -->
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/Dashboard" class="menu-item ">Dashboard</a></li>
-                    <li><a href="/UserHistory" class="menu-item">User History</a></li>
-                    <li><a href="/Maintain" class="menu-item active">Maintain</a></li>
-                    <li><a href="/Condemn" class="menu-item">Condemn</a></li>
-                    <li><a href="/AssetHistory" class="menu-item">Asset History</a></li>
-                    <li><a href="/Asset" class="menu-item">Asset</a></li>
-                    <li><a href="/Invoice" class="menu-item">Invoice</a></li>
-                    <li><a href="/Movement" class="menu-item">Movement</a></li>
+                    <li><a href="/Dashboard" class="menu-item"><i ></i> <span class="menu-text">Dashboard</span></a></li>
+                    <li><a href="/UserHistory" class="menu-item"><i ></i> <span class="menu-text">User History</span></a></li>
+                    <li><a href="/Maintain" class="menu-item active"><i ></i> <span class="menu-text">Maintain</span></a></li>
+                    <li><a href="/Condemn" class="menu-item"><i ></i> <span class="menu-text">Condemn</span></a></li>
+                    <li><a href="/AssetHistory" class="menu-item"><i ></i> <span class="menu-text">Asset History</span></a></li>
+                    <li><a href="/Asset" class="menu-item"><i ></i> <span class="menu-text">Asset</span></a></li>
+                    <li><a href="/Invoice" class="menu-item"><i ></i> <span class="menu-text">Invoice</span></a></li>
+                    <li><a href="/Movement" class="menu-item"><i ></i> <span class="menu-text">Movement</span></a></li>
                 </ul>
             </nav>
         </aside>
 
-        <!-- Main Content -->
         <main class="main-content">
-            <h1>Maintain</h1>
+            <h1 class="mb-4"><i class="fas fa-wrench me-2"></i>Asset Maintenance Management</h1>
+
+            <button id="toggleNewRequestFormBtn" class="btn btn-primary mb-4">
+                <i class="fas fa-plus-circle me-2"></i>New Maintenance Request
+            </button>
+
+            <div id="newRequestFormContainer" class="d-none"> <div class="maintenance-form-section mb-5">
+                    <h3 class="mb-3"><i class="fas fa-plus-circle me-2"></i>Submit New Maintenance Request</h3>
+                    <form id="maintenanceRequestForm">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="assetId" class="form-label">Asset ID</label>
+                                <input type="text" class="form-control" id="assetId" placeholder="e.g., UOP-LAP-001" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="reporterName" class="form-label">Reported By</label>
+                                <input type="text" class="form-control" id="reporterName" placeholder="Your Name/Department" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="issueDescription" class="form-label">Issue Description</label>
+                            <textarea class="form-control" id="issueDescription" rows="3" placeholder="Describe the problem with the asset..." required></textarea>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="urgency" class="form-label">Urgency Level</label>
+                                <select class="form-select" id="urgency" required>
+                                    <option value="">Select Urgency</option>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                    <option value="critical">Critical</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="reportedDate" class="form-label">Date Reported</label>
+                                <input type="date" class="form-control" id="reportedDate" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane me-2"></i>Submit Request</button>
+                        <button type="reset" class="btn btn-outline-secondary ms-2"><i class="fas fa-redo me-2"></i>Reset Form</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="maintenance-history-section">
+                <h3 class="mb-3"><i class="fas fa-history me-2"></i>Maintenance History</h3>
+
+                <div class="toolbar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="maintenanceSearchInput" placeholder="Search by Asset ID or Issue...">
+                    </div>
+                    <div class="search-filter-group">
+                        <select class="filter-select" id="statusFilter">
+                            <option value="">All Statuses</option>
+                            <option value="Pending">Pending</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Overdue">Overdue</option>
+                        </select>
+                        <select class="filter-select" id="urgencyFilter">
+                            <option value="">All Urgencies</option>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="critical">Critical</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="maintenance-table">
+                        <thead>
+                            <tr>
+                                <th>Request ID</th>
+                                <th>Asset ID</th>
+                                <th>Issue</th>
+                                <th>Reported By</th>
+                                <th>Urgency</th>
+                                <th>Status</th>
+                                <th>Date Reported</th>
+                                <th>Last Update</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="maintenanceTableBody">
+                            <tr data-request-id="MREQ-001" data-asset-id="UOP-LAP-005" data-issue="Laptop not charging" data-reported-by="IT Department" data-urgency="high" data-status="In Progress" data-date-reported="2024-07-01" data-last-update="2024-07-03" data-notes="Checked power adapter, seems to be a battery issue. Ordered new battery.">
+                                <td>MREQ-001</td>
+                                <td>UOP-LAP-005</td>
+                                <td>Laptop not charging</td>
+                                <td>IT Department</td>
+                                <td><span class="badge bg-danger">High</span></td>
+                                <td><span class="status-badge status-in-progress">In Progress</span></td>
+                                <td>2024-07-01</td>
+                                <td>2024-07-03</td>
+                                <td>
+                                    <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#maintenanceDetailsModal"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn btn-update"><i class="fas fa-sync-alt"></i></button>
+                                    <button class="action-btn btn-print"><i class="fas fa-print"></i></button>
+                                </td>
+                            </tr>
+                            <tr data-request-id="MREQ-002" data-asset-id="UOP-PRN-010" data-issue="Printer paper jam" data-reported-by="Admin Office" data-urgency="medium" data-status="Completed" data-date-reported="2024-06-28" data-last-update="2024-06-29" data-notes="Cleared paper jam, advised staff on correct paper loading.">
+                                <td>MREQ-002</td>
+                                <td>UOP-PRN-010</td>
+                                <td>Printer paper jam</td>
+                                <td>Admin Office</td>
+                                <td><span class="badge bg-warning text-dark">Medium</span></td>
+                                <td><span class="status-badge status-completed">Completed</span></td>
+                                <td>2024-06-28</td>
+                                <td>2024-06-29</td>
+                                <td>
+                                    <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#maintenanceDetailsModal"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn btn-update"><i class="fas fa-sync-alt"></i></button>
+                                    <button class="action-btn btn-print"><i class="fas fa-print"></i></button>
+                                </td>
+                            </tr>
+                            <tr data-request-id="MREQ-003" data-asset-id="UOP-PRO-003" data-issue="Projector lamp dim" data-reported-by="Faculty of Science" data-urgency="high" data-status="Pending" data-date-reported="2024-07-02" data-last-update="2024-07-02" data-notes="Lamp lifespan reached. Waiting for new lamp delivery.">
+                                <td>MREQ-003</td>
+                                <td>UOP-PRO-003</td>
+                                <td>Projector lamp dim</td>
+                                <td>Faculty of Science</td>
+                                <td><span class="badge bg-danger">High</span></td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                                <td>2024-07-02</td>
+                                <td>2024-07-02</td>
+                                <td>
+                                    <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#maintenanceDetailsModal"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn btn-update"><i class="fas fa-sync-alt"></i></button>
+                                    <button class="action-btn btn-print"><i class="fas fa-print"></i></button>
+                                </td>
+                            </tr>
+                            <tr data-request-id="MREQ-004" data-asset-id="UOP-AC-001" data-issue="AC not cooling" data-reported-by="Main Library" data-urgency="critical" data-status="In Progress" data-date-reported="2024-07-05" data-last-update="2024-07-05" data-notes="Compressor unit inspection scheduled for tomorrow.">
+                                <td>MREQ-004</td>
+                                <td>UOP-AC-001</td>
+                                <td>AC not cooling</td>
+                                <td>Main Library</td>
+                                <td><span class="badge bg-dark">Critical</span></td>
+                                <td><span class="status-badge status-in-progress">In Progress</span></td>
+                                <td>2024-07-05</td>
+                                <td>2024-07-05</td>
+                                <td>
+                                    <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#maintenanceDetailsModal"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn btn-update"><i class="fas fa-sync-alt"></i></button>
+                                    <button class="action-btn btn-print"><i class="fas fa-print"></i></button>
+                                </td>
+                            </tr>
+                            <tr data-request-id="MREQ-005" data-asset-id="UOP-DESK-015" data-issue="Desk drawer broken" data-reported-by="Department of English" data-urgency="low" data-status="Pending" data-date-reported="2024-07-01" data-last-update="2024-07-01" data-notes="Parts ordered, estimated delivery next week.">
+                                <td>MREQ-005</td>
+                                <td>UOP-DESK-015</td>
+                                <td>Desk drawer broken</td>
+                                <td>Department of English</td>
+                                <td><span class="badge bg-secondary">Low</span></td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                                <td>2024-07-01</td>
+                                <td>2024-07-01</td>
+                                <td>
+                                    <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#maintenanceDetailsModal"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn btn-update"><i class="fas fa-sync-alt"></i></button>
+                                    <button class="action-btn btn-print"><i class="fas fa-print"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <nav aria-label="Page navigation" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </main>
     </div>
 
-    <!-- Footer -->
+    <div class="modal fade" id="maintenanceDetailsModal" tabindex="-1" aria-labelledby="maintenanceDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="maintenanceDetailsModalLabel">Maintenance Request Details - <span id="modalRequestId"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Asset ID:</strong> <span id="modalAssetId"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Reported By:</strong> <span id="modalReportedBy"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Date Reported:</strong> <span id="modalDateReported"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Last Update:</strong> <span id="modalLastUpdate"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Urgency:</strong> <span id="modalUrgencyBadge" class="status-badge"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Status:</strong> <span id="modalStatusBadge" class="status-badge"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Issue Description:</strong>
+                        <p id="modalIssueDescription"></p>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Maintenance Notes/History:</strong>
+                        <p id="modalMaintenanceNotes"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-info"><i class="fas fa-print me-2"></i>Print Details</button>
+                    <button type="button" class="btn btn-primary"><i class="fas fa-edit me-2"></i>Edit Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-row">
@@ -549,7 +856,7 @@
             </div>
             <hr class="footer-divider">
             <div class="footer-bottom">
-                <p>&copy; 2023 University of Peradeniya. All rights reserved.</p>
+                <p>&copy; 2025 University of Peradeniya. All rights reserved.</p>
                 <p>Asset Management System v2.1</p>
             </div>
         </div>
@@ -557,28 +864,146 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Mobile menu toggle functionality
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            document.querySelector('.sidebar').classList.toggle('active');
-        });
-        
-        // Add active class to current nav item
-        document.querySelectorAll('.main-nav a').forEach(link => {
-            link.addEventListener('click', function() {
-                document.querySelectorAll('.main-nav a').forEach(item => {
-                    item.classList.remove('active');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle functionality
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const sidebar = document.querySelector('.sidebar');
+            if (mobileMenuBtn && sidebar) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
                 });
-                this.classList.add('active');
-            });
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+            }
+
+            // Function to set current date for the 'Date Reported' field
+            const reportedDateInput = document.getElementById('reportedDate');
+            if (reportedDateInput) {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = (today.getMonth() + 1).toString().padStart(2, '0');
+                const day = today.getDate().toString().padStart(2, '0');
+                reportedDateInput.value = `${year}-${month}-${day}`;
+            }
+
+            // Toggle New Maintenance Request Form Visibility
+            const toggleNewRequestFormBtn = document.getElementById('toggleNewRequestFormBtn');
+            const newRequestFormContainer = document.getElementById('newRequestFormContainer');
+
+            if (toggleNewRequestFormBtn && newRequestFormContainer) {
+                toggleNewRequestFormBtn.addEventListener('click', function() {
+                    newRequestFormContainer.classList.toggle('d-none');
+                    // Optionally change button text/icon based on state
+                    if (newRequestFormContainer.classList.contains('d-none')) {
+                        toggleNewRequestFormBtn.innerHTML = '<i class="fas fa-plus-circle me-2"></i>New Maintenance Request';
+                    } else {
+                        toggleNewRequestFormBtn.innerHTML = '<i class="fas fa-minus-circle me-2"></i>Hide Request Form';
+                    }
                 });
+            }
+
+            // Handle New Maintenance Request Form Submission (Simulated)
+            const maintenanceRequestForm = document.getElementById('maintenanceRequestForm');
+            if (maintenanceRequestForm) {
+                maintenanceRequestForm.addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent actual form submission
+
+                    const assetId = document.getElementById('assetId').value;
+                    const reporterName = document.getElementById('reporterName').value;
+                    const issueDescription = document.getElementById('issueDescription').value;
+                    const urgency = document.getElementById('urgency').value;
+                    const reportedDate = document.getElementById('reportedDate').value;
+
+                    if (maintenanceRequestForm.checkValidity()) {
+                        alert(`New Maintenance Request Submitted!\n\nAsset ID: ${assetId}\nIssue: ${issueDescription}\nReported By: ${reporterName}\nUrgency: ${urgency}\nDate: ${reportedDate}\n\n(This is a simulated submission)`);
+                        maintenanceRequestForm.reset(); // Clear form after "submission"
+                        // Re-set the date after reset
+                        const today = new Date();
+                        const year = today.getFullYear();
+                        const month = (today.getMonth() + 1).toString().padStart(2, '0');
+                        const day = today.getDate().toString().padStart(2, '0');
+                        reportedDateInput.value = `${year}-${month}-${day}`;
+                    } else {
+                        maintenanceRequestForm.reportValidity(); // Show browser's default validation messages
+                    }
+                });
+            }
+
+            // Maintenance Table Search and Filter
+            const maintenanceSearchInput = document.getElementById('maintenanceSearchInput');
+            const statusFilter = document.getElementById('statusFilter');
+            const urgencyFilter = document.getElementById('urgencyFilter');
+            const maintenanceTableBody = document.getElementById('maintenanceTableBody');
+
+            function filterMaintenanceTable() {
+                const searchTerm = maintenanceSearchInput.value.toLowerCase();
+                const selectedStatus = statusFilter.value.toLowerCase();
+                const selectedUrgency = urgencyFilter.value.toLowerCase();
+
+                Array.from(maintenanceTableBody.rows).forEach(row => {
+                    const assetId = row.cells[1].textContent.toLowerCase();
+                    const issue = row.cells[2].textContent.toLowerCase();
+                    const status = row.cells[5].textContent.toLowerCase().trim(); // Trim to remove whitespace
+                    const urgencyCell = row.cells[4].querySelector('.badge'); // Get the span for urgency
+                    const urgency = urgencyCell ? urgencyCell.textContent.toLowerCase() : '';
+
+                    const matchesSearch = assetId.includes(searchTerm) || issue.includes(searchTerm);
+                    const matchesStatus = selectedStatus === '' || status === selectedStatus;
+                    const matchesUrgency = selectedUrgency === '' || urgency === selectedUrgency;
+
+                    if (matchesSearch && matchesStatus && matchesUrgency) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            }
+
+            if (maintenanceSearchInput) {
+                maintenanceSearchInput.addEventListener('keyup', filterMaintenanceTable);
+                statusFilter.addEventListener('change', filterMaintenanceTable);
+                urgencyFilter.addEventListener('change', filterMaintenanceTable);
+            }
+
+            // Maintenance Details Modal Data Population
+            const maintenanceDetailsModal = document.getElementById('maintenanceDetailsModal');
+            maintenanceDetailsModal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget; // Button that triggered the modal
+                
+                const requestId = button.closest('tr').getAttribute('data-request-id');
+                const assetId = button.closest('tr').getAttribute('data-asset-id');
+                const issueDescription = button.closest('tr').getAttribute('data-issue');
+                const reportedBy = button.closest('tr').getAttribute('data-reported-by');
+                const urgency = button.closest('tr').getAttribute('data-urgency');
+                const status = button.closest('tr').getAttribute('data-status');
+                const dateReported = button.closest('tr').getAttribute('data-date-reported');
+                const lastUpdate = button.closest('tr').getAttribute('data-last-update');
+                const notes = button.closest('tr').getAttribute('data-notes');
+
+                // Populate the modal fields
+                document.getElementById('modalRequestId').textContent = requestId;
+                document.getElementById('modalAssetId').textContent = assetId;
+                document.getElementById('modalReportedBy').textContent = reportedBy;
+                document.getElementById('modalDateReported').textContent = dateReported;
+                document.getElementById('modalLastUpdate').textContent = lastUpdate;
+                document.getElementById('modalIssueDescription').textContent = issueDescription;
+                document.getElementById('modalMaintenanceNotes').textContent = notes || 'No additional notes.';
+
+                // Set urgency badge
+                const modalUrgencyBadge = document.getElementById('modalUrgencyBadge');
+                modalUrgencyBadge.textContent = urgency.charAt(0).toUpperCase() + urgency.slice(1); // Capitalize first letter
+                modalUrgencyBadge.className = 'status-badge'; // Reset classes
+                if (urgency === 'low') modalUrgencyBadge.classList.add('badge', 'bg-secondary');
+                else if (urgency === 'medium') modalUrgencyBadge.classList.add('badge', 'bg-warning', 'text-dark');
+                else if (urgency === 'high') modalUrgencyBadge.classList.add('badge', 'bg-danger');
+                else if (urgency === 'critical') modalUrgencyBadge.classList.add('badge', 'bg-dark');
+
+                // Set status badge
+                const modalStatusBadge = document.getElementById('modalStatusBadge');
+                modalStatusBadge.textContent = status;
+                modalStatusBadge.className = 'status-badge'; // Reset classes
+                if (status === 'Pending') modalStatusBadge.classList.add('status-pending');
+                else if (status === 'In Progress') modalStatusBadge.classList.add('status-in-progress');
+                else if (status === 'Completed') modalStatusBadge.classList.add('status-completed');
+                else if (status === 'Overdue') modalStatusBadge.classList.add('status-overdue'); // Added overdue for consistency
             });
         });
     </script>

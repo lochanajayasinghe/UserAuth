@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asset Management System | University of Peradeniya</title>
+    <title>Asset History | University of Peradeniya</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -147,7 +147,8 @@
         }
         
         .menu-item {
-            display: block;
+            display: flex;
+            align-items: center;
             padding: 0.8rem 1.5rem;
             color: white;
             text-decoration: none;
@@ -157,6 +158,12 @@
             font-size: 0.95rem;
             border-radius: 0 4px 4px 0;
             position: relative;
+        }
+        
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
         }
         
         .menu-item:hover {
@@ -171,22 +178,6 @@
             font-weight: 500;
         }
         
-        .menu-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 0;
-            background-color: rgba(255, 255, 255, 0.05);
-            transition: var(--transition);
-            z-index: -1;
-        }
-        
-        .menu-item:hover::before {
-            width: 100%;
-        }
-        
         /* Main Content Styles */
         .main-content {
             flex: 1;
@@ -195,6 +186,160 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin: 1rem;
+        }
+        
+        /* History Timeline Styles */
+        .history-timeline {
+            position: relative;
+            padding-left: 50px;
+            margin-top: 2rem;
+        }
+        
+        .history-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #e0e0e0;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .timeline-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -38px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+        
+        .timeline-date {
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-content {
+            background-color: #f9f9f9;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .timeline-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+        
+        .timeline-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.8rem;
+        }
+        
+        .detail-item {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .detail-label {
+            font-size: 0.8rem;
+            color: #777;
+            margin-bottom: 0.2rem;
+        }
+        
+        .detail-value {
+            font-weight: 500;
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .status-assigned {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-returned {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        
+        .status-maintenance {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-condemned {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        /* Search and Filter Section */
+        .history-toolbar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
         }
         
         /* Footer Styles */
@@ -290,95 +435,6 @@
             transform: translateY(-3px);
         }
         
-        .newsletter-form {
-            display: flex;
-            margin-top: 1.5rem;
-        }
-        
-        .newsletter-form input {
-            flex: 1;
-            padding: 0.6rem;
-            border: none;
-            border-radius: 4px 0 0 4px;
-            background-color: rgba(255, 255, 255, 0.9);
-        }
-        
-        .newsletter-form button {
-            background-color: var(--accent-color);
-            color: #212529;
-            border: none;
-            padding: 0 1.2rem;
-            border-radius: 0 4px 4px 0;
-            font-weight: 600;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-        
-        .newsletter-form button:hover {
-            background-color: #e0a800;
-        }
-        
-        .footer-divider {
-            border-color: rgba(255,255,255,0.1);
-            margin: 20px 0;
-        }
-        
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-        }
-        
-        /* Button Styles */
-        .btn-hero {
-            padding: 0.8rem 1.8rem;
-            font-weight: 600;
-            border-radius: 4px;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .btn-hero-primary {
-            background-color: var(--accent-color);
-            color: #212529;
-            border: 2px solid transparent;
-        }
-        
-        .btn-hero-primary:hover {
-            background-color: #e0a800;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .btn-hero-outline {
-            border: 2px solid white;
-            color: white;
-            background-color: transparent;
-        }
-        
-        .btn-hero-outline:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* Card Styles */
-        .feature-card {
-            border: none;
-            border-radius: 8px;
-            transition: var(--transition);
-            height: 100%;
-            border-top: 4px solid var(--primary-color);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        
         /* Responsive Adjustments */
         @media (max-width: 992px) {
             .footer-col {
@@ -448,10 +504,21 @@
                 transform: scale(1.1);
             }
             
-            .btn-hero {
-                padding: 0.7rem 1.5rem;
-                font-size: 0.9rem;
-                margin-bottom: 0.5rem;
+            .history-toolbar {
+                flex-direction: column;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .timeline-details {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .detail-item {
+                min-width: 100%;
             }
         }
         
@@ -488,21 +555,179 @@
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/Dashboard" class="menu-item">Dashboard</a></li>
-                    <li><a href="/UserHistory" class="menu-item">User History</a></li>
-                    <li><a href="/Maintain" class="menu-item">Maintain</a></li>
-                    <li><a href="/Condemn" class="menu-item">Condemn</a></li>
-                    <li><a href="/AssetHistory" class="menu-item active">Asset History</a></li>
-                    <li><a href="/Asset" class="menu-item">Asset</a></li>
-                    <li><a href="/Invoice" class="menu-item">Invoice</a></li>
-                    <li><a href="/Movement" class="menu-item">Movement</a></li>
+                    <li><a href="/Dashboard" class="menu-item"><i ></i> <span class="menu-text">Dashboard</span></a></li>
+                    <li><a href="/UserHistory" class="menu-item"><i ></i> <span class="menu-text">User History</span></a></li>
+                    <li><a href="/Maintain" class="menu-item"><i ></i> <span class="menu-text">Maintain</span></a></li>
+                    <li><a href="/Condemn" class="menu-item"><i ></i> <span class="menu-text">Condemn</span></a></li>
+                    <li><a href="/AssetHistory" class="menu-item active"><i ></i> <span class="menu-text">Asset History</span></a></li>
+                    <li><a href="/Asset" class="menu-item"><i ></i> <span class="menu-text">Asset</span></a></li>
+                    <li><a href="/Invoice" class="menu-item"><i ></i> <span class="menu-text">Invoice</span></a></li>
+                    <li><a href="/Movement" class="menu-item"><i ></i> <span class="menu-text">Movement</span></a></li>
                 </ul>
             </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <h1>Asset History</h1>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1><i class="fas fa-book"></i> Asset History</h1>
+                <div class="filter-group">
+                    <select class="filter-select">
+                        <option value="">All Assets</option>
+                        <option value="AST-001">AST-001 (Dell Laptop)</option>
+                        <option value="AST-002">AST-002 (Office Chair)</option>
+                        <option value="AST-003">AST-003 (Projector)</option>
+                    </select>
+                    <select class="filter-select">
+                        <option value="">All Events</option>
+                        <option value="assignment">Assignments</option>
+                        <option value="maintenance">Maintenance</option>
+                        <option value="movement">Movements</option>
+                        <option value="condemn">Condemnations</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="history-toolbar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search history...">
+                </div>
+                <div>
+                    <button class="filter-select">
+                        <i class="fas fa-calendar-alt"></i> Last 30 Days
+                    </button>
+                </div>
+            </div>
+            
+            <div class="history-timeline">
+                <!-- Timeline Item 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2023-06-15 14:30</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Asset Assigned to User</div>
+                        <div>Dell Laptop (AST-001) was assigned to John Doe (EMP-204)</div>
+                        <div class="timeline-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Asset ID</div>
+                                <div class="detail-value">AST-001</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Asset Name</div>
+                                <div class="detail-value">Dell Laptop</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Assigned To</div>
+                                <div class="detail-value">John Doe (EMP-204)</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Status</div>
+                                <div class="detail-value"><span class="status-badge status-assigned">Assigned</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Timeline Item 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2023-05-28 09:15</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Maintenance Performed</div>
+                        <div>Projector (AST-003) underwent routine maintenance</div>
+                        <div class="timeline-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Asset ID</div>
+                                <div class="detail-value">AST-003</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Asset Name</div>
+                                <div class="detail-value">Projector</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Maintenance Type</div>
+                                <div class="detail-value">Routine Check</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Status</div>
+                                <div class="detail-value"><span class="status-badge status-maintenance">Maintenance</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Timeline Item 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2023-05-10 16:45</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Asset Returned</div>
+                        <div>Office Chair (AST-002) was returned by Jane Smith (EMP-198)</div>
+                        <div class="timeline-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Asset ID</div>
+                                <div class="detail-value">AST-002</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Asset Name</div>
+                                <div class="detail-value">Office Chair</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Returned By</div>
+                                <div class="detail-value">Jane Smith (EMP-198)</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Status</div>
+                                <div class="detail-value"><span class="status-badge status-returned">Returned</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Timeline Item 4 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2023-04-22 11:20</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Asset Condemned</div>
+                        <div>Printer (AST-004) was condemned due to irreparable damage</div>
+                        <div class="timeline-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Asset ID</div>
+                                <div class="detail-value">AST-004</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Asset Name</div>
+                                <div class="detail-value">Printer</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Reason</div>
+                                <div class="detail-value">Irreparable damage</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Status</div>
+                                <div class="detail-value"><span class="status-badge status-condemned">Condemned</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
         </main>
     </div>
 
@@ -526,7 +751,7 @@
                         <li><a href="/home">Home</a></li>
                         <li><a href="/about">About</a></li>
                         <li><a href="/contactUs">Contact</a></li>
-                        <li><a th:href="@{/}">Login</a></li>
+                        <li><a th:href="@{/login}">Login</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -564,6 +789,10 @@
         
         // Add active class to current nav item
         document.querySelectorAll('.main-nav a').forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('active');
+            }
+            
             link.addEventListener('click', function() {
                 document.querySelectorAll('.main-nav a').forEach(item => {
                     item.classList.remove('active');
@@ -572,14 +801,48 @@
             });
         });
         
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        // Filter functionality
+        document.querySelectorAll('.filter-select').forEach(select => {
+            select.addEventListener('change', function() {
+                // In a real application, this would filter the timeline items
+                console.log(`Filter changed: ${this.value}`);
             });
+        });
+        
+        // Search functionality
+        document.querySelector('.search-box input').addEventListener('input', function() {
+            // In a real application, this would search through history items
+            console.log(`Searching for: ${this.value}`);
+        });
+        
+        // Sample data for demonstration
+        const historyItems = [
+            {
+                id: 'HIST-001',
+                date: '2023-06-15 14:30',
+                type: 'assignment',
+                assetId: 'AST-001',
+                assetName: 'Dell Laptop',
+                details: {
+                    assignedTo: 'John Doe (EMP-204)',
+                    status: 'assigned'
+                }
+            },
+            // More history items can be added here
+        ];
+        
+        // You would typically fetch history from an API in a real application
+        // function fetchHistory() {
+        //     fetch('/api/asset-history')
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             // Process and display history items
+        //         });
+        // }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Any initialization code can go here
         });
     </script>
 </body>
