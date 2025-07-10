@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Management | University of Peradeniya</title>
+    <title>Asset Management System | University of Peradeniya</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -16,7 +16,7 @@
             --text-dark: #343a40;
             --transition: all 0.3s ease;
         }
-
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: var(--text-dark);
@@ -25,7 +25,7 @@
             min-height: 100vh;
             background-color: #f5f5f5;
         }
-
+        
         /* Header Styles */
         .main-header {
             background-color: var(--primary-color);
@@ -36,7 +36,7 @@
             top: 0;
             z-index: 1000;
         }
-
+        
         .header-container {
             display: flex;
             justify-content: space-between;
@@ -45,27 +45,27 @@
             margin: 0 auto;
             padding: 0 20px;
         }
-
+        
         .logo-container {
             display: flex;
             align-items: center;
             transition: var(--transition);
         }
-
+        
         .logo-container:hover {
             transform: translateX(3px);
         }
-
+        
         .logo-img {
             height: 40px;
             margin-right: 10px;
             transition: var(--transition);
         }
-
+        
         .logo-img:hover {
             transform: scale(1.05);
         }
-
+        
         .main-nav ul {
             display: flex;
             list-style: none;
@@ -73,12 +73,12 @@
             padding: 0;
             align-items: center;
         }
-
+        
         .main-nav li {
             margin-left: 15px;
             position: relative;
         }
-
+        
         .main-nav a {
             color: white;
             text-decoration: none;
@@ -87,12 +87,12 @@
             transition: var(--transition);
             display: inline-block;
         }
-
+        
         .main-nav a:not(.login-btn):hover {
             background-color: rgba(255, 255, 255, 0.15);
             transform: translateY(-2px);
         }
-
+        
         .main-nav a:not(.login-btn)::after {
             content: '';
             position: absolute;
@@ -104,11 +104,11 @@
             transition: var(--transition);
             transform: translateX(-50%);
         }
-
+        
         .main-nav a:not(.login-btn):hover::after {
             width: 70%;
         }
-
+        
         .login-btn {
             background-color: var(--accent-color);
             color: #212529;
@@ -120,14 +120,14 @@
             border: 2px solid transparent;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
+        
         .login-btn:hover {
             background-color: #e0a800;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-color: rgba(0, 0, 0, 0.1);
         }
-
+        
         /* Sidebar Styles */
         .sidebar {
             width: 250px;
@@ -140,15 +140,14 @@
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
             padding-top: 1rem;
         }
-
+        
         .sidebar-menu {
             padding: 0;
             list-style: none;
         }
-
+        
         .menu-item {
-            display: flex;
-            align-items: center;
+            display: block;
             padding: 0.8rem 1.5rem;
             color: white;
             text-decoration: none;
@@ -159,25 +158,35 @@
             border-radius: 0 4px 4px 0;
             position: relative;
         }
-
-        .menu-item i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-
+        
         .menu-item:hover {
             background-color: rgba(255, 255, 255, 0.1);
             border-left: 4px solid var(--accent-color);
             transform: translateX(5px);
         }
-
+        
         .menu-item.active {
             background-color: rgba(255, 255, 255, 0.2);
             border-left: 4px solid var(--accent-color);
             font-weight: 500;
         }
-
+        
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background-color: rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .menu-item:hover::before {
+            width: 100%;
+        }
+        
         /* Main Content Styles */
         .main-content {
             flex: 1;
@@ -187,216 +196,38 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin: 1rem;
         }
-
-        /* Invoice Table Styles */
-        .invoice-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1.5rem;
-        }
-
-        .invoice-table th {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 12px;
-            text-align: left;
-        }
-
-        .invoice-table td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .invoice-table tr:hover {
-            background-color: #f9f9f9;
-        }
-
-        .status-badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        .status-paid {
-            background-color: #d4edda;
-            color: #155724;
-        }
-
-        .status-pending {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-
-        .status-overdue {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
-        .action-btn {
-            padding: 5px 10px;
-            margin-right: 5px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            transition: var(--transition);
-        }
-
-        .action-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-view {
-            background-color: #e2e3e5;
-            color: #383d41;
-            border: none;
-        }
-
-        .btn-download {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border: none;
-        }
-
-        .btn-print {
-            background-color: #d1e7dd;
-            color: #0f5132;
-            border: none;
-        }
-
-        /* Search and Filter Section */
-        .invoice-toolbar {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .search-box {
-            flex: 1;
-            min-width: 250px;
-            position: relative;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 10px 15px 10px 40px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #777;
-        }
-
-        .filter-group {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-select {
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: white;
-        }
-
-        .new-invoice-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .new-invoice-btn:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        /* Modal Styles */
-        .invoice-preview {
-            background-color: #f8f9fa;
-            padding: 2rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-        }
-
-        .invoice-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 2rem;
-        }
-
-        .invoice-items {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-        }
-
-        .invoice-items th {
-            background-color: #e9ecef;
-            padding: 10px;
-            text-align: left;
-        }
-
-        .invoice-items td {
-            padding: 10px;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        .invoice-totals {
-            width: 300px;
-            margin-left: auto;
-        }
-
-        .invoice-totals td {
-            padding: 8px 10px;
-        }
-
-        .invoice-totals tr:last-child {
-            font-weight: bold;
-            background-color: #f8f9fa;
-        }
-
+        
         /* Footer Styles */
         .main-footer {
             background-color: var(--primary-color);
             color: var(--text-light);
             padding: 40px 0;
         }
-
+        
         .footer-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-
+        
         .footer-row {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
         }
-
+        
         .footer-col {
             width: 25%;
             margin-bottom: 20px;
         }
-
+        
         .footer-col h4 {
             color: var(--accent-color);
             margin-bottom: 1.2rem;
             position: relative;
             padding-bottom: 0.5rem;
         }
-
+        
         .footer-col h4::after {
             content: '';
             position: absolute;
@@ -406,21 +237,21 @@
             height: 2px;
             background-color: var(--accent-color);
         }
-
+        
         .footer-col ul {
             list-style: none;
             padding: 0;
         }
-
+        
         .footer-col li {
             margin-bottom: 0.6rem;
             transition: var(--transition);
         }
-
+        
         .footer-col li:hover {
             transform: translateX(5px);
         }
-
+        
         .footer-col a {
             color: white;
             text-decoration: none;
@@ -428,17 +259,17 @@
             display: inline-block;
             padding: 0.2rem 0;
         }
-
+        
         .footer-col a:hover {
             color: var(--accent-color);
             text-decoration: none;
         }
-
+        
         .social-icons {
             display: flex;
             margin-top: 1.5rem;
         }
-
+        
         .social-icons a {
             color: white;
             margin-right: 15px;
@@ -452,57 +283,142 @@
             transition: var(--transition);
             background-color: rgba(255, 255, 255, 0.1);
         }
-
+        
         .social-icons a:hover {
             background-color: var(--accent-color);
             color: var(--text-dark);
             transform: translateY(-3px);
         }
-
+        
+        .newsletter-form {
+            display: flex;
+            margin-top: 1.5rem;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .newsletter-form button {
+            background-color: var(--accent-color);
+            color: #212529;
+            border: none;
+            padding: 0 1.2rem;
+            border-radius: 0 4px 4px 0;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .newsletter-form button:hover {
+            background-color: #e0a800;
+        }
+        
+        .footer-divider {
+            border-color: rgba(255,255,255,0.1);
+            margin: 20px 0;
+        }
+        
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        /* Button Styles */
+        .btn-hero {
+            padding: 0.8rem 1.8rem;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-hero-primary {
+            background-color: var(--accent-color);
+            color: #212529;
+            border: 2px solid transparent;
+        }
+        
+        .btn-hero-primary:hover {
+            background-color: #e0a800;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-hero-outline {
+            border: 2px solid white;
+            color: white;
+            background-color: transparent;
+        }
+        
+        .btn-hero-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Card Styles */
+        .feature-card {
+            border: none;
+            border-radius: 8px;
+            transition: var(--transition);
+            height: 100%;
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
         /* Responsive Adjustments */
         @media (max-width: 992px) {
             .footer-col {
                 width: 50%;
             }
-
+            
             .sidebar {
                 width: 70px;
                 overflow: hidden;
             }
-
+            
             .menu-text {
                 display: none;
             }
-
-            .invoice-totals {
-                width: 100%;
-            }
         }
-
+        
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
                 text-align: center;
             }
-
+            
             .main-nav {
                 margin-top: 1rem;
                 width: 100%;
             }
-
+            
             .main-nav ul {
                 justify-content: center;
                 flex-wrap: wrap;
             }
-
+            
             .main-nav li {
                 margin: 0.3rem;
             }
-
+            
             .footer-col {
                 width: 100%;
             }
-
+            
             .sidebar {
                 position: fixed;
                 height: 100vh;
@@ -511,11 +427,11 @@
                 transform: translateX(-100%);
                 padding-top: 60px;
             }
-
+            
             .sidebar.active {
                 transform: translateX(0);
             }
-
+            
             .mobile-menu-btn {
                 display: block !important;
                 background: none;
@@ -526,32 +442,26 @@
                 margin-right: 1rem;
                 transition: var(--transition);
             }
-
+            
             .mobile-menu-btn:hover {
                 color: var(--accent-color);
                 transform: scale(1.1);
             }
-
-            .invoice-toolbar {
-                flex-direction: column;
-            }
-
-            .search-box {
-                width: 100%;
-            }
-
-            .invoice-header {
-                flex-direction: column;
-                gap: 1rem;
+            
+            .btn-hero {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
             }
         }
-
+        
         .mobile-menu-btn {
             display: none;
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header class="main-header">
         <div class="header-container">
             <button class="mobile-menu-btn">
@@ -566,437 +476,43 @@
                     <li><a href="/home">Home</a></li>
                     <li><a href="/about">About</a></li>
                     <li><a href="/contactUs">Contact</a></li>
-                    <li><a th:href="@{/login}" class="login-btn">Login</a></li>
+                    <li><a th:href="@{/}" class="login-btn">Login</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
+    <!-- Main Content with Sidebar -->
     <div class="d-flex flex-grow-1">
+        <!-- Sidebar -->
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/Dashboard" class="menu-item"><i ></i> <span class="menu-text">Dashboard</span></a></li>
-                    <li><a href="/UserHistory" class="menu-item"><i ></i> <span class="menu-text">User History</span></a></li>
-                    <li><a href="/Maintain" class="menu-item"><i ></i> <span class="menu-text">Maintain</span></a></li>
-                    <li><a href="/Condemn" class="menu-item"><i ></i> <span class="menu-text">Condemn</span></a></li>
-                    <li><a href="/AssetHistory" class="menu-item"><i ></i> <span class="menu-text">Asset History</span></a></li>
-                    <li><a href="/Asset" class="menu-item"><i ></i> <span class="menu-text">Asset</span></a></li>
-                    <li><a href="/Invoice" class="menu-item active"><i ></i> <span class="menu-text">Invoice</span></a></li>
-                    <li><a href="/Movement" class="menu-item"><i ></i> <span class="menu-text">Movement</span></a></li>
+                    <li><a href="/Dashboard" class="menu-item ">Dashboard</a></li>
+                    <li><a href="/UserHistory" class="menu-item">User History</a></li>
+                    <li><a href="/Maintain" class="menu-item">Maintain</a></li>
+                    <li><a href="/Condemn" class="menu-item">Condemn</a></li>
+                    <li><a href="/AssetHistory" class="menu-item">Asset History</a></li>
+                    <li><a href="/Asset" class="menu-item">Asset</a></li>
+                    <li><a href="/Invoice" class="menu-item active">Invoice</a></li>
+                    <li><a href="/Movement" class="menu-item">Movement</a></li>
                 </ul>
             </nav>
         </aside>
 
+        <!-- Main Content -->
         <main class="main-content">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1><i class="fas fa-file-invoice"></i> Invoice Management</h1>
-                <button class="new-invoice-btn" data-bs-toggle="modal" data-bs-target="#newInvoiceModal">
-                    <i class="fas fa-plus"></i> New Invoice
-                </button>
-            </div>
-
-            <div class="invoice-toolbar">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search invoices...">
-                </div>
-                <div class="filter-group">
-                    <select class="filter-select">
-                        <option value="">All Status</option>
-                        <option value="paid">Paid</option>
-                        <option value="pending">Pending</option>
-                        <option value="overdue">Overdue</option>
-                    </select>
-                    <select class="filter-select">
-                        <option value="">All Vendors</option>
-                        <option value="tech-solutions">Tech Solutions Ltd</option>
-                        <option value="office-supplies">Office Supplies Inc</option>
-                        <option value="furniture-world">Furniture World</option>
-                    </select>
-                    <select class="filter-select">
-                        <option value="">All Time</option>
-                        <option value="this-month">This Month</option>
-                        <option value="last-month">Last Month</option>
-                        <option value="this-year">This Year</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="table-responsive">
-                <table class="invoice-table">
-                    <thead>
-                        <tr>
-                            <th>Invoice #</th>
-                            <th>Vendor</th>
-                            <th>Date</th>
-                            <th>Due Date</th>
-                            <th>Amount (LKR)</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>INV-2023-001</td>
-                            <td>Tech Solutions Ltd</td>
-                            <td>2023-06-15</td>
-                            <td>2023-07-15</td>
-                            <td>125,000.00</td>
-                            <td><span class="status-badge status-paid">Paid</span></td>
-                            <td>
-                                <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#invoicePreviewModal"
-                                    data-invoice-id="inv-001"
-                                    data-vendor="Tech Solutions Ltd"
-                                    data-invoice-date="2023-06-15"
-                                    data-due-date="2023-07-15"
-                                    data-status="Paid"
-                                    data-notes="Payment received via bank transfer."
-                                    data-items='[{"description":"Servers","quantity":2,"unitPrice":50000},{"description":"Networking Cable","quantity":10,"unitPrice":2500}]'>
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="action-btn btn-download"><i class="fas fa-download"></i></button>
-                                <button class="action-btn btn-print"><i class="fas fa-print"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>INV-2023-002</td>
-                            <td>Office Supplies Inc</td>
-                            <td>2023-06-20</td>
-                            <td>2023-07-20</td>
-                            <td>45,750.00</td>
-                            <td><span class="status-badge status-pending">Pending</span></td>
-                            <td>
-                                <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#invoicePreviewModal"
-                                    data-invoice-id="inv-002"
-                                    data-vendor="Office Supplies Inc"
-                                    data-invoice-date="2023-06-20"
-                                    data-due-date="2023-07-20"
-                                    data-status="Pending"
-                                    data-notes="Waiting for department head approval."
-                                    data-items='[{"description":"Printer Paper (Box)","quantity":5,"unitPrice":2500},{"description":"Ink Cartridges (Set)","quantity":2,"unitPrice":8000},{"description":"Stapler","quantity":10,"unitPrice":475}]'>
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="action-btn btn-download"><i class="fas fa-download"></i></button>
-                                <button class="action-btn btn-print"><i class="fas fa-print"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>INV-2023-003</td>
-                            <td>Furniture World</td>
-                            <td>2023-05-10</td>
-                            <td>2023-06-10</td>
-                            <td>89,500.00</td>
-                            <td><span class="status-badge status-overdue">Overdue</span></td>
-                            <td>
-                                <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#invoicePreviewModal"
-                                    data-invoice-id="inv-003"
-                                    data-vendor="Furniture World"
-                                    data-invoice-date="2023-05-10"
-                                    data-due-date="2023-06-10"
-                                    data-status="Overdue"
-                                    data-notes="Follow-up required with vendor."
-                                    data-items='[{"description":"Office Chairs","quantity":15,"unitPrice":5000},{"description":"Meeting Table","quantity":1,"unitPrice":14500}]'>
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="action-btn btn-download"><i class="fas fa-download"></i></button>
-                                <button class="action-btn btn-print"><i class="fas fa-print"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>INV-2023-004</td>
-                            <td>Network Solutions</td>
-                            <td>2023-07-05</td>
-                            <td>2023-08-05</td>
-                            <td>72,300.00</td>
-                            <td><span class="status-badge status-pending">Pending</span></td>
-                            <td>
-                                <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#invoicePreviewModal"
-                                    data-invoice-id="inv-004"
-                                    data-vendor="Network Solutions"
-                                    data-invoice-date="2023-07-05"
-                                    data-due-date="2023-08-05"
-                                    data-status="Pending"
-                                    data-notes="New order for network infrastructure upgrade."
-                                    data-items='[{"description":"Network Switches","quantity":3,"unitPrice":15000},{"description":"Fiber Optic Cable (500m)","quantity":1,"unitPrice":27300}]'>
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="action-btn btn-download"><i class="fas fa-download"></i></button>
-                                <button class="action-btn btn-print"><i class="fas fa-print"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>INV-2023-005</td>
-                            <td>Software Solutions</td>
-                            <td>2023-06-28</td>
-                            <td>2023-07-28</td>
-                            <td>156,800.00</td>
-                            <td><span class="status-badge status-paid">Paid</span></td>
-                            <td>
-                                <button class="action-btn btn-view" data-bs-toggle="modal" data-bs-target="#invoicePreviewModal"
-                                    data-invoice-id="inv-005"
-                                    data-vendor="Software Solutions"
-                                    data-invoice-date="2023-06-28"
-                                    data-due-date="2023-07-28"
-                                    data-status="Paid"
-                                    data-notes="Annual license renewal."
-                                    data-items='[{"description":"Asset Management Software License (1 year)","quantity":1,"unitPrice":156800}]'>
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="action-btn btn-download"><i class="fas fa-download"></i></button>
-                                <button class="action-btn btn-print"><i class="fas fa-print"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <nav aria-label="Page navigation" class="mt-4">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
+            <h1>Invoice</h1>
         </main>
     </div>
 
-    <div class="modal fade" id="newInvoiceModal" tabindex="-1" aria-labelledby="newInvoiceModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="newInvoiceModalLabel">Create New Invoice</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="invoiceForm">
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="vendorSelect" class="form-label">Vendor</label>
-                                <select class="form-select" id="vendorSelect" required>
-                                    <option value="">Select Vendor</option>
-                                    <option value="Tech Solutions Ltd">Tech Solutions Ltd</option>
-                                    <option value="Office Supplies Inc">Office Supplies Inc</option>
-                                    <option value="Furniture World">Furniture World</option>
-                                    <option value="Network Solutions">Network Solutions</option>
-                                    <option value="Software Solutions">Software Solutions</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="invoiceDate" class="form-label">Invoice Date</label>
-                                <input type="date" class="form-control" id="invoiceDate" required>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="dueDate" class="form-label">Due Date</label>
-                                <input type="date" class="form-control" id="dueDate" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="invoiceNumber" class="form-label">Invoice Number</label>
-                                <input type="text" class="form-control" id="invoiceNumber" placeholder="Auto-generated" readonly>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Invoice Items</label>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Description</th>
-                                            <th>Quantity</th>
-                                            <th>Unit Price (LKR)</th>
-                                            <th>Total (LKR)</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="invoiceItems">
-                                        <tr>
-                                            <td><input type="text" class="form-control item-desc" placeholder="Item description"></td>
-                                            <td><input type="number" class="form-control item-qty" placeholder="Qty" min="1" value="1"></td>
-                                            <td><input type="number" class="form-control item-price" placeholder="Price" min="0" step="0.01" value="0"></td>
-                                            <td><input type="text" class="form-control item-total" placeholder="0.00" readonly></td>
-                                            <td><button type="button" class="btn btn-sm btn-danger remove-item"><i class="fas fa-trash"></i></button></td>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td colspan="5">
-                                                <button type="button" class="btn btn-sm btn-primary" id="addItemBtn">
-                                                    <i class="fas fa-plus"></i> Add Item
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="notes" class="form-label">Notes</label>
-                                <textarea class="form-control" id="notes" rows="3"></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="invoice-totals">
-                                    <table class="table">
-                                        <tr>
-                                            <td>Subtotal:</td>
-                                            <td class="text-end" id="subtotal">0.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tax (15%):</td>
-                                            <td class="text-end" id="tax">0.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Total:</td>
-                                            <td class="text-end" id="total">0.00</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="saveInvoice">Save Invoice</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="invoicePreviewModal" tabindex="-1" aria-labelledby="invoicePreviewModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="invoicePreviewModalLabel">Invoice Preview</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="invoice-preview">
-                        <div class="invoice-header">
-                            <div>
-                                <h2>University of Peradeniya</h2>
-                                <p>Asset Management Department<br>
-                                20400, Peradeniya<br>
-                                Sri Lanka</p>
-                            </div>
-                            <div class="text-end">
-                                <h3>INVOICE #<span id="previewInvoiceNumber"></span></h3>
-                                <p>Date: <span id="previewInvoiceDate"></span></p>
-                                <p>Due Date: <span id="previewDueDate"></span></p>
-                                <p>Status: <span id="previewStatusBadge" class="status-badge"></span></p>
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <h5>Billed To:</h5>
-                                <p>University of Peradeniya</p>
-                                <p>Vice Chancellor's Office</p>
-                                <p>Peradeniya, Sri Lanka</p>
-                            </div>
-                            <div class="col-md-6 text-md-end">
-                                <h5>From Vendor:</h5>
-                                <p id="previewVendorName"></p>
-                                <p><em>Vendor Address (if available)</em></p>
-                                <p><em>Vendor Contact (if available)</em></p>
-                            </div>
-                        </div>
-
-                        <h5 class="mb-3">Invoice Items:</h5>
-                        <div class="table-responsive">
-                            <table class="invoice-items">
-                                <thead>
-                                    <tr>
-                                        <th>Description</th>
-                                        <th>Quantity</th>
-                                        <th>Unit Price (LKR)</th>
-                                        <th>Total (LKR)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="previewInvoiceItems">
-                                    </tbody>
-                            </table>
-                        </div>
-
-                        <div class="invoice-totals mt-4">
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td>Subtotal:</td>
-                                        <td class="text-end" id="previewSubtotal">0.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tax (15%):</td>
-                                        <td class="text-end" id="previewTax">0.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Total:</strong></td>
-                                        <td class="text-end" id="previewTotal"><strong>0.00</strong></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="mt-4">
-                            <h5>Notes:</h5>
-                            <p id="previewNotes">No additional notes.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary"><i class="fas fa-download me-2"></i>Download PDF</button>
-                    <button type="button" class="btn btn-info"><i class="fas fa-print me-2"></i>Print Invoice</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
+    <!-- Footer -->
     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-row">
                 <div class="footer-col">
-                    <h4>About Us</h4>
-                    <ul>
-                        <li><a href="/about">Our Mission</a></li>
-                        <li><a href="/team">Our Team</a></li>
-                        <li><a href="/history">History</a></li>
-                        <li><a href="/careers">Careers</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="/Dashboard">Dashboard</a></li>
-                        <li><a href="/Asset">Manage Assets</a></li>
-                        <li><a href="/Invoice">Invoices</a></li>
-                        <li><a href="/Movement">Asset Movement</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Contact Info</h4>
-                    <ul>
-                        <li><i class="fas fa-map-marker-alt me-2"></i> University Rd, Peradeniya 20400, Sri Lanka</li>
-                        <li><i class="fas fa-phone me-2"></i> +94 81 238 8301</li>
-                        <li><i class="fas fa-envelope me-2"></i> info@pdn.ac.lk</li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Follow Us</h4>
+                    <h4>University of Peradeniya</h4>
+                    <p>The University of Peradeniya is a leading higher education institution in Sri Lanka, committed to excellence in teaching, research, and innovation.</p>
                     <div class="social-icons">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -1004,193 +520,67 @@
                         <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/home">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contactUs">Contact</a></li>
+                        <li><a th:href="@{/login}">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">User Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Training Videos</a></li>
+                        <li><a href="#">System Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe to receive updates and system announcements.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
             </div>
-            <hr class="text-light my-4">
-            <div class="text-center text-light">
-                &copy; 2025 University of Peradeniya. All rights reserved. | Developed by UoP IT Department
+            <hr class="footer-divider">
+            <div class="footer-bottom">
+                <p>&copy; 2023 University of Peradeniya. All rights reserved.</p>
+                <p>Asset Management System v2.1</p>
             </div>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mobile menu toggle
-            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-            const sidebar = document.querySelector('.sidebar');
-            if (mobileMenuBtn && sidebar) {
-                mobileMenuBtn.addEventListener('click', function() {
-                    sidebar.classList.toggle('active');
+        // Mobile menu toggle functionality
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+        
+        // Add active class to current nav item
+        document.querySelectorAll('.main-nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.main-nav a').forEach(item => {
+                    item.classList.remove('active');
                 });
-            }
-
-            // New Invoice Modal Logic
-            const invoiceForm = document.getElementById('invoiceForm');
-            const invoiceItemsTableBody = document.getElementById('invoiceItems');
-            const addItemBtn = document.getElementById('addItemBtn');
-            const subtotalElement = document.getElementById('subtotal');
-            const taxElement = document.getElementById('tax');
-            const totalElement = document.getElementById('total');
-            const saveInvoiceBtn = document.getElementById('saveInvoice');
-            const invoiceNumberInput = document.getElementById('invoiceNumber');
-
-            // Function to generate a simple invoice number
-            function generateInvoiceNumber() {
-                const now = new Date();
-                const year = now.getFullYear();
-                const month = (now.getMonth() + 1).toString().padStart(2, '0');
-                const day = now.getDate().toString().padStart(2, '0');
-                const hour = now.getHours().toString().padStart(2, '0');
-                const minute = now.getMinutes().toString().padStart(2, '0');
-                const second = now.getSeconds().toString().padStart(2, '0');
-                return `INV-${year}${month}${day}-${hour}${minute}${second}`;
-            }
-
-            // Set initial invoice number when modal opens
-            const newInvoiceModal = document.getElementById('newInvoiceModal');
-            newInvoiceModal.addEventListener('show.bs.modal', function () {
-                invoiceNumberInput.value = generateInvoiceNumber();
-                // Reset form on modal open
-                invoiceForm.reset();
-                invoiceItemsTableBody.innerHTML = `
-                    <tr>
-                        <td><input type="text" class="form-control item-desc" placeholder="Item description"></td>
-                        <td><input type="number" class="form-control item-qty" placeholder="Qty" min="1" value="1"></td>
-                        <td><input type="number" class="form-control item-price" placeholder="Price" min="0" step="0.01" value="0"></td>
-                        <td><input type="text" class="form-control item-total" placeholder="0.00" readonly></td>
-                        <td><button type="button" class="btn btn-sm btn-danger remove-item"><i class="fas fa-trash"></i></button></td>
-                    </tr>
-                `;
-                updateTotals();
+                this.classList.add('active');
             });
-
-
-            function calculateItemTotal(row) {
-                const quantity = parseFloat(row.querySelector('.item-qty').value) || 0;
-                const unitPrice = parseFloat(row.querySelector('.item-price').value) || 0;
-                const itemTotal = quantity * unitPrice;
-                row.querySelector('.item-total').value = itemTotal.toFixed(2);
-                return itemTotal;
-            }
-
-            function updateTotals() {
-                let currentSubtotal = 0;
-                document.querySelectorAll('#invoiceItems tr').forEach(row => {
-                    currentSubtotal += calculateItemTotal(row);
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
                 });
-
-                const taxRate = 0.15; // 15% tax
-                const currentTax = currentSubtotal * taxRate;
-                const currentTotal = currentSubtotal + currentTax;
-
-                subtotalElement.textContent = currentSubtotal.toFixed(2);
-                taxElement.textContent = currentTax.toFixed(2);
-                totalElement.textContent = currentTotal.toFixed(2);
-            }
-
-            // Event delegation for item inputs and remove buttons
-            invoiceItemsTableBody.addEventListener('input', function(event) {
-                if (event.target.classList.contains('item-qty') || event.target.classList.contains('item-price')) {
-                    const row = event.target.closest('tr');
-                    calculateItemTotal(row);
-                    updateTotals();
-                }
-            });
-
-            invoiceItemsTableBody.addEventListener('click', function(event) {
-                if (event.target.classList.contains('remove-item') || event.target.closest('.remove-item')) {
-                    const button = event.target.closest('.remove-item');
-                    if (invoiceItemsTableBody.children.length > 1) { // Ensure at least one row remains
-                        button.closest('tr').remove();
-                        updateTotals();
-                    } else {
-                        alert('You must have at least one invoice item.');
-                    }
-                }
-            });
-
-            addItemBtn.addEventListener('click', function() {
-                const newRow = document.createElement('tr');
-                newRow.innerHTML = `
-                    <td><input type="text" class="form-control item-desc" placeholder="Item description"></td>
-                    <td><input type="number" class="form-control item-qty" placeholder="Qty" min="1" value="1"></td>
-                    <td><input type="number" class="form-control item-price" placeholder="Price" min="0" step="0.01" value="0"></td>
-                    <td><input type="text" class="form-control item-total" placeholder="0.00" readonly></td>
-                    <td><button type="button" class="btn btn-sm btn-danger remove-item"><i class="fas fa-trash"></i></button></td>
-                `;
-                invoiceItemsTableBody.appendChild(newRow);
-                updateTotals();
-            });
-
-            saveInvoiceBtn.addEventListener('click', function() {
-                if (invoiceForm.checkValidity()) {
-                    alert('Invoice saved successfully! (This is a simulation)');
-                    const modal = bootstrap.Modal.getInstance(newInvoiceModal);
-                    modal.hide();
-                } else {
-                    invoiceForm.reportValidity(); // Show browser's validation errors
-                }
-            });
-
-            // Invoice Preview Modal Logic
-            const invoicePreviewModal = document.getElementById('invoicePreviewModal');
-            invoicePreviewModal.addEventListener('show.bs.modal', function (event) {
-                const button = event.relatedTarget; // Button that triggered the modal
-                const invoiceId = button.getAttribute('data-invoice-id');
-                const vendor = button.getAttribute('data-vendor');
-                const invoiceDate = button.getAttribute('data-invoice-date');
-                const dueDate = button.getAttribute('data-due-date');
-                const status = button.getAttribute('data-status');
-                const notes = button.getAttribute('data-notes');
-                const itemsJson = button.getAttribute('data-items');
-                const items = JSON.parse(itemsJson);
-
-                // Populate header details
-                document.getElementById('previewInvoiceNumber').textContent = invoiceId;
-                document.getElementById('previewInvoiceDate').textContent = invoiceDate;
-                document.getElementById('previewDueDate').textContent = dueDate;
-
-                const previewStatusBadge = document.getElementById('previewStatusBadge');
-                previewStatusBadge.textContent = status;
-                previewStatusBadge.className = 'status-badge'; // Reset classes
-                if (status === 'Paid') {
-                    previewStatusBadge.classList.add('status-paid');
-                } else if (status === 'Pending') {
-                    previewStatusBadge.classList.add('status-pending');
-                } else if (status === 'Overdue') {
-                    previewStatusBadge.classList.add('status-overdue');
-                }
-
-                document.getElementById('previewVendorName').textContent = vendor;
-                document.getElementById('previewNotes').textContent = notes || 'No additional notes.';
-
-                // Populate invoice items table
-                const previewItemsTableBody = document.getElementById('previewInvoiceItems');
-                previewItemsTableBody.innerHTML = ''; // Clear previous items
-
-                let previewSubtotal = 0;
-                items.forEach(item => {
-                    const row = document.createElement('tr');
-                    const itemTotal = item.quantity * item.unitPrice;
-                    previewSubtotal += itemTotal;
-                    row.innerHTML = `
-                        <td>${item.description}</td>
-                        <td>${item.quantity}</td>
-                        <td>${item.unitPrice.toFixed(2)}</td>
-                        <td>${itemTotal.toFixed(2)}</td>
-                    `;
-                    previewItemsTableBody.appendChild(row);
-                });
-
-                const previewTax = previewSubtotal * 0.15; // Assuming 15% tax
-                const previewTotal = previewSubtotal + previewTax;
-
-                document.getElementById('previewSubtotal').textContent = previewSubtotal.toFixed(2);
-                document.getElementById('previewTax').textContent = previewTax.toFixed(2);
-                document.getElementById('previewTotal').textContent = previewTotal.toFixed(2);
             });
         });
     </script>
 </body>
 </html>
-```
