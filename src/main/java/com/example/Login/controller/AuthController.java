@@ -22,28 +22,28 @@ public class AuthController {
 
     @GetMapping("/")
     public String landing_page(Model model) {
-        return "home/landing_page"; 
+        return "home/landing_page";
     }
 
     @GetMapping("/home")
     public String homePage(Model model) {
-        return "home/home"; 
+        return "home/home";
     }
 
     @GetMapping("/about")
     public String aboutUs(Model model) {
-        return "home/about"; 
+        return "home/about";
     }
 
     @GetMapping("/contactUs")
     public String contactUs(Model model) {
-        return "home/contactUs"; 
+        return "home/contactUs";
     }
 
     @GetMapping("/login")
     public String loginPage(@RequestParam(value = "error", required = false) String error,
-                          @RequestParam(value = "logout", required = false) String logout,
-                          Model model) {
+                            @RequestParam(value = "logout", required = false) String logout,
+                            Model model) {
         if (error != null) {
             model.addAttribute("error", "Invalid email or password.");
         }
@@ -67,9 +67,9 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") User user, 
-                             HttpServletRequest request, 
-                             Model model) {
+    public String registerUser(@ModelAttribute("user") User user,
+                               HttpServletRequest request,
+                               Model model) {
         String result = authService.registerUser(user, request);
         if ("success".equals(result)) {
             model.addAttribute("message", "Registration successful! Please check your email to verify your account.");
@@ -126,9 +126,9 @@ public class AuthController {
     }
 
     @PostMapping("/reset-password")
-    public String resetPassword(@RequestParam String token, 
-                              @RequestParam String password, 
-                              Model model) {
+    public String resetPassword(@RequestParam String token,
+                                 @RequestParam String password,
+                                 Model model) {
         try {
             String result = authService.resetPassword(token, password);
             if ("success".equals(result)) {
@@ -149,35 +149,35 @@ public class AuthController {
 
     @GetMapping("/Asset")
     public String Asset(Model model) {
-        return "Asset/Asset"; 
+        return "Asset/Asset";
     }
     @GetMapping("/AssetHistory")
     public String AssetHistory(Model model) {
-        return "AssetHistory/AssetHistory"; 
+        return "AssetHistory/AssetHistory";
     }
     @GetMapping("/Condemn")
     public String Condemn(Model model) {
-        return "Condemn/Condemn"; 
+        return "Condemn/Condemn";
     }
     @GetMapping("/Dashboard")
     public String Dashboard(Model model) {
-        return "Dashboard/Dashboard"; 
+        return "Dashboard/Dashboard";
     }
     @GetMapping("/Invoice")
     public String Invoice(Model model) {
-        return "Invoice/Invoice"; 
+        return "Invoice/Invoice";
     }
     @GetMapping("/Movement")
     public String Movement(Model model) {
-        return "Movement/Movement"; 
+        return "Movement/Movement";
     }
     @GetMapping("/UserHistory")
     public String UserHistory(Model model) {
-        return "UserHistory/UserHistory"; 
+        return "UserHistory/UserHistory";
     }
     @GetMapping("/Maintain")
     public String Maintain(Model model) {
-        return "Maintain/Maintain"; 
+        return "Maintain/Maintain";
     }
-    
+
 }

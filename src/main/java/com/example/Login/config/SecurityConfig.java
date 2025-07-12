@@ -50,9 +50,11 @@ public class SecurityConfig {
             )
             .oauth2Login(oauth -> oauth
                 .loginPage("/login")
-                .defaultSuccessUrl("/user/home")
+                .defaultSuccessUrl("/user/home", true) // Ensure true for always redirecting to this URL
                 .userInfoEndpoint(user -> user.userService(oAuth2UserService))
                 .failureUrl("/login?error=oauth")
+                // The baseUri is correctly configured in application.properties and is default.
+                // Explicitly setting it here is not strictly needed but matches your original config.
                 .authorizationEndpoint(auth -> auth
                     .baseUri("/oauth2/authorization")
                 )

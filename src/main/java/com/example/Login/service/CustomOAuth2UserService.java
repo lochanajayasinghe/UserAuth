@@ -33,30 +33,40 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         String email = (String) attributes.get("email");
         String name = (String) attributes.get("name");
-        
+
         if (email == null || email.isEmpty()) {
             throw new OAuth2AuthenticationException("Email not found from OAuth2 provider");
         }
 
+        // Check if user already exists by email
         User user = userRepository.findByEmail(email)
             .orElseGet(() -> {
+                // If not, create a new user
                 User newUser = new User();
                 newUser.setEmail(email);
                 newUser.setFullName(name);
+                // Generate a unique username from email
+                // Added a small sanitization for the base username
                 newUser.setUsername(generateUniqueUsername(email));
-                newUser.setEnabled(true);
-                
+                newUser.setEnabled(true); // OAuth2 users are enabled by default as email is verified by Google
+                newUser.setPassword("oauth2_user_no_password"); // Set a dummy password for non-traditional login
+
+                // Assign default role (e.g., ROLE_USER)
                 Role userRole = roleRepository.findByName("ROLE_USER")
-                    .orElseThrow(() -> new RuntimeException("Error: Role USER not found."));
+                    .orElseThrow(() -> new RuntimeException("Error: Role 'ROLE_USER' not found. Please ensure this role exists in your database."));
                 newUser.setRoles(Collections.singleton(userRole));
-                
+
+                // Save the new user to the database
                 return userRepository.save(newUser);
             });
 
+        // Convert user's roles to Spring Security GrantedAuthorities
         Set<GrantedAuthority> authorities = user.getRoles().stream()
             .map(role -> new SimpleGrantedAuthority(role.getName()))
             .collect(Collectors.toSet());
 
+        // Return a DefaultOAuth2User with collected information
+        // "email" is used as the userNameAttributeName for Google
         return new DefaultOAuth2User(
             authorities,
             attributes,
@@ -64,16 +74,22 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         );
     }
 
+    // Corrected method to generate a unique username
     private String generateUniqueUsername(String email) {
-        String baseUsername = email.split("@")[0];
+        // Sanitize base username: remove special characters, keep only alphanumeric
+        String baseUsername = email.split("@")[0].replaceAll("[^a-zA-Z0-9]", "");
+        if (baseUsername.isEmpty()) {
+            baseUsername = "user"; // Fallback if email prefix is empty after sanitization
+        }
+
         String username = baseUsername;
         int counter = 1;
-        
-        while (userRepository.existsByEmail(username)) {
+
+        // Check for username existence using existsByUsername
+        while (userRepository.existsByUsername(username)) {
             username = baseUsername + "_" + counter;
             counter++;
         }
-        
         return username;
     }
 }

@@ -23,7 +23,8 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    // Make password nullable for OAuth2 users if they don't have a traditional password
+    @Column(nullable = true) // Changed to true if OAuth2 users don't have a password
     private String password;
 
     private String description;
@@ -37,4 +38,3 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 }
-
