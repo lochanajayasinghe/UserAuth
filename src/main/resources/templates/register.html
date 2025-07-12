@@ -12,7 +12,10 @@
             --primary-color: #800000; /* University Maroon */
             --primary-dark: #600000; /* Darker maroon */
             --primary-light: #a04040;
+            --accent-color: #ffc107; /* Gold/Amber for highlights */
             --text-light: #f8f9fa;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
         body {
@@ -23,45 +26,48 @@
         /* Header Styles */
         .main-header {
             background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: var(--text-light);
+            box-shadow: var(--shadow);
             padding: 0.5rem 2rem;
         }
 
         .logo-img {
             height: 50px;
             margin-right: 15px;
+            filter: brightness(1.1) drop-shadow(0 0 2px rgba(0,0,0,0.3));
         }
 
         /* Button Styles */
         .btn-maroon {
             background-color: var(--primary-color);
             border-color: var(--primary-dark);
-            color: white;
-            transition: all 0.3s ease;
+            color: var(--text-light);
+            transition: var(--transition);
         }
 
         .btn-maroon:hover {
             background-color: var(--primary-dark);
             border-color: #500000;
-            color: white;
+            color: var(--text-light);
         }
 
         .btn-outline-maroon {
             color: var(--primary-color);
             border-color: var(--primary-color);
             background-color: transparent;
+            transition: var(--transition);
         }
 
         .btn-outline-maroon:hover {
             background-color: var(--primary-color);
-            color: white;
+            color: var(--text-light);
         }
 
         /* Form Styles */
         .card {
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--accent-color);
         }
 
         .form-control:focus {
@@ -77,8 +83,35 @@
         /* Footer */
         .main-footer {
             background: linear-gradient(90deg, var(--primary-dark), var(--primary-color));
-            color: white;
+            color: var(--text-light);
             padding: 1.2rem 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Alert Styles */
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        /* Links */
+        a {
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+            text-decoration: none;
         }
 
         /* Responsive adjustments */
@@ -96,8 +129,8 @@
                 <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" 
                      alt="University Logo" class="logo-img">
                 <div>
-                    <h5 class="mb-0 text-white">University of Peradeniya</h5>
-                    <small class="text-white">Asset Management System</small>
+                    <h5 class="mb-0 text-light">University of Peradeniya</h5>
+                    <small class="text-light">Asset Management System</small>
                 </div>
             </div>
         </div>
@@ -109,7 +142,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body p-4 p-md-5">
                         <div class="text-center mb-4">
-                            <h2 class="h4 font-weight-bold" style="color: #800000;">Create Your Account</h2>
+                            <h2 class="h4 font-weight-bold" style="color: var(--primary-color);">Create Your Account</h2>
                             <p class="text-muted small">Join us to get started</p>
                         </div>
 
@@ -184,7 +217,7 @@
                             <div class="form-group form-check">
                                 <input type="checkbox" class="form-check-input" id="termsCheck" required>
                                 <label class="form-check-label small" for="termsCheck">
-                                    I agree to the <a href="#" style="color: #800000;">Terms of Service</a> and <a href="#" style="color: #800000;">Privacy Policy</a>
+                                    I agree to the <a href="#" style="color: var(--primary-color);">Terms of Service</a> and <a href="#" style="color: var(--primary-color);">Privacy Policy</a>
                                 </label>
                             </div>
 
@@ -196,7 +229,7 @@
                         <div class="text-center mt-4">
                             <p class="mb-0 small">
                                 Already have an account? 
-                                <a th:href="@{/login}" style="color: #800000; font-weight: 500;">Sign in</a>
+                                <a th:href="@{/login}" style="color: #007bff; font-weight: 500;">Sign in</a>
                             </p>
                         </div>
                     </div>
@@ -213,15 +246,15 @@
                         &copy; 2025 University of Peradeniya. All rights reserved.
                     </div>
                     <div class="footer-links mt-2">
-                        <a href="/privacy" class="text-white mr-3">Privacy Policy</a>
-                        <a href="/terms" class="text-white mr-3">Terms of Service</a>
-                        <a href="/contact" class="text-white">Contact Us</a>
+                        <a href="/privacy" class="text-light mr-3">Privacy Policy</a>
+                        <a href="/terms" class="text-light mr-3">Terms of Service</a>
+                        <a href="/contact" class="text-light">Contact Us</a>
                     </div>
                     <div class="social-icons mt-2">
-                        <a href="#" class="text-white mr-2"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-white mr-2"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white mr-2"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="text-light mr-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-light mr-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-light mr-2"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
@@ -233,112 +266,105 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-         // Username availability check
-    function checkUsernameAvailability() {
-        const username = document.getElementById('username').value;
-        if (username.length > 3) {
-            fetch(`/check-username?username=${username}`)
-                .then(response => response.json())
-                .then(data => {
-                    const usernameFeedback = document.getElementById('usernameFeedback');
-                    if (data.available) {
-                        usernameFeedback.style.display = 'none';
-                    } else {
-                        usernameFeedback.style.display = 'block';
-                        usernameFeedback.textContent = 'Username is already taken';
-                    }
-                    validateForm();
-                });
-        }
-    }
-
-    // Add this to your existing validation
-    function validateForm() {
-        const username = document.getElementById('username').value;
-        const usernameAvailable = document.getElementById('usernameFeedback').style.display === 'none';
-        const passwordValid = document.getElementById('passwordStrength').style.width === '100%';
-        const passwordsMatch = document.getElementById('passwordMatch').style.display === 'none';
+    // Password validation function
+    function validatePassword() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const submitButton = document.getElementById('submitButton');
+        const passwordMatch = document.getElementById('passwordMatch');
+        
+        // Password requirements checks
+        const hasMinLength = password.length >= 8;
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasNumber = /\d/.test(password);
+        const passwordsMatch = password === confirmPassword && password.length > 0;
         const termsChecked = document.getElementById('termsCheck').checked;
         
-        document.getElementById('submitButton').disabled = 
-            !(username.length > 0 && usernameAvailable && passwordValid && passwordsMatch && termsChecked);
-    }
-
-    // Add event listeners
-    document.getElementById('username').addEventListener('blur', checkUsernameAvailability);
-    document.getElementById('termsCheck').addEventListener('change', validateForm);
-
-        // Password validation function
-        function validatePassword() {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const submitButton = document.getElementById('submitButton');
-            const passwordMatch = document.getElementById('passwordMatch');
-            
-            // Password requirements checks
-            const hasMinLength = password.length >= 8;
-            const hasUpperCase = /[A-Z]/.test(password);
-            const hasLowerCase = /[a-z]/.test(password);
-            const hasNumber = /\d/.test(password);
-            const passwordsMatch = password === confirmPassword && password.length > 0;
-            
-            // Update requirement indicators
-            document.getElementById('lengthCheck').firstElementChild.className = hasMinLength ? 'fas fa-check text-success small mr-1' : 'fas fa-circle small mr-1';
-            document.getElementById('uppercaseCheck').firstElementChild.className = hasUpperCase ? 'fas fa-check text-success small mr-1' : 'fas fa-circle small mr-1';
-            document.getElementById('lowercaseCheck').firstElementChild.className = hasLowerCase ? 'fas fa-check text-success small mr-1' : 'fas fa-circle small mr-1';
-            document.getElementById('numberCheck').firstElementChild.className = hasNumber ? 'fas fa-check text-success small mr-1' : 'fas fa-circle small mr-1';
-            
-            // Update password match indicator
-            if (confirmPassword.length > 0) {
-                passwordMatch.style.display = passwordsMatch ? 'none' : 'block';
-            } else {
-                passwordMatch.style.display = 'none';
-            }
-            
-            // Calculate password strength
-            let strength = 0;
-            if (hasMinLength) strength += 25;
-            if (hasUpperCase) strength += 25;
-            if (hasLowerCase) strength += 25;
-            if (hasNumber) strength += 25;
-            
-            // Update strength meter
-            const strengthBar = document.getElementById('passwordStrength');
-            strengthBar.style.width = strength + '%';
-            strengthBar.className = 'progress-bar ' + 
-                (strength < 50 ? 'bg-danger' : 
-                 strength < 75 ? 'bg-warning' : '');
-            
-            // Enable/disable submit button
-            const isValid = hasMinLength && hasUpperCase && hasLowerCase && hasNumber && passwordsMatch;
-            submitButton.disabled = !isValid;
+        // Update requirement indicators
+        updateRequirement('lengthCheck', hasMinLength);
+        updateRequirement('uppercaseCheck', hasUpperCase);
+        updateRequirement('lowercaseCheck', hasLowerCase);
+        updateRequirement('numberCheck', hasNumber);
+        
+        // Update password match indicator
+        if (confirmPassword.length > 0) {
+            passwordMatch.style.display = passwordsMatch ? 'none' : 'block';
+        } else {
+            passwordMatch.style.display = 'none';
         }
         
-        // Toggle password visibility
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
-            const icon = this.querySelector('i');
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.className = 'fas fa-eye-slash';
-            } else {
-                passwordInput.type = 'password';
-                icon.className = 'fas fa-eye';
-            }
-        });
+        // Calculate password strength
+        let strength = 0;
+        if (hasMinLength) strength += 25;
+        if (hasUpperCase) strength += 25;
+        if (hasLowerCase) strength += 25;
+        if (hasNumber) strength += 25;
         
-        // Initialize validation on load
-        document.addEventListener('DOMContentLoaded', function() {
-            validatePassword();
-        });
+        // Update strength meter
+        updateStrengthMeter(strength);
+        
+        // Enable/disable submit button
+        submitButton.disabled = !(hasMinLength && hasUpperCase && hasLowerCase && hasNumber && passwordsMatch && termsChecked);
+    }
+    
+    function updateRequirement(elementId, isValid) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            const icon = element.querySelector('i');
+            if (icon) {
+                icon.className = isValid ? 'fas fa-check text-success small mr-1' : 'fas fa-circle small mr-1';
+            }
+        }
+    }
+    
+    function updateStrengthMeter(strength) {
+        const strengthBar = document.getElementById('passwordStrength');
+        if (strengthBar) {
+            strengthBar.style.width = strength + '%';
+            // Update color based on strength
+            if (strength < 50) {
+                strengthBar.className = 'progress-bar bg-danger';
+            } else if (strength < 75) {
+                strengthBar.className = 'progress-bar bg-warning';
+            } else {
+                strengthBar.className = 'progress-bar bg-success';
+            }
+        }
+    }
+    
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordInput = document.getElementById('password');
+        const icon = this.querySelector('i');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.className = 'fas fa-eye-slash';
+        } else {
+            passwordInput.type = 'password';
+            icon.className = 'fas fa-eye';
+        }
+    });
 
-        // Auto-hide alerts after 5 seconds
-        setTimeout(() => {
-            const alerts = document.querySelectorAll('.alert');
-            alerts.forEach(alert => {
-                alert.style.display = 'none';
-            });
-        }, 5000);
-    </script>
+    // Validate form when terms checkbox changes
+    document.getElementById('termsCheck').addEventListener('change', validatePassword);
+    
+    // Validate on any input change
+    document.getElementById('password').addEventListener('input', validatePassword);
+    document.getElementById('confirmPassword').addEventListener('input', validatePassword);
+    
+    // Initialize validation on load
+    document.addEventListener('DOMContentLoaded', function() {
+        validatePassword();
+    });
+
+    // Auto-hide alerts after 5 seconds
+    setTimeout(() => {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            alert.style.display = 'none';
+        });
+    }, 5000);
+</script>
 </body>
 </html>
