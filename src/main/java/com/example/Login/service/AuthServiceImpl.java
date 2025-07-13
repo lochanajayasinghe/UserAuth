@@ -4,15 +4,18 @@ import com.example.Login.model.*;
 import com.example.Login.repository.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
+
     private final UserRepository userRepository;
     private final VerificationTokenRepository verificationTokenRepository;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
@@ -20,11 +23,29 @@ public class AuthServiceImpl implements AuthService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
+    @Value("${app.security.admin-emails:}")
+    private String adminEmailsString;
+
+    @Value("${app.security.director-emails:}")
+    private String directorEmailsString;
+
+    private Set<String> getEmailSet(String emailString) {
+        if (emailString == null || emailString.trim().isEmpty()) {
+            return Collections.emptySet();
+        }
+        return Arrays.stream(emailString.split(","))
+                     .map(String::trim)
+                     .map(String::toLowerCase)
+                     .collect(Collectors.toSet());
+    }
+
     @Override
     @Transactional
     public String registerUser(User user, HttpServletRequest request) {
         try {
-            if (userRepository.existsByEmail(user.getEmail())) {
+            String userEmail = user.getEmail().toLowerCase();
+
+            if (userRepository.existsByEmail(userEmail)) {
                 return "Email already registered!";
             }
 
@@ -33,14 +54,34 @@ public class AuthServiceImpl implements AuthService {
             }
 
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setEnabled(false);
+            // TEMPORARY CHANGE FOR TESTING: Set enabled to true directly
+            user.setEnabled(true); // <--- CHANGE THIS LINE FOR TESTING ONLY!
+            // In production, this should be: user.setEnabled(false);
 
-            Role userRole = roleRepository.findByName("ROLE_USER")
-                    .orElseThrow(() -> new RuntimeException("User role not found"));
-            user.setRoles(Collections.singleton(userRole));
+            Set<Role> assignedRoles = new HashSet<>();
+            Set<String> adminEmails = getEmailSet(adminEmailsString);
+            Set<String> directorEmails = getEmailSet(directorEmailsString);
 
+            if (adminEmails.contains(userEmail)) {
+                Role adminRole = roleRepository.findByName("ROLE_ADMIN")
+                        .orElseThrow(() -> new RuntimeException("Admin role not found"));
+                assignedRoles.add(adminRole);
+            } else if (directorEmails.contains(userEmail)) {
+                Role directorRole = roleRepository.findByName("ROLE_DIRECTOR")
+                        .orElseThrow(() -> new RuntimeException("Director role not found"));
+                assignedRoles.add(directorRole);
+            } else {
+                Role userRole = roleRepository.findByName("ROLE_USER")
+                        .orElseThrow(() -> new RuntimeException("User role not found"));
+                assignedRoles.add(userRole);
+            }
+
+            user.setRoles(assignedRoles);
             userRepository.save(user);
 
+            // If you set enabled to true above, you might comment out email verification for quick testing
+            // However, for proper functionality, keep it enabled and ensure email sending works.
+            /*
             String token = UUID.randomUUID().toString();
             VerificationToken verificationToken = VerificationToken.builder()
                     .token(token)
@@ -54,11 +95,15 @@ public class AuthServiceImpl implements AuthService {
                     token);
 
             emailService.sendVerificationEmail(user, verificationUrl);
+            */
             return "success";
         } catch (Exception e) {
+            System.err.println("Registration failed: " + e.getMessage());
             return "Registration failed: " + e.getMessage();
         }
     }
+
+    // ... rest of the methods remain unchanged ...
 
     @Override
     @Transactional

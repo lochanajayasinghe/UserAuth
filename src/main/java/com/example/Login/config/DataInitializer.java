@@ -14,8 +14,10 @@ public class DataInitializer {
 
     @PostConstruct
     public void initRoles() {
+        // Ensure all three roles are created if they don't exist
         createRoleIfNotFound("ROLE_USER");
         createRoleIfNotFound("ROLE_ADMIN");
+        createRoleIfNotFound("ROLE_DIRECTOR"); // Ensure this line is present
     }
 
     private void createRoleIfNotFound(String roleName) {
@@ -23,6 +25,9 @@ public class DataInitializer {
             Role role = new Role();
             role.setName(roleName);
             roleRepository.save(role);
+            System.out.println("Created role: " + roleName); // For logging during startup
+        } else {
+            System.out.println("Role already exists: " + roleName); // For logging during startup
         }
     }
 }
