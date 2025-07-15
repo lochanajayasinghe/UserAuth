@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Director Dashboard - UoP Asset Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #800000; /* University Maroon */
+            --primary-dark: #600000; /* Darker maroon */
+            --primary-light: #a04040; /* Lighter maroon */
+            --accent-color: #ffc107; /* Gold accent */
+            --text-light: #f8f9fa; /* Light text */
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--text-light);
+            color: #212529;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Header Styles */
+        .main-header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 0.8rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+        
+        .logo-container:hover {
+            transform: translateX(3px);
+        }
+        
+        .logo-img {
+            height: 50px;
+            margin-right: 15px;
+            transition: var(--transition);
+        }
+        
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+        
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+        
+        .main-nav li {
+            margin-left: 15px;
+            position: relative;
+        }
+        
+        .main-nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .main-nav a:not(.login-btn):hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+        
+        .main-nav a:not(.login-btn)::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: var(--accent-color);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+        
+        .main-nav a:not(.login-btn):hover::after {
+            width: 70%;
+        }
+        
+        .login-btn {
+            background-color: var(--accent-color);
+            color: #212529;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            box-shadow: var(--shadow);
+        }
+        
+        .login-btn:hover {
+            background-color: #e0a800;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(rgba(128, 0, 0, 0.7), rgba(96, 0, 0, 0.8)), 
+                        url('https://island.lk/wp-content/uploads/2023/07/univercity-of-peradeniya.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: var(--text-light);
+            padding: 150px 0;
+            position: relative;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            margin-bottom: 2rem;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-section h1 {
+            font-size: 2.8rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-section .lead {
+            font-size: 1.4rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .btn-accent {
+            background-color: var(--accent-color);
+            color: #212529;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-accent:hover {
+            background-color: #e0a800;
+            color: #212529;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-outline-light {
+            border-width: 2px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-light:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Sidebar Styles */
+        .d-flex.flex-grow-1 {
+            flex: 1;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
+            color: var(--text-light);
+            height: calc(100vh - 60px);
+            position: sticky;
+            top: 60px;
+            transition: var(--transition);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding-top: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .sidebar-menu {
+            padding: 0;
+            list-style: none;
+            margin: 0;
+        }
+        
+        .menu-item {
+            display: block;
+            padding: 0.8rem 1.5rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+            margin: 0.25rem 1rem;
+            border-left: 4px solid transparent;
+            font-size: 0.95rem;
+            border-radius: 0 4px 4px 0;
+            position: relative;
+        }
+        
+        .menu-item:hover {
+            background-color: var(--primary-light);
+            border-left: 4px solid var(--accent-color);
+            transform: translateX(5px);
+        }
+        
+        .menu-item.active {
+            background-color: var(--primary-light);
+            border-left: 4px solid var(--accent-color);
+            font-weight: 500;
+        }
+
+        /* Main Content Styles */
+        .main-content-container {
+            flex: 1;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin: 1rem;
+            overflow-y: auto;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Card Styles */
+        .card {
+            border: none;
+            border-radius: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card .btn {
+            background-color: var(--primary-color);
+            border-color: var(--primary-dark);
+        }
+
+        .card .btn:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .text-primary {
+            color: var(--primary-color) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-dark);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-10px);
+        }
+
+        /* About Section */
+        .bg-primary {
+            background-color: var(--primary-color) !important;
+            color: var(--text-light);
+            padding: 4rem 0;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        /* Testimonial Cards */
+        .testimonial-card {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .text-accent {
+            color: var(--accent-color);
+        }
+
+        /* Contact Section */
+        .contact-info {
+            background-color: var(--text-light);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer Styles */
+        .main-footer {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 40px 0;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .footer-col {
+            width: 25%;
+            margin-bottom: 20px;
+        }
+        
+        .footer-col h4 {
+            color: var(--accent-color);
+            margin-bottom: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+        
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-col li {
+            margin-bottom: 0.6rem;
+            transition: var(--transition);
+        }
+        
+        .footer-col li:hover {
+            transform: translateX(5px);
+        }
+        
+        .footer-col a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+            padding: 0.2rem 0;
+        }
+        
+        .footer-col a:hover {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        .social-icons {
+            display: flex;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            margin-right: 15px;
+            font-size: 1.2rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            background-color: var(--primary-light);
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--accent-color);
+            color: #212529;
+            transform: translateY(-3px);
+        }
+        
+        .newsletter-form {
+            display: flex;
+            margin-top: 1.5rem;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .newsletter-form button {
+            background-color: var(--accent-color);
+            color: #212529;
+            border: none;
+            padding: 0 1.2rem;
+            border-radius: 0 4px 4px 0;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .newsletter-form button:hover {
+            background-color: #e0a800;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .footer-col {
+                width: 50%;
+            }
+            
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .main-nav {
+                margin-top: 1rem;
+                width: 100%;
+            }
+            
+            .main-nav ul {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .main-nav li {
+                margin: 0.3rem;
+            }
+            
+            .footer-col {
+                width: 100%;
+            }
+            
+            .sidebar {
+                position: fixed;
+                height: 100vh;
+                top: 0;
+                z-index: 900;
+                transform: translateX(-100%);
+                padding-top: 60px;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .mobile-menu-btn {
+                display: block !important;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: var(--text-light);
+                cursor: pointer;
+                margin-right: 1rem;
+                transition: var(--transition);
+            }
+            
+            .mobile-menu-btn:hover {
+                color: var(--accent-color);
+                transform: scale(1.1);
+            }
+            
+            .main-content-container {
+                margin: 0.5rem;
+                padding: 1.5rem;
+            }
+
+            .hero-section {
+                padding: 100px 0;
+            }
+            
+            .hero-section h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-section .lead {
+                font-size: 1.2rem;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo-container">
+                <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
+                <div>
+                    <h5 class="mb-0">University of Peradeniya</h5>
+                    <small>Asset Management System - Director</small>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/directorhome" class="menu-item active">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a th:href="@{/}" class="btn btn-outline-light">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="d-flex flex-grow-1">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav>
+                <ul class="sidebar-menu">
+                    <li><a href="/director/home" class="menu-item ">Dashboard</a></li>
+                    <li><a href="/directorUserHistory" class="menu-item">User History</a></li>
+                    <li><a href="/directorMaintain" class="menu-item">Maintain</a></li>
+                    <li><a href="/directorCondemn" class="menu-item">Condemn</a></li>
+                    <li><a href="/directorAssetHistory" class="menu-item">Asset History</a></li>
+                    <li><a href="/directorAsset" class="menu-item">Asset</a></li>
+                    <li><a href="/directorInvoice" class="menu-item">Invoice</a></li>
+                    <li><a href="/directorMovement" class="menu-item">Movement</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="main-content-container">
+            <main class="main-content">
+                <!-- Hero Section with University Image -->
+                <section class="hero-section">
+                    <div class="container">
+                        <div class="hero-content text-center">
+                            <h1 class="display-4 fw-bold mb-4">University of Peradeniya<br>Asset Management System</h1>
+                            <p class="lead mb-5">Efficiently manage, track, and maintain all university assets with our comprehensive digital solution designed for excellence</p>
+                            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                                    <a href="#features" class="btn btn-lg" style="background-color: var(--accent-color); color: #212529;">Explore Features</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Features Section -->
+                <section id="features" class="py-5 bg-light">
+                    <div class="container">
+                        <div class="text-center mb-5">
+                            <h2 class="fw-bold">Key Features</h2>
+                            <p class="lead text-muted">Powerful tools to manage university assets effectively</p>
+                        </div>
+                        
+                        <div class="row g-4">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card feature-card p-4 h-100">
+                                    <div class="text-center">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-barcode"></i>
+                                        </div>
+                                        <h4>Asset Tracking</h4>
+                                        <p class="text-muted">Track all university assets with unique barcodes and QR codes for easy identification and management.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card feature-card p-4 h-100">
+                                    <div class="text-center">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-search"></i>
+                                        </div>
+                                        <h4>Quick Search</h4>
+                                        <p class="text-muted">Find any asset instantly with our powerful search functionality across all departments and locations.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card feature-card p-4 h-100">
+                                    <div class="text-center">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-calendar-check"></i>
+                                        </div>
+                                        <h4>Maintenance Scheduling</h4>
+                                        <p class="text-muted">Schedule and track maintenance activities to ensure all assets are in optimal condition.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card feature-card p-4 h-100">
+                                    <div class="text-center">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-chart-line"></i>
+                                        </div>
+                                        <h4>Reporting</h4>
+                                        <p class="text-muted">Generate comprehensive reports for audits, financial planning, and asset lifecycle management.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card feature-card p-4 h-100">
+                                    <div class="text-center">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-user-shield"></i>
+                                        </div>
+                                        <h4>Role-Based Access</h4>
+                                        <p class="text-muted">Different access levels for administrators, department heads, and staff to ensure data security.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card feature-card p-4 h-100">
+                                    <div class="text-center">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-mobile-alt"></i>
+                                        </div>
+                                        <h4>Mobile Friendly</h4>
+                                        <p class="text-muted">Access the system from any device, anywhere on campus for real-time asset management.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- About Section -->
+                <section id="about" class="py-5 bg-primary text-white">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6 mb-4 mb-lg-0">
+                                <h2 class="fw-bold mb-4">About the System</h2>
+                                <p>The University of Peradeniya Asset Management System is a comprehensive solution designed to streamline the tracking, maintenance, and management of all university assets.</p>
+                                <p>Developed by the University's IT department in collaboration with faculty experts, this system ensures efficient resource utilization and provides real-time insights into asset status across all campuses.</p>
+                                <p>Our mission is to support the university's educational goals by maintaining an accurate, up-to-date inventory of all physical assets while reducing administrative burdens.</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="System Screenshot" class="img-fluid rounded shadow">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Testimonials Section -->
+                <section class="py-5 bg-light">
+                    <div class="container">
+                        <div class="text-center mb-5">
+                            <h2 class="fw-bold">What Our Users Say</h2>
+                            <p class="lead text-muted">Feedback from university staff and administrators</p>
+                        </div>
+                        
+                        <div class="row g-4">
+                            <div class="col-lg-4">
+                                <div class="card h-100 p-4">
+                                    <div class="d-flex mb-3">
+                                        <img src="https://randomuser.me/api/portraits/women/45.jpg" class="rounded-circle me-3" width="60" height="60" alt="User">
+                                        <div>
+                                            <h5 class="mb-0">Dr. Samantha Silva</h5>
+                                            <p class="text-muted mb-0">Head of Science Faculty</p>
+                                        </div>
+                                    </div>
+                                    <p>"The asset management system has revolutionized how we track laboratory equipment. We've reduced equipment downtime by 40% thanks to the maintenance scheduling feature."</p>
+                                    <div class="text-accent">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4">
+                                <div class="card h-100 p-4">
+                                    <div class="d-flex mb-3">
+                                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle me-3" width="60" height="60" alt="User">
+                                        <div>
+                                            <h5 class="mb-0">Mr. Ramesh Perera</h5>
+                                            <p class="text-muted mb-0">Administrative Officer</p>
+                                        </div>
+                                    </div>
+                                    <p>"Audit preparation used to take weeks. Now with this system, we can generate comprehensive reports with just a few clicks. It's been a game-changer for our department."</p>
+                                    <div class="text-accent">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4">
+                                <div class="card h-100 p-4">
+                                    <div class="d-flex mb-3">
+                                        <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle me-3" width="60" height="60" alt="User">
+                                        <div>
+                                            <h5 class="mb-0">Ms. Anoma Bandara</h5>
+                                            <p class="text-muted mb-0">IT Department</p>
+                                        </div>
+                                    </div>
+                                    <p>"The mobile access feature allows our technicians to update asset status in real-time while on-site. The system is intuitive and requires minimal training."</p>
+                                    <div class="text-accent">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Contact Section -->
+                <section id="contact" class="py-5 bg-light">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 text-center mb-5">
+                                <h2 class="fw-bold mb-3">Contact Us</h2>
+                                <p class="lead text-muted">We're here to help with any questions about our Asset Management System</p>
+                            </div>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-lg-5">
+                                <div class="contact-info p-4 h-100 rounded" style="background-color: rgba(128, 0, 0, 0.05);">
+                                    <h4 class="mb-4 text-primary"><i class="fas fa-envelope-open-text me-2"></i> Get in Touch</h4>
+                                    <p class="mb-4">Have questions or need support? Our team is ready to assist you with any inquiries about the Asset Management System.</p>
+                                    
+                                    <div class="d-flex mb-4">
+                                        <div class="me-3 text-primary">
+                                            <i class="fas fa-map-marker-alt fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold mb-1">Address</h5>
+                                            <p class="mb-0">IT Department, University of Peradeniya, Peradeniya, Sri Lanka</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex mb-4">
+                                        <div class="me-3 text-primary">
+                                            <i class="fas fa-phone-alt fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold mb-1">Phone</h5>
+                                            <p class="mb-0">+94 81 239 0000</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex mb-4">
+                                        <div class="me-3 text-primary">
+                                            <i class="fas fa-envelope fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold mb-1">Email</h5>
+                                            <p class="mb-0">assetsupport@pdn.ac.lk</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex">
+                                        <div class="me-3 text-primary">
+                                            <i class="fas fa-clock fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold mb-1">Support Hours</h5>
+                                            <p class="mb-0">Monday - Friday: 8:30 AM - 4:30 PM</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-7">
+                                <div class="card border-0 shadow">
+                                    <div class="card-body p-5">
+                                        <h3 class="fw-bold mb-4 text-center">Send Us a Message</h3>
+                                        <form>
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+                                                        <label for="name"><i class="fas fa-user me-2 text-muted"></i>Your Name</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                        <input type="email" class="form-control" id="email" placeholder="Email Address" required>
+                                                        <label for="email"><i class="fas fa-envelope me-2 text-muted"></i>Email Address</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control" id="subject" placeholder="Subject" required>
+                                                        <label for="subject"><i class="fas fa-tag me-2 text-muted"></i>Subject</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-floating">
+                                                        <textarea class="form-control" id="message" placeholder="Your Message" style="height: 150px" required></textarea>
+                                                        <label for="message"><i class="fas fa-comment me-2 text-muted"></i>Your Message</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="d-grid">
+                                                        <button type="submit" class="btn btn-primary btn-lg py-3">
+                                                            <i class="fas fa-paper-plane me-2"></i>Send Message
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>  
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-row">
+                <div class="footer-col">
+                    <h4>University of Peradeniya</h4>
+                    <p>The University of Peradeniya is a leading higher education institution in Sri Lanka, committed to excellence in teaching, research, and innovation.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/adminhome">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a th:href="@{/login}">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">User Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Training Videos</a></li>
+                        <li><a href="#">System Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe to receive updates and system announcements.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <hr style="border-color: var(--primary-light);">
+            <div class="footer-bottom">
+                <p>&copy; 2025 University of Peradeniya. All rights reserved.</p>
+                <p>Asset Management System v2.1</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mobile menu toggle functionality
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.querySelector('.sidebar');
+            const mobileBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(event.target) && 
+                !mobileBtn.contains(event.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

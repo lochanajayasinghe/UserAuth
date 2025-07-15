@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us | Asset Management System | University of Peradeniya</title>
+    <title>Asset Management System | University of Peradeniya</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -197,150 +197,6 @@
             margin: 1rem;
         }
         
-        /* Contact Page Specific Styles */
-        .page-header {
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .page-header h1 {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-        
-        .contact-container {
-            display: flex;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        
-        .contact-form {
-            flex: 1;
-            background-color: #f9f9f9;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        
-        .contact-info {
-            flex: 1;
-            background-color: #f9f9f9;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            font-weight: 500;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .form-group label i {
-            margin-right: 10px;
-            color: var(--accent-color);
-        }
-        
-        .form-control {
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            padding: 0.75rem 1rem;
-            transition: var(--transition);
-        }
-        
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(128, 0, 0, 0.25);
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            padding: 0.75rem;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-            border-color: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        
-        .contact-card {
-            margin-bottom: 1.5rem;
-            padding: 1.5rem;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            transition: var(--transition);
-        }
-        
-        .contact-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .contact-card i {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-        
-        .contact-card h3 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-        
-        .contact-card p {
-            margin-bottom: 0.5rem;
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 50%;
-            transition: var(--transition);
-        }
-        
-        .social-link:hover {
-            background-color: var(--accent-color);
-            color: var(--text-dark);
-            transform: translateY(-3px);
-        }
-        
-        .map-container {
-            margin-top: 2rem;
-            height: 300px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .map-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
         /* Footer Styles */
         .main-footer {
             background-color: var(--primary-color);
@@ -474,6 +330,55 @@
             font-size: 0.9rem;
         }
         
+        /* Button Styles */
+        .btn-hero {
+            padding: 0.8rem 1.8rem;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-hero-primary {
+            background-color: var(--accent-color);
+            color: #212529;
+            border: 2px solid transparent;
+        }
+        
+        .btn-hero-primary:hover {
+            background-color: #e0a800;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-hero-outline {
+            border: 2px solid white;
+            color: white;
+            background-color: transparent;
+        }
+        
+        .btn-hero-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Card Styles */
+        .feature-card {
+            border: none;
+            border-radius: 8px;
+            transition: var(--transition);
+            height: 100%;
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
         /* Responsive Adjustments */
         @media (max-width: 992px) {
             .footer-col {
@@ -487,10 +392,6 @@
             
             .menu-text {
                 display: none;
-            }
-            
-            .contact-container {
-                flex-direction: column;
             }
         }
         
@@ -546,6 +447,12 @@
                 color: var(--accent-color);
                 transform: scale(1.1);
             }
+            
+            .btn-hero {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+            }
         }
         
         .mobile-menu-btn {
@@ -561,15 +468,16 @@
                 <i class="fas fa-bars"></i>
             </button>
             <div class="logo-container">
-                <img th:src="@{/images/University_of_Peradeniya_logo.png}" alt="University Logo" class="logo-img">
-                <h1 style="margin: 0; font-size: 1.5rem;">Asset Management System</h1>
+                <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
+                <div>
+                    <h5 class="mb-0 text-light">University of Peradeniya</h5>
+                    <small class="text-light">Asset Management System - Director</small>
+                </div>
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="/home">Home</a></li>
-                    <li><a href="/about">About</a></li>
-                    <li><a href="/contactUs"  class="menu-item active">Contact Us</a></li>
-                    <li><a th:href="@{/}" class="login-btn">Login</a></li>
+                    <li><a href="/directorhome">Home</a></li>
+                    <li><a th:href="@{/}" class="btn btn-outline-light">Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -581,89 +489,21 @@
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/Dashboard" class="menu-item">Dashboard</a></li>
-                    <li><a href="/UserHistory" class="menu-item">User History</a></li>
-                    <li><a href="/Maintain" class="menu-item">Maintain</a></li>
-                    <li><a href="/Condemn" class="menu-item">Condemn</a></li>
-                    <li><a href="/AssetHistory" class="menu-item">Asset History</a></li>
-                    <li><a href="/Asset" class="menu-item">Asset</a></li>
-                    <li><a href="/Invoice" class="menu-item">Invoice</a></li>
-                    <li><a href="/Movement" class="menu-item">Movement</a></li>
+                    <li><a href="/director/home" class="menu-item ">Dashboard</a></li>
+                    <li><a href="/directorUserHistory" class="menu-item active">User History</a></li>
+                    <li><a href="/directorMaintain" class="menu-item">Maintain</a></li>
+                    <li><a href="/directorCondemn" class="menu-item">Condemn</a></li>
+                    <li><a href="/directorAssetHistory" class="menu-item">Asset History</a></li>
+                    <li><a href="/directorAsset" class="menu-item">Asset</a></li>
+                    <li><a href="/directorInvoice" class="menu-item">Invoice</a></li>
+                    <li><a href="/directorMovement" class="menu-item">Movement</a></li>
                 </ul>
             </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <div class="page-header">
-                <h1>Contact Us</h1>
-                <p>Get in touch with our team for any inquiries, support, or feedback regarding the Asset Management System.</p>
-            </div>
-
-            <div class="contact-container">
-                <div class="contact-form">
-                    <h2 class="mb-4" style="color: var(--primary-color);">Send us a message</h2>
-                    <form action="/sendMessage" method="post">
-                        <div class="form-group">
-                            <label for="name"><i class="fas fa-user"></i> Full Name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Your full name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="subject"><i class="fas fa-heading"></i> Subject</label>
-                            <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject of your message" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message"><i class="fas fa-comment-dots"></i> Message</label>
-                            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Type your message here..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">
-                            <i class="fas fa-paper-plane mr-2"></i> Send Message
-                        </button>
-                    </form>
-                </div>
-
-                <div class="contact-info">
-                    <h2 class="mb-4" style="color: var(--primary-color);">Contact Information</h2>
-                    <div class="contact-card">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <h3>Address</h3>
-                        <p>Information Technology Centre</p>
-                        <p>University of Peradeniya</p>
-                        <p>Peradeniya, 20400</p>
-                        <p>Sri Lanka</p>
-                    </div>
-
-                    <div class="contact-card">
-                        <i class="fas fa-phone-alt"></i>
-                        <h3>Phone</h3>
-                        <p>+94 81 239 4000</p>
-                        <p>Mon-Fri: 8:00 AM - 4:30 PM</p>
-                    </div>
-
-                    <div class="contact-card">
-                        <i class="fas fa-envelope"></i>
-                        <h3>Email</h3>
-                        <p>assetmgmt@pdn.ac.lk</p>
-                        <p>support.asset@pdn.ac.lk</p>
-                        <p>Response time: 24-48 hours</p>
-                    </div>
-
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.755179119915!2d80.5958603147747!3d7.255469994753921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae368a77d5cbf91%3A0xba828c0e203b5306!2sUniversity%20of%20Peradeniya!5e0!3m2!1sen!2slk!4v1620000000000!5m2!1sen!2slk" allowfullscreen="" loading="lazy"></iframe>
-            </div>
+            <h1>Director - UserHistory</h1>
         </main>
     </div>
 
@@ -686,8 +526,8 @@
                     <ul>
                         <li><a href="/home">Home</a></li>
                         <li><a href="/about">About</a></li>
-                        <li><a href="/contactUs">Contact Us</a></li>
-                        <li><a th:href="@{/}">Login</a></li>
+                        <li><a href="/contactUs">Contact</a></li>
+                        <li><a th:href="@{/login}">Login</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -723,18 +563,24 @@
             document.querySelector('.sidebar').classList.toggle('active');
         });
         
-        // Set active menu item based on current page
-        const currentPage = window.location.pathname.split('/').pop() || 'home';
+        // Add active class to current nav item
         document.querySelectorAll('.main-nav a').forEach(link => {
-            if (link.getAttribute('href').includes(currentPage)) {
-                link.classList.add('active');
-            }
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.main-nav a').forEach(item => {
+                    item.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
         });
-
-        document.querySelectorAll('.menu-item').forEach(item => {
-            if (item.getAttribute('href').includes(currentPage)) {
-                item.classList.add('active');
-            }
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
         });
     </script>
 </body>

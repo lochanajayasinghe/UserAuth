@@ -20,25 +20,6 @@ public class AuthController {
     private final AuthService authService;
     private final RoleRepository roleRepository;
 
-    @GetMapping("/")
-    public String landing_page(Model model) {
-        return "home/landing_page";
-    }
-
-    @GetMapping("/home")
-    public String homePage(Model model) {
-        return "home/home";
-    }
-
-    @GetMapping("/about")
-    public String aboutUs(Model model) {
-        return "home/about";
-    }
-
-    @GetMapping("/contactUs")
-    public String contactUs(Model model) {
-        return "home/contactUs";
-    }
 
     @GetMapping("/login")
     public String loginPage(@RequestParam(value = "error", required = false) String error,
@@ -142,9 +123,9 @@ public class AuthController {
         return "reset-password";
     }
 
-    @GetMapping("/user/home")
-    public String userHome() {
-        return "user-home";
+    @GetMapping("/")
+    public String landing_page(Model model) {
+        return "home/landing_page";
     }
 
     @GetMapping("/Asset")
@@ -158,10 +139,6 @@ public class AuthController {
     @GetMapping("/Condemn")
     public String Condemn(Model model) {
         return "Condemn/Condemn";
-    }
-    @GetMapping("/Dashboard")
-    public String Dashboard(Model model) {
-        return "Dashboard/Dashboard";
     }
     @GetMapping("/Invoice")
     public String Invoice(Model model) {

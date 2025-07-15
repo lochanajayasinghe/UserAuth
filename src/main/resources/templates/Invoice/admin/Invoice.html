@@ -470,13 +470,13 @@
             <div class="logo-container">
                 <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
                 <div>
-                    <h5 class="mb-0">University of Peradeniya</h5>
-                    <small>Asset Management System </small>
+                    <h5 class="mb-0 text-light">University of Peradeniya</h5>
+                    <small class="text-light">Asset Management System - Admin</small>
                 </div>
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="/user/home">Home</a></li>
+                    <li><a href="/adminhome">Home</a></li>
                     <li><a th:href="@{/}" class="btn btn-outline-light">Logout</a></li>
                 </ul>
             </nav>
@@ -489,20 +489,21 @@
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/UserHistory" class="menu-item">User History</a></li>
-                    <li><a href="/Maintain" class="menu-item active">Maintain</a></li>
-                    <li><a href="/Condemn" class="menu-item">Condemn</a></li>
-                    <li><a href="/AssetHistory" class="menu-item">Asset History</a></li>
-                    <li><a href="/Asset" class="menu-item">Asset</a></li>
-                    <li><a href="/Invoice" class="menu-item">Invoice</a></li>
-                    <li><a href="/Movement" class="menu-item">Movement</a></li>
+                    <li><a href="/admin/home" class="menu-item">Dashboard</a></li>
+                    <li><a href="/adminUserHistory" class="menu-item">User History</a></li>
+                    <li><a href="/adminMaintain" class="menu-item">Maintain</a></li>
+                    <li><a href="/adminCondemn" class="menu-item">Condemn</a></li>
+                    <li><a href="/adminAssetHistory" class="menu-item">Asset History</a></li>
+                    <li><a href="/adminAsset" class="menu-item">Asset</a></li>
+                    <li><a href="/adminInvoice" class="menu-item">Invoice</a></li>
+                    <li><a href="/adminMovement" class="menu-item">Movement</a></li>
                 </ul>
             </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <h1>Maintain</h1>
+            <h1>Admin - Invoice</h1>
         </main>
     </div>
 
