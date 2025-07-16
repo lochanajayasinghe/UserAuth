@@ -191,12 +191,51 @@
         .main-content {
             flex: 1;
             padding: 2rem;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #f5f5f5; /* Adjusted to match body background */
             margin: 1rem;
         }
-        
+
+        /* Card-based detail view styles */
+        .detail-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-item {
+            margin-bottom: 1rem;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--primary-dark);
+            display: block; /* Ensures label takes its own line */
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+
+        .detail-value .badge {
+            font-size: 0.9rem;
+            padding: 0.5em 0.8em;
+            border-radius: 0.35rem;
+        }
+
+        /* Responsive grid for details */
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
         /* Footer Styles */
         .main-footer {
             background-color: var(--primary-color);
@@ -458,10 +497,18 @@
         .mobile-menu-btn {
             display: none;
         }
+        .btn-primary {
+            background-color: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark) !important;
+            border-color: var(--primary-dark) !important;
+        }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="main-header">
         <div class="header-container">
             <button class="mobile-menu-btn">
@@ -471,43 +518,76 @@
                 <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
                 <div>
                     <h5 class="mb-0 text-light">University of Peradeniya</h5>
-                    <small class="text-light">Asset Management System - Director</small>
+                    <small class="text-light">Asset Management System - Admin</small>
                 </div>
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="/directorhome">Home</a></li>
+                    <li><a href="/adminhome">Home</a></li>
                     <li><a th:href="@{/}" class="btn btn-outline-light">Logout</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Main Content with Sidebar -->
     <div class="d-flex flex-grow-1">
-        <!-- Sidebar -->
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/director/home" class="menu-item ">Dashboard</a></li>
-                    <li><a href="/director/directorUserHistory" class="menu-item">User History</a></li>
-                    <li><a href="/directorMaintain" class="menu-item">Maintain</a></li>
-                    <li><a href="/directorCondemn" class="menu-item active">Condemn</a></li>
-                    <li><a href="/directorAssetHistory" class="menu-item">Asset History</a></li>
-                    <li><a href="/directorAsset" class="menu-item">Asset</a></li>
-                    <li><a href="/directorInvoice" class="menu-item">Invoice</a></li>
-                    <li><a href="/directorMovement" class="menu-item">Movement</a></li>
+                    <li><a href="/admin/home" class="menu-item ">Dashboard</a></li>
+                    <li><a href="/admin/adminUserHistory" class="menu-item active">User History</a></li>
+                    <li><a href="/adminMaintain" class="menu-item">Maintain</a></li>
+                    <li><a href="/adminCondemn" class="menu-item">Condemn</a></li>
+                    <li><a href="/adminAssetHistory" class="menu-item">Asset History</a></li>
+                    <li><a href="/adminAsset" class="menu-item">Asset</a></li>
+                    <li><a href="/adminInvoice" class="menu-item">Invoice</a></li>
+                    <li><a href="/adminMovement" class="menu-item">Movement</a></li>
                 </ul>
             </nav>
         </aside>
 
-        <!-- Main Content -->
         <main class="main-content">
-            <h1>Director - Condemn</h1>
+            <div class="container mt-4">
+                <h2 class="mb-4">Asset History Record Details</h2>
+
+                <div class="detail-card">
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="detail-label">User Name</span>
+                            <span class="detail-value" th:text="${history.userName}">Name</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Job Role</span>
+                            <span class="detail-value" th:text="${history.jobRole}">Role</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Description</span>
+                            <span class="detail-value" th:text="${history.userDescription}">Desc</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Asset</span>
+                            <span class="detail-value" th:text="${history.asset.name} + ' (' + ${history.asset.assetId} + ')'"></span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Location</span>
+                            <span class="detail-value" th:text="${history.location.departmentName}">Dept</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Period</span>
+                            <span class="detail-value">
+                                <span th:text="${#dates.format(history.startDate, 'yyyy-MM-dd')}"></span> to
+                                <span th:if="${history.endDate != null}" th:text="${#dates.format(history.endDate, 'yyyy-MM-dd')}"></span>
+                                <span th:if="${history.endDate == null}" class="badge bg-success">Current</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/admin/adminUserHistory" class="btn btn-primary mt-3"><i class="fas fa-arrow-left"></i> Back to List</a>
+            </div>
         </main>
     </div>
 
-    <!-- Footer -->
     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-row">

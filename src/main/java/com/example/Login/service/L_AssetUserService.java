@@ -29,5 +29,10 @@ public class L_AssetUserService {
     public AssetUser saveAssetUser(AssetUser assetUser) {
         return assetUserRepository.save(assetUser);
     }
+
+    public AssetUser getUserHistoryById(Long id) {
+        return assetUserRepository.findById(id).orElse(null);
+    }
+
 }
 

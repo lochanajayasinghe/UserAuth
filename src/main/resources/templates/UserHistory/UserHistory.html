@@ -458,6 +458,20 @@
         .mobile-menu-btn {
             display: none;
         }
+
+        .bg-primary {
+            background-color: var(--primary-color) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark) !important; /* For a darker hover effect */
+            border-color: var(--primary-dark) !important;
+        }
     </style>
 </head>
 <body>
@@ -512,8 +526,7 @@
                 <!-- User-only section -->
                 <div th:if="${isRegularUser}" class="user-only-section">
                     <h5><i class="fas fa-user-circle me-2"></i>Your Asset History</h5>
-                    <p class="mb-0">This section shows your personal asset usage history. 
-                    Contact IT support if you notice any discrepancies.</p>
+                    <p class="mb-0"></p>
                 </div>
                 
                 <div>
@@ -552,20 +565,18 @@
                                           th:text="${#dates.format(history.endDate, 'yyyy-MM-dd')}"></span>
                                     <span th:if="${history.endDate == null}" class="badge bg-success">Current</span>
                                 </td>
-                                <td th:if="${isRegularUser}">
-                                    <button class="btn btn-sm btn-outline-primary">Request Change</button>
+                                
+                                <td>
+                                    <a th:href="@{'/user-history/view/' + ${history.id}}" class="btn btn-sm btn-primary">View</a>
+                                    
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 
-                <!-- Another user-only section at the bottom -->
-                <div th:if="${isRegularUser}" class="user-only-section mt-4">
-                    <h5><i class="fas fa-question-circle me-2"></i>Need Help?</h5>
-                    <p class="mb-0">If you need to make changes to your asset assignments, please use the 
-                    "Request Change" button or contact your department's IT support.</p>
-                </div>
+                
+                
             </div>
         </div>
     </div>
