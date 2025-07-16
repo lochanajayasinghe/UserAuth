@@ -148,10 +148,6 @@ public class AuthController {
     public String Movement(Model model) {
         return "Movement/Movement";
     }
-    @GetMapping("/UserHistory")
-    public String UserHistory(Model model) {
-        return "UserHistory/UserHistory";
-    }
     @GetMapping("/Maintain")
     public String Maintain(Model model) {
         return "Maintain/Maintain";
