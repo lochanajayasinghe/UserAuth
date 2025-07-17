@@ -191,7 +191,9 @@
         .main-content {
             flex: 1;
             padding: 2rem;
-            background-color: #f5f5f5; /* Adjusted to match body background */
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin: 1rem;
         }
 
@@ -205,14 +207,14 @@
         }
 
         .detail-item {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .detail-label {
             font-weight: 600;
             color: var(--primary-dark);
-            display: block; /* Ensures label takes its own line */
-            margin-bottom: 0.25rem;
+            display: block;
+            margin-bottom: 0.5rem;
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -221,6 +223,8 @@
         .detail-value {
             font-size: 1.1rem;
             color: var(--text-dark);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
         }
 
         .detail-value .badge {
@@ -232,8 +236,22 @@
         /* Responsive grid for details */
         .detail-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Centered Header Styles */
+        .page-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        .page-header h2 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
         }
 
         /* Footer Styles */
@@ -370,54 +388,16 @@
         }
         
         /* Button Styles */
-        .btn-hero {
-            padding: 0.8rem 1.8rem;
-            font-weight: 600;
-            border-radius: 4px;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+        .btn-primary {
+            background-color: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
         }
-        
-        .btn-hero-primary {
-            background-color: var(--accent-color);
-            color: #212529;
-            border: 2px solid transparent;
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark) !important;
+            border-color: var(--primary-dark) !important;
         }
-        
-        .btn-hero-primary:hover {
-            background-color: #e0a800;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .btn-hero-outline {
-            border: 2px solid white;
-            color: white;
-            background-color: transparent;
-        }
-        
-        .btn-hero-outline:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* Card Styles */
-        .feature-card {
-            border: none;
-            border-radius: 8px;
-            transition: var(--transition);
-            height: 100%;
-            border-top: 4px solid var(--primary-color);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        
+
         /* Responsive Adjustments */
         @media (max-width: 992px) {
             .footer-col {
@@ -431,6 +411,10 @@
             
             .menu-text {
                 display: none;
+            }
+
+            .detail-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             }
         }
         
@@ -486,25 +470,14 @@
                 color: var(--accent-color);
                 transform: scale(1.1);
             }
-            
-            .btn-hero {
-                padding: 0.7rem 1.5rem;
-                font-size: 0.9rem;
-                margin-bottom: 0.5rem;
+
+            .detail-grid {
+                grid-template-columns: 1fr;
             }
         }
         
         .mobile-menu-btn {
             display: none;
-        }
-        .btn-primary {
-            background-color: var(--primary-color) !important;
-            border-color: var(--primary-color) !important;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-dark) !important;
-            border-color: var(--primary-dark) !important;
         }
     </style>
 </head>
@@ -534,7 +507,7 @@
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/admin/home" class="menu-item ">Dashboard</a></li>
+                    <li><a href="/admin/home" class="menu-item">Dashboard</a></li>
                     <li><a href="/admin/adminUserHistory" class="menu-item active">User History</a></li>
                     <li><a href="/adminMaintain" class="menu-item">Maintain</a></li>
                     <li><a href="/adminCondemn" class="menu-item">Condemn</a></li>
@@ -547,8 +520,10 @@
         </aside>
 
         <main class="main-content">
-            <div class="container mt-4">
-                <h2 class="mb-4">Asset History Record Details</h2>
+            <div class="container-fluid">
+                <div class="page-header">
+                    <h2>Asset History Record Details</h2>
+                </div>
 
                 <div class="detail-card">
                     <div class="detail-grid">
@@ -583,7 +558,11 @@
                     </div>
                 </div>
 
-                <a href="/admin/adminUserHistory" class="btn btn-primary mt-3"><i class="fas fa-arrow-left"></i> Back to List</a>
+                <div class="text-center mt-4">
+                    <a href="/admin/adminUserHistory" class="btn btn-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Back to List
+                    </a>
+                </div>
             </div>
         </main>
     </div>
@@ -650,16 +629,6 @@
                     item.classList.remove('active');
                 });
                 this.classList.add('active');
-            });
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
             });
         });
     </script>
