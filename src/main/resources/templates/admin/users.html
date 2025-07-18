@@ -465,6 +465,25 @@
         .mobile-menu-btn {
             display: none;
         }
+        .table thead th {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border-bottom: 2px solid var(--primary-dark);
+        }
+        .table-hover tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .table-responsive {
+            margin-top: 1rem;
+        }
+        .btn-info {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+        }
+        .btn-info:hover {
+            background-color: #138496;
+            border-color: #117a8b;
+        }
     </style>
 </head>
 <body>
@@ -495,8 +514,8 @@
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/admin/home" class="menu-item ">Dashboard</a></li>
-                    <li><a href="/adminUserHistory" class="menu-item">User History</a></li>
+                    <li><a href="/admin/home" class="menu-item active active">Dashboard</a></li>
+                    <li><a href="/admin/adminUserHistory" class="menu-item">User History</a></li>
                     <li><a href="/adminMaintain" class="menu-item">Maintain</a></li>
                     <li><a href="/adminCondemn" class="menu-item">Condemn</a></li>
                     <li><a href="/adminAssetHistory" class="menu-item">Asset History</a></li>
@@ -510,34 +529,124 @@
         <div class="main-content-container">
             <main class="main-content">
                 <div class="container mt-4">
-                    <h2>User Management</h2>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>Full Name</th>
-                                <th>Email</th>
-                                <th>Roles</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="user : ${users}">
-                                <td th:text="${user.id}"></td>
-                                <td th:text="${user.username}"></td>
-                                <td th:text="${user.fullName}"></td>
-                                <td th:text="${user.email}"></td>
-                                <td>
-                                    <span th:each="role : ${user.roles}" th:text="${role + ' '}"></span>
-                                </td>
-                                
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="mb-0">User Management</h2>
+                        <button class="btn btn-primary" onclick="openAddUserModal()"><i class="fas fa-user-plus"></i> Add User</button>
+                    </div>
+                    <div class="card p-3 mb-4 shadow-sm">
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <input type="text" id="searchInput" class="form-control" placeholder="Search by username, email, or name..." onkeyup="filterTable()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle" id="userTable">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">Full Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Roles</th>
+                                    <th scope="col" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="user : ${users}">
+                                    <td th:text="${user.id}"></td>
+                                    <td th:text="${user.username}"></td>
+                                    <td th:text="${user.fullName}"></td>
+                                    <td th:text="${user.email}"></td>
+                                    <td>
+                                        <span th:each="role : ${user.roles}" th:text="${role + ' '}"></span>
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-info me-1" title="View" onclick="openViewUserModal(this)"><i class="fas fa-eye"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Modals (Add/Edit/View) -->
+                    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="userModalLabel">User Details</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Content will be loaded dynamically -->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary d-none" id="saveUserBtn">Save Changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                <script>
+                    // Filter table rows by search input
+                    function filterTable() {
+                        var input = document.getElementById('searchInput');
+                        var filter = input.value.toLowerCase();
+                        var table = document.getElementById('userTable');
+                        var trs = table.getElementsByTagName('tr');
+                        for (var i = 1; i < trs.length; i++) {
+                            var tds = trs[i].getElementsByTagName('td');
+                            var show = false;
+                            for (var j = 0; j < 4; j++) {
+                                if (tds[j] && tds[j].textContent.toLowerCase().indexOf(filter) > -1) {
+                                    show = true;
+                                    break;
+                                }
+                            }
+                            trs[i].style.display = show ? '' : 'none';
+                        }
+                    }
 
+                    // Modal logic (dummy for UI)
+                    function openAddUserModal() {
+                        var modal = new bootstrap.Modal(document.getElementById('userModal'));
+                        document.getElementById('userModalLabel').textContent = 'Add User';
+                        document.querySelector('#userModal .modal-body').innerHTML = '<form><div class="mb-3"><label class="form-label">Username</label><input type="text" class="form-control"></div><div class="mb-3"><label class="form-label">Full Name</label><input type="text" class="form-control"></div><div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control"></div><div class="mb-3"><label class="form-label">Roles</label><input type="text" class="form-control"></div></form>';
+                        document.getElementById('saveUserBtn').classList.remove('d-none');
+                        modal.show();
+                    }
+                    function openEditUserModal(btn) {
+                        var row = btn.closest('tr');
+                        var username = row.children[1].textContent;
+                        var fullName = row.children[2].textContent;
+                        var email = row.children[3].textContent;
+                        var roles = row.children[4].textContent;
+                        var modal = new bootstrap.Modal(document.getElementById('userModal'));
+                        document.getElementById('userModalLabel').textContent = 'Edit User';
+                        document.querySelector('#userModal .modal-body').innerHTML = `<form><div class="mb-3"><label class="form-label">Username</label><input type="text" class="form-control" value="${username}"></div><div class="mb-3"><label class="form-label">Full Name</label><input type="text" class="form-control" value="${fullName}"></div><div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control" value="${email}"></div><div class="mb-3"><label class="form-label">Roles</label><input type="text" class="form-control" value="${roles}"></div></form>`;
+                        document.getElementById('saveUserBtn').classList.remove('d-none');
+                        modal.show();
+                    }
+                    function openViewUserModal(btn) {
+                        var row = btn.closest('tr');
+                        var username = row.children[1].textContent;
+                        var fullName = row.children[2].textContent;
+                        var email = row.children[3].textContent;
+                        var roles = row.children[4].textContent;
+                        var modal = new bootstrap.Modal(document.getElementById('userModal'));
+                        document.getElementById('userModalLabel').textContent = 'View User';
+                        document.querySelector('#userModal .modal-body').innerHTML = `<div><strong>Username:</strong> ${username}</div><div><strong>Full Name:</strong> ${fullName}</div><div><strong>Email:</strong> ${email}</div><div><strong>Roles:</strong> ${roles}</div>`;
+                        document.getElementById('saveUserBtn').classList.add('d-none');
+                        modal.show();
+                    }
+                    function confirmDeleteUser(btn) {
+                        if (confirm('Are you sure you want to delete this user?')) {
+                            // Add delete logic here
+                            alert('User deleted (demo only)');
+                        }
+                    }
+                </script>
             </main>
         </div>
     </div>

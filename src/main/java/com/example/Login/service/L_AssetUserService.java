@@ -1,5 +1,6 @@
 // com.example.Login.service.L_AssetUserService
 package com.example.Login.service;
+import com.example.Login.dto.L_UserHistoryDto;
 
 import com.example.Login.model.AssetUser;
 import com.example.Login.repository.L_AssetUserRepository;

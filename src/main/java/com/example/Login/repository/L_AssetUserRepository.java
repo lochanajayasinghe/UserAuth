@@ -23,5 +23,6 @@ public interface L_AssetUserRepository extends JpaRepository<AssetUser, Long> {
 List<L_UserHistoryDto> findUserHistoryDtoByUserName(String userName);
 
 
+
 }
 
