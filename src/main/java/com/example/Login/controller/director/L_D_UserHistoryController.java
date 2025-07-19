@@ -1,4 +1,4 @@
-package com.example.Login.controller.director; // Changed package to include 'admin'
+package com.example.Login.controller.director; // Changed package to include 'director'
 
 import com.example.Login.model.AssetUser;
 import com.example.Login.service.L_AssetUserService;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping("/director") // Base mapping for admin-related paths
+@RequestMapping("/director") // Base mapping for director-related paths
 public class L_D_UserHistoryController { // Renamed class
     private final L_AssetUserService assetUserService;
 
@@ -22,34 +22,24 @@ public class L_D_UserHistoryController { // Renamed class
         this.assetUserService = assetUserService;
     }
 
-    @GetMapping("/directorUserHistory") // Relative to /admin
+    @GetMapping("/directorUserHistory") // Relative to /director
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DIRECTOR', 'ROLE_USER')")
     public String getUserHistory(Model model,
-                                 @RequestParam(required = false) String userName,
-                                 @RequestParam(required = false) String assetId,
                                  Authentication authentication) {
-        List<AssetUser> userHistories;
-        
-        if (userName != null && !userName.isEmpty()) {
-            userHistories = assetUserService.getUserHistoryByUserName(userName);
-        } else if (assetId != null && !assetId.isEmpty()) {
-            userHistories = assetUserService.getAssetHistory(assetId);
-        } else {
-            userHistories = assetUserService.getAllUserHistories();
-        }
-        
+        List<com.example.Login.dto.L_UserHistoryDto> userHistories = assetUserService.getAllUserHistoryDtos();
+
         // Check if the user has only ROLE_USER (not other higher roles)
         boolean isRegularUser = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .anyMatch("ROLE_USER"::equals) &&
                 authentication.getAuthorities().size() == 1;
-        
+
         model.addAttribute("userHistories", userHistories);
         model.addAttribute("isRegularUser", isRegularUser);
         return "UserHistory/director/UserHistory";
     }
 
-    @GetMapping("/directorUserHistory/view/{id}") // Relative to /admin
+    @GetMapping("/directorUserHistory/view/{id}") // Relative to /director
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DIRECTOR', 'ROLE_USER')")
     public String viewHistoryRecord(@PathVariable Long id, Model model) {
         AssetUser history = assetUserService.getUserHistoryById(id);

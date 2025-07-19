@@ -521,22 +521,20 @@
             <div class="logo-container">
                 <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
                 <div>
-                    <h5 class="mb-0">University of Peradeniya</h5>
-                    <small>Asset Management System - Admin</small>
+                    <h5 class="mb-0 text-light">University of Peradeniya</h5>
+                    <small class="text-light">Asset Management System - Admin</small>
                 </div>
             </div>
             <nav class="main-nav">
                 <ul>
                     <li><a href="/adminhome">Home</a></li>
-                    <li><a th:href="@{/}" class="login-btn">Logout</a></li>
+                    <li><a th:href="@{/}" class="btn btn-outline-light">Logout</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Main Content with Sidebar -->
     <div class="d-flex flex-grow-1">
-        <!-- Sidebar -->
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
@@ -573,10 +571,14 @@
                         <div class="col">
                             <input type="text" id="userNameFilter" class="form-control border-primary shadow-sm" placeholder="Type user name...">
                         </div>
+                        <div class="col-auto">
+                            <label for="roomNameFilter" class="form-label fw-semibold text-primary"><i class="fas fa-door-open me-1"></i>Filter by Room Name:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" id="roomNameFilter" class="form-control border-primary shadow-sm" placeholder="Type room name...">
+                        </div>
                     </div>
-                    <div class="card-header" style="background-color: var(--primary-color); color: var(--text-light); border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;">
-                        <h4 class="mb-0">Asset Usage History</h4>
-                    </div>
+                    
                     <div class="card-body bg-light rounded-bottom">
                         <!-- User-only section -->
                         <div th:if="${isRegularUser}" class="user-only-section mb-3">
@@ -605,9 +607,15 @@
                                             <span class="badge bg-secondary" th:text="${history.jobRole}"></span>
                                         </td>
                                         <td>
-                                            <span class="fw-semibold text-primary" th:text="${history.asset.name} + ' (' + ${history.asset.assetId} + ')'" ></span>
+                                            <span class="text-secondary"><strong>Asset ID:</strong> <span th:text="${history.assetId}"></span></span><br>
+                                            <span class="fw-semibold text-primary"><strong>Name:</strong> <span th:text="${history.assetName}"></span></span><br>
+                                            <span class="text-dark"><strong>Brand:</strong> <span th:text="${history.assetBrand}"></span></span><br>
+                                            <span class="text-muted"><strong>Model:</strong> <span th:text="${history.assetModel}"></span></span>
                                         </td>
-                                        <td th:text="${history.location.departmentName}"></td>
+                                        <td>
+                                            <span class="fw-semibold text-primary"><strong>Department:</strong> <span th:text="${history.departmentName}"></span></span><br>
+                                            <span class="text-dark"><strong>Room:</strong> <span th:text="${history.roomName}"></span></span>
+                                        </td>
                                         <td>
                                             <span class="text-dark" th:text="${#dates.format(history.startDate, 'yyyy-MM-dd')}"></span> to<br>
                                             <span th:if="${history.endDate != null}" th:text="${#dates.format(history.endDate, 'yyyy-MM-dd')}"></span>
@@ -619,9 +627,10 @@
                                                 th:attr="data-username=${history.userName},
                                                          data-userdesc=${history.userDescription},
                                                          data-jobrole=${history.jobRole},
-                                                         data-assetname=${history.asset.name},
-                                                         data-assetid=${history.asset.assetId},
-                                                         data-department=${history.location.departmentName},
+                                                         data-assetname=${history.assetName},
+                                                         data-assetid=${history.assetId},
+                                                         data-department=${history.departmentName},
+                                                         data-room=${history.roomName},
                                                          data-startdate=${#dates.format(history.startDate, 'yyyy-MM-dd')},
                                                          data-enddate=${history.endDate != null ? #dates.format(history.endDate, 'yyyy-MM-dd') : 'Current'}">
                                                 <i class="fas fa-eye"></i> View
@@ -752,21 +761,30 @@
             document.querySelector('.sidebar').classList.toggle('active');
         });
 
-        // Filter table by user name
-        document.getElementById('userNameFilter').addEventListener('input', function() {
-            const filterValue = this.value.toLowerCase();
+        // Filter table by user name and room name
+        function filterTable() {
+            const userNameValue = document.getElementById('userNameFilter').value.toLowerCase();
+            const roomNameValue = document.getElementById('roomNameFilter').value.toLowerCase();
             document.querySelectorAll('tbody tr').forEach(row => {
                 const userNameCell = row.querySelector('.user-name-cell strong');
+                const roomNameCell = row.querySelector('td:nth-child(4) .text-dark:last-child');
+                let userNameMatch = true;
+                let roomNameMatch = true;
                 if (userNameCell) {
-                    const userName = userNameCell.textContent.toLowerCase();
-                    if (userName.includes(filterValue)) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
+                    userNameMatch = userNameCell.textContent.toLowerCase().includes(userNameValue);
+                }
+                if (roomNameCell) {
+                    roomNameMatch = roomNameCell.textContent.toLowerCase().includes(roomNameValue);
+                }
+                if (userNameMatch && roomNameMatch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
                 }
             });
-        });
+        }
+        document.getElementById('userNameFilter').addEventListener('input', filterTable);
+        document.getElementById('roomNameFilter').addEventListener('input', filterTable);
 
         // View History Modal: populate modal fields when button is clicked
         document.querySelectorAll('.view-history-btn').forEach(btn => {

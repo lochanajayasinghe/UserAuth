@@ -14,13 +14,16 @@ public interface L_AssetUserRepository extends JpaRepository<AssetUser, Long> {
     List<AssetUser> findAllByOrderByUserNameAscStartDateDesc();
 
 
-    // Add to L_AssetUserRepository
-@Query("SELECT au.userName as userName, au.jobRole as jobRole, au.userDescription as userDescription, " +
-       "a.assetId as assetId, a.name as assetName, l.departmentName as departmentName, " +
-       "au.startDate as startDate, au.endDate as endDate " +
-       "FROM AssetUser au JOIN au.asset a JOIN au.location l " +
-       "WHERE au.userName = :userName")
-List<L_UserHistoryDto> findUserHistoryDtoByUserName(String userName);
+    // DTO-based query to fetch all user history records with asset, location, and room details
+    @Query("SELECT au.userName as userName, au.jobRole as jobRole, au.userDescription as userDescription, " +
+           "a.assetId as assetId, a.name as assetName, a.brand as assetBrand, a.model as assetModel, " +
+           "l.departmentName as departmentName, r.roomName as roomName, " +
+           "au.startDate as startDate, au.endDate as endDate " +
+           "FROM AssetUser au " +
+           "JOIN au.asset a " +
+           "JOIN au.location l " +
+           "LEFT JOIN Room r ON r.location = l")
+    List<L_UserHistoryDto> findAllUserHistoryDtos();
 
 
 

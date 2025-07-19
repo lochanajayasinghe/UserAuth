@@ -25,25 +25,15 @@ public class L_A_UserHistoryController { // Renamed class
     @GetMapping("/adminUserHistory") // Relative to /admin
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DIRECTOR', 'ROLE_USER')")
     public String getUserHistory(Model model,
-                                 @RequestParam(required = false) String userName,
-                                 @RequestParam(required = false) String assetId,
                                  Authentication authentication) {
-        List<AssetUser> userHistories;
-        
-        if (userName != null && !userName.isEmpty()) {
-            userHistories = assetUserService.getUserHistoryByUserName(userName);
-        } else if (assetId != null && !assetId.isEmpty()) {
-            userHistories = assetUserService.getAssetHistory(assetId);
-        } else {
-            userHistories = assetUserService.getAllUserHistories();
-        }
-        
+        List<com.example.Login.dto.L_UserHistoryDto> userHistories = assetUserService.getAllUserHistoryDtos();
+
         // Check if the user has only ROLE_USER (not other higher roles)
         boolean isRegularUser = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .anyMatch("ROLE_USER"::equals) &&
                 authentication.getAuthorities().size() == 1;
-        
+
         model.addAttribute("userHistories", userHistories);
         model.addAttribute("isRegularUser", isRegularUser);
         return "UserHistory/admin/UserHistory";

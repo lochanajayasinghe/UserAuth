@@ -15,8 +15,8 @@ public class L_AssetUserService {
         this.assetUserRepository = assetUserRepository;
     }
 
-    public List<AssetUser> getAllUserHistories() {
-        return assetUserRepository.findAllByOrderByUserNameAscStartDateDesc();
+    public List<L_UserHistoryDto> getAllUserHistoryDtos() {
+        return assetUserRepository.findAllUserHistoryDtos();
     }
 
     public List<AssetUser> getUserHistoryByUserName(String userName) {
