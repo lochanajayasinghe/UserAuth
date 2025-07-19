@@ -678,32 +678,56 @@
           </div>
           <div class="modal-body">
             <!-- Popup Form -->
-            <form>
+            <form id="addUserForm">
               <div class="mb-3">
-                <label for="userName" class="form-label">Full Name</label>
-                <input type="text" class="form-control" id="userName" placeholder="Enter full name">
+                <label for="assetId" class="form-label">Asset ID</label>
+                <input type="text" class="form-control" id="assetId" placeholder="Type asset ID..." autocomplete="off">
+                <div id="assetIdSuggestions" class="list-group position-absolute w-100"></div>
               </div>
               <div class="mb-3">
-                <label for="userEmail" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="userEmail" placeholder="Enter email">
+                <label class="form-label">Asset Name</label>
+                <input type="text" class="form-control" id="assetName" readonly>
               </div>
               <div class="mb-3">
-                <label for="jobRole" class="form-label">Job Role</label>
-                <select class="form-select" id="jobRole">
-                  <option selected disabled>Select role</option>
-                  <option>Administrator</option>
-                  <option>Technician</option>
-                  <option>Lecturer</option>
-                  <option>Assistant</option>
-                </select>
+                <label class="form-label">Asset Brand</label>
+                <input type="text" class="form-control" id="assetBrand" readonly>
               </div>
               <div class="mb-3">
-                <label for="userDept" class="form-label">Department</label>
-                <input type="text" class="form-control" id="userDept" placeholder="Enter department name">
+                <label class="form-label">Asset Model</label>
+                <input type="text" class="form-control" id="assetModel" readonly>
+              </div>
+              <div class="mb-3">
+                <label for="userNameInput" class="form-label">User Name</label>
+                <input type="text" class="form-control" id="userNameInput" placeholder="Type user name..." autocomplete="off">
+                <div id="userNameSuggestions" class="list-group position-absolute w-100"></div>
+              </div>
+              <div class="mb-3">
+                <label for="jobRoleInput" class="form-label">Job Role</label>
+                <input type="text" class="form-control" id="jobRoleInput" placeholder="Enter job role">
+              </div>
+              <div class="mb-3">
+                <label for="userDescriptionInput" class="form-label">User Description</label>
+                <input type="text" class="form-control" id="userDescriptionInput" placeholder="Enter user description">
+              </div>
+              <div class="mb-3">
+                <label for="departmentInput" class="form-label">Department</label>
+                <input type="text" class="form-control" id="departmentInput" placeholder="Enter department name">
+              </div>
+              <div class="mb-3">
+                <label for="roomInput" class="form-label">Room</label>
+                <input type="text" class="form-control" id="roomInput" placeholder="Enter room name">
+              </div>
+              <div class="mb-3">
+                <label for="startDateInput" class="form-label">Start Date</label>
+                <input type="date" class="form-control" id="startDateInput">
+              </div>
+              <div class="mb-3">
+                <label for="endDateInput" class="form-label">End Date</label>
+                <input type="date" class="form-control" id="endDateInput">
               </div>
               <div class="text-end">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary">Save</button>
               </div>
             </form>
           </div>
@@ -797,6 +821,83 @@
                 document.getElementById('modalDepartment').textContent = this.getAttribute('data-department') || '';
                 document.getElementById('modalStartDate').textContent = this.getAttribute('data-startdate') || '';
                 document.getElementById('modalEndDate').textContent = this.getAttribute('data-enddate') || '';
+            });
+        });
+
+        // --- Add New User Modal: Asset ID auto-suggest and auto-fill ---
+        document.getElementById('assetId').addEventListener('input', function() {
+            const query = this.value;
+            if (query.length < 1) {
+                document.getElementById('assetIdSuggestions').innerHTML = '';
+                return;
+            }
+            fetch(`/admin/assets/suggest?query=${encodeURIComponent(query)}`)
+                .then(res => res.json())
+                .then(data => {
+                    const suggestions = data.map(asset => `<button type="button" class="list-group-item list-group-item-action" data-id="${asset.assetId}" data-name="${asset.name}" data-brand="${asset.brand}" data-model="${asset.model}">${asset.assetId} - ${asset.name}</button>`).join('');
+                    document.getElementById('assetIdSuggestions').innerHTML = suggestions;
+                    document.querySelectorAll('#assetIdSuggestions button').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            document.getElementById('assetId').value = this.getAttribute('data-id');
+                            document.getElementById('assetName').value = this.getAttribute('data-name');
+                            document.getElementById('assetBrand').value = this.getAttribute('data-brand');
+                            document.getElementById('assetModel').value = this.getAttribute('data-model');
+                            document.getElementById('assetIdSuggestions').innerHTML = '';
+                        });
+                    });
+                });
+        });
+
+        // --- Add New User Modal: User Name auto-suggest and job role auto-fill ---
+        document.getElementById('userNameInput').addEventListener('input', function() {
+            const query = this.value;
+            if (query.length < 1) {
+                document.getElementById('userNameSuggestions').innerHTML = '';
+                return;
+            }
+            fetch(`/admin/users/suggest?query=${encodeURIComponent(query)}`)
+                .then(res => res.json())
+                .then(data => {
+                    const suggestions = data.map(user => `<button type="button" class="list-group-item list-group-item-action" data-name="${user.userName}" data-jobrole="${user.jobRole}">${user.userName}</button>`).join('');
+                    document.getElementById('userNameSuggestions').innerHTML = suggestions;
+                    document.querySelectorAll('#userNameSuggestions button').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            document.getElementById('userNameInput').value = this.getAttribute('data-name');
+                            document.getElementById('jobRoleInput').value = this.getAttribute('data-jobrole');
+                            document.getElementById('userNameSuggestions').innerHTML = '';
+                        });
+                    });
+                });
+        });
+
+        // --- Add New User Modal: Form submit ---
+        document.getElementById('addUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const payload = {
+                assetId: document.getElementById('assetId').value,
+                assetName: document.getElementById('assetName').value,
+                assetBrand: document.getElementById('assetBrand').value,
+                assetModel: document.getElementById('assetModel').value,
+                userName: document.getElementById('userNameInput').value,
+                jobRole: document.getElementById('jobRoleInput').value,
+                userDescription: document.getElementById('userDescriptionInput').value,
+                departmentName: document.getElementById('departmentInput').value,
+                roomName: document.getElementById('roomInput').value,
+                startDate: document.getElementById('startDateInput').value,
+                endDate: document.getElementById('endDateInput').value
+            };
+            fetch('/admin/assetUser/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(res => {
+                if (res.ok) {
+                    alert('User history added successfully!');
+                    location.reload();
+                } else {
+                    alert('Error saving user history.');
+                }
             });
         });
     </script>

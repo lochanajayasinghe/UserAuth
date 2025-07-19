@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface L_AssetUserRepository extends JpaRepository<AssetUser, Long> {
+    // For user name auto-suggest (case-insensitive contains)
+    List<AssetUser> findByUserNameContainingIgnoreCase(String userName);
     List<AssetUser> findByUserName(String userName);
     List<AssetUser> findByAsset_AssetId(String assetId);
     List<AssetUser> findAllByOrderByUserNameAscStartDateDesc();
