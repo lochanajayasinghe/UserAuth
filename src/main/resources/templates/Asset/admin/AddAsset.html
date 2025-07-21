@@ -4,19 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Director Dashboard - UoP Asset Management</title>
+    <title>Add Asset - UoP Asset Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #800000; /* University Maroon */
-            --primary-dark: #600000; /* Darker maroon for gradient */
+            --primary-color: #800000;
+            --primary-dark: #600000;
             --primary-light: #a04040;
             --secondary-color: #f8f9fa;
-            --accent-color: #ffc107; /* Gold/Amber for highlights */
+            --accent-color: #ffc107;
             --text-dark: #343a40;
-            --text-light: #f8f9fa; /* White/Off-white for text on dark backgrounds */
+            --text-light: #f8f9fa;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
         }
@@ -31,7 +31,7 @@
             margin: 0;
         }
 
-        /* Header Styles - Updated from second code */
+        /* Header Styles */
         .main-header {
             background-color: var(--primary-color);
             color: white;
@@ -62,10 +62,9 @@
         }
         
         .logo-img {
-            height: 50px;
-            margin-right: 15px;
+            height: 40px;
+            margin-right: 10px;
             transition: var(--transition);
-            filter: brightness(1.1) drop-shadow(0 0 2px rgba(0,0,0,0.3));
         }
         
         .logo-img:hover {
@@ -134,7 +133,7 @@
             border-color: rgba(0, 0, 0, 0.1);
         }
 
-        /* Sidebar Styles - Updated from second code */
+        /* Sidebar Styles */
         .d-flex.flex-grow-1 {
             flex: 1;
             display: flex;
@@ -216,45 +215,17 @@
             margin: 0 auto;
         }
 
-        /* Card Styles */
-        .card {
+        /* Form Styles */
+        .form-card {
+            max-width: 600px;
+            margin: 0 auto;
             border: none;
             border-radius: 8px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            overflow: hidden;
-            height: 100%;
+            box-shadow: var(--shadow);
+            padding: 2rem;
         }
 
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .card .btn {
-            background-color: var(--primary-color);
-            border-color: var(--primary-dark);
-        }
-
-        .card .btn:hover {
-            background-color: var(--primary-dark);
-            border-color: var(--primary-dark);
-        }
-
-        .text-primary {
-            color: var(--primary-color) !important;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-dark);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-            border-color: var(--primary-dark);
-        }
-
-        /* Footer Styles - Updated from second code */
+        /* Footer Styles */
         .main-footer {
             background-color: var(--primary-color);
             color: var(--text-light);
@@ -465,10 +436,30 @@
         .mobile-menu-btn {
             display: none;
         }
+
+        .table thead th {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border-bottom: 2px solid var(--primary-dark);
+        }
+        .table-hover tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .table-responsive {
+            margin-top: 1rem;
+        }
+        .btn-info {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+        }
+        .btn-info:hover {
+            background-color: #138496;
+            border-color: #117a8b;
+        }
     </style>
 </head>
 <body>
-    <!-- Header - Updated from second code -->
+    <!-- Header -->
     <header class="main-header">
         <div class="header-container">
             <button class="mobile-menu-btn">
@@ -490,101 +481,128 @@
         </div>
     </header>
 
-    <div class="d-flex flex-grow-1">
-        <!-- Sidebar - Updated from second code -->
+    <div class="d-flex flex-grow-1" style="min-height: 80vh;">
+        <!-- Sidebar -->
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/admin/home" class="menu-item active active">Dashboard</a></li>
+                    <li><a href="/admin/home" class="menu-item">Dashboard</a></li>
                     <li><a href="/admin/adminUserHistory" class="menu-item">User History</a></li>
                     <li><a href="/adminMaintain" class="menu-item">Maintain</a></li>
                     <li><a href="/adminCondemn" class="menu-item">Condemn</a></li>
                     <li><a href="/adminAssetHistory" class="menu-item">Asset History</a></li>
-                    <li><a href="/admin/assets/add" class="menu-item">Asset</a></li>
+                    <li><a href="/admin/assets/add" class="menu-item active">Asset</a></li>
                     <li><a href="/adminInvoice" class="menu-item">Invoice</a></li>
                     <li><a href="/adminMovement" class="menu-item">Movement</a></li>
                 </ul>
             </nav>
         </aside>
 
-        <div class="main-content-container">
-            <main class="main-content">
-                <h1 class="mb-4">Admin Dashboard</h1>
-                <p>Welcome, <span sec:authentication="name"></span>! You have director privileges.</p>
-                <p>This section provides a high-level overview and tools for strategic decision-making.</p>
-
-                <div class="row mt-5">
-                    <div class="col-md-4 mb-4">
-                        <div class="card text-center p-3 h-100">
-                            <i class="fas fa-chart-bar fa-3x text-primary mb-3"></i>
-                            <h5>Users</h5>
-                            <a href="users" class="btn btn-primary">View Users</a>
-                        </div>
-                    </div>
-                    
-
-                <div class="row mt-4">
-                    <div class="col-md-6 mb-4">
-                        <div class="card p-4 h-100">
-                            <h4><i class="fas fa-exclamation-circle text-warning me-2"></i>Pending Actions</h4>
-                            <div class="mt-3">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <span>Asset Approvals</span>
-                                    <span class="badge bg-danger">5 pending</span>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <span>Budget Reviews</span>
-                                    <span class="badge bg-warning text-dark">2 pending</span>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span>Audit Reports</span>
-                                    <span class="badge bg-primary">1 pending</span>
-                                </div>
+        <!-- Main Content -->
+        <main class="main-content-container">
+            <div class="main-content">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="mb-0" style="color: var(--primary-color);">All Assets</h3>
+                    <button class="btn btn-primary" style="background-color: var(--primary-color); border-color: var(--primary-dark);" data-bs-toggle="modal" data-bs-target="#addAssetModal">
+                        <i class="fas fa-plus"></i> Add Asset
+                    </button>
+                </div>
+                <div class="mb-3">
+                    <span class="fw-bold">Total Assets:</span> <span th:text="${assets.size()}"></span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead style="background-color: #800000; color: #fff;">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Asset ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Brand</th>
+                                <th scope="col">Model</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="asset, iterStat : ${assets}">
+                                <td th:text="${iterStat.count}"></td>
+                                <td th:text="${asset.assetId}"></td>
+                                <td th:text="${asset.name}"></td>
+                                <td th:text="${asset.brand}"></td>
+                                <td th:text="${asset.model}"></td>
+                                <td>
+                                    <button type="button" class="btn btn-sm" style="background-color: var(--primary-color); color: var(--text-light); border: none;" data-bs-toggle="modal" th:attr="data-bs-target='#viewAssetModal' + ${asset.assetId}">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(assets)}">
+                                <td colspan="6" class="text-center text-danger">No assets found in the database.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Add Asset Modal -->
+                <div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addAssetModalLabel" style="color: var(--primary-color);">Add New Asset</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <a href="/director/approvals" class="btn btn-outline-primary mt-3">View All Pending</a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-4">
-                        <div class="card p-4 h-100">
-                            <h4><i class="fas fa-bell text-primary me-2"></i>Recent Activities</h4>
-                            <div class="mt-3">
-                                <div class="d-flex mb-3">
-                                    <div class="flex-shrink-0 me-3">
-                                        <i class="fas fa-check-circle text-success"></i>
+                            <div class="modal-body">
+                                <form th:action="@{/admin/assets/add}" th:object="${asset}" method="post">
+                                    <div class="mb-3">
+                                        <label for="assetId" class="form-label">Asset ID</label>
+                                        <input type="text" class="form-control" id="assetId" th:field="*{assetId}" required />
                                     </div>
-                                    <div>
-                                        <small class="text-muted">Today, 10:45 AM</small>
-                                        <p class="mb-0">Approved new computer lab equipment</p>
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Asset Name</label>
+                                        <input type="text" class="form-control" id="name" th:field="*{name}" required />
                                     </div>
-                                </div>
-                                <div class="d-flex mb-3">
-                                    <div class="flex-shrink-0 me-3">
-                                        <i class="fas fa-file-signature text-info"></i>
+                                    <div class="mb-3">
+                                        <label for="brand" class="form-label">Brand</label>
+                                        <input type="text" class="form-control" id="brand" th:field="*{brand}" required />
                                     </div>
-                                    <div>
-                                        <small class="text-muted">Yesterday, 3:30 PM</small>
-                                        <p class="mb-0">Signed off on Q2 budget report</p>
+                                    <div class="mb-3">
+                                        <label for="model" class="form-label">Model</label>
+                                        <input type="text" class="form-control" id="model" th:field="*{model}" required />
                                     </div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0 me-3">
-                                        <i class="fas fa-exclamation-triangle text-warning"></i>
+                                    <div class="d-flex justify-content-end mt-4">
+                                        <button type="submit" class="btn btn-primary px-4" style="background-color: var(--primary-color); border-color: var(--primary-dark);">Save Asset</button>
                                     </div>
-                                    <div>
-                                        <small class="text-muted">Yesterday, 11:15 AM</small>
-                                        <p class="mb-0">Flagged maintenance issue in Building B</p>
-                                    </div>
-                                </div>
+                                    <div th:if="${success}" class="alert alert-success mt-3 text-center">Asset added successfully!</div>
+                                </form>
                             </div>
-                            <a href="/director/activities" class="btn btn-outline-secondary mt-3">View All Activities</a>
                         </div>
                     </div>
                 </div>
-            </main>
-        </div>
+
+                <!-- View Asset Modals -->
+                <div th:each="asset : ${assets}">
+                    <div class="modal fade" th:id="'viewAssetModal' + ${asset.assetId}" tabindex="-1" aria-labelledby="viewAssetModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="viewAssetModalLabel" style="color: var(--primary-color);">Asset Details</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><strong>Asset ID:</strong> <span th:text="${asset.assetId}"></span></li>
+                                        <li class="list-group-item"><strong>Name:</strong> <span th:text="${asset.name}"></span></li>
+                                        <li class="list-group-item"><strong>Brand:</strong> <span th:text="${asset.brand}"></span></li>
+                                        <li class="list-group-item"><strong>Model:</strong> <span th:text="${asset.model}"></span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
-    <!-- Footer - Updated from second code -->
+    <!-- Footer -->
     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-row">
