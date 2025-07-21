@@ -11,10 +11,10 @@ public class Asset {
     private String brand;
     private String model;
     private String specification;
-    private Date purchaseDate;
+    private java.time.LocalDate purchaseDate;
     private boolean activityStatus;
     private String warrantyId;
-    private Date warrantyDate;
+    private java.time.LocalDate warrantyDate;
     private String warrantyPeriod;
     private String purchaseStore;
 
@@ -35,14 +35,14 @@ public class Asset {
     public void setModel(String model) { this.model = model; }
     public String getSpecification() { return specification; }
     public void setSpecification(String specification) { this.specification = specification; }
-    public Date getPurchaseDate() { return purchaseDate; }
-    public void setPurchaseDate(Date purchaseDate) { this.purchaseDate = purchaseDate; }
+    public java.time.LocalDate getPurchaseDate() { return purchaseDate; }
+    public void setPurchaseDate(java.time.LocalDate purchaseDate) { this.purchaseDate = purchaseDate; }
     public boolean isActivityStatus() { return activityStatus; }
     public void setActivityStatus(boolean activityStatus) { this.activityStatus = activityStatus; }
     public String getWarrantyId() { return warrantyId; }
     public void setWarrantyId(String warrantyId) { this.warrantyId = warrantyId; }
-    public Date getWarrantyDate() { return warrantyDate; }
-    public void setWarrantyDate(Date warrantyDate) { this.warrantyDate = warrantyDate; }
+    public java.time.LocalDate getWarrantyDate() { return warrantyDate; }
+    public void setWarrantyDate(java.time.LocalDate warrantyDate) { this.warrantyDate = warrantyDate; }
     public String getWarrantyPeriod() { return warrantyPeriod; }
     public void setWarrantyPeriod(String warrantyPeriod) { this.warrantyPeriod = warrantyPeriod; }
     public String getPurchaseStore() { return purchaseStore; }
