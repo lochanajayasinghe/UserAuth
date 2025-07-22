@@ -5,8 +5,9 @@ import java.util.Date;
 @Entity
 public class Invoice {
     @Id
+    private String invoiceNumber;
     private String invoiceId;
-    private Date invoiceDate;
+    private java.time.LocalDate invoiceDate;
     private int itemCount;
 
     @ManyToOne
@@ -20,8 +21,10 @@ public class Invoice {
     // Getters and Setters
     public String getInvoiceId() { return invoiceId; }
     public void setInvoiceId(String invoiceId) { this.invoiceId = invoiceId; }
-    public Date getInvoiceDate() { return invoiceDate; }
-    public void setInvoiceDate(Date invoiceDate) { this.invoiceDate = invoiceDate; }
+    public String getInvoiceNumber() { return invoiceNumber; }
+    public void setInvoiceNumber(String invoiceNumber) { this.invoiceNumber = invoiceNumber; }
+    public java.time.LocalDate getInvoiceDate() { return invoiceDate; }
+    public void setInvoiceDate(java.time.LocalDate invoiceDate) { this.invoiceDate = invoiceDate; }
     public int getItemCount() { return itemCount; }
     public void setItemCount(int itemCount) { this.itemCount = itemCount; }
     public Asset getAsset() { return asset; }

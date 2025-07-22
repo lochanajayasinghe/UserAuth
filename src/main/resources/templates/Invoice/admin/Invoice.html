@@ -470,13 +470,13 @@
             <div class="logo-container">
                 <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
                 <div>
-                    <h5 class="mb-0 text-light">University of Peradeniya</h5>
-                    <small class="text-light">Asset Management System - Admin</small>
+                    <h5 class="mb-0">University of Peradeniya</h5>
+                    <small>Asset Management System </small>
                 </div>
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="/adminhome">Home</a></li>
+                    <li><a href="/user/home">Home</a></li>
                     <li><a th:href="@{/}" class="btn btn-outline-light">Logout</a></li>
                 </ul>
             </nav>
@@ -489,21 +489,38 @@
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/admin/home" class="menu-item">Dashboard</a></li>
-                    <li><a href="/admin/adminUserHistory" class="menu-item">User History</a></li>
-                    <li><a href="/adminMaintain" class="menu-item">Maintain</a></li>
-                    <li><a href="/adminCondemn" class="menu-item">Condemn</a></li>
-                    <li><a href="/adminAssetHistory" class="menu-item">Asset History</a></li>
-                    <li><a href="/admin/adminAsset" class="menu-item">Asset</a></li>
-                    <li><a href="/adminInvoice" class="menu-item active">Invoice</a></li>
-                    <li><a href="/adminMovement" class="menu-item">Movement</a></li>
+                    <li><a href="/user-history" class="menu-item">User History</a></li>
+                    <li><a href="/Maintain" class="menu-item">Maintain</a></li>
+                    <li><a href="/Condemn" class="menu-item">Condemn</a></li>
+                    <li><a href="/AssetHistory" class="menu-item">Asset History</a></li>
+                    <li><a href="/Assets" class="menu-item">Asset</a></li>
+                    <li><a href="/Invoice" class="menu-item active">Invoice</a></li>
+                    <li><a href="/Movement" class="menu-item">Movement</a></li>
                 </ul>
             </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <h1>Admin - Invoice</h1>
+            <div class="container mt-4">
+                <h2 class="mb-4" style="color: #800000;">Invoice Management</h2>
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <strong>Add New Invoice</strong>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/admin/invoice/add}" th:object="${invoice}" method="post">
+    <input type="text" th:field="*{invoiceId}" placeholder="Invoice ID" required />
+    <input type="text" th:field="*{invoiceNumber}" placeholder="Invoice Number" />
+    <input type="date" th:field="*{invoiceDate}" required />
+    <input type="number" th:field="*{itemCount}" min="1" required />
+    <input type="number" step="0.01" th:field="*{amount}" placeholder="Amount" />
+    <input type="text" th:field="*{description}" placeholder="Description" />
+    <input type="text" th:field="*{supplier}" placeholder="Supplier" />
+    <button type="submit">Save Invoice</button>
+</form>
+
+                   
         </main>
     </div>
 
