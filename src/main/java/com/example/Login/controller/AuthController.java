@@ -140,10 +140,10 @@ public class AuthController {
     public String Condemn(Model model) {
         return "Condemn/Condemn";
     }
-    @GetMapping("/Invoice")
-    public String Invoice(Model model) {
-        return "Invoice/Invoice";
-    }
+    // @GetMapping("/Invoice")
+    // public String Invoice(Model model) {
+    //     return "Invoice/Invoice";
+    // }
     @GetMapping("/Movement")
     public String Movement(Model model) {
         return "Movement/Movement";

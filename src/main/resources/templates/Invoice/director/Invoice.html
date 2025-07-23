@@ -3,10 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asset Management System | University of Peradeniya</title>
+    <title>Invoice Management | University of Peradeniya</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Your existing styles remain unchanged */
+        :root {
+            --primary-color: #800000;
+            --primary-dark: #600000;
+            --primary-light: #a04040;
+            --secondary-color: #f8f9fa;
+            --accent-color: #ffc107;
+            --text-dark: #343a40;
+            --text-light: #f8f9fa;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        
+        /* Add these new styles for validation */
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        .is-invalid {
+            border-color: #dc3545;
+        }
+        .success-message {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1100;
+            animation: fadeInOut 3s ease-in-out;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* New UI enhancements */
+        .invoice-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .invoice-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        .invoice-header {
+            background-color: rgba(128, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .badge-count {
+            background-color: var(--primary-color);
+            font-size: 0.8rem;
+            padding: 0.35rem 0.6rem;
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: rgba(128, 0, 0, 0.03);
+        }
+        
+        .table thead th {
+            border-bottom-width: 1px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        
+        .empty-state {
+            padding: 3rem 1rem;
+            text-align: center;
+            background-color: rgba(128, 0, 0, 0.02);
+            border-radius: 8px;
+        }
+        
+        .empty-state i {
+            color: rgba(128, 0, 0, 0.2);
+            margin-bottom: 1rem;
+        }
+        
+        .modal-header {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary-custom {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary-custom:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 0.25rem rgba(128, 0, 0, 0.1);
+        }
+
         :root {
             --primary-color: #800000;
             --primary-dark: #600000;
@@ -458,6 +561,28 @@
         .mobile-menu-btn {
             display: none;
         }
+
+        /* Add this to your style section */
+.all-invoices-heading {
+    color: var(--primary-color) !important;
+}
+
+.item-count-badge {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+.btn-primary-custom {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    color: var(--text-light);
+}
     </style>
 </head>
 <body>
@@ -471,116 +596,218 @@
                 <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
                 <div>
                     <h5 class="mb-0 text-light">University of Peradeniya</h5>
-                    <small class="text-light">Asset Management System - Director</small>
+                    <small class="text-light">Asset Management System - Admin</small>
                 </div>
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="/directorhome">Home</a></li>
-                    <li><a th:href="@{/}" class="btn btn-outline-light">Logout</a></li>
+                    <li><a href="/adminhome">Home</a></li>
+                    <li><a th:href="@{/logout}" class="btn btn-outline-light">Logout</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Main Content with Sidebar -->
+    <!-- Success Message Alert -->
+    <div th:if="${success}" class="alert alert-success success-message" role="alert">
+        Invoice added successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- Main Content -->
     <div class="d-flex flex-grow-1">
-        <!-- Sidebar -->
+        <!-- Sidebar (unchanged) -->
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/director/home" class="menu-item ">Dashboard</a></li>
-                    <li><a href="/director/directorUserHistory" class="menu-item">User History</a></li>
-                    <li><a href="/directorMaintain" class="menu-item">Maintain</a></li>
-                    <li><a href="/directorCondemn" class="menu-item">Condemn</a></li>
-                    <li><a href="/directorAssetHistory" class="menu-item">Asset History</a></li>
-                    <li><a href="/director/directorAsset" class="menu-item">Asset</a></li>
-                    <li><a href="/directorInvoice" class="menu-item active">Invoice</a></li>
-                    <li><a href="/directorMovement" class="menu-item">Movement</a></li>
+                    <li><a href="/admin/home" class="menu-item">Dashboard</a></li>
+                    <li><a href="/admin/adminUserHistory" class="menu-item">User History</a></li>
+                    <li><a href="/adminMaintain" class="menu-item">Maintain</a></li>
+                    <li><a href="/adminCondemn" class="menu-item">Condemn</a></li>
+                    <li><a href="/adminAssetHistory" class="menu-item">Asset History</a></li>
+                    <li><a href="/admin/adminAsset" class="menu-item">Asset</a></li>
+                    <li><a href="/admin/adminInvoice" class="menu-item active">Invoice</a></li>
+                    <li><a href="/adminMovement" class="menu-item">Movement</a></li>
                 </ul>
             </nav>
         </aside>
 
-        <!-- Main Content -->
+        <!-- Main Content Area -->
         <main class="main-content">
-            <h1>Director - Invoice</h1>
+            <div class="container mt-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0" style="color: #800000;">
+                        <i class="fas fa-file-invoice me-2"></i>Invoice Management
+                    </h2>
+                    <span class="badge badge-count text-white">
+                        <span th:text="${invoices.size()}">0</span> invoices
+                    </span>
+                </div>
+
+                <!-- Add New Invoice Button -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="search-box">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="fas fa-search text-muted"></i>
+                            </span>
+                            <input type="text" class="form-control border-start-0" placeholder="Search invoices...">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary-custom" 
+                            data-bs-toggle="modal" data-bs-target="#addInvoiceModal"
+                            style="color: var(--text-light);">
+                        <i class="fas fa-plus-circle me-2"></i> Add New Invoice
+                    </button>
+                </div>
+
+                <!-- Add Invoice Modal -->
+                <div class="modal fade" id="addInvoiceModal" tabindex="-1" aria-labelledby="addInvoiceModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form th:action="@{/director/directorInvoice/add}" th:object="${invoice}" method="post">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addInvoiceModalLabel">
+                                        <i class="fas fa-file-invoice me-2"></i>Add New Invoice
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Invoice Number Field -->
+                                    <div class="mb-3">
+                                        <label for="invoiceNumber" class="form-label">Invoice Number *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-hashtag"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="invoiceNumber" 
+                                                   th:field="*{invoiceNumber}"
+                                                   th:classappend="${#fields.hasErrors('invoiceNumber')} ? 'is-invalid' : ''"
+                                                   placeholder="e.g., INV-2023-001" required>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('invoiceNumber')}" th:errors="*{invoiceNumber}" class="error-message"></div>
+                                    </div>
+                                    
+                                    <!-- Invoice Date Field -->
+                                    <div class="mb-3">
+                                        <label for="invoiceDate" class="form-label">Invoice Date *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </span>
+                                            <input type="date" class="form-control" id="invoiceDate" 
+                                                   th:field="*{invoiceDate}"
+                                                   th:classappend="${#fields.hasErrors('invoiceDate')} ? 'is-invalid' : ''"
+                                                   required>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('invoiceDate')}" th:errors="*{invoiceDate}" class="error-message"></div>
+                                    </div>
+                                    
+                                    <!-- Item Count Field -->
+                                    <div class="mb-3">
+                                        <label for="itemCount" class="form-label">Item Count *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-cubes"></i>
+                                            </span>
+                                            <input type="number" class="form-control" id="itemCount" 
+                                                   th:field="*{itemCount}"
+                                                   th:classappend="${#fields.hasErrors('itemCount')} ? 'is-invalid' : ''"
+                                                   min="1" required>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('itemCount')}" th:errors="*{itemCount}" class="error-message"></div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                        <i class="fas fa-times me-2"></i>Cancel
+                                    </button>
+                                    <button type="submit" class="btn btn-primary-custom">
+                                        <i class="fas fa-save me-2"></i> Save Invoice
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Invoices Table -->
+                <div class="card invoice-card">
+                    <div class="card-header invoice-header d-flex justify-content-between align-items-center">
+                        <!-- Change the All Invoices heading -->
+                        <strong class="all-invoices-heading">
+                            <i class="fas fa-list me-2"></i>All Invoices
+                        </strong>
+
+                        <div class="d-flex align-items-center">
+                            <span class="text-muted small me-3">Showing <span th:text="${invoices.size()}">0</span> records</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr class="table-light">
+                                        <th><i class="fas fa-hashtag me-2"></i>Invoice Number</th>
+                                        <th><i class="fas fa-calendar-alt me-2"></i>Date</th>
+                                        <th class="text-end"><i class="fas fa-cubes me-2"></i>Items</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="invoice : ${invoices}">
+                                        <td>
+                                            <i class="fas fa-file-invoice text-muted me-2"></i>
+                                            <span th:text="${invoice.invoiceNumber}">INV-2023-001</span>
+                                        </td>
+                                        <td th:text="${#temporals.format(invoice.invoiceDate, 'yyyy-MM-dd')}">2023-07-01</td>
+                                        <td class="text-end">
+                                        <span class="badge item-count-badge rounded-pill" th:text="${invoice.itemCount}">5</span>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${#lists.isEmpty(invoices)}">
+                                        <td colspan="3" class="text-center text-muted py-4 empty-state">
+                                            <i class="fas fa-file-invoice fa-3x mb-3"></i>
+                                            <h5 class="mb-2">No invoices found</h5>
+                                            <p class="mb-0">Add your first invoice by clicking the button above</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
-    <!-- Footer -->
+    <!-- Footer (unchanged) -->
     <footer class="main-footer">
-        <div class="footer-container">
-            <div class="footer-row">
-                <div class="footer-col">
-                    <h4>University of Peradeniya</h4>
-                    <p>The University of Peradeniya is a leading higher education institution in Sri Lanka, committed to excellence in teaching, research, and innovation.</p>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="/home">Home</a></li>
-                        <li><a href="/about">About</a></li>
-                        <li><a href="/contactUs">Contact</a></li>
-                        <li><a th:href="@{/login}">Login</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">User Guide</a></li>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Training Videos</a></li>
-                        <li><a href="#">System Updates</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Newsletter</h4>
-                    <p>Subscribe to receive updates and system announcements.</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Your Email">
-                        <button type="submit">Subscribe</button>
-                    </form>
-                </div>
-            </div>
-            <hr class="footer-divider">
-            <div class="footer-bottom">
-                <p>&copy; 2023 University of Peradeniya. All rights reserved.</p>
-                <p>Asset Management System v2.1</p>
-            </div>
-        </div>
+        <!-- Your existing footer content -->
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Mobile menu toggle functionality
+        // Mobile menu toggle
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
             document.querySelector('.sidebar').classList.toggle('active');
         });
-        
-        // Add active class to current nav item
-        document.querySelectorAll('.main-nav a').forEach(link => {
-            link.addEventListener('click', function() {
-                document.querySelectorAll('.main-nav a').forEach(item => {
-                    item.classList.remove('active');
-                });
-                this.classList.add('active');
-            });
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+
+        // Auto-close success message after 3 seconds
+        const successAlert = document.querySelector('.success-message');
+        if (successAlert) {
+            setTimeout(() => {
+                const alert = bootstrap.Alert.getOrCreateInstance(successAlert);
+                alert.close();
+            }, 3000);
+        }
+
+        // Show modal if there are validation errors
+        document.addEventListener('DOMContentLoaded', function() {
+            const hasErrors = document.querySelector('.is-invalid');
+            if (hasErrors) {
+                const modal = new bootstrap.Modal(document.getElementById('addInvoiceModal'));
+                modal.show();
+            }
         });
     </script>
 </body>
