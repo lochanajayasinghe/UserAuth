@@ -11,8 +11,15 @@
         :root {
             --primary-color: #800000;
             --primary-dark: #600000;
-            /* ... rest of your existing CSS ... */
+            --primary-light: #a04040;
+            --secondary-color: #f8f9fa;
+            --accent-color: #ffc107;
+            --text-dark: #343a40;
+            --text-light: #f8f9fa;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
+
         
         /* Add these new styles for validation */
         .error-message {
@@ -564,6 +571,18 @@
     background-color: var(--primary-color) !important;
     color: white !important;
 }
+
+.btn-primary-custom {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    color: var(--text-light);
+}
     </style>
 </head>
 <body>
@@ -636,7 +655,8 @@
                         </div>
                     </div>
                     <button type="button" class="btn btn-primary-custom" 
-                            data-bs-toggle="modal" data-bs-target="#addInvoiceModal">
+                            data-bs-toggle="modal" data-bs-target="#addInvoiceModal"
+                            style="color: var(--text-light);">
                         <i class="fas fa-plus-circle me-2"></i> Add New Invoice
                     </button>
                 </div>
