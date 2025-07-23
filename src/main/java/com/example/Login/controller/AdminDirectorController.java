@@ -54,20 +54,20 @@ public class AdminDirectorController {
     }
 
     @GetMapping("/directorhome")
-    public String DiretorhomePage(Model model) {
+    public String DirectorhomePage(Model model) {
         return "home/director/home";
     }
 
     //admin
-    @GetMapping("/adminAsset")
-    public String AdminAsset(Model model) {
-        return "Asset/admin/Asset";
-    }
-    @GetMapping("/adminAssetHistory")
+    // @GetMapping("/admin/adminAsset")
+    // public String AdminAsset(Model model) {
+    //     return "Asset/admin/Asset";
+    // }
+    @GetMapping("/admin/adminAssetHistory")
     public String AdminAssetHistory(Model model) {
         return "AssetHistory/admin/AssetHistory";
     }
-    @GetMapping("/adminCondemn")
+    @GetMapping("/admin/adminCondemn")
     public String AdminCondemn(Model model) {
         return "Condemn/admin/Condemn";
     }
@@ -75,26 +75,26 @@ public class AdminDirectorController {
     // public String AdminInvoice(Model model) {
     //     return "Invoice/admin/Invoice";
     // }
-    @GetMapping("/adminMovement")
+    @GetMapping("/admin/adminMovement")
     public String AdminMovement(Model model) {
         return "Movement/admin/Movement";
     }
     
-    @GetMapping("/adminMaintain")
+    @GetMapping("/admin/adminMaintain")
     public String AdminMaintain(Model model) {
         return "Maintain/admin/Maintain";
     }
 
     //director
-    @GetMapping("/directorAsset")
-    public String DirectorAsset(Model model) {
-        return "Asset/director/Asset";
-    }
-    @GetMapping("/directorAssetHistory")
+    // @GetMapping("/director/directorAsset")
+    // public String DirectorAsset(Model model) {
+    //     return "Asset/director/Asset";
+    // }
+    @GetMapping("/director/directorAssetHistory")
     public String DirectorAssetHistory(Model model) {
         return "AssetHistory/director/AssetHistory";
     }
-    @GetMapping("/directorCondemn")
+    @GetMapping("/director/directorCondemn")
     public String DirectorCondemn(Model model) {
         return "Condemn/director/Condemn";
     }
@@ -102,12 +102,12 @@ public class AdminDirectorController {
     // public String DirectorInvoice(Model model) {
     //     return "Invoice/director/Invoice";
     // }
-    @GetMapping("/directorMovement")
+    @GetMapping("/director/directorMovement")
     public String DirectorMovement(Model model) {
         return "Movement/director/Movement";
     }
-    
-    @GetMapping("/directorMaintain")
+
+    @GetMapping("/director/directorMaintain")
     public String DirectorMaintain(Model model) {
         return "Maintain/director/Maintain";
     }
