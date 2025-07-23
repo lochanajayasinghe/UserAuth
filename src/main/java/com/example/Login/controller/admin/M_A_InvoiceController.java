@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/admin/invoice")
+@RequestMapping("/admin/adminInvoice")
 public class M_A_InvoiceController {
     private final M_InvoiceService invoiceService;
 
@@ -19,7 +19,7 @@ public class M_A_InvoiceController {
     public String showInvoices(Model model) {
         model.addAttribute("invoices", invoiceService.getAllInvoices());
         model.addAttribute("invoice", new Invoice());
-        return "Invoice/Invoice";
+        return "Invoice/admin/Invoice";
     }
 
     @PostMapping("/add")
@@ -33,6 +33,6 @@ public class M_A_InvoiceController {
         model.addAttribute("success", true);
         model.addAttribute("invoices", invoiceService.getAllInvoices());
         model.addAttribute("invoice", new Invoice());
-        return "Invoice/Invoice";
+        return "Invoice/admin/Invoice";
     }
 }

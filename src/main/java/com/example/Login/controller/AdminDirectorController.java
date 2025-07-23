@@ -71,10 +71,10 @@ public class AdminDirectorController {
     public String AdminCondemn(Model model) {
         return "Condemn/admin/Condemn";
     }
-    @GetMapping("/adminInvoice")
-    public String AdminInvoice(Model model) {
-        return "Invoice/admin/Invoice";
-    }
+    // @GetMapping("/adminInvoice")
+    // public String AdminInvoice(Model model) {
+    //     return "Invoice/admin/Invoice";
+    // }
     @GetMapping("/adminMovement")
     public String AdminMovement(Model model) {
         return "Movement/admin/Movement";

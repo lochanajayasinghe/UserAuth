@@ -535,7 +535,7 @@
                     <div class="card-header bg-light">
                         <strong>All Invoices</strong>
                     </div>
-                    <div class="card-body">
+                    <!-- <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover">
                                 <thead style="background-color: #800000; color: #fff;">
@@ -559,7 +559,33 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> -->
+                     <!-- All Invoices Card -->
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <strong>All Invoices</strong>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Invoice ID</th>
+                                <th>Invoice Date</th>
+                                <th>Item Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="invoice : ${invoices}">
+                                <td th:text="${invoice.invoiceId}">INV001</td>
+                                <td th:text="${invoice.invoiceDate}">2023-07-01</td>
+                                <td th:text="${invoice.itemCount}">5</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
                 </div>
             </div>
         </main>

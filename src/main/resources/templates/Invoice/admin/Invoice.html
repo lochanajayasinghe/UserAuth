@@ -470,13 +470,13 @@
             <div class="logo-container">
                 <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
                 <div>
-                    <h5 class="mb-0">University of Peradeniya</h5>
-                    <small>Asset Management System </small>
+                    <h5 class="mb-0 text-light">University of Peradeniya</h5>
+                    <small class="text-light">Asset Management System - Admin</small>
                 </div>
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="/user/home">Home</a></li>
+                    <li><a href="/adminhome">Home</a></li>
                     <li><a th:href="@{/}" class="btn btn-outline-light">Logout</a></li>
                 </ul>
             </nav>
@@ -489,13 +489,14 @@
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/user-history" class="menu-item">User History</a></li>
-                    <li><a href="/Maintain" class="menu-item">Maintain</a></li>
-                    <li><a href="/Condemn" class="menu-item">Condemn</a></li>
-                    <li><a href="/AssetHistory" class="menu-item">Asset History</a></li>
-                    <li><a href="/Assets" class="menu-item">Asset</a></li>
-                    <li><a href="/Invoice" class="menu-item active">Invoice</a></li>
-                    <li><a href="/Movement" class="menu-item">Movement</a></li>
+                    <li><a href="/admin/home" class="menu-item">Dashboard</a></li>
+                    <li><a href="/admin/adminUserHistory" class="menu-item">User History</a></li>
+                    <li><a href="/adminMaintain" class="menu-item ">Maintain</a></li>
+                    <li><a href="/adminCondemn" class="menu-item">Condemn</a></li>
+                    <li><a href="/adminAssetHistory" class="menu-item">Asset History</a></li>
+                    <li><a href="/admin/adminAsset" class="menu-item">Asset</a></li>
+                    <li><a href="/admin/adminInvoice" class="menu-item active">Invoice</a></li>
+                    <li><a href="/adminMovement" class="menu-item">Movement</a></li>
                 </ul>
             </nav>
         </aside>
@@ -509,18 +510,85 @@
                         <strong>Add New Invoice</strong>
                     </div>
                     <div class="card-body">
-                        <form th:action="@{/admin/invoice/add}" th:object="${invoice}" method="post">
-    <input type="text" th:field="*{invoiceId}" placeholder="Invoice ID" required />
-    <input type="text" th:field="*{invoiceNumber}" placeholder="Invoice Number" />
-    <input type="date" th:field="*{invoiceDate}" required />
-    <input type="number" th:field="*{itemCount}" min="1" required />
-    <input type="number" step="0.01" th:field="*{amount}" placeholder="Amount" />
-    <input type="text" th:field="*{description}" placeholder="Description" />
-    <input type="text" th:field="*{supplier}" placeholder="Supplier" />
-    <button type="submit">Save Invoice</button>
-</form>
-
-                   
+                        <form th:action="@{/admin/adminInvoice/add}" th:object="${invoice}" method="post">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="invoiceId" class="form-label">Invoice ID</label>
+                                    <input type="text" class="form-control" id="invoiceId" th:field="*{invoiceId}" placeholder="Enter invoice ID" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="invoiceDate" class="form-label">Invoice Date</label>
+                                    <input type="date" class="form-control" id="invoiceDate" th:field="*{invoiceDate}" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="itemCount" class="form-label">Item Count</label>
+                                    <input type="number" class="form-control" id="itemCount" th:field="*{itemCount}" min="1" required />
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end mt-3">
+                                <button type="submit" class="btn btn-primary" style="background-color: #800000;">Save Invoice</button>
+                            </div>
+                            <div th:if="${success}" class="alert alert-success mt-3 text-center">Invoice added successfully!</div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <strong>All Invoices</strong>
+                    </div>
+                    <!-- <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead style="background-color: #800000; color: #fff;">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Invoice ID</th>
+                                        <th>Date</th>
+                                        <th>Item Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="invoice, iterStat : ${invoices}">
+                                        <td th:text="${iterStat.count}"></td>
+                                        <td th:text="${invoice.invoiceId}"></td>
+                                        <td th:text="${#dates.format(invoice.invoiceDate, 'yyyy-MM-dd')}"></td>
+                                        <td th:text="${invoice.itemCount}"></td>
+                                    </tr>
+                                    <tr th:if="${#lists.isEmpty(invoices)}">
+                                        <td colspan="4" class="text-center text-danger">No invoices found.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> -->
+                     <!-- All Invoices Card -->
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <strong>All Invoices</strong>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Invoice ID</th>
+                                <th>Invoice Date</th>
+                                <th>Item Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="invoice : ${invoices}">
+                                <td th:text="${invoice.invoiceId}">INV001</td>
+                                <td th:text="${invoice.invoiceDate}">2023-07-01</td>
+                                <td th:text="${invoice.itemCount}">5</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+                </div>
+            </div>
         </main>
     </div>
 
