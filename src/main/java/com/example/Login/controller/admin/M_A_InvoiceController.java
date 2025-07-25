@@ -31,11 +31,16 @@ public class M_A_InvoiceController {
 
     @PostMapping("/add")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DIRECTOR')")
-    public String addInvoice(@ModelAttribute("invoice") Invoice invoice, Model model) {
-        
-        invoiceService.saveInvoice(invoice);
+    public String addInvoice(
+        @ModelAttribute("invoice") Invoice invoice,
+        Model model) {
+        invoiceService.saveInvoice(
+            invoice,
+            invoice.getVenderName(),
+            invoice.getAddress(),
+            invoice.getContactNo()
+        );
         model.addAttribute("success", true);
-        // After adding, reload all assets and show success
         model.addAttribute("invoices", invoiceService.getAllInvoices());
         model.addAttribute("invoice", new Invoice());
         return "Invoice/admin/Invoice";

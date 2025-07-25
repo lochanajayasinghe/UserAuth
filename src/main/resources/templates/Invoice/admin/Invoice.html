@@ -720,6 +720,51 @@
                                         </div>
                                         <div th:if="${#fields.hasErrors('invoiceCost')}" th:errors="*{invoiceCost}" class="error-message"></div>
                                     </div>
+
+                                    <!-- Vender Name Field -->
+                                    <div class="mb-3">
+                                        <label for="venderName" class="form-label">Vendor Name *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-user-tie"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="venderName"
+                                                   th:field="*{venderName}"
+                                                   th:classappend="${#fields.hasErrors('venderName')} ? 'is-invalid' : ''"
+                                                   placeholder="e.g., ABC Suppliers" required>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('venderName')}" th:errors="*{venderName}" class="error-message"></div>
+                                    </div>
+
+                                    <!-- Vendor Address Field -->
+                                    <div class="mb-3">
+                                        <label for="address" class="form-label">Vendor Address *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="address"
+                                                   th:field="*{address}"
+                                                   th:classappend="${#fields.hasErrors('address')} ? 'is-invalid' : ''"
+                                                   placeholder="e.g., 123 Main St, Kandy" required>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error-message"></div>
+                                    </div>
+
+                                    <!-- Vendor Contact No Field -->
+                                    <div class="mb-3">
+                                        <label for="contactNo" class="form-label">Vendor Contact No *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-phone"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="contactNo"
+                                                   th:field="*{contactNo}"
+                                                   th:classappend="${#fields.hasErrors('contactNo')} ? 'is-invalid' : ''"
+                                                   placeholder="e.g., 0771234567" required>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('contactNo')}" th:errors="*{contactNo}" class="error-message"></div>
+                                    </div>
                                     <!-- Item Count Field -->
                                     <div class="mb-3">
                                         <label for="itemCount" class="form-label">Item Count *</label>

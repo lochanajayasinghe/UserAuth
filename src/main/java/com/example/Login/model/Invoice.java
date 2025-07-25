@@ -19,6 +19,14 @@ public class Invoice {
     @JoinColumn(name = "venderId")
     private Vender vender;
 
+    // Transient fields for form binding
+    @Transient
+    private String venderName;
+    @Transient
+    private String address;
+    @Transient
+    private int contactNo;
+
     // Getters and Setters
     public String getInvoiceId() { return invoiceId; }
     public void setInvoiceId(String invoiceId) { this.invoiceId = invoiceId; }
@@ -34,4 +42,11 @@ public class Invoice {
     public void setVender(Vender vender) { this.vender = vender; }
     public String getInvoiceCost() { return invoiceCost; }
     public void setInvoiceCost(String invoiceCost) { this.invoiceCost = invoiceCost; }
+
+    public String getVenderName() { return venderName; }
+    public void setVenderName(String venderName) { this.venderName = venderName; }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+    public int getContactNo() { return contactNo; }
+    public void setContactNo(int contactNo) { this.contactNo = contactNo; }
 }
