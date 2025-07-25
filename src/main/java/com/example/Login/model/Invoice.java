@@ -9,6 +9,7 @@ public class Invoice {
     private String invoiceId;
     private java.time.LocalDate invoiceDate;
     private int itemCount;
+    private String invoiceCost;
 
     @ManyToOne
     @JoinColumn(name = "assetId")
@@ -31,4 +32,6 @@ public class Invoice {
     public void setAsset(Asset asset) { this.asset = asset; }
     public Vender getVender() { return vender; }
     public void setVender(Vender vender) { this.vender = vender; }
+    public String getInvoiceCost() { return invoiceCost; }
+    public void setInvoiceCost(String invoiceCost) { this.invoiceCost = invoiceCost; }
 }

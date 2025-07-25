@@ -647,14 +647,15 @@
 
                 <!-- Add New Invoice Button -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div class="search-box">
+                    <form th:action="@{/admin/adminInvoice}" method="get" class="search-box" style="width: 300px;">
                         <div class="input-group">
                             <span class="input-group-text bg-white border-end-0">
                                 <i class="fas fa-search text-muted"></i>
                             </span>
-                            <input type="text" class="form-control border-start-0" placeholder="Search invoices...">
+                            <input type="text" class="form-control border-start-0" name="invoiceNumberFilter" th:value="${invoiceNumberFilter}" placeholder="Filter by Invoice Number...">
+                            <button type="submit" class="btn btn-primary-custom">Filter</button>
                         </div>
-                    </div>
+                    </form>
                     <button type="button" class="btn btn-primary-custom" 
                             data-bs-toggle="modal" data-bs-target="#addInvoiceModal"
                             style="color: var(--text-light);">
@@ -674,6 +675,8 @@
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
+                                    
+                                    
                                     <!-- Invoice Number Field -->
                                     <div class="mb-3">
                                         <label for="invoiceNumber" class="form-label">Invoice Number *</label>
@@ -688,7 +691,6 @@
                                         </div>
                                         <div th:if="${#fields.hasErrors('invoiceNumber')}" th:errors="*{invoiceNumber}" class="error-message"></div>
                                     </div>
-                                    
                                     <!-- Invoice Date Field -->
                                     <div class="mb-3">
                                         <label for="invoiceDate" class="form-label">Invoice Date *</label>
@@ -703,7 +705,20 @@
                                         </div>
                                         <div th:if="${#fields.hasErrors('invoiceDate')}" th:errors="*{invoiceDate}" class="error-message"></div>
                                     </div>
-                                    
+                                    <!-- Invoice Cost Field -->
+                                    <div class="mb-3">
+                                        <label for="invoiceCost" class="form-label">Invoice Cost *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-money-bill-wave"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="invoiceCost" 
+                                                   th:field="*{invoiceCost}"
+                                                   th:classappend="${#fields.hasErrors('invoiceCost')} ? 'is-invalid' : ''"
+                                                   placeholder="e.g., 100.00" required>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('invoiceCost')}" th:errors="*{invoiceCost}" class="error-message"></div>
+                                    </div>
                                     <!-- Item Count Field -->
                                     <div class="mb-3">
                                         <label for="itemCount" class="form-label">Item Count *</label>
@@ -751,6 +766,7 @@
                                     <tr class="table-light">
                                         <th><i class="fas fa-hashtag me-2"></i>Invoice Number</th>
                                         <th><i class="fas fa-calendar-alt me-2"></i>Date</th>
+                                        <th><i class="fas fa-money-bill-wave me-2"></i>Cost</th>
                                         <th class="text-end"><i class="fas fa-cubes me-2"></i>Items</th>
                                     </tr>
                                 </thead>
@@ -761,8 +777,9 @@
                                             <span th:text="${invoice.invoiceNumber}">INV-2023-001</span>
                                         </td>
                                         <td th:text="${#temporals.format(invoice.invoiceDate, 'yyyy-MM-dd')}">2023-07-01</td>
+                                        <td th:text="${invoice.invoiceCost}">100.00</td>
                                         <td class="text-end">
-                                        <span class="badge item-count-badge rounded-pill" th:text="${invoice.itemCount}">5</span>
+                                            <span class="badge item-count-badge rounded-pill" th:text="${invoice.itemCount}">5</span>
                                         </td>
                                     </tr>
                                     <tr th:if="${#lists.isEmpty(invoices)}">

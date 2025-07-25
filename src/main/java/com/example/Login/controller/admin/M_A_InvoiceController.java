@@ -18,8 +18,13 @@ public class M_A_InvoiceController {
     }
 
     @GetMapping("")
-    public String showInvoices(Model model) {
-        model.addAttribute("invoices", invoiceService.getAllInvoices());
+    public String showInvoices(@RequestParam(value = "invoiceNumberFilter", required = false) String invoiceNumberFilter, Model model) {
+        if (invoiceNumberFilter != null && !invoiceNumberFilter.isEmpty()) {
+            model.addAttribute("invoices", invoiceService.findByInvoiceNumberContaining(invoiceNumberFilter));
+        } else {
+            model.addAttribute("invoices", invoiceService.getAllInvoices());
+        }
+        model.addAttribute("invoiceNumberFilter", invoiceNumberFilter);
         model.addAttribute("invoice", new Invoice());
         return "Invoice/admin/Invoice";
     }

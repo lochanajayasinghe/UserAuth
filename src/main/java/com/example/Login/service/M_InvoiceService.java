@@ -9,6 +9,9 @@ import java.util.List;
 
 @Service
 public class M_InvoiceService {
+    public List<Invoice> findByInvoiceNumberContaining(String invoiceNumber) {
+        return invoiceRepository.findByInvoiceNumberContaining(invoiceNumber);
+    }
     private final M_InvoiceRepository invoiceRepository;
 
     public M_InvoiceService(M_InvoiceRepository invoiceRepository) {
