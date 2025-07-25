@@ -13,6 +13,13 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/admin/adminInvoice")
 public class M_A_InvoiceController {
+    @GetMapping("/view/{invoiceNumber}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DIRECTOR')")
+    public String viewInvoice(@PathVariable("invoiceNumber") String invoiceNumber, Model model) {
+        Invoice invoice = invoiceService.getInvoiceById(invoiceNumber);
+        model.addAttribute("invoice", invoice);
+        return "Invoice/admin/ViewInvoice";
+    }
     private final VenderRepository venderRepository;
     private final M_InvoiceService invoiceService;
 

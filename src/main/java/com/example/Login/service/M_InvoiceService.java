@@ -10,6 +10,9 @@ import java.util.List;
 
 @Service
 public class M_InvoiceService {
+    public Invoice getInvoiceById(String invoiceNumber) {
+        return invoiceRepository.findById(invoiceNumber).orElse(null);
+    }
     public List<Invoice> findByInvoiceNumberContaining(String invoiceNumber) {
         return invoiceRepository.findByInvoiceNumberContaining(invoiceNumber);
     }
