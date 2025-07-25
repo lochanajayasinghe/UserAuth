@@ -795,16 +795,17 @@
                                     <th class="text-end">Actions</th>
                                 </tr>
                             </thead>
-                             <tr th:each="staff : ${staffList}">
-                                <td th:text="${staff.userName}"></td>
-                                <td th:text="${staff.jobRole}"></td>
-                                <td th:text="${staff.userDescription}"></td>
-                                <td class="text-end">
-                                    <button class="btn btn-sm view-btn" data-bs-toggle="modal" data-bs-target="#viewStaffModal" onclick="loadStaffDetails(this)" data-staff-id="${staff.id}">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
-                                </td>
-                            </tr>
+                            <tbody id="staffTableBody">
+                                <tr th:each="staff : ${staffList}">
+                                    <td th:text="${staff.userName}"></td>
+                                    <td th:text="${staff.jobRole}"></td>
+                                    <td th:text="${staff.userDescription}"></td>
+                                    <td class="text-end">
+                                        <button class="btn btn-sm view-btn" data-bs-toggle="modal" data-bs-target="#viewStaffModal" onclick="loadStaffDetails(this)" data-staff-id="${staff.id}">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </td>
+                                </tr>
                                 <tr th:if="${#lists.isEmpty(staffList)}">
                                     <td colspan="4" class="text-center py-4 empty-state">
                                         <i class="fas fa-user-slash"></i>
