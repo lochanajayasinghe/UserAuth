@@ -504,61 +504,7 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="detail-card">
-                    <div class="invoice-header p-4 d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-file-invoice invoice-icon"></i>
-                            <h2 class="mb-0">Invoice Details</h2>
-                        </div>
-                        <span class="badge-cost" th:text="'LKR ' + ${invoice.invoiceCost}"></span>
-                    </div>
-                    
-                    <div class="card-body p-4">
-                        <div class="detail-row row">
-                            <dt class="col-sm-4">Invoice Number</dt>
-                            <dd class="col-sm-8" th:text="${invoice.invoiceNumber}"></dd>
-                        </div>
-                        
-                        <div class="detail-row row">
-                            <dt class="col-sm-4">Invoice Date</dt>
-                            <dd class="col-sm-8" th:text="${#temporals.format(invoice.invoiceDate, 'MMMM dd, yyyy')}"></dd>
-                        </div>
-                        
-                        <div class="detail-row row">
-                            <dt class="col-sm-4">Item Count</dt>
-                            <dd class="col-sm-8" th:text="${invoice.itemCount} + ' items'"></dd>
-                        </div>
-                        
-                        <div class="detail-row row">
-                            <dt class="col-sm-4">Vendor Name</dt>
-                            <dd class="col-sm-8" th:text="${invoice.venderName != null && !#strings.isEmpty(invoice.venderName) ? invoice.venderName : (invoice.vender != null && !#strings.isEmpty(invoice.vender.venderName) ? invoice.vender.venderName : '-')}"></dd>
-                        </div>
-                        
-                        <div class="detail-row row">
-                            <dt class="col-sm-4">Vendor Address</dt>
-                            <dd class="col-sm-8" th:text="${invoice.address != null && !#strings.isEmpty(invoice.address) ? invoice.address : (invoice.vender != null && !#strings.isEmpty(invoice.vender.address) ? invoice.vender.address : '-')}"></dd>
-                        </div>
-                        
-                        <div class="detail-row row">
-                            <dt class="col-sm-4">Vendor Contact</dt>
-                            <dd class="col-sm-8"
-                                th:text="${invoice.contactNo != null && invoice.contactNo != 0 ? invoice.contactNo : (invoice.vender != null && invoice.vender.contactNo != null && invoice.vender.contactNo != 0 ? invoice.vender.contactNo : '-')}" ></dd>
-                        </div>
-                        
-                        <div class="mt-4 pt-3 text-end">
-                            <a th:href="@{/admin/adminInvoice}" class="btn btn-back px-4 py-2">
-                                <i class="fas fa-arrow-left me-2"></i> Back to Invoices
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+            <h1>Admin - Maintain</h1>
         </main>
     </div>
 
