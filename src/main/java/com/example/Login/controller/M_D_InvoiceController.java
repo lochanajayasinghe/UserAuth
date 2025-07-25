@@ -1,4 +1,4 @@
-package com.example.Login.controller.director;
+package com.example.Login.controller;
 
 import com.example.Login.model.Invoice;
 import com.example.Login.service.M_InvoiceService;
@@ -11,14 +11,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/director/directorInvoice")
+@RequestMapping("/Invoice")
 public class M_D_InvoiceController {
     @GetMapping("/view/{invoiceNumber}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DIRECTOR')")
     public String viewInvoice(@PathVariable("invoiceNumber") String invoiceNumber, Model model) {
         Invoice invoice = invoiceService.getInvoiceById(invoiceNumber);
         model.addAttribute("invoice", invoice);
-        return "Invoice/director/ViewInvoice";
+        return "Invoice/ViewInvoice";
     }
     private final VenderRepository venderRepository;
     private final M_InvoiceService invoiceService;
@@ -55,7 +55,7 @@ public class M_D_InvoiceController {
         }
         model.addAttribute("invoiceNumberFilter", invoiceNumberFilter);
         model.addAttribute("invoice", new Invoice());
-        return "Invoice/director/Invoice";
+        return "Invoice/Invoice";
     }
 
     @PostMapping("/add")
@@ -72,6 +72,6 @@ public class M_D_InvoiceController {
         model.addAttribute("success", true);
         model.addAttribute("invoices", invoiceService.getAllInvoices());
         model.addAttribute("invoice", new Invoice());
-        return "Invoice/director/Invoice";
+        return "Invoice/Invoice";
     }
 }
