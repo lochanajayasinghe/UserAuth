@@ -719,14 +719,17 @@
             <div class="logo-container">
                 <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
                 <div>
-                    <h5 class="mb-0 text-light">University of Peradeniya</h5>
-                    <small class="text-light">Asset Management System - Admin</small>
+                    <h5 class="mb-0">University of Peradeniya</h5>
+                    <small>Asset Management System </small>
                 </div>
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="/adminhome">Home</a></li>
-                    <li><a th:href="@{/logout}" class="btn btn-outline-light">Logout</a></li>
+                    <li><a href="/user/home" class="menu-item ">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a th:href="@{/}" class="btn btn-outline-light">Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -737,15 +740,14 @@
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/admin/home" class="menu-item"><i ></i><span class="menu-text">Dashboard</span></a></li>
-                    <li><a href="/admin/adminStaff" class="menu-item active"><i ></i><span class="menu-text">Staff</span></a></li>
-                    <li><a href="/admin/adminUserHistory" class="menu-item"><i ></i><span class="menu-text">User History</span></a></li>
-                    <li><a href="/admin/adminMaintain" class="menu-item"><i ></i><span class="menu-text">Maintain</span></a></li>
-                    <li><a href="/admin/adminCondemn" class="menu-item"><i ></i><span class="menu-text">Condemn</span></a></li>
-                    <li><a href="/admin/adminAssetHistory" class="menu-item"><i ></i><span class="menu-text">Asset History</span></a></li>
-                    <li><a href="/admin/adminAsset" class="menu-item"><i ></i><span class="menu-text">Asset</span></a></li>
-                    <li><a href="/admin/adminInvoice" class="menu-item"><i ></i><span class="menu-text">Invoice</span></a></li>
-                    <li><a href="/admin/adminMovement" class="menu-item"><i ></i><span class="menu-text">Movement</span></a></li>
+                    <li><a href="/user-history" class="menu-item">User History</a></li>
+                    <li><a href="/staff" class="menu-item active">Staff</a></li>
+                    <li><a href="/Maintain" class="menu-item">Maintain</a></li>
+                    <li><a href="/Condemn" class="menu-item">Condemn</a></li>
+                    <li><a href="/AssetHistory" class="menu-item">Asset History</a></li>
+                    <li><a href="/Assets" class="menu-item">Asset</a></li>
+                    <li><a href="/Invoice" class="menu-item">Invoice</a></li>
+                    <li><a href="/Movement" class="menu-item">Movement</a></li>
                 </ul>
             </nav>
         </aside>
@@ -985,7 +987,7 @@
                 userDescription: document.getElementById('userDescriptionInput').value.trim()
             };
             
-            fetch('/admin/adminStaff/add', {
+            fetch('/staff/add', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
