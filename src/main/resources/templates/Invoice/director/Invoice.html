@@ -583,6 +583,17 @@
     border-color: var(--primary-dark);
     color: var(--text-light);
 }
+
+.btn-view {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    border-color: var(--primary-dark);
+}
+
+.btn-view:hover {
+    background-color: var(--primary-dark);
+    color: var(--text-light);
+}
     </style>
 </head>
 <body>
@@ -601,7 +612,7 @@
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="/adminhome">Home</a></li>
+                    <li><a href="/directorhome">Home</a></li>
                     <li><a th:href="@{/logout}" class="btn btn-outline-light">Logout</a></li>
                 </ul>
             </nav>
@@ -631,6 +642,7 @@
                     <li><a href="/director/directorMovement" class="menu-item">Movement</a></li>
                 </ul>
             </nav>
+            </nav>
         </aside>
 
         <!-- Main Content Area -->
@@ -647,18 +659,153 @@
 
                 <!-- Add New Invoice Button -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div class="search-box">
+                    <form th:action="@{/director/directorInvoice}" method="get" class="search-box" style="width: 300px;">
                         <div class="input-group">
                             <span class="input-group-text bg-white border-end-0">
                                 <i class="fas fa-search text-muted"></i>
                             </span>
-                            <input type="text" class="form-control border-start-0" placeholder="Search invoices...">
+                            <input type="text" class="form-control border-start-0" name="invoiceNumberFilter" th:value="${invoiceNumberFilter}" placeholder="Filter by Invoice Number...">
+                            <button type="submit" class="btn btn-primary-custom">Filter</button>
                         </div>
-                    </div>
-                    
+                    </form>
+                    <button type="button" class="btn btn-primary-custom" 
+                            data-bs-toggle="modal" data-bs-target="#addInvoiceModal"
+                            style="color: var(--text-light);">
+                        <i class="fas fa-plus-circle me-2"></i> Add New Invoice
+                    </button>
                 </div>
 
-               
+                <!-- Add Invoice Modal -->
+                <div class="modal fade" id="addInvoiceModal" tabindex="-1" aria-labelledby="addInvoiceModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form th:action="@{/director/directorInvoice/add}" th:object="${invoice}" method="post">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addInvoiceModalLabel">
+                                        <i class="fas fa-file-invoice me-2"></i>Add New Invoice
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    
+                                    
+                                    <!-- Invoice Number Field -->
+                                    <div class="mb-3">
+                                        <label for="invoiceNumber" class="form-label">Invoice Number *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-hashtag"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="invoiceNumber" 
+                                                   th:field="*{invoiceNumber}"
+                                                   th:classappend="${#fields.hasErrors('invoiceNumber')} ? 'is-invalid' : ''"
+                                                   placeholder="e.g., INV-2023-001" required>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('invoiceNumber')}" th:errors="*{invoiceNumber}" class="error-message"></div>
+                                    </div>
+                                    <!-- Invoice Date Field -->
+                                    <div class="mb-3">
+                                        <label for="invoiceDate" class="form-label">Invoice Date *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </span>
+                                            <input type="date" class="form-control" id="invoiceDate" 
+                                                   th:field="*{invoiceDate}"
+                                                   th:classappend="${#fields.hasErrors('invoiceDate')} ? 'is-invalid' : ''"
+                                                   required>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('invoiceDate')}" th:errors="*{invoiceDate}" class="error-message"></div>
+                                    </div>
+                                    <!-- Invoice Cost Field -->
+                                    <div class="mb-3">
+                                        <label for="invoiceCost" class="form-label">Invoice Cost *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-money-bill-wave"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="invoiceCost" 
+                                                   th:field="*{invoiceCost}"
+                                                   th:classappend="${#fields.hasErrors('invoiceCost')} ? 'is-invalid' : ''"
+                                                   placeholder="e.g., 100.00" required>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('invoiceCost')}" th:errors="*{invoiceCost}" class="error-message"></div>
+                                    </div>
+
+                                    <!-- Vender Name Field -->
+                                    <div class="mb-3 position-relative">
+                                        <label for="venderName" class="form-label">Vendor Name *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-user-tie"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="venderName"
+                                                   th:field="*{venderName}"
+                                                   th:classappend="${#fields.hasErrors('venderName')} ? 'is-invalid' : ''"
+                                                   placeholder="e.g., ABC Suppliers" autocomplete="off" required>
+                                            <div id="vendor-suggest-list" class="list-group position-absolute w-100" style="z-index: 1000; top: 100%; left: 0; display: none;"></div>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('venderName')}", th:errors="*{venderName}" class="error-message"></div>
+                                    </div>
+
+                                    <!-- Vendor Address Field -->
+                                    <div class="mb-3">
+                                        <label for="address" class="form-label">Vendor Address *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="address"
+                                                   th:field="*{address}"
+                                                   th:classappend="${#fields.hasErrors('address')} ? 'is-invalid' : ''"
+                                                   placeholder="e.g., 123 Main St, Kandy" required readonly>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error-message"></div>
+                                    </div>
+
+                                    <!-- Vendor Contact No Field -->
+                                    <div class="mb-3">
+                                        <label for="contactNo" class="form-label">Vendor Contact No *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-phone"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="contactNo"
+                                                   th:field="*{contactNo}"
+                                                   th:classappend="${#fields.hasErrors('contactNo')} ? 'is-invalid' : ''"
+                                                   placeholder="e.g., 0771234567" required readonly>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('contactNo')}" th:errors="*{contactNo}" class="error-message"></div>
+                                    </div>
+                                    <!-- Item Count Field -->
+                                    <div class="mb-3">
+                                        <label for="itemCount" class="form-label">Item Count *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-cubes"></i>
+                                            </span>
+                                            <input type="number" class="form-control" id="itemCount" 
+                                                   th:field="*{itemCount}"
+                                                   th:classappend="${#fields.hasErrors('itemCount')} ? 'is-invalid' : ''"
+                                                   min="1" required>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('itemCount')}" th:errors="*{itemCount}" class="error-message"></div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                        <i class="fas fa-times me-2"></i>Cancel
+                                    </button>
+                                    <button type="submit" class="btn btn-primary-custom">
+                                        <i class="fas fa-save me-2"></i> Save Invoice
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                
 
                 <!-- Invoices Table -->
                 <div class="card invoice-card">
@@ -679,7 +826,9 @@
                                     <tr class="table-light">
                                         <th><i class="fas fa-hashtag me-2"></i>Invoice Number</th>
                                         <th><i class="fas fa-calendar-alt me-2"></i>Date</th>
+                                        <th><i class="fas fa-money-bill-wave me-2"></i>Cost</th>
                                         <th class="text-end"><i class="fas fa-cubes me-2"></i>Items</th>
+                                        <th class="text-end">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -689,8 +838,16 @@
                                             <span th:text="${invoice.invoiceNumber}">INV-2023-001</span>
                                         </td>
                                         <td th:text="${#temporals.format(invoice.invoiceDate, 'yyyy-MM-dd')}">2023-07-01</td>
+                                        <td th:text="${invoice.invoiceCost}">100.00</td>
                                         <td class="text-end">
-                                        <span class="badge item-count-badge rounded-pill" th:text="${invoice.itemCount}">5</span>
+                                            <span class="badge item-count-badge rounded-pill" th:text="${invoice.itemCount}">5</span>
+                                        </td>
+                                       <td class="text-end">
+                                            <a th:href="@{'/director/directorInvoice/view/' + ${invoice.invoiceNumber}}" 
+                                                class="btn btn-sm" 
+                                                style="background-color: #800000; color: white; border-color: #600000;">
+                                                <i class="fas fa-eye"></i> View
+                                            </a>
                                         </td>
                                     </tr>
                                     <tr th:if="${#lists.isEmpty(invoices)}">
@@ -715,6 +872,56 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Vendor name auto-suggest and autofill
+        const venderNameInput = document.getElementById('venderName');
+        const vendorSuggestList = document.getElementById('vendor-suggest-list');
+        const addressInput = document.getElementById('address');
+        const contactNoInput = document.getElementById('contactNo');
+
+        venderNameInput.addEventListener('input', function() {
+            const query = venderNameInput.value.trim();
+            if (query.length < 2) {
+                vendorSuggestList.style.display = 'none';
+                return;
+            }
+            fetch(`/director/directorInvoice/vendors/suggest?query=${encodeURIComponent(query)}`)
+                .then(res => res.json())
+                .then(names => {
+                    vendorSuggestList.innerHTML = '';
+                    if (names.length === 0) {
+                        vendorSuggestList.style.display = 'none';
+                        return;
+                    }
+                    names.forEach(name => {
+                        const item = document.createElement('button');
+                        item.type = 'button';
+                        item.className = 'list-group-item list-group-item-action';
+                        item.textContent = name;
+                        item.onclick = function() {
+                            venderNameInput.value = name;
+                            vendorSuggestList.style.display = 'none';
+                            // Autofill address/contact
+                            fetch(`/director/directorInvoice/vendors/details?venderName=${encodeURIComponent(name)}`)
+                                .then(res => res.json())
+                                .then(data => {
+                                    addressInput.value = data.address || '';
+                                    contactNoInput.value = data.contactNo || '';
+                                });
+                        };
+                        vendorSuggestList.appendChild(item);
+                    });
+                    vendorSuggestList.style.display = 'block';
+                });
+        });
+
+        // Hide suggest list on outside click
+        document.addEventListener('click', function(e) {
+            if (!vendorSuggestList.contains(e.target) && e.target !== venderNameInput) {
+                vendorSuggestList.style.display = 'none';
+            }
+        });
+    </script>
     <script>
         // Mobile menu toggle
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {

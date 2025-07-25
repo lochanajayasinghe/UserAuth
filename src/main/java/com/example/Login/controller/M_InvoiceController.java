@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/Invoice")
-public class M_D_InvoiceController {
+public class M_InvoiceController {
     @GetMapping("/view/{invoiceNumber}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DIRECTOR')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DIRECTOR','ROLE_USER')")
     public String viewInvoice(@PathVariable("invoiceNumber") String invoiceNumber, Model model) {
         Invoice invoice = invoiceService.getInvoiceById(invoiceNumber);
         model.addAttribute("invoice", invoice);
@@ -23,7 +23,7 @@ public class M_D_InvoiceController {
     private final VenderRepository venderRepository;
     private final M_InvoiceService invoiceService;
 
-    public M_D_InvoiceController(M_InvoiceService invoiceService, VenderRepository venderRepository) {
+    public M_InvoiceController(M_InvoiceService invoiceService, VenderRepository venderRepository) {
         this.invoiceService = invoiceService;
         this.venderRepository = venderRepository;
     }
@@ -41,7 +41,7 @@ public class M_D_InvoiceController {
 
     // Vendor details autofill endpoint
     @GetMapping("/vendors/details")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DIRECTOR')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DIRECTOR','ROLE_USER')")
     public @ResponseBody java.util.Optional<com.example.Login.model.Vender> getVendorDetails(@RequestParam("venderName") String venderName) {
         return venderRepository.findByVenderName(venderName);
     }
