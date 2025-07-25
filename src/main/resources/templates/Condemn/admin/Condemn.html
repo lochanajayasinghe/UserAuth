@@ -504,7 +504,76 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <h1>Admin - Condemn</h1>
+            <h1 style="color: var(--primary-color); font-weight: 700;">Admin - Condemn</h1>
+
+            <!-- Asset Table -->
+            <div class="card shadow-sm mb-4 border-0" style="max-width: 900px; margin: 2rem auto; background-color: var(--text-light);">
+                <div class="card-header" style="background-color: var(--primary-dark); color: var(--text-light);">
+                    <h5 class="mb-0">Assets</h5>
+                </div>
+                <div class="card-body rounded-bottom" style="background-color: var(--text-light);">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle shadow-sm rounded" id="assetTable" style="background-color: var(--text-light);">
+                            <thead style="background-color: var(--primary-light);">
+                                <tr>
+                                    <th style="color: var(--primary-color);">Asset ID</th>
+                                    <th style="color: var(--primary-color);">Asset Name</th>
+                                    <th style="color: var(--primary-color);">Condemn Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Condemn Popup Modal -->
+            <div class="modal fade" id="condemnConfirmModal" tabindex="-1" aria-labelledby="condemnConfirmModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow" style="background-color: var(--text-light);">
+                  <div class="modal-header" style="background-color: var(--primary-color); color: var(--text-light);">
+                    <h5 class="modal-title" id="condemnConfirmModalLabel">Condemn Asset</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body rounded-bottom" style="background-color: var(--text-light);">
+                    <p>If you want this asset to be condemn?</p>
+                    <div class="text-end">
+                        <button type="button" class="btn" style="background-color: var(--accent-color); color: var(--primary-dark); font-weight: 600;" id="confirmCondemnBtn">Yes, I want</button>
+                        <button type="button" class="btn" style="background-color: var(--primary-light); color: var(--text-light); font-weight: 600;" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Condemn Details Modal -->
+            <div class="modal fade" id="condemnDetailsModal" tabindex="-1" aria-labelledby="condemnDetailsModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow" style="background-color: var(--text-light);">
+                  <div class="modal-header" style="background-color: var(--primary-color); color: var(--text-light);">
+                    <h5 class="modal-title" id="condemnDetailsModalLabel">Condemn Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body rounded-bottom" style="background-color: var(--text-light);">
+                    <form id="condemnDetailsForm">
+                        <div class="mb-3">
+                            <label for="condemnDateInput" class="form-label" style="color: var(--primary-color);">Condemn Date</label>
+                            <input type="date" class="form-control" id="condemnDateInput" required style="border: 2px solid var(--primary-color); background-color: var(--text-light); color: var(--primary-dark);">
+                        </div>
+                        <div class="mb-3">
+                            <label for="condemnDetailsInput" class="form-label" style="color: var(--primary-color);">Condemn Details</label>
+                            <textarea class="form-control" id="condemnDetailsInput" rows="3" required style="border: 2px solid var(--primary-color); background-color: var(--text-light); color: var(--primary-dark);"></textarea>
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn" style="background-color: var(--accent-color); color: var(--primary-dark); font-weight: 600;">Submit</button>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
         </main>
     </div>
 
@@ -558,6 +627,164 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let selectedAssetId = null;
+        // Load assets and render table
+        function renderAssetTable(assets) {
+            const tbody = document.querySelector('#assetTable tbody');
+            tbody.innerHTML = assets.map(asset => {
+                const isCondemned = asset.activityStatus === false || asset.activityStatus === 0 || asset.activityStatus === "0";
+                return `
+                <tr>
+                    <td>${asset.assetId}</td>
+                    <td>${asset.name}</td>
+                    <td>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="condemnStatus_${asset.assetId}" id="condemnOff_${asset.assetId}" value="off" ${isCondemned ? 'disabled' : 'checked'}>
+                            <label class="form-check-label" for="condemnOff_${asset.assetId}">Off</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="condemnStatus_${asset.assetId}" id="condemnOn_${asset.assetId}" value="on" ${isCondemned ? 'checked disabled' : ''}>
+                            <label class="form-check-label" for="condemnOn_${asset.assetId}">Condemn On</label>
+                        </div>
+                        <button class="btn btn-sm" style="background-color: #800000; color: #fff; margin-left:10px;" onclick="viewAsset('${asset.assetId}')">View</button>
+                    </td>
+                </tr>
+                `;
+            }).join('');
+            // Add event listeners for radio buttons only if not condemned
+            assets.forEach(asset => {
+                if (asset.activityStatus) {
+                    document.getElementById(`condemnOn_${asset.assetId}`).addEventListener('change', function() {
+                        if (this.checked) {
+                            selectedAssetId = asset.assetId;
+                            const confirmModal = new bootstrap.Modal(document.getElementById('condemnConfirmModal'));
+                            confirmModal.show();
+                        }
+                    });
+                }
+            });
+        }
+        function loadAssets() {
+        // View asset details popup
+        window.viewAsset = function(assetId) {
+            fetch('/admin/condemn/assets')
+                .then(res => res.json())
+                .then(assets => {
+                    const asset = assets.find(a => a.assetId === assetId);
+                    if (!asset) return;
+                    let activityStatusText = (asset.activityStatus === false || asset.activityStatus === 0 || asset.activityStatus === "0") ? 'Condemn' : 'Active';
+                    if (activityStatusText === 'Condemn') {
+                        // Condemned: fetch condemn details
+                        fetch(`/admin/condemn/condemnDetails?assetId=${assetId}`)
+                            .then(res => res.json())
+                            .then(condemn => {
+                                showViewModal({
+                                    assetId: asset.assetId,
+                                    name: asset.name,
+                                    activityStatus: activityStatusText,
+                                    condemnDate: condemn.condemnDate,
+                                    condemnDetails: condemn.condemnDetails
+                                });
+                            });
+                    } else {
+                        showViewModal({
+                            assetId: asset.assetId,
+                            name: asset.name,
+                            activityStatus: activityStatusText
+                        });
+                    }
+                });
+        }
+
+        // Proper function for showing the modal
+        window.showViewModal = function(data) {
+            if (!document.getElementById('viewAssetModal')) {
+                const modalHtml = `
+                <div class="modal fade" id="viewAssetModal" tabindex="-1" aria-labelledby="viewAssetModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content shadow" style="background-color: var(--text-light);">
+                      <div class="modal-header" style="background-color: var(--primary-color); color: var(--text-light);">
+                        <h5 class="modal-title" id="viewAssetModalLabel">Asset Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body rounded-bottom" style="background-color: var(--text-light);" id="viewAssetModalBody">
+                        <!-- Details will be loaded here -->
+                      </div>
+                    </div>
+                  </div>
+                </div>`;
+                document.body.insertAdjacentHTML('beforeend', modalHtml);
+            }
+            let html = `<div class='mb-2'><strong>Asset ID:</strong> ${data.assetId}</div>
+                        <div class='mb-2'><strong>Name:</strong> ${data.name}</div>
+                        <div class='mb-2'><strong>Status:</strong> ${data.activityStatus}</div>`;
+            if (data.activityStatus === 'Condemn') {
+                // Format date if present
+                let dateText = '-';
+                if (data.condemnDate !== undefined && data.condemnDate !== null && String(data.condemnDate).trim() !== '') {
+                    let d = new Date(data.condemnDate);
+                    if (!isNaN(d.getTime())) {
+                        dateText = d.toLocaleDateString('en-CA');
+                    } else {
+                        dateText = data.condemnDate;
+                    }
+                }
+                let detailsText = '-';
+                if (data.condemnDetails !== undefined && data.condemnDetails !== null && String(data.condemnDetails).trim() !== '') {
+                    detailsText = data.condemnDetails;
+                }
+                html += `<div class='mb-2'><strong>Condemn Date:</strong> ${dateText} </div>
+                          <div class='mb-2'><strong>Condemn Details:</strong> ${detailsText} </div>`;
+            }
+            document.getElementById('viewAssetModalBody').innerHTML = html;
+            const modal = new bootstrap.Modal(document.getElementById('viewAssetModal'));
+            modal.show();
+        }
+            fetch('/admin/condemn/assets')
+                .then(res => res.json())
+                .then(data => {
+                    renderAssetTable(data);
+                });
+        }
+        document.addEventListener('DOMContentLoaded', loadAssets);
+
+        // Confirm Condemn
+        document.getElementById('confirmCondemnBtn').addEventListener('click', function() {
+            const confirmModal = bootstrap.Modal.getInstance(document.getElementById('condemnConfirmModal'));
+            confirmModal.hide();
+            const detailsModal = new bootstrap.Modal(document.getElementById('condemnDetailsModal'));
+            detailsModal.show();
+        });
+
+        // Submit Condemn Details
+        document.getElementById('condemnDetailsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const condemnDate = document.getElementById('condemnDateInput').value;
+            const condemnDetails = document.getElementById('condemnDetailsInput').value;
+            // Prepare payload
+            const payload = {
+                condemnId: selectedAssetId + '_' + Date.now(),
+                condemnDate: condemnDate,
+                condemnDetails: condemnDetails,
+                activityStatus: 'Condemn',
+                asset: { assetId: selectedAssetId }
+            };
+            fetch('/admin/condemn/condemn', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(res => {
+                if (res.ok) {
+                    alert('Condemn details saved successfully!');
+                    location.reload();
+                } else {
+                    alert('Error saving condemn details.');
+                }
+            });
+        });
+    </script>
     <script>
         // Mobile menu toggle functionality
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
