@@ -820,46 +820,7 @@
         </main>
     </div>
 
-    <!-- Add Staff Modal -->
-    <div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <form id="addStaffForm">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addStaffModalLabel">
-                            <i class="fas fa-user-plus me-2"></i>Add New Staff
-                        </h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="userNameInput" class="form-label">User Name *</label>
-                            <input type="text" class="form-control" id="userNameInput" required>
-                            <div id="userNameError" class="error-message">Please enter a user name</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="jobRoleInput" class="form-label">Job Role *</label>
-                            <input type="text" class="form-control" id="jobRoleInput" required>
-                            <div id="jobRoleError" class="error-message">Please enter a job role</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="userDescriptionInput" class="form-label">User Description *</label>
-                            <textarea class="form-control" id="userDescriptionInput" rows="3" required></textarea>
-                            <div id="userDescriptionError" class="error-message">Please enter a description</div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                            <i class="fas fa-times me-2"></i>Cancel
-                        </button>
-                        <button type="submit" class="btn btn-primary-custom" id="saveStaffBtn">
-                            <i class="fas fa-save me-2"></i> Save Staff
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    
 
     <!-- View Staff Modal -->
     <div class="modal fade view-modal" id="viewStaffModal" tabindex="-1" aria-labelledby="viewStaffModalLabel" aria-hidden="true">
