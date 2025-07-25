@@ -63,9 +63,9 @@ public class AdminDirectorController {
     // public String AdminAsset(Model model) {
     //     return "Asset/admin/Asset";
     // }
-    @GetMapping("/admin/adminAssetHistory")
-    public String AdminAssetHistory(Model model) {
-        return "AssetHistory/admin/AssetHistory";
+    @GetMapping("/admin/adminAssetAllocation")
+    public String AdminAssetAllocation(Model model) {
+        return "AssetAllocation/admin/AssetAllocation";
     }
     @GetMapping("/admin/adminCondemn")
     public String AdminCondemn(Model model) {
@@ -90,9 +90,9 @@ public class AdminDirectorController {
     // public String DirectorAsset(Model model) {
     //     return "Asset/director/Asset";
     // }
-    @GetMapping("/director/directorAssetHistory")
-    public String DirectorAssetHistory(Model model) {
-        return "AssetHistory/director/AssetHistory";
+    @GetMapping("/director/directorAssetAllocation")
+    public String DirectorAssetAllocation(Model model) {
+        return "AssetAllocation/director/AssetAllocation";
     }
     @GetMapping("/director/directorCondemn")
     public String DirectorCondemn(Model model) {

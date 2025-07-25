@@ -566,6 +566,7 @@
                 <div class="card shadow-sm mb-4 border-0">
                     <!-- Filter by User Name -->
                     <div class="row g-2 align-items-center mb-3 px-3 pt-3">
+                    <div class="row g-2 mb-2">
                         <div class="col-auto">
                             <label for="userNameFilter" class="form-label fw-semibold text-primary"><i class="fas fa-search me-1"></i>Filter by User Name:</label>
                         </div>
@@ -578,6 +579,21 @@
                         <div class="col">
                             <input type="text" id="roomNameFilter" class="form-control border-primary shadow-sm" placeholder="Type room name...">
                         </div>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-auto">
+                            <label for="assetNameFilter" class="form-label fw-semibold text-primary"><i class="fas fa-box-open me-1"></i>Filter by Asset Name:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" id="assetNameFilter" class="form-control border-primary shadow-sm" placeholder="Type asset name...">
+                        </div>
+                        <div class="col-auto">
+                            <label for="assetIdFilter" class="form-label fw-semibold text-primary"><i class="fas fa-hashtag me-1"></i>Filter by Asset Number:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" id="assetIdFilter" class="form-control border-primary shadow-sm" placeholder="Type asset number...">
+                        </div>
+                    </div>
                     </div>
                     
                     <div class="card-body bg-light rounded-bottom">
@@ -790,18 +806,30 @@
         function filterTable() {
             const userNameValue = document.getElementById('userNameFilter').value.toLowerCase();
             const roomNameValue = document.getElementById('roomNameFilter').value.toLowerCase();
+            const assetNameValue = document.getElementById('assetNameFilter').value.toLowerCase();
+            const assetIdValue = document.getElementById('assetIdFilter').value.toLowerCase();
             document.querySelectorAll('tbody tr').forEach(row => {
                 const userNameCell = row.querySelector('.user-name-cell strong');
                 const roomNameCell = row.querySelector('td:nth-child(4) .text-dark:last-child');
+                const assetNameCell = row.querySelector('td:nth-child(3) .fw-semibold.text-primary span');
+                const assetIdCell = row.querySelector('td:nth-child(3) .text-secondary span');
                 let userNameMatch = true;
                 let roomNameMatch = true;
+                let assetNameMatch = true;
+                let assetIdMatch = true;
                 if (userNameCell) {
                     userNameMatch = userNameCell.textContent.toLowerCase().includes(userNameValue);
                 }
                 if (roomNameCell) {
                     roomNameMatch = roomNameCell.textContent.toLowerCase().includes(roomNameValue);
                 }
-                if (userNameMatch && roomNameMatch) {
+                if (assetNameCell) {
+                    assetNameMatch = assetNameCell.textContent.toLowerCase().includes(assetNameValue);
+                }
+                if (assetIdCell) {
+                    assetIdMatch = assetIdCell.textContent.toLowerCase().includes(assetIdValue);
+                }
+                if (userNameMatch && roomNameMatch && assetNameMatch && assetIdMatch) {
                     row.style.display = '';
                 } else {
                     row.style.display = 'none';
@@ -810,6 +838,8 @@
         }
         document.getElementById('userNameFilter').addEventListener('input', filterTable);
         document.getElementById('roomNameFilter').addEventListener('input', filterTable);
+        document.getElementById('assetNameFilter').addEventListener('input', filterTable);
+        document.getElementById('assetIdFilter').addEventListener('input', filterTable);
 
         // View History Modal: populate modal fields when button is clicked
         document.querySelectorAll('.view-history-btn').forEach(btn => {

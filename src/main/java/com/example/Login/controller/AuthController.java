@@ -132,9 +132,9 @@ public class AuthController {
     public String Asset(Model model) {
         return "Asset/Asset";
     }
-    @GetMapping("/AssetHistory")
-    public String AssetHistory(Model model) {
-        return "AssetHistory/AssetHistory";
+    @GetMapping("/AssetAllocation")
+    public String AssetAllocation(Model model) {
+        return "AssetAllocation/AssetAllocation";
     }
     @GetMapping("/Condemn")
     public String Condemn(Model model) {
