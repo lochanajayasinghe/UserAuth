@@ -720,7 +720,7 @@
                 <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
                 <div>
                     <h5 class="mb-0 text-light">University of Peradeniya</h5>
-                    <small class="text-light">Asset Management System - Admin</small>
+                    <small class="text-light">Asset Management System - Director</small>
                 </div>
             </div>
             <nav class="main-nav">
@@ -732,20 +732,27 @@
         </div>
     </header>
 
+    <!-- Success Message Alert -->
+    <div th:if="${success}" class="alert alert-success success-message" role="alert">
+        Invoice added successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- Main Content -->
     <div class="d-flex flex-grow-1">
-        <!-- Sidebar -->
+        <!-- Sidebar (unchanged) -->
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/admin/home" class="menu-item"><i ></i><span class="menu-text">Dashboard</span></a></li>
-                    <li><a href="/admin/adminStaff" class="menu-item active"><i ></i><span class="menu-text">Staff</span></a></li>
-                    <li><a href="/admin/adminUserHistory" class="menu-item"><i ></i><span class="menu-text">User History</span></a></li>
-                    <li><a href="/admin/adminMaintain" class="menu-item"><i ></i><span class="menu-text">Maintain</span></a></li>
-                    <li><a href="/admin/adminCondemn" class="menu-item"><i ></i><span class="menu-text">Condemn</span></a></li>
-                    <li><a href="/admin/adminAssetHistory" class="menu-item"><i ></i><span class="menu-text">Asset History</span></a></li>
-                    <li><a href="/admin/adminAsset" class="menu-item"><i ></i><span class="menu-text">Asset</span></a></li>
-                    <li><a href="/admin/adminInvoice" class="menu-item"><i ></i><span class="menu-text">Invoice</span></a></li>
-                    <li><a href="/admin/adminMovement" class="menu-item"><i ></i><span class="menu-text">Movement</span></a></li>
+                    <li><a href="/director/home" class="menu-item ">Dashboard</a></li>
+                    <li><a href="/director/directorStaff" class="menu-item ">Staff</a></li>
+                    <li><a href="/director/directorUserHistory" class="menu-item">User History</a></li>
+                    <li><a href="/director/directorMaintain" class="menu-item">Maintain</a></li>
+                    <li><a href="/director/directorCondemn" class="menu-item">Condemn</a></li>
+                    <li><a href="/director/directorAssetHistory" class="menu-item">Asset History</a></li>
+                    <li><a href="/director/directorAsset" class="menu-item">Asset</a></li>
+                    <li><a href="/director/directorInvoice" class="menu-item active">Invoice</a></li>
+                    <li><a href="/director/directorMovement" class="menu-item">Movement</a></li>
                 </ul>
             </nav>
         </aside>
@@ -985,7 +992,7 @@
                 userDescription: document.getElementById('userDescriptionInput').value.trim()
             };
             
-            fetch('/admin/adminStaff/add', {
+            fetch('/director/directorStaff/add', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)

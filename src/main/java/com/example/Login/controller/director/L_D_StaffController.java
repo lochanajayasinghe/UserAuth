@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping("/direcctor") // Changed to 'director' for director-specific paths
+@RequestMapping("/director") // Changed to 'director' for director-specific paths
 public class L_D_StaffController {
     private final L_StaffService staffService;
 
