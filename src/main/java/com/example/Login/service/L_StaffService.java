@@ -30,6 +30,11 @@ public class L_StaffService {
     @Transactional
     public boolean addStaff(StaffDto dto) {
         try {
+            // Check if userId already exists
+            boolean exists = staffRepository.existsByUserId(dto.getUserId());
+            if (exists) {
+                return false;
+            }
             AssetUser user = new AssetUser();
             user.setUserId(dto.getUserId());
             user.setUserName(dto.getUserName());

@@ -40,6 +40,10 @@ public class L_A_StaffController {
     @ResponseBody
     public String addStaff(@RequestBody StaffDto dto) {
         boolean success = staffService.addStaff(dto);
-        return success ? "OK" : "ERROR";
+        if (success) {
+            return "OK";
+        } else {
+            return "DUPLICATE_USERID";
+        }
     }
 }

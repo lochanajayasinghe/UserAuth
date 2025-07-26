@@ -979,35 +979,36 @@
             e.preventDefault();
             
             if (!validateForm('addStaffForm')) return;
-            
+
             const saveBtn = document.getElementById('saveStaffBtn');
-            
+
             // Show loading state
             saveBtn.disabled = true;
             saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Saving...';
-            
+
             const payload = {
                 userId: document.getElementById('userIdInput').value.trim(),
                 userName: document.getElementById('userNameInput').value.trim(),
                 jobRole: document.getElementById('jobRoleInput').value.trim(),
                 userDescription: document.getElementById('userDescriptionInput').value.trim()
             };
-            
+
             fetch('/admin/adminStaff/add', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             })
-            .then(res => {
-                if (res.ok) {
-                    // Show success message
+            .then(res => res.text())
+            .then(result => {
+                if (result === 'OK') {
                     showSuccessMessage('Staff added successfully!');
-                    // Close modal
                     bootstrap.Modal.getInstance(document.getElementById('addStaffModal')).hide();
-                    // Reload page to see changes
                     setTimeout(() => location.reload(), 1500);
+                } else if (result === 'DUPLICATE_USERID') {
+                    document.getElementById('userIdError').textContent = 'This User ID already exists.';
+                    document.getElementById('userIdInput').classList.add('is-invalid');
                 } else {
-                    throw new Error('Error adding staff');
+                    alert('Error adding staff.');
                 }
             })
             .catch(error => {
