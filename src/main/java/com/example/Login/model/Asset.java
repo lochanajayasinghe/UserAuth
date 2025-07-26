@@ -12,7 +12,7 @@ public class Asset {
     private String model;
     private String specification;
     private java.time.LocalDate purchaseDate;
-    private boolean activityStatus;
+    private boolean activityStatus = true;
     private String warrantyId;
     private java.time.LocalDate warrantyDate;
     private String warrantyPeriod;

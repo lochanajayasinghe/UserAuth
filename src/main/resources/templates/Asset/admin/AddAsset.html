@@ -487,10 +487,11 @@
             <nav>
                 <ul class="sidebar-menu">
                     <li><a href="/admin/home" class="menu-item  ">Dashboard</a></li>
+                    <li><a href="/admin/adminStaff" class="menu-item ">Staff</a></li>
                     <li><a href="/admin/adminUserHistory" class="menu-item">User History</a></li>
                     <li><a href="/admin/adminMaintain" class="menu-item">Maintain</a></li>
                     <li><a href="/admin/adminCondemn" class="menu-item">Condemn</a></li>
-                    <li><a href="/admin/adminAssetHistory" class="menu-item">Asset History</a></li>
+                    <li><a href="/admin/adminAssetAllocation" class="menu-item">Asset Allocation</a></li>
                     <li><a href="/admin/adminAsset" class="menu-item active">Asset</a></li>
                     <li><a href="/admin/adminInvoice" class="menu-item ">Invoice</a></li>
                     <li><a href="/admin/adminMovement" class="menu-item">Movement</a></li>
@@ -517,24 +518,37 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Asset ID</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Brand</th>
+                                <th scope="col">Serial Number</th>
                                 <th scope="col">Model</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="asset, iterStat : ${assets}">
+                            <tr th:each="asset, iterStat : ${assets}"
+                                th:classappend="${!asset.activityStatus} ? 'condemned-row' : ''">
                                 <td th:text="${iterStat.count}"></td>
                                 <td th:text="${asset.assetId}"></td>
                                 <td th:text="${asset.name}"></td>
                                 <td th:text="${asset.brand}"></td>
                                 <td th:text="${asset.model}"></td>
                                 <td>
-                                    <button type="button" class="btn btn-sm" style="background-color: var(--primary-color); color: var(--text-light); border: none;" data-bs-toggle="modal" th:attr="data-bs-target='#viewAssetModal' + ${asset.assetId}">
+                                    <button type="button" class="btn btn-sm"
+                                        style="background-color: var(--primary-color); color: var(--text-light); border: none;"
+                                        data-bs-toggle="modal"
+                                        th:attr="data-bs-target='#viewAssetModal' + ${asset.assetId}">
                                         <i class="fas fa-eye"></i> View
                                     </button>
                                 </td>
                             </tr>
+        <style>
+            .condemned-row {
+                background-color: rgba(128,0,0,0.10) !important;
+            }
+            .condemned-row td, .condemned-row th {
+                background-color: rgba(128,0,0,0.10) !important;
+                color: inherit !important;
+            }
+        </style>
                             <tr th:if="${#lists.isEmpty(assets)}">
                                 <td colspan="6" class="text-center text-danger">No assets found in the database.</td>
                             </tr>
@@ -569,8 +583,8 @@
                                                 <input type="text" class="form-control" id="type" th:field="*{type}" placeholder="e.g. Computer, Furniture" required />
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="brand" class="form-label">Brand</label>
-                                                <input type="text" class="form-control" id="brand" th:field="*{brand}" placeholder="e.g. HP, Samsung" required />
+                                                <label for="brand" class="form-label">Serial Number</label>
+                                                <input type="text" class="form-control" id="brand" th:field="*{brand}" placeholder="e.g. ITC/SB3/P33/001" required />
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="model" class="form-label">Model</label>
@@ -633,8 +647,12 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item"><strong>Asset ID:</strong> <span th:text="${asset.assetId}"></span></li>
                                         <li class="list-group-item"><strong>Name:</strong> <span th:text="${asset.name}"></span></li>
-                                        <li class="list-group-item"><strong>Brand:</strong> <span th:text="${asset.brand}"></span></li>
+                                        <li class="list-group-item"><strong>Serial Number:</strong> <span th:text="${asset.brand}"></span></li>
                                         <li class="list-group-item"><strong>Model:</strong> <span th:text="${asset.model}"></span></li>
+                                        <li class="list-group-item" th:if="${!asset.activityStatus}">
+                                            <span class="badge bg-danger" style="background-color:#800000 !important;">Condemned</span>
+                                            <span class="ms-2">This asset was condemned.</span>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
