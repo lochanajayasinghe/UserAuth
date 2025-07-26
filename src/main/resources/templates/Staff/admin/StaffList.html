@@ -757,7 +757,7 @@
                     <i class="fas fa-users"></i>Staff Management
                 </h2>
                 <span class="badge badge-count text-white">
-                    <span th:text="${staffList.size()}" id="staffCount">0</span> staff members
+                    <span th:text="${uniqueStaffList.size()}" id="staffCount">0</span> staff members
                 </span>
             </div>
 
@@ -782,13 +782,14 @@
                     <strong>
                         <i class="fas fa-list"></i> All Staff Members
                     </strong>
-                    <span class="text-muted small">Showing <span th:text="${staffList.size()}" id="staffCount2">0</span> records</span>
+                    <span class="text-muted small">Showing <span th:text="${uniqueStaffList.size()}" id="staffCount2">0</span> records</span>
                 </div>
                 <div class="card-body">
                     <div class="table-container">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
+                                    <th><i class="fas fa-id-badge me-2"></i>User ID</th>
                                     <th><i class="fas fa-user me-2"></i>User Name</th>
                                     <th><i class="fas fa-briefcase me-2"></i>Job Role</th>
                                     <th><i class="fas fa-info-circle me-2"></i>Description</th>
@@ -796,7 +797,8 @@
                                 </tr>
                             </thead>
                             <tbody id="staffTableBody">
-                                <tr th:each="staff : ${staffList}">
+                                <tr th:each="staff : ${uniqueStaffList}">
+                                    <td th:text="${staff.userId}"></td>
                                     <td th:text="${staff.userName}"></td>
                                     <td th:text="${staff.jobRole}"></td>
                                     <td th:text="${staff.userDescription}"></td>
@@ -806,8 +808,8 @@
                                         </button>
                                     </td>
                                 </tr>
-                                <tr th:if="${#lists.isEmpty(staffList)}">
-                                    <td colspan="4" class="text-center py-4 empty-state">
+                                <tr th:if="${#lists.isEmpty(uniqueStaffList)}">
+                                    <td colspan="5" class="text-center py-4 empty-state">
                                         <i class="fas fa-user-slash"></i>
                                         <p class="mt-2">No staff records found. Add your first staff member!</p>
                                     </td>
@@ -832,6 +834,11 @@
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="userIdInput" class="form-label">User ID *</label>
+                            <input type="text" class="form-control" id="userIdInput" required>
+                            <div id="userIdError" class="error-message">Please enter a user ID</div>
+                        </div>
                         <div class="mb-3">
                             <label for="userNameInput" class="form-label">User Name *</label>
                             <input type="text" class="form-control" id="userNameInput" required>
@@ -873,12 +880,12 @@
                 </div>
                 <div class="modal-body">
                     <dl class="staff-details">
+                        <dt>User ID:</dt>
+                        <dd id="viewUserId"></dd>
                         <dt>User Name:</dt>
                         <dd id="viewUserName"></dd>
-                        
                         <dt>Job Role:</dt>
                         <dd id="viewJobRole"></dd>
-                        
                         <dt>Description:</dt>
                         <dd id="viewUserDescription"></dd>
                     </dl>
@@ -980,6 +987,7 @@
             saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Saving...';
             
             const payload = {
+                userId: document.getElementById('userIdInput').value.trim(),
                 userName: document.getElementById('userNameInput').value.trim(),
                 jobRole: document.getElementById('jobRoleInput').value.trim(),
                 userDescription: document.getElementById('userDescriptionInput').value.trim()
@@ -1016,9 +1024,10 @@
             const row = button.closest('tr');
             
             // Get data from the table row
-            document.getElementById('viewUserName').textContent = row.cells[0].textContent;
-            document.getElementById('viewJobRole').textContent = row.cells[1].textContent;
-            document.getElementById('viewUserDescription').textContent = row.cells[2].textContent;
+            document.getElementById('viewUserId').textContent = row.cells[0].textContent;
+            document.getElementById('viewUserName').textContent = row.cells[1].textContent;
+            document.getElementById('viewJobRole').textContent = row.cells[2].textContent;
+            document.getElementById('viewUserDescription').textContent = row.cells[3].textContent;
         }
 
         // Filter table by search input

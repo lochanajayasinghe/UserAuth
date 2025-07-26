@@ -23,7 +23,16 @@ public class L_A_StaffController {
     @GetMapping("/adminStaff")
     public String getStaffList(Model model) {
         List<StaffDto> staffList = staffService.getAllStaff();
-        model.addAttribute("staffList", staffList);
+        // Filter to unique userId and sort by userId
+        java.util.Map<String, StaffDto> uniqueMap = new java.util.LinkedHashMap<>();
+        for (StaffDto staff : staffList) {
+            if (!uniqueMap.containsKey(staff.getUserId())) {
+                uniqueMap.put(staff.getUserId(), staff);
+            }
+        }
+        java.util.List<StaffDto> uniqueStaffList = new java.util.ArrayList<>(uniqueMap.values());
+        uniqueStaffList.sort(java.util.Comparator.comparing(StaffDto::getUserId, String.CASE_INSENSITIVE_ORDER));
+        model.addAttribute("uniqueStaffList", uniqueStaffList);
         return "Staff/admin/StaffList";
     }
 

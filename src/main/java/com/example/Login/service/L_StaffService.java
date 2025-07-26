@@ -18,7 +18,12 @@ public class L_StaffService {
 
     public List<StaffDto> getAllStaff() {
         return staffRepository.findAll().stream()
-            .map(user -> new StaffDto(user.getUserName(), user.getJobRole(), user.getUserDescription()))
+            .map(user -> new StaffDto(
+                user.getUserId(),
+                user.getUserName(),
+                user.getJobRole(),
+                user.getUserDescription()
+            ))
             .collect(Collectors.toList());
     }
 
@@ -26,6 +31,7 @@ public class L_StaffService {
     public boolean addStaff(StaffDto dto) {
         try {
             AssetUser user = new AssetUser();
+            user.setUserId(dto.getUserId());
             user.setUserName(dto.getUserName());
             user.setJobRole(dto.getJobRole());
             user.setUserDescription(dto.getUserDescription());

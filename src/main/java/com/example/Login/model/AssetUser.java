@@ -9,25 +9,32 @@ public class AssetUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
+    @Column(name = "user_id")
+    private String userId;
+
     private String userName;
     private String jobRole;
     private String userDescription;
-    
+
     @ManyToOne
     @JoinColumn(name = "asset_id")
     private Asset asset;
-    
+
     @ManyToOne
     @JoinColumn(name = "location_id")
     private Location location;
-    
+
     private Date startDate;
     private Date endDate;
-    
+
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
+
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
+
     public String getUserName() { return userName; }
     public void setUserName(String userName) { this.userName = userName; }
     public String getJobRole() { return jobRole; }
