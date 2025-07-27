@@ -22,8 +22,8 @@ public interface L_AssetUserRepository extends JpaRepository<AssetUser, Long> {
            "l.departmentName as departmentName, r.roomName as roomName, " +
            "au.startDate as startDate, au.endDate as endDate " +
            "FROM AssetUser au " +
-           "LEFT JOIN au.asset a " +
-           "LEFT JOIN au.location l " +
+           "JOIN au.asset a " +
+           "JOIN au.location l " +
            "LEFT JOIN Room r ON r.location = l")
     List<L_UserHistoryDto> findAllUserHistoryDtos();
 
