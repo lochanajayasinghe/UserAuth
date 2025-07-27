@@ -529,7 +529,7 @@
                                 <td th:text="${iterStat.count}"></td>
                                 <td th:text="${asset.assetId}"></td>
                                 <td th:text="${asset.name}"></td>
-                                <td th:text="${asset.brand}"></td>
+                                <td th:text="${asset.serialNumber}"></td>
                                 <td th:text="${asset.model}"></td>
                                 <td>
                                     <button type="button" class="btn btn-sm"
@@ -583,8 +583,8 @@
                                                 <input type="text" class="form-control" id="type" th:field="*{type}" placeholder="e.g. Computer, Furniture" required />
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="brand" class="form-label">Serial Number</label>
-                                                <input type="text" class="form-control" id="brand" th:field="*{brand}" placeholder="e.g. ITC/SB3/P33/001" required />
+                                                <label for="serialNumber" class="form-label">Serial Number</label>
+                                                <input type="text" class="form-control" id="serialNumber" th:field="*{serialNumber}" placeholder="e.g. ITC/SB3/P33/001" required />
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="model" class="form-label">Model</label>
@@ -647,7 +647,7 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item"><strong>Asset ID:</strong> <span th:text="${asset.assetId}"></span></li>
                                         <li class="list-group-item"><strong>Name:</strong> <span th:text="${asset.name}"></span></li>
-                                        <li class="list-group-item"><strong>Serial Number:</strong> <span th:text="${asset.brand}"></span></li>
+                                        <li class="list-group-item"><strong>Serial Number:</strong> <span th:text="${asset.serialNumber}"></span></li>
                                         <li class="list-group-item"><strong>Model:</strong> <span th:text="${asset.model}"></span></li>
                                         <li class="list-group-item" th:if="${!asset.activityStatus}">
                                             <span class="badge bg-danger" style="background-color:#800000 !important;">Condemned</span>

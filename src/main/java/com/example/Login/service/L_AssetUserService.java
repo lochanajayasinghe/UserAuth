@@ -56,7 +56,7 @@ public class L_AssetUserService {
                 asset = new com.example.Login.model.Asset();
                 asset.setAssetId(dto.getAssetId());
                 asset.setName(dto.getAssetName());
-                asset.setBrand(dto.getAssetBrand());
+                asset.setSerialNumber(dto.getAssetSerialNumber());
                 asset.setModel(dto.getAssetModel());
                 assetRepository.save(asset);
             }

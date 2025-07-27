@@ -9,7 +9,7 @@ public interface L_UserHistoryDto {
     String getUserDescription();
     String getAssetId();
     String getAssetName();
-    String getAssetBrand();
+    String getAssetSerialNumber();
     String getAssetModel();
     String getDepartmentName();
     String getRoomName();

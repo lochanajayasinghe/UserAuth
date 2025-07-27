@@ -18,7 +18,7 @@ public interface L_AssetUserRepository extends JpaRepository<AssetUser, Long> {
 
     // DTO-based query to fetch all user history records with asset, location, and room details
     @Query("SELECT au.userName as userName, au.jobRole as jobRole, au.userDescription as userDescription, " +
-           "a.assetId as assetId, a.name as assetName, a.brand as assetBrand, a.model as assetModel, " +
+           "a.assetId as assetId, a.name as assetName, a.serialNumber as assetSerialNumber, a.model as assetModel, " +
            "l.departmentName as departmentName, r.roomName as roomName, " +
            "au.startDate as startDate, au.endDate as endDate " +
            "FROM AssetUser au " +

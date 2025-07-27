@@ -516,7 +516,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Asset ID</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Brand</th>
+                                <th scope="col">Serial Number</th>
                                 <th scope="col">Model</th>
                                 <th scope="col">Actions</th>
                             </tr>
@@ -526,7 +526,7 @@
                                 <td th:text="${iterStat.count}"></td>
                                 <td th:text="${asset.assetId}"></td>
                                 <td th:text="${asset.name}"></td>
-                                <td th:text="${asset.brand}"></td>
+                                <td th:text="${asset.serialNumber}"></td>
                                 <td th:text="${asset.model}"></td>
                                 <td>
                                     <button type="button" class="btn btn-sm" style="background-color: var(--primary-color); color: var(--text-light); border: none;" data-bs-toggle="modal" th:attr="data-bs-target='#viewAssetModal' + ${asset.assetId}">
@@ -555,7 +555,7 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item"><strong>Asset ID:</strong> <span th:text="${asset.assetId}"></span></li>
                                         <li class="list-group-item"><strong>Name:</strong> <span th:text="${asset.name}"></span></li>
-                                        <li class="list-group-item"><strong>Brand:</strong> <span th:text="${asset.brand}"></span></li>
+                                        <li class="list-group-item"><strong>Serial Number:</strong> <span th:text="${asset.serialNumber}"></span></li>
                                         <li class="list-group-item"><strong>Model:</strong> <span th:text="${asset.model}"></span></li>
                                     </ul>
                                 </div>

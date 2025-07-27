@@ -5,7 +5,7 @@ import java.util.Date;
 public class AddUserHistoryDto {
     private String assetId;
     private String assetName;
-    private String assetBrand;
+    private String assetSerialNumber;
     private String assetModel;
     private String userName;
     private String jobRole;
@@ -19,8 +19,8 @@ public class AddUserHistoryDto {
     public void setAssetId(String assetId) { this.assetId = assetId; }
     public String getAssetName() { return assetName; }
     public void setAssetName(String assetName) { this.assetName = assetName; }
-    public String getAssetBrand() { return assetBrand; }
-    public void setAssetBrand(String assetBrand) { this.assetBrand = assetBrand; }
+    public String getAssetSerialNumber() { return assetSerialNumber; }
+    public void setAssetSerialNumber(String assetSerialNumber) { this.assetSerialNumber = assetSerialNumber; }
     public String getAssetModel() { return assetModel; }
     public void setAssetModel(String assetModel) { this.assetModel = assetModel; }
     public String getUserName() { return userName; }

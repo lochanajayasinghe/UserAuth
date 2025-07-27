@@ -626,7 +626,7 @@
                                         <td>
                                             <span class="text-secondary"><strong>Asset ID:</strong> <span th:text="${history.assetId}"></span></span><br>
                                             <span class="fw-semibold text-primary"><strong>Name:</strong> <span th:text="${history.assetName}"></span></span><br>
-                                            <span class="text-dark"><strong>Brand:</strong> <span th:text="${history.assetBrand}"></span></span><br>
+                                            <span class="text-dark"><strong>Serial Number:</strong> <span th:text="${history.assetSerialNumber}"></span></span><br>
                                             <span class="text-muted"><strong>Model:</strong> <span th:text="${history.assetModel}"></span></span>
                                         </td>
                                         <td>
@@ -706,8 +706,8 @@
                 <input type="text" class="form-control" id="assetName" readonly>
               </div>
               <div class="mb-3">
-                <label class="form-label">Asset Brand</label>
-                <input type="text" class="form-control" id="assetBrand" readonly>
+                <label class="form-label">Asset Serial Number</label>
+                <input type="text" class="form-control" id="assetSerialNumber" readonly>
               </div>
               <div class="mb-3">
                 <label class="form-label">Asset Model</label>
@@ -865,13 +865,13 @@
             fetch(`/admin/assets/suggest?query=${encodeURIComponent(query)}`)
                 .then(res => res.json())
                 .then(data => {
-                    const suggestions = data.map(asset => `<button type="button" class="list-group-item list-group-item-action" data-id="${asset.assetId}" data-name="${asset.name}" data-brand="${asset.brand}" data-model="${asset.model}">${asset.assetId} - ${asset.name}</button>`).join('');
+                    const suggestions = data.map(asset => `<button type="button" class="list-group-item list-group-item-action" data-id="${asset.assetId}" data-name="${asset.name}" data-serialnumber="${asset.serialNumber}" data-model="${asset.model}">${asset.assetId} - ${asset.name}</button>`).join('');
                     document.getElementById('assetIdSuggestions').innerHTML = suggestions;
                     document.querySelectorAll('#assetIdSuggestions button').forEach(btn => {
                         btn.addEventListener('click', function() {
                             document.getElementById('assetId').value = this.getAttribute('data-id');
                             document.getElementById('assetName').value = this.getAttribute('data-name');
-                            document.getElementById('assetBrand').value = this.getAttribute('data-brand');
+                            document.getElementById('assetSerialNumber').value = this.getAttribute('data-serialnumber');
                             document.getElementById('assetModel').value = this.getAttribute('data-model');
                             document.getElementById('assetIdSuggestions').innerHTML = '';
                         });
@@ -907,7 +907,7 @@
             const payload = {
                 assetId: document.getElementById('assetId').value,
                 assetName: document.getElementById('assetName').value,
-                assetBrand: document.getElementById('assetBrand').value,
+                assetSerialNumber: document.getElementById('assetSerialNumber').value,
                 assetModel: document.getElementById('assetModel').value,
                 userName: document.getElementById('userNameInput').value,
                 jobRole: document.getElementById('jobRoleInput').value,
