@@ -558,10 +558,16 @@
                   </div>
                   <div class="modal-body rounded-bottom" style="background-color: var(--text-light);">
                     <form id="assignUserAssetForm">
-                        <div class="mb-3 position-relative">
-                            <label for="userNameInput" class="form-label" style="color: var(--primary-color);">User Name</label>
-                            <input type="text" class="form-control" id="userNameInput" placeholder="Type user name..." autocomplete="off" style="border: 2px solid var(--primary-color); background-color: var(--text-light); color: var(--primary-dark);">
-                            <div id="userNameSuggestions" class="list-group position-absolute w-100"></div>
+                        <div class="row g-3 align-items-center mb-2">
+                            <div class="col-12 col-md-6 position-relative">
+                                <label for="userNameInput" class="form-label fw-semibold" style="color: var(--primary-color);">User Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="userNameInput" placeholder="Type user name..." autocomplete="off" style="border: 2px solid var(--primary-color); background-color: var(--text-light); color: var(--primary-dark);">
+                                <div id="userNameSuggestions" class="list-group position-absolute w-100" style="z-index: 10;"></div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="userIdInput" class="form-label fw-semibold" style="color: var(--primary-color);">User ID</label>
+                                <input type="text" class="form-control" id="userIdInput" readonly style="border: 2px solid var(--primary-color); background-color: #f3f3f3; color: var(--primary-dark);">
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="jobRoleInput" class="form-label" style="color: var(--primary-color);">Job Role</label>
@@ -576,6 +582,7 @@
                             <label for="assetNameInput" class="form-label" style="color: var(--primary-color);">Asset Name</label>
                             <input type="text" class="form-control" id="assetNameInput" readonly style="border: 2px solid var(--primary-color); background-color: var(--text-light); color: var(--primary-dark);">
                         </div>
+                        <div id="assetCondemnError" class="alert alert-danger py-2 px-3 mb-2 d-none" style="font-size: 0.95rem;"></div>
                         <div class="text-end">
                             <button type="submit" class="btn" style="background-color: var(--accent-color); color: var(--primary-dark); font-weight: 600;">Assign</button>
                         </div>
@@ -633,7 +640,7 @@
             fetch('/admin/assetAllocation/assetUsers/suggest?query=' + encodeURIComponent(query))
                 .then(res => res.json())
                 .then(data => {
-                    const suggestions = data.map(user => `<button type="button" class="list-group-item list-group-item-action" data-userid="${user.userId}" data-name="${user.userName}" data-jobrole="${user.jobRole}">${user.userName} <span class='text-muted small'>(${user.userId})</span></button>`).join('');
+                    const suggestions = data.map(user => `<button type="button" class="list-group-item list-group-item-action" data-userid="${user.userId}" data-name="${user.userName}" data-jobrole="${user.jobRole}"><strong>${user.userId}</strong> - ${user.userName}</button>`).join('');
                     document.getElementById('userNameSuggestions').innerHTML = suggestions;
                     document.querySelectorAll('#userNameSuggestions button').forEach(btn => {
                         btn.addEventListener('click', function() {
@@ -673,24 +680,40 @@
         let selectedUserId = '';
         document.getElementById('assignUserAssetForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            document.getElementById('assetCondemnError').classList.add('d-none');
+            document.getElementById('assetCondemnError').textContent = '';
+            // Validate assetId is from suggestions
+            const assetIdInput = document.getElementById('assetIdInput').value.trim();
+            const assetNameInput = document.getElementById('assetNameInput').value.trim();
+            if (!assetIdInput || !assetNameInput) {
+                document.getElementById('assetCondemnError').textContent = 'Please select a valid asset from the suggestions.';
+                document.getElementById('assetCondemnError').classList.remove('d-none');
+                return;
+            }
             const payload = {
                 userId: selectedUserId,
                 userName: document.getElementById('userNameInput').value,
                 jobRole: document.getElementById('jobRoleInput').value,
-                assetId: document.getElementById('assetIdInput').value,
-                assetName: document.getElementById('assetNameInput').value
+                assetId: assetIdInput,
+                assetName: assetNameInput
             };
             fetch('/admin/assetAllocation/assign', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             })
-            .then(res => {
+            .then(async res => {
                 if (res.ok) {
                     alert('User assigned to asset successfully!');
                     location.reload();
                 } else {
-                    alert('Error assigning user to asset.');
+                    const text = await res.text();
+                    if (text && text.includes('condemn')) {
+                        document.getElementById('assetCondemnError').textContent = 'This asset is condemned and cannot be assigned.';
+                        document.getElementById('assetCondemnError').classList.remove('d-none');
+                    } else {
+                        alert('Error assigning user to asset.');
+                    }
                 }
             });
         });

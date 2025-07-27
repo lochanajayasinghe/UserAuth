@@ -37,6 +37,7 @@ public class L_A_AssetAllocationController {
     public List<Map<String, String>> suggestAssets(@RequestParam String query) {
         List<Asset> assets = assetRepository.findByAssetIdContainingIgnoreCaseOrNameContainingIgnoreCase(query, query);
         return assets.stream()
+                .filter(a -> a.isActivityStatus()) // Only suggest assets that are not condemned
                 .map(a -> Map.of("assetId", a.getAssetId(), "name", a.getName()))
                 .collect(Collectors.toList());
     }
@@ -65,6 +66,10 @@ public class L_A_AssetAllocationController {
         String assetId = payload.get("assetId");
         Asset asset = assetRepository.findById(assetId).orElse(null);
         if (asset == null) return "Asset not found";
+        // Prevent assignment if asset is condemned (activityStatus == false)
+        if (!asset.isActivityStatus()) {
+            return "Error: This asset is condemned and cannot be assigned.";
+        }
         AssetUser assetUser = new AssetUser();
         assetUser.setUserId(userId);
         assetUser.setUserName(userName);
