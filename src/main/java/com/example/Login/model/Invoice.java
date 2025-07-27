@@ -7,6 +7,7 @@ public class Invoice {
     @Id
     private String invoiceNumber;
     private String invoiceId;
+    private String orderId; // <-- new field
     private java.time.LocalDate invoiceDate;
     private int itemCount;
     private String invoiceCost;
@@ -30,6 +31,8 @@ public class Invoice {
     // Getters and Setters
     public String getInvoiceId() { return invoiceId; }
     public void setInvoiceId(String invoiceId) { this.invoiceId = invoiceId; }
+    public String getOrderId() { return orderId; }
+    public void setOrderId(String orderId) { this.orderId = orderId; }
     public String getInvoiceNumber() { return invoiceNumber; }
     public void setInvoiceNumber(String invoiceNumber) { this.invoiceNumber = invoiceNumber; }
     public java.time.LocalDate getInvoiceDate() { return invoiceDate; }

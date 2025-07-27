@@ -688,7 +688,6 @@
                                 </div>
                                 <div class="modal-body">
                                     
-                                    
                                     <!-- Invoice Number Field -->
                                     <div class="mb-3">
                                         <label for="invoiceNumber" class="form-label">Invoice Number *</label>
@@ -703,6 +702,22 @@
                                         </div>
                                         <div th:if="${#fields.hasErrors('invoiceNumber')}" th:errors="*{invoiceNumber}" class="error-message"></div>
                                     </div>
+
+                                    <!-- Order ID Field -->
+                                    <div class="mb-3">
+                                        <label for="orderId" class="form-label">Order ID *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-barcode"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="orderId" 
+                                                   th:field="*{orderId}"
+                                                   th:classappend="${#fields.hasErrors('orderId')} ? 'is-invalid' : ''"
+                                                   placeholder="e.g., ORD-2023-001" required>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('orderId')}" th:errors="*{orderId}" class="error-message"></div>
+                                    </div>
+                                    
                                     <!-- Invoice Date Field -->
                                     <div class="mb-3">
                                         <label for="invoiceDate" class="form-label">Invoice Date *</label>
@@ -825,6 +840,7 @@
                                 <thead>
                                     <tr class="table-light">
                                         <th><i class="fas fa-hashtag me-2"></i>Invoice Number</th>
+                                        <th><i class="fas fa-barcode me-2"></i>Order ID</th>
                                         <th><i class="fas fa-calendar-alt me-2"></i>Date</th>
                                         <th><i class="fas fa-money-bill-wave me-2"></i>Cost</th>
                                         <th class="text-end"><i class="fas fa-cubes me-2"></i>Items</th>
@@ -836,6 +852,9 @@
                                         <td>
                                             <i class="fas fa-file-invoice text-muted me-2"></i>
                                             <span th:text="${invoice.invoiceNumber}">INV-2023-001</span>
+                                        </td>
+                                        <td>
+                                            <span th:text="${invoice.orderId}">ORD-2023-001</span>
                                         </td>
                                         <td th:text="${#temporals.format(invoice.invoiceDate, 'yyyy-MM-dd')}">2023-07-01</td>
                                         <td th:text="${invoice.invoiceCost}">100.00</td>
