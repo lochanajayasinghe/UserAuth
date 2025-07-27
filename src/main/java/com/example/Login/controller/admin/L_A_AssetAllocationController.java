@@ -24,7 +24,11 @@ public class L_A_AssetAllocationController {
     public List<Map<String, String>> suggestAssetUsers(@RequestParam String query) {
         List<AssetUser> users = assetUserRepository.findByUserNameContainingIgnoreCase(query);
         return users.stream()
-                .map(u -> Map.of("userName", u.getUserName(), "jobRole", u.getJobRole()))
+                .map(u -> Map.of(
+                    "userId", u.getUserId(),
+                    "userName", u.getUserName(),
+                    "jobRole", u.getJobRole()
+                ))
                 .collect(Collectors.toList());
     }
 
@@ -41,8 +45,9 @@ public class L_A_AssetAllocationController {
     @GetMapping("/all")
     public List<Map<String, String>> getAllAssignments() {
         return assetUserRepository.findAll().stream()
-            .filter(u -> u.getAsset() != null)
+            .filter(u -> u.getAsset() != null && u.getUserId() != null && !u.getUserId().trim().isEmpty())
             .map(u -> Map.of(
+                "userId", u.getUserId(),
                 "userName", u.getUserName(),
                 "jobRole", u.getJobRole(),
                 "assetId", u.getAsset().getAssetId(),
@@ -54,12 +59,14 @@ public class L_A_AssetAllocationController {
     // Assign user to asset
     @PostMapping("/assign")
     public String assignUserToAsset(@RequestBody Map<String, String> payload) {
+        String userId = payload.get("userId");
         String userName = payload.get("userName");
         String jobRole = payload.get("jobRole");
         String assetId = payload.get("assetId");
         Asset asset = assetRepository.findById(assetId).orElse(null);
         if (asset == null) return "Asset not found";
         AssetUser assetUser = new AssetUser();
+        assetUser.setUserId(userId);
         assetUser.setUserName(userName);
         assetUser.setJobRole(jobRole);
         assetUser.setAsset(asset);

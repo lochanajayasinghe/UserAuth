@@ -533,6 +533,7 @@
                         <table class="table table-hover align-middle shadow-sm rounded" id="userAssetTable" style="background-color: var(--text-light);">
                             <thead style="background-color: var(--primary-light);">
                                 <tr>
+                                    <th style="color: var(--primary-color);">User ID</th>
                                     <th style="color: var(--primary-color);">User Name</th>
                                     <th style="color: var(--primary-color);">Job Role</th>
                                     <th style="color: var(--primary-color);">Asset ID</th>
@@ -603,6 +604,7 @@
                 })
                 .map(row => `
                     <tr>
+                        <td>${row.userId}</td>
                         <td>${row.userName}</td>
                         <td>${row.jobRole}</td>
                         <td>${row.assetId}</td>
@@ -631,12 +633,14 @@
             fetch('/admin/assetAllocation/assetUsers/suggest?query=' + encodeURIComponent(query))
                 .then(res => res.json())
                 .then(data => {
-                    const suggestions = data.map(user => `<button type="button" class="list-group-item list-group-item-action" data-name="${user.userName}" data-jobrole="${user.jobRole}">${user.userName}</button>`).join('');
+                    const suggestions = data.map(user => `<button type="button" class="list-group-item list-group-item-action" data-userid="${user.userId}" data-name="${user.userName}" data-jobrole="${user.jobRole}">${user.userName} <span class='text-muted small'>(${user.userId})</span></button>`).join('');
                     document.getElementById('userNameSuggestions').innerHTML = suggestions;
                     document.querySelectorAll('#userNameSuggestions button').forEach(btn => {
                         btn.addEventListener('click', function() {
                             document.getElementById('userNameInput').value = this.getAttribute('data-name');
                             document.getElementById('jobRoleInput').value = this.getAttribute('data-jobrole');
+                            document.getElementById('userIdInput').value = this.getAttribute('data-userid');
+                            selectedUserId = this.getAttribute('data-userid');
                             document.getElementById('userNameSuggestions').innerHTML = '';
                         });
                     });
@@ -666,9 +670,11 @@
         });
 
         // --- Form submit: assign user to asset ---
+        let selectedUserId = '';
         document.getElementById('assignUserAssetForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const payload = {
+                userId: selectedUserId,
                 userName: document.getElementById('userNameInput').value,
                 jobRole: document.getElementById('jobRoleInput').value,
                 assetId: document.getElementById('assetIdInput').value,
