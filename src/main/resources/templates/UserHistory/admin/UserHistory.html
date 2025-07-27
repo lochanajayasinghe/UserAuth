@@ -624,17 +624,17 @@
                                             <span class="badge bg-secondary" th:text="${history.jobRole}"></span>
                                         </td>
                                         <td>
-                                            <span class="text-secondary"><strong>Asset ID:</strong> <span th:text="${history.assetId}"></span></span><br>
-                                            <span class="fw-semibold text-primary"><strong>Name:</strong> <span th:text="${history.assetName}"></span></span><br>
-                                            <span class="text-dark"><strong>Serial Number:</strong> <span th:text="${history.assetSerialNumber}"></span></span><br>
-                                            <span class="text-muted"><strong>Model:</strong> <span th:text="${history.assetModel}"></span></span>
+                                            <span class="text-secondary"><strong>Asset ID:</strong> <span th:text="${history.assetId != null && !#strings.isEmpty(history.assetId) ? history.assetId : '-'}"></span></span><br>
+                                            <span class="fw-semibold text-primary"><strong>Name:</strong> <span th:text="${history.assetName != null && !#strings.isEmpty(history.assetName) ? history.assetName : '-'}"></span></span><br>
+                                            <span class="text-dark"><strong>Serial Number:</strong> <span th:text="${history.assetSerialNumber != null && !#strings.isEmpty(history.assetSerialNumber) ? history.assetSerialNumber : '-'}"></span></span><br>
+                                            <span class="text-muted"><strong>Model:</strong> <span th:text="${history.assetModel != null && !#strings.isEmpty(history.assetModel) ? history.assetModel : '-'}"></span></span>
                                         </td>
                                         <td>
-                                            <span class="fw-semibold text-primary"><strong>Department:</strong> <span th:text="${history.departmentName}"></span></span><br>
-                                            <span class="text-dark"><strong>Room:</strong> <span th:text="${history.roomName}"></span></span>
+                                            <span class="fw-semibold text-primary"><strong>Department:</strong> <span th:text="${history.departmentName != null && !#strings.isEmpty(history.departmentName) ? history.departmentName : '-'}"></span></span><br>
+                                            <span class="text-dark"><strong>Room:</strong> <span th:text="${history.roomName != null && !#strings.isEmpty(history.roomName) ? history.roomName : '-'}"></span></span>
                                         </td>
                                         <td>
-                                            <span class="text-dark" th:text="${#dates.format(history.startDate, 'yyyy-MM-dd')}"></span> to<br>
+                                            <span class="text-dark" th:text="${history.startDate != null ? #dates.format(history.startDate, 'yyyy-MM-dd') : '-'}"></span> to<br>
                                             <span th:if="${history.endDate != null}" th:text="${#dates.format(history.endDate, 'yyyy-MM-dd')}"></span>
                                             <span th:if="${history.endDate == null}" class="badge bg-success">Current</span>
                                         </td>
