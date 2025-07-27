@@ -23,12 +23,19 @@ public class L_A_AssetAllocationController {
     @GetMapping("/assetUsers/suggest")
     public List<Map<String, String>> suggestAssetUsers(@RequestParam String query) {
         List<AssetUser> users = assetUserRepository.findByUserNameContainingIgnoreCase(query);
+        // Deduplicate by userId and userName
         return users.stream()
-                .map(u -> Map.of(
-                    "userId", u.getUserId(),
-                    "userName", u.getUserName(),
-                    "jobRole", u.getJobRole()
+                .collect(Collectors.toMap(
+                    u -> u.getUserId() + "|" + u.getUserName(),
+                    u -> Map.of(
+                        "userId", u.getUserId(),
+                        "userName", u.getUserName(),
+                        "jobRole", u.getJobRole()
+                    ),
+                    (a, b) -> a
                 ))
+                .values()
+                .stream()
                 .collect(Collectors.toList());
     }
 
