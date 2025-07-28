@@ -23,6 +23,16 @@ public class Asset {
     @JoinColumn(name = "locationId")
     private Location location;
 
+    @Column(name = "deleted")
+    private boolean deleted = false;
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
     // Getters and Setters
     public String getAssetId() { return assetId; }
     public void setAssetId(String assetId) { this.assetId = assetId; }

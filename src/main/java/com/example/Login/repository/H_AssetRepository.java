@@ -1,3 +1,4 @@
+
 package com.example.Login.repository;
 
 import com.example.Login.model.Asset;
@@ -7,4 +8,10 @@ import java.util.List;
 public interface H_AssetRepository extends JpaRepository<Asset, String> {
     // For asset auto-suggest (case-insensitive contains)
     List<Asset> findByAssetIdContainingIgnoreCaseOrNameContainingIgnoreCase(String assetId, String name);
+
+    // Only fetch assets that are not soft deleted
+    List<Asset> findByDeletedFalse();
+
+    // Fetch only soft deleted assets
+    List<Asset> findByDeletedTrue();
 }

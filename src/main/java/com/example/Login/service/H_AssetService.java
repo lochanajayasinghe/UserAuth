@@ -1,3 +1,4 @@
+
 package com.example.Login.service;
 
 import com.example.Login.model.Asset;
@@ -13,11 +14,31 @@ public class H_AssetService {
         this.assetRepository = assetRepository;
     }
 
+    public Asset getAssetById(String assetId) {
+        return assetRepository.findById(assetId).orElse(null);
+    }
+
     public Asset saveAsset(Asset asset) {
         return assetRepository.save(asset);
     }
 
     public List<Asset> getAllAssets() {
-        return assetRepository.findAll();
+        return assetRepository.findByDeletedFalse();
+    }
+
+    public List<Asset> getDeletedAssets() {
+        return assetRepository.findByDeletedTrue();
+    }
+
+    public void deleteAssetPermanently(String assetId) {
+        assetRepository.deleteById(assetId);
+    }
+
+    public void restoreAsset(String assetId) {
+        Asset asset = getAssetById(assetId);
+        if (asset != null && asset.isDeleted()) {
+            asset.setDeleted(false);
+            saveAsset(asset);
+        }
     }
 }
