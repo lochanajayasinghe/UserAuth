@@ -582,6 +582,10 @@
                             <label for="assetNameInput" class="form-label" style="color: var(--primary-color);">Asset Name</label>
                             <input type="text" class="form-control" id="assetNameInput" readonly style="border: 2px solid var(--primary-color); background-color: var(--text-light); color: var(--primary-dark);">
                         </div>
+                        <div class="mb-3">
+                            <label for="startDateInput" class="form-label" style="color: var(--primary-color);">Start Date <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="startDateInput" required style="border: 2px solid var(--primary-color); background-color: var(--text-light); color: var(--primary-dark);">
+                        </div>
                         <div id="assetCondemnError" class="alert alert-danger py-2 px-3 mb-2 d-none" style="font-size: 0.95rem;"></div>
                         <div class="text-end">
                             <button type="submit" class="btn" style="background-color: var(--accent-color); color: var(--primary-dark); font-weight: 600;">Assign</button>
@@ -690,12 +694,19 @@
                 document.getElementById('assetCondemnError').classList.remove('d-none');
                 return;
             }
+            const startDateInput = document.getElementById('startDateInput').value;
+            if (!startDateInput) {
+                document.getElementById('assetCondemnError').textContent = 'Please select a start date.';
+                document.getElementById('assetCondemnError').classList.remove('d-none');
+                return;
+            }
             const payload = {
                 userId: selectedUserId,
                 userName: document.getElementById('userNameInput').value,
                 jobRole: document.getElementById('jobRoleInput').value,
                 assetId: assetIdInput,
-                assetName: assetNameInput
+                assetName: assetNameInput,
+                startDate: startDateInput
             };
             fetch('/admin/assetAllocation/assign', {
                 method: 'POST',

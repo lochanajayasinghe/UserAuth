@@ -71,6 +71,7 @@ public class L_A_AssetAllocationController {
         String userName = payload.get("userName");
         String jobRole = payload.get("jobRole");
         String assetId = payload.get("assetId");
+        String startDateStr = payload.get("startDate");
         Asset asset = assetRepository.findById(assetId).orElse(null);
         if (asset == null) return "Asset not found";
         // Prevent assignment if asset is condemned (activityStatus == false)
@@ -82,6 +83,14 @@ public class L_A_AssetAllocationController {
         assetUser.setUserName(userName);
         assetUser.setJobRole(jobRole);
         assetUser.setAsset(asset);
+        if (startDateStr != null && !startDateStr.isEmpty()) {
+            try {
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+                assetUser.setStartDate(sdf.parse(startDateStr));
+            } catch (Exception e) {
+                // Invalid date format, ignore or handle as needed
+            }
+        }
         assetUserRepository.save(assetUser);
         return "Success";
     }
