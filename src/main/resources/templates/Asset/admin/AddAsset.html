@@ -714,12 +714,18 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item"><strong>Asset ID:</strong> <span th:text="${asset.assetId}"></span></li>
                                         <li class="list-group-item"><strong>Name:</strong> <span th:text="${asset.name}"></span></li>
+                                        <li class="list-group-item"><strong>Type:</strong> <span th:text="${asset.type}"></span></li>
                                         <li class="list-group-item"><strong>Serial Number:</strong> <span th:text="${asset.serialNumber}"></span></li>
                                         <li class="list-group-item"><strong>Model:</strong> <span th:text="${asset.model}"></span></li>
-                                        <li class="list-group-item" th:if="${!asset.activityStatus}">
-                                            <span class="badge bg-danger" style="background-color:#800000 !important;">Condemned</span>
-                                            <span class="ms-2">This asset was condemned.</span>
+                                        <li class="list-group-item"><strong>Specification:</strong> <span th:text="${asset.specification}"></span></li>
+                                        <li class="list-group-item"><strong>Purchase Date:</strong> <span th:text="${asset.purchaseDate}"></span></li>
+                                        <li class="list-group-item"><strong>Activity Status:</strong> 
+                                            <span th:if="${asset.activityStatus}" class="badge bg-success">Active</span>
+                                            <span th:unless="${asset.activityStatus}" class="badge bg-danger">Condemned</span>
                                         </li>
+                                        <li class="list-group-item"><strong>Warranty ID:</strong> <span th:text="${asset.warrantyId}"></span></li>
+                                        <li class="list-group-item"><strong>Warranty Date:</strong> <span th:text="${asset.warrantyDate}"></span></li>
+                                        <li class="list-group-item"><strong>Warranty Period:</strong> <span th:text="${asset.warrantyPeriod}"></span></li>
                                     </ul>
                                 </div>
                             </div>
