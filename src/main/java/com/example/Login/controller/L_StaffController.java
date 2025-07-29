@@ -19,10 +19,23 @@ public class L_StaffController {
         this.staffService = staffService;
     }
 
-    @GetMapping("/staff")
+@GetMapping("/staff")
     public String getStaffList(Model model) {
         List<StaffDto> staffList = staffService.getAllStaff();
-        model.addAttribute("staffList", staffList);
+        // Defensive: ensure staffList is not null
+        if (staffList == null) staffList = new java.util.ArrayList<>();
+        // Filter to unique userId and sort by userId
+        java.util.Map<String, StaffDto> uniqueMap = new java.util.LinkedHashMap<>();
+        for (StaffDto staff : staffList) {
+            if (staff != null && staff.getUserId() != null && !uniqueMap.containsKey(staff.getUserId())) {
+                uniqueMap.put(staff.getUserId(), staff);
+            }
+        }
+        java.util.List<StaffDto> uniqueStaffList = new java.util.ArrayList<>(uniqueMap.values());
+        uniqueStaffList.sort(java.util.Comparator.comparing(
+            s -> s != null && s.getUserId() != null ? s.getUserId() : "",
+            String.CASE_INSENSITIVE_ORDER));
+        model.addAttribute("uniqueStaffList", uniqueStaffList);
         return "Staff/StaffList";
     }
 
@@ -30,6 +43,10 @@ public class L_StaffController {
     @ResponseBody
     public String addStaff(@RequestBody StaffDto dto) {
         boolean success = staffService.addStaff(dto);
-        return success ? "OK" : "ERROR";
+        if (success) {
+            return "OK";
+        } else {
+            return "DUPLICATE_USERID";
+        }
     }
 }
