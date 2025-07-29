@@ -561,62 +561,7 @@
                 </div>
                 
 
-                <!-- Recycle Bin Modal -->
-                <div class="modal fade" id="recycleBinModal" tabindex="-1" aria-labelledby="recycleBinModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content" style="border-radius: 16px; box-shadow: 0 8px 32px rgba(128,0,0,0.15);">
-                            <div class="modal-header" style="background: linear-gradient(90deg, var(--primary-color), var(--primary-dark)); border-top-left-radius: 16px; border-top-right-radius: 16px;">
-                                <h5 class="modal-title" id="recycleBinModalLabel" style="color: var(--accent-color); font-weight: 600; letter-spacing: 1px;">
-                                    <i class="fas fa-trash-alt me-2"></i>Recycle Bin <span style="font-size: 0.9rem; color: #fff;">(Soft Deleted Assets)</span>
-                                </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body" style="background: var(--secondary-color);">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover align-middle" style="border-radius: 8px; overflow: hidden;">
-                                        <thead style="background: linear-gradient(90deg, var(--primary-color), var(--primary-dark)); color: var(--accent-color);">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Asset ID</th>
-                                                <th>Name</th>
-                                                <th>Serial Number</th>
-                                                <th>Model</th>
-                                                <th style="min-width: 160px;">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr th:each="asset, iterStat : ${deletedAssets}" style="background-color: #fff;">
-                                                <td th:text="${iterStat.count}"></td>
-                                                <td th:text="${asset.assetId}"></td>
-                                                <td th:text="${asset.name}"></td>
-                                                <td th:text="${asset.serialNumber}"></td>
-                                                <td th:text="${asset.model}"></td>
-                                                <td style="min-width: 160px;">
-                                                    <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;">
-                                                        <form th:action="@{'/director/directorAsset/restore/' + ${asset.assetId}}" method="post" style="width: 100%;">
-                                                            <button type="submit" class="btn btn-sm w-100" style="background-color: var(--accent-color); color: var(--primary-color); font-weight: 600; border: none; border-radius: 6px;">
-                                                                <i class="fas fa-undo"></i> Restore
-                                                            </button>
-                                                        </form>
-                                                        <form th:action="@{'/director/directorAsset/permanent-delete/' + ${asset.assetId}}" method="post" style="width: 100%;">
-                                                            <button type="submit" class="btn btn-sm w-100" style="background-color: var(--primary-color); color: #fff; font-weight: 600; border: none; border-radius: 6px;" onclick="return confirm('Permanently delete this asset? This cannot be undone!')">
-                                                                <i class="fas fa-trash"></i> Delete
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr th:if="${#lists.isEmpty(deletedAssets)}">
-                                                <td colspan="6" class="text-center" style="color: var(--primary-color); font-weight: 500; background: #fff;">No deleted assets in the recycle bin.</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+               
                 <!-- Add Asset Modal -->
                 <div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
