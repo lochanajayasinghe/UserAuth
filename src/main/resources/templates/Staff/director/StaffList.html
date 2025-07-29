@@ -757,14 +757,14 @@
             </nav>
         </aside>
 
-        <!-- Main Content Area -->
+         <!-- Main Content Area -->
         <main class="main-content">
             <div class="page-header">
                 <h2 class="page-title">
                     <i class="fas fa-users"></i>Staff Management
                 </h2>
                 <span class="badge badge-count text-white">
-                    <span th:text="${staffList.size()}" id="staffCount">0</span> staff members
+                    <span th:text="${uniqueStaffList.size()}" id="staffCount">0</span> staff members
                 </span>
             </div>
 
@@ -778,7 +778,9 @@
                         <input type="text" class="form-control" id="staffNameFilter" placeholder="Search by name, role or description...">
                     </div>
                 </form>
-                
+                <button type="button" class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#addStaffModal">
+                    <i class="fas fa-plus-circle"></i> Add New Staff
+                </button>
             </div>
 
             <!-- Staff Table -->
@@ -787,13 +789,14 @@
                     <strong>
                         <i class="fas fa-list"></i> All Staff Members
                     </strong>
-                    <span class="text-muted small">Showing <span th:text="${staffList.size()}" id="staffCount2">0</span> records</span>
+                    <span class="text-muted small">Showing <span th:text="${uniqueStaffList.size()}" id="staffCount2">0</span> records</span>
                 </div>
                 <div class="card-body">
                     <div class="table-container">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
+                                    <th><i class="fas fa-id-badge me-2"></i>User ID</th>
                                     <th><i class="fas fa-user me-2"></i>User Name</th>
                                     <th><i class="fas fa-briefcase me-2"></i>Job Role</th>
                                     <th><i class="fas fa-info-circle me-2"></i>Description</th>
@@ -801,7 +804,8 @@
                                 </tr>
                             </thead>
                             <tbody id="staffTableBody">
-                                <tr th:each="staff : ${staffList}">
+                                <tr th:each="staff : ${uniqueStaffList}">
+                                    <td th:text="${staff.userId}"></td>
                                     <td th:text="${staff.userName}"></td>
                                     <td th:text="${staff.jobRole}"></td>
                                     <td th:text="${staff.userDescription}"></td>
@@ -811,8 +815,8 @@
                                         </button>
                                     </td>
                                 </tr>
-                                <tr th:if="${#lists.isEmpty(staffList)}">
-                                    <td colspan="4" class="text-center py-4 empty-state">
+                                <tr th:if="${#lists.isEmpty(uniqueStaffList)}">
+                                    <td colspan="5" class="text-center py-4 empty-state">
                                         <i class="fas fa-user-slash"></i>
                                         <p class="mt-2">No staff records found. Add your first staff member!</p>
                                     </td>
@@ -825,7 +829,51 @@
         </main>
     </div>
 
-    
+    <!-- Add Staff Modal -->
+    <div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="addStaffForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addStaffModalLabel">
+                            <i class="fas fa-user-plus me-2"></i>Add New Staff
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="userIdInput" class="form-label">User ID *</label>
+                            <input type="text" class="form-control" id="userIdInput" required>
+                            <div id="userIdError" class="error-message">Please enter a user ID</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userNameInput" class="form-label">User Name *</label>
+                            <input type="text" class="form-control" id="userNameInput" required>
+                            <div id="userNameError" class="error-message">Please enter a user name</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="jobRoleInput" class="form-label">Job Role *</label>
+                            <input type="text" class="form-control" id="jobRoleInput" required>
+                            <div id="jobRoleError" class="error-message">Please enter a job role</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userDescriptionInput" class="form-label">User Description *</label>
+                            <textarea class="form-control" id="userDescriptionInput" rows="3" required></textarea>
+                            <div id="userDescriptionError" class="error-message">Please enter a description</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary-custom" id="saveStaffBtn">
+                            <i class="fas fa-save me-2"></i> Save Staff
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- View Staff Modal -->
     <div class="modal fade view-modal" id="viewStaffModal" tabindex="-1" aria-labelledby="viewStaffModalLabel" aria-hidden="true">
@@ -839,12 +887,12 @@
                 </div>
                 <div class="modal-body">
                     <dl class="staff-details">
+                        <dt>User ID:</dt>
+                        <dd id="viewUserId"></dd>
                         <dt>User Name:</dt>
                         <dd id="viewUserName"></dd>
-                        
                         <dt>Job Role:</dt>
                         <dd id="viewJobRole"></dd>
-                        
                         <dt>Description:</dt>
                         <dd id="viewUserDescription"></dd>
                     </dl>
@@ -857,7 +905,6 @@
             </div>
         </div>
     </div>
-
     <!-- Footer -->
     <footer class="main-footer">
         <div class="footer-container">
