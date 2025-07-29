@@ -510,9 +510,7 @@
             <div class="card shadow-sm mb-4 border-0" style="max-width: 900px; margin: 2rem auto; background-color: var(--text-light);">
                 <div class="card-header d-flex justify-content-between align-items-center" style="background-color: var(--primary-dark); color: var(--text-light);">
                     <h5 class="mb-0">All User-Asset Assignments</h5>
-                    <button type="button" class="btn" style="background-color: var(--accent-color); color: var(--primary-dark); font-weight: 600;" data-bs-toggle="modal" data-bs-target="#assignUserAssetModal">
-                        <i class="fas fa-plus"></i> Assign User to Asset
-                    </button>
+                    
                 </div>
                 <div class="card-body rounded-bottom" style="background-color: var(--text-light);">
                     <div class="row g-2 align-items-center mb-3 px-2 pt-2">
@@ -548,55 +546,7 @@
                 </div>
             </div>
 
-            <!-- Assign User to Asset Modal -->
-            <div class="modal fade" id="assignUserAssetModal" tabindex="-1" aria-labelledby="assignUserAssetModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content shadow" style="background-color: var(--text-light);">
-                  <div class="modal-header" style="background-color: var(--primary-color); color: var(--text-light);">
-                    <h5 class="modal-title" id="assignUserAssetModalLabel">Assign User to Asset</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body rounded-bottom" style="background-color: var(--text-light);">
-                    <form id="assignUserAssetForm">
-                        <div class="row g-3 align-items-center mb-2">
-                            <div class="col-12 col-md-6 position-relative">
-                                <label for="userNameInput" class="form-label fw-semibold" style="color: var(--primary-color);">User Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="userNameInput" placeholder="Type user name..." autocomplete="off" style="border: 2px solid var(--primary-color); background-color: var(--text-light); color: var(--primary-dark);">
-                                <div id="userNameSuggestions" class="list-group position-absolute w-100" style="z-index: 10;"></div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <label for="userIdInput" class="form-label fw-semibold" style="color: var(--primary-color);">User ID</label>
-                                <input type="text" class="form-control" id="userIdInput" readonly style="border: 2px solid var(--primary-color); background-color: #f3f3f3; color: var(--primary-dark);">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="jobRoleInput" class="form-label" style="color: var(--primary-color);">Job Role</label>
-                            <input type="text" class="form-control" id="jobRoleInput" readonly style="border: 2px solid var(--primary-color); background-color: var(--text-light); color: var(--primary-dark);">
-                        </div>
-                        <div class="mb-3 position-relative">
-                            <label for="assetIdInput" class="form-label" style="color: var(--primary-color);">Asset ID</label>
-                            <input type="text" class="form-control" id="assetIdInput" placeholder="Type asset ID..." autocomplete="off" style="border: 2px solid var(--primary-color); background-color: var(--text-light); color: var(--primary-dark);">
-                            <div id="assetIdSuggestions" class="list-group position-absolute w-100"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="assetNameInput" class="form-label" style="color: var(--primary-color);">Asset Name</label>
-                            <input type="text" class="form-control" id="assetNameInput" readonly style="border: 2px solid var(--primary-color); background-color: var(--text-light); color: var(--primary-dark);">
-                        </div>
-                        <div class="mb-3">
-                            <label for="startDateInput" class="form-label" style="color: var(--primary-color);">Start Date <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="startDateInput" required style="border: 2px solid var(--primary-color); background-color: var(--text-light); color: var(--primary-dark);">
-                        </div>
-                        <div id="assetCondemnError" class="alert alert-danger py-2 px-3 mb-2 d-none" style="font-size: 0.95rem;"></div>
-                        <div class="text-end">
-                            <button type="submit" class="btn" style="background-color: var(--accent-color); color: var(--primary-dark); font-weight: 600;">Assign</button>
-                        </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-        </main>
-    </div>
+           
 
     <!-- Footer -->
     <footer class="main-footer">
