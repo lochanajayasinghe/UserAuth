@@ -521,13 +521,13 @@
             <div class="logo-container">
                 <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
                 <div>
-                    <h5 class="mb-0">University of Peradeniya</h5>
-                    <small>Asset Management System </small>
+                    <h5 class="mb-0 text-light">University of Peradeniya</h5>
+                    <small class="text-light">Asset Management System </small>
                 </div>
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="/user/home">Home</a></li>
+                    <li><a href="/home">Home</a></li>
                     <li><a th:href="@{/}" class="btn btn-outline-light">Logout</a></li>
                 </ul>
             </nav>
@@ -538,13 +538,14 @@
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/user-history" class="menu-item">User History</a></li>
-                    <li><a href="/staff" class="menu-item">Staff</a></li>
+                    <li><a href="/home" class="menu-item  ">Dashboard</a></li>
+                    <li><a href="/Staff" class="menu-item ">Staff</a></li>
+                    <li><a href="/UserHistory" class="menu-item active">User History</a></li>
                     <li><a href="/Maintain" class="menu-item">Maintain</a></li>
                     <li><a href="/Condemn" class="menu-item">Condemn</a></li>
-                    <li><a href="/AssetHistory" class="menu-item active">Asset History</a></li>
-                    <li><a href="/Assets" class="menu-item">Asset</a></li>
-                    <li><a href="/Invoice" class="menu-item">Invoice</a></li>
+                    <li><a href="/AssetAllocation" class="menu-item">Asset Allocation</a></li>
+                    <li><a href="/Asset" class="menu-item ">Asset</a></li>
+                    <li><a href="/Invoice" class="menu-item ">Invoice</a></li>
                     <li><a href="/Movement" class="menu-item">Movement</a></li>
                 </ul>
             </nav>
@@ -556,12 +557,14 @@
             <!-- Centered Header Section -->
             <div class="centered-header mb-4">
                 <h2>Track Asset User & Custodian History</h2>
+                
             </div>
 
             <div class="container mt-3">
                 <div class="card shadow-sm mb-4 border-0">
                     <!-- Filter by User Name -->
                     <div class="row g-2 align-items-center mb-3 px-3 pt-3">
+                    <div class="row g-2 mb-2">
                         <div class="col-auto">
                             <label for="userNameFilter" class="form-label fw-semibold text-primary"><i class="fas fa-search me-1"></i>Filter by User Name:</label>
                         </div>
@@ -574,6 +577,21 @@
                         <div class="col">
                             <input type="text" id="roomNameFilter" class="form-control border-primary shadow-sm" placeholder="Type room name...">
                         </div>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-auto">
+                            <label for="assetNameFilter" class="form-label fw-semibold text-primary"><i class="fas fa-box-open me-1"></i>Filter by Asset Name:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" id="assetNameFilter" class="form-control border-primary shadow-sm" placeholder="Type asset name...">
+                        </div>
+                        <div class="col-auto">
+                            <label for="assetIdFilter" class="form-label fw-semibold text-primary"><i class="fas fa-hashtag me-1"></i>Filter by Asset Number:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" id="assetIdFilter" class="form-control border-primary shadow-sm" placeholder="Type asset number...">
+                        </div>
+                    </div>
                     </div>
                     
                     <div class="card-body bg-light rounded-bottom">
@@ -606,7 +624,7 @@
                                         <td>
                                             <span class="text-secondary"><strong>Asset ID:</strong> <span th:text="${history.assetId}"></span></span><br>
                                             <span class="fw-semibold text-primary"><strong>Name:</strong> <span th:text="${history.assetName}"></span></span><br>
-                                            <span class="text-dark"><strong>Brand:</strong> <span th:text="${history.assetBrand}"></span></span><br>
+                                            <span class="text-dark"><strong>Serial Number:</strong> <span th:text="${history.assetSerialNumber}"></span></span><br>
                                             <span class="text-muted"><strong>Model:</strong> <span th:text="${history.assetModel}"></span></span>
                                         </td>
                                         <td>
@@ -666,7 +684,15 @@
         </div>
       </div>
     </div>
-
+    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow">
+          <div class="modal-header" style="background-color: var(--primary-color); color: var(--text-light);">
+            <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            
 
     <!-- Footer -->
     <footer class="main-footer">
@@ -722,18 +748,30 @@
         function filterTable() {
             const userNameValue = document.getElementById('userNameFilter').value.toLowerCase();
             const roomNameValue = document.getElementById('roomNameFilter').value.toLowerCase();
+            const assetNameValue = document.getElementById('assetNameFilter').value.toLowerCase();
+            const assetIdValue = document.getElementById('assetIdFilter').value.toLowerCase();
             document.querySelectorAll('tbody tr').forEach(row => {
                 const userNameCell = row.querySelector('.user-name-cell strong');
                 const roomNameCell = row.querySelector('td:nth-child(4) .text-dark:last-child');
+                const assetNameCell = row.querySelector('td:nth-child(3) .fw-semibold.text-primary span');
+                const assetIdCell = row.querySelector('td:nth-child(3) .text-secondary span');
                 let userNameMatch = true;
                 let roomNameMatch = true;
+                let assetNameMatch = true;
+                let assetIdMatch = true;
                 if (userNameCell) {
                     userNameMatch = userNameCell.textContent.toLowerCase().includes(userNameValue);
                 }
                 if (roomNameCell) {
                     roomNameMatch = roomNameCell.textContent.toLowerCase().includes(roomNameValue);
                 }
-                if (userNameMatch && roomNameMatch) {
+                if (assetNameCell) {
+                    assetNameMatch = assetNameCell.textContent.toLowerCase().includes(assetNameValue);
+                }
+                if (assetIdCell) {
+                    assetIdMatch = assetIdCell.textContent.toLowerCase().includes(assetIdValue);
+                }
+                if (userNameMatch && roomNameMatch && assetNameMatch && assetIdMatch) {
                     row.style.display = '';
                 } else {
                     row.style.display = 'none';
@@ -742,6 +780,8 @@
         }
         document.getElementById('userNameFilter').addEventListener('input', filterTable);
         document.getElementById('roomNameFilter').addEventListener('input', filterTable);
+        document.getElementById('assetNameFilter').addEventListener('input', filterTable);
+        document.getElementById('assetIdFilter').addEventListener('input', filterTable);
 
         // View History Modal: populate modal fields when button is clicked
         document.querySelectorAll('.view-history-btn').forEach(btn => {
@@ -754,6 +794,83 @@
                 document.getElementById('modalDepartment').textContent = this.getAttribute('data-department') || '';
                 document.getElementById('modalStartDate').textContent = this.getAttribute('data-startdate') || '';
                 document.getElementById('modalEndDate').textContent = this.getAttribute('data-enddate') || '';
+            });
+        });
+
+        // --- Add New User Modal: Asset ID auto-suggest and auto-fill ---
+        document.getElementById('assetId').addEventListener('input', function() {
+            const query = this.value;
+            if (query.length < 1) {
+                document.getElementById('assetIdSuggestions').innerHTML = '';
+                return;
+            }
+            fetch(`//assets/suggest?query=${encodeURIComponent(query)}`)
+                .then(res => res.json())
+                .then(data => {
+                    const suggestions = data.map(asset => `<button type="button" class="list-group-item list-group-item-action" data-id="${asset.assetId}" data-name="${asset.name}" data-serialnumber="${asset.serialNumber}" data-model="${asset.model}">${asset.assetId} - ${asset.name}</button>`).join('');
+                    document.getElementById('assetIdSuggestions').innerHTML = suggestions;
+                    document.querySelectorAll('#assetIdSuggestions button').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            document.getElementById('assetId').value = this.getAttribute('data-id');
+                            document.getElementById('assetName').value = this.getAttribute('data-name');
+                            document.getElementById('assetSerialNumber').value = this.getAttribute('data-serialnumber');
+                            document.getElementById('assetModel').value = this.getAttribute('data-model');
+                            document.getElementById('assetIdSuggestions').innerHTML = '';
+                        });
+                    });
+                });
+        });
+
+        // --- Add New User Modal: User Name auto-suggest and job role auto-fill ---
+        document.getElementById('userNameInput').addEventListener('input', function() {
+            const query = this.value;
+            if (query.length < 1) {
+                document.getElementById('userNameSuggestions').innerHTML = '';
+                return;
+            }
+            fetch(`//users/suggest?query=${encodeURIComponent(query)}`)
+                .then(res => res.json())
+                .then(data => {
+                    const suggestions = data.map(user => `<button type="button" class="list-group-item list-group-item-action" data-name="${user.userName}" data-jobrole="${user.jobRole}">${user.userName}</button>`).join('');
+                    document.getElementById('userNameSuggestions').innerHTML = suggestions;
+                    document.querySelectorAll('#userNameSuggestions button').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            document.getElementById('userNameInput').value = this.getAttribute('data-name');
+                            document.getElementById('jobRoleInput').value = this.getAttribute('data-jobrole');
+                            document.getElementById('userNameSuggestions').innerHTML = '';
+                        });
+                    });
+                });
+        });
+
+        // --- Add New User Modal: Form submit ---
+        document.getElementById('addUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const payload = {
+                assetId: document.getElementById('assetId').value,
+                assetName: document.getElementById('assetName').value,
+                assetSerialNumber: document.getElementById('assetSerialNumber').value,
+                assetModel: document.getElementById('assetModel').value,
+                userName: document.getElementById('userNameInput').value,
+                jobRole: document.getElementById('jobRoleInput').value,
+                userDescription: document.getElementById('userDescriptionInput').value,
+                departmentName: document.getElementById('departmentInput').value,
+                roomName: document.getElementById('roomInput').value,
+                startDate: document.getElementById('startDateInput').value,
+                endDate: document.getElementById('endDateInput').value
+            };
+            fetch('//assetUser/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(res => {
+                if (res.ok) {
+                    alert('User history added successfully!');
+                    location.reload();
+                } else {
+                    alert('Error saving user history.');
+                }
             });
         });
     </script>
