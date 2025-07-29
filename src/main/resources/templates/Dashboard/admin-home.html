@@ -510,74 +510,80 @@
 
         <div class="main-content-container">
             <main class="main-content">
-                <h1 class="mb-4">Admin Dashboard</h1>
-                <p>Welcome, <span sec:authentication="name"></span>! You have director privileges.</p>
-                <p>This section provides a high-level overview and tools for strategic decision-making.</p>
+                <h1 class="mb-4 fw-bold text-gradient">Admin Dashboard</h1>
+                <p class="lead">Welcome, <span sec:authentication="name"></span>! You have director privileges.</p>
+                <p class="mb-4">This section provides a high-level overview and tools for strategic decision-making.</p>
 
-                <div class="row mt-5">
-                    <div class="col-md-4 mb-4">
-                        <div class="card text-center p-3 h-100">
-                            <i class="fas fa-chart-bar fa-3x text-primary mb-3"></i>
-                            <h5>Users</h5>
-                            <a href="users" class="btn btn-primary">View Users</a>
+                <!-- Modern Metric Cards -->
+                <div class="row g-4 mt-4 mb-4 justify-content-center">
+                    <div class="col-md-2 col-6">
+                        <div class="card metric-card text-center p-3 shadow-sm border-0">
+                            <div class="icon-circle mb-2 bg-gradient-primary"><i class="fas fa-users fa-lg"></i></div>
+                            <h6 class="fw-semibold">Users</h6>
+                            <h3 id="userCount" class="fw-bold mb-1">-</h3>
+                            <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#usersModal">View Users</button>
                         </div>
                     </div>
-                    
-
-                <div class="row mt-4">
-                    <div class="col-md-6 mb-4">
-                        <div class="card p-4 h-100">
-                            <h4><i class="fas fa-exclamation-circle text-warning me-2"></i>Pending Actions</h4>
-                            <div class="mt-3">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <span>Asset Approvals</span>
-                                    <span class="badge bg-danger">5 pending</span>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <span>Budget Reviews</span>
-                                    <span class="badge bg-warning text-dark">2 pending</span>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span>Audit Reports</span>
-                                    <span class="badge bg-primary">1 pending</span>
-                                </div>
-                            </div>
-                            <a href="/director/approvals" class="btn btn-outline-primary mt-3">View All Pending</a>
+                    <div class="col-md-2 col-6">
+                        <div class="card metric-card text-center p-3 shadow-sm border-0">
+                            <div class="icon-circle mb-2 bg-gradient-success"><i class="fas fa-boxes fa-lg"></i></div>
+                            <h6 class="fw-semibold">Assets</h6>
+                            <h3 id="assetCount" class="fw-bold mb-1">-</h3>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-4">
-                        <div class="card p-4 h-100">
-                            <h4><i class="fas fa-bell text-primary me-2"></i>Recent Activities</h4>
-                            <div class="mt-3">
-                                <div class="d-flex mb-3">
-                                    <div class="flex-shrink-0 me-3">
-                                        <i class="fas fa-check-circle text-success"></i>
-                                    </div>
-                                    <div>
-                                        <small class="text-muted">Today, 10:45 AM</small>
-                                        <p class="mb-0">Approved new computer lab equipment</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex mb-3">
-                                    <div class="flex-shrink-0 me-3">
-                                        <i class="fas fa-file-signature text-info"></i>
-                                    </div>
-                                    <div>
-                                        <small class="text-muted">Yesterday, 3:30 PM</small>
-                                        <p class="mb-0">Signed off on Q2 budget report</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0 me-3">
-                                        <i class="fas fa-exclamation-triangle text-warning"></i>
-                                    </div>
-                                    <div>
-                                        <small class="text-muted">Yesterday, 11:15 AM</small>
-                                        <p class="mb-0">Flagged maintenance issue in Building B</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="/director/activities" class="btn btn-outline-secondary mt-3">View All Activities</a>
+                    <div class="col-md-2 col-6">
+                        <div class="card metric-card text-center p-3 shadow-sm border-0">
+                            <div class="icon-circle mb-2 bg-gradient-warning"><i class="fas fa-file-invoice-dollar fa-lg"></i></div>
+                            <h6 class="fw-semibold">Invoices</h6>
+                            <h3 id="invoiceCount" class="fw-bold mb-1">-</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <div class="card metric-card text-center p-3 shadow-sm border-0">
+                            <div class="icon-circle mb-2 bg-gradient-info"><i class="fas fa-user-tie fa-lg"></i></div>
+                            <h6 class="fw-semibold">Staff</h6>
+                            <h3 id="staffCount" class="fw-bold mb-1">-</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <div class="card metric-card text-center p-3 shadow-sm border-0">
+                            <div class="icon-circle mb-2 bg-gradient-danger"><i class="fas fa-ban fa-lg"></i></div>
+                            <h6 class="fw-semibold">Condemn</h6>
+                            <h3 id="condemnCount" class="fw-bold mb-1">-</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card p-4 h-100 border-0 shadow-sm modern-card">
+                            <h5 class="mb-3 fw-semibold"><i class="fas fa-chart-bar text-primary me-2"></i>Asset Distribution</h5>
+                            <canvas id="assetPieChart" height="180"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card p-4 h-100 border-0 shadow-sm modern-card">
+                            <h5 class="mb-3 fw-semibold"><i class="fas fa-chart-line text-success me-2"></i>Recent Asset Additions</h5>
+                            <canvas id="assetBarChart" height="180"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-2">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card p-4 h-100 border-0 shadow-sm modern-card">
+                            <h5 class="mb-3 fw-semibold"><i class="fas fa-bell text-warning me-2"></i>Recent Activities</h5>
+                            <ul class="list-group list-group-flush" id="recentActivityList">
+                                <li class="list-group-item">Loading...</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card p-4 h-100 border-0 shadow-sm modern-card">
+                            <h5 class="mb-3 fw-semibold"><i class="fas fa-tasks text-info me-2"></i>Recent Invoices</h5>
+                            <ul class="list-group list-group-flush" id="recentInvoiceList">
+                                <li class="list-group-item">Loading...</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -635,6 +641,143 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Users Modal -->
+    <div class="modal fade" id="usersModal" tabindex="-1" aria-labelledby="usersModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="usersModalLabel">Recent Users</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>#</th>
+                    <th>Username</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Role(s)</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                  <tr><td colspan="5" class="text-center">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+    // Fetch 4 most recent users for modal
+    document.getElementById('usersModal').addEventListener('show.bs.modal', function () {
+      fetch('/api/admin/dashboard/recent-users')
+        .then(res => res.json())
+        .then(users => {
+          const tbody = document.getElementById('usersTableBody');
+          tbody.innerHTML = '';
+          if (users.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center">No users found.</td></tr>';
+            return;
+          }
+          users.forEach((u, i) => {
+            const roles = (u.roles || []).map(r => r.name || r).join(', ');
+            tbody.innerHTML += `<tr><td>${i+1}</td><td>${u.username}</td><td>${u.fullName || ''}</td><td>${u.email}</td><td>${roles}</td></tr>`;
+          });
+        });
+    });
+    // Fetch dashboard metrics
+    fetch('/api/admin/dashboard/metrics')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('userCount').textContent = data.userCount;
+        document.getElementById('assetCount').textContent = data.assetCount;
+        document.getElementById('invoiceCount').textContent = data.invoiceCount;
+        document.getElementById('staffCount').textContent = data.staffCount;
+        document.getElementById('condemnCount').textContent = data.condemnCount;
+      });
+
+    // Asset Distribution Pie Chart
+    fetch('/api/admin/dashboard/asset-distribution')
+      .then(res => res.json())
+      .then(data => {
+        const dist = data.distribution;
+        const labels = dist.map(d => d.type);
+        const values = dist.map(d => d.count);
+        new Chart(document.getElementById('assetPieChart'), {
+          type: 'pie',
+          data: {
+            labels: labels,
+            datasets: [{
+              data: values,
+              backgroundColor: [
+                '#800000', '#ffc107', '#28a745', '#17a2b8', '#fd7e14', '#6f42c1', '#343a40'
+              ]
+            }]
+          },
+          options: {
+            plugins: { legend: { position: 'bottom' } }
+          }
+        });
+      });
+
+    // Recent Asset Additions Bar Chart
+    fetch('/api/admin/dashboard/activity')
+      .then(res => res.json())
+      .then(data => {
+        const assets = data.recentAssets || [];
+        const labels = assets.map(a => a.name || a.assetId);
+        const values = assets.map(a => 1); // Each bar = 1 asset
+        new Chart(document.getElementById('assetBarChart'), {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Recent Assets',
+              data: values,
+              backgroundColor: '#800000'
+            }]
+          },
+          options: {
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, stepSize: 1 } }
+          }
+        });
+      });
+
+    // Recent Activities List
+    fetch('/api/admin/dashboard/activity')
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById('recentActivityList');
+        list.innerHTML = '';
+        (data.recentAssets || []).forEach(a => {
+          const li = document.createElement('li');
+          li.className = 'list-group-item';
+          li.innerHTML = `<b>${a.name || a.assetId}</b> <span class='text-muted ms-2'>${a.purchaseDate || ''}</span>`;
+          list.appendChild(li);
+        });
+        if (list.children.length === 0) list.innerHTML = '<li class="list-group-item">No recent activity.</li>';
+      });
+
+    // Recent Invoices List
+    fetch('/api/admin/dashboard/activity')
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById('recentInvoiceList');
+        list.innerHTML = '';
+        (data.recentInvoices || []).forEach(inv => {
+          const li = document.createElement('li');
+          li.className = 'list-group-item';
+          li.innerHTML = `<b>${inv.invoiceNumber || inv.invoiceId}</b> <span class='text-muted ms-2'>${inv.invoiceDate || ''}</span>`;
+          list.appendChild(li);
+        });
+        if (list.children.length === 0) list.innerHTML = '<li class="list-group-item">No recent invoices.</li>';
+      });
+    </script>
     <script>
         // Mobile menu toggle functionality
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {

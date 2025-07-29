@@ -13,8 +13,9 @@ public class M_InvoiceService {
     public Invoice getInvoiceById(String invoiceNumber) {
         return invoiceRepository.findById(invoiceNumber).orElse(null);
     }
+    // Filtered search for non-deleted invoices
     public List<Invoice> findByInvoiceNumberContaining(String invoiceNumber) {
-        return invoiceRepository.findByInvoiceNumberContaining(invoiceNumber);
+        return invoiceRepository.findByInvoiceNumberContainingAndDeletedFalse(invoiceNumber);
     }
     private final M_InvoiceRepository invoiceRepository;
     private final com.example.Login.repository.VenderRepository venderRepository;
@@ -41,7 +42,39 @@ public class M_InvoiceService {
         return invoiceRepository.save(invoice);
     }
 
+    // Get all non-deleted invoices
     public List<Invoice> getAllInvoices() {
-        return invoiceRepository.findAll();
+        return invoiceRepository.findByDeletedFalse();
+    }
+
+    // Get all deleted invoices (recycle bin)
+    public List<Invoice> getDeletedInvoices() {
+        return invoiceRepository.findByDeletedTrue();
+    }
+
+    // Soft delete: set deleted=true
+    @Transactional
+    public void softDeleteInvoice(String invoiceNumber) {
+        Invoice invoice = invoiceRepository.findById(invoiceNumber).orElse(null);
+        if (invoice != null) {
+            invoice.setDeleted(true);
+            invoiceRepository.save(invoice);
+        }
+    }
+
+    // Restore: set deleted=false
+    @Transactional
+    public void restoreInvoice(String invoiceNumber) {
+        Invoice invoice = invoiceRepository.findById(invoiceNumber).orElse(null);
+        if (invoice != null) {
+            invoice.setDeleted(false);
+            invoiceRepository.save(invoice);
+        }
+    }
+
+    // Permanent delete
+    @Transactional
+    public void permanentDeleteInvoice(String invoiceNumber) {
+        invoiceRepository.deleteById(invoiceNumber);
     }
 }

@@ -12,6 +12,9 @@ public class Invoice {
     private int itemCount;
     private String invoiceCost;
 
+    // Soft delete flag
+    private boolean deleted;
+
     @ManyToOne
     @JoinColumn(name = "assetId")
     private Asset asset;
@@ -52,4 +55,7 @@ public class Invoice {
     public void setAddress(String address) { this.address = address; }
     public int getContactNo() { return contactNo; }
     public void setContactNo(int contactNo) { this.contactNo = contactNo; }
+
+    public boolean isDeleted() { return deleted; }
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
 }
