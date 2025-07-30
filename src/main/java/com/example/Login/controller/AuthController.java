@@ -128,14 +128,14 @@ public class AuthController {
         return "home/landing_page";
     }
 
-    @GetMapping("/Asset")
-    public String Asset(Model model) {
-        return "Asset/Asset";
-    }
-    @GetMapping("/AssetAllocation")
-    public String AssetAllocation(Model model) {
-        return "AssetAllocation/AssetAllocation";
-    }
+    // @GetMapping("/Asset")
+    // public String Asset(Model model) {
+    //     return "Asset/Asset";
+    // }
+    // @GetMapping("/AssetAllocation")
+    // public String AssetAllocation(Model model) {
+    //     return "AssetAllocation/AssetAllocation";
+    // }
     @GetMapping("/Condemn")
     public String Condemn(Model model) {
         return "Condemn/Condemn";
@@ -148,9 +148,9 @@ public class AuthController {
     public String Movement(Model model) {
         return "Movement/Movement";
     }
-    @GetMapping("/Maintain")
-    public String Maintain(Model model) {
-        return "Maintain/Maintain";
-    }
+    // @GetMapping("/Maintain")
+    // public String Maintain(Model model) {
+    //     return "Maintain/Maintain";
+    // }
 
 }
