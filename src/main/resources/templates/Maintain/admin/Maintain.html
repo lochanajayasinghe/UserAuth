@@ -504,7 +504,50 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <h1>Admin - Maintain</h1>
+            <header class="main-header">
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
+                <div>
+                    <h5 class="mb-0 text-light">University of Peradeniya</h5>
+                    <small class="text-light">Asset Management System - Admin</small>
+                </div>
+            </div>
+            <a href="/admin/adminMaintain" class="btn btn-hero btn-hero-outline">Back to Maintenance List</a>
+        </div>
+    </header>
+    <main class="main-content">
+        <h2 class="mb-4"><i class="fas fa-trash"></i> Recycle Bin - Deleted Maintenance Records</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Maintains Date</th>
+                    <th>Next Maintain Date</th>
+                    <th>Description</th>
+                    <th>Cost</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="maintain : ${deletedMaintains}">
+                    <td th:text="${maintain.maintainId}"></td>
+                    <td th:text="${#temporals.format(maintain.maintainsDate, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${#temporals.format(maintain.nextMaintainDate, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${maintain.description}"></td>
+                    <td th:text="${maintain.cost}"></td>
+                    <td>
+                        <a th:href="@{/admin/adminMaintain/restore/{id}(id=${maintain.maintainId})}" class="btn btn-success btn-sm"><i class="fas fa-undo"></i> Restore</a>
+                        <a th:href="@{/admin/adminMaintain/permanent-delete/{id}(id=${maintain.maintainId})}" class="btn btn-danger btn-sm" onclick="return confirm('Permanently delete this record?');"><i class="fas fa-trash-alt"></i> Delete Permanently</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(deletedMaintains)}">
+                    <td colspan="6" class="text-center">No deleted records found.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
         </main>
     </div>
 
