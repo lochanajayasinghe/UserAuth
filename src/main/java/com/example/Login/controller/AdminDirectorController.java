@@ -80,10 +80,10 @@ public class AdminDirectorController {
         return "Movement/admin/Movement";
     }
     
-    @GetMapping("/admin/adminMaintain")
-    public String AdminMaintain(Model model) {
-        return "Maintain/admin/Maintain";
-    }
+    // @GetMapping("/admin/adminMaintain")
+    // public String AdminMaintain(Model model) {
+    //     return "Maintain/admin/Maintain";
+    // }
 
     //director
     // @GetMapping("/director/directorAsset")
@@ -107,10 +107,10 @@ public class AdminDirectorController {
         return "Movement/director/Movement";
     }
 
-    @GetMapping("/director/directorMaintain")
-    public String DirectorMaintain(Model model) {
-        return "Maintain/director/Maintain";
-    }
+    // @GetMapping("/director/directorMaintain")
+    // public String DirectorMaintain(Model model) {
+    //     return "Maintain/director/Maintain";
+    // }
 
     
 }
