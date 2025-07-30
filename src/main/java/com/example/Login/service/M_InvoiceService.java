@@ -10,6 +10,11 @@ import java.util.List;
 
 @Service
 public class M_InvoiceService {
+    // Return all invoice numbers (non-deleted) as List<String>
+    public List<String> getAllInvoiceNumbers() {
+        List<Invoice> invoices = getAllInvoices();
+        return invoices.stream().map(Invoice::getInvoiceNumber).toList();
+    }
     public Invoice getInvoiceById(String invoiceNumber) {
         return invoiceRepository.findById(invoiceNumber).orElse(null);
     }
