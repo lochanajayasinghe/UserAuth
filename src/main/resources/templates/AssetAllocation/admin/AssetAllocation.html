@@ -759,17 +759,18 @@
                 body: JSON.stringify(payload)
             })
             .then(async res => {
-                if (res.ok) {
+                const text = await res.text();
+                if (res.ok && text === 'Success') {
                     alert('User assigned to asset successfully!');
                     location.reload();
+                } else if (text && text.includes('condemn')) {
+                    document.getElementById('assetCondemnError').textContent = 'This asset is condemned and cannot be assigned.';
+                    document.getElementById('assetCondemnError').classList.remove('d-none');
+                } else if (text && text.includes('already assigned')) {
+                    document.getElementById('assetCondemnError').innerHTML = 'That asset is already assigned and currently in use.<br><span style="color: #800000; font-weight: 500;">See <a href="#showCurrentAssets" style="color: #800000; text-decoration: underline; font-weight: 600;">Current Assignments Only</a> filter above for details.</span>';
+                    document.getElementById('assetCondemnError').classList.remove('d-none');
                 } else {
-                    const text = await res.text();
-                    if (text && text.includes('condemn')) {
-                        document.getElementById('assetCondemnError').textContent = 'This asset is condemned and cannot be assigned.';
-                        document.getElementById('assetCondemnError').classList.remove('d-none');
-                    } else {
-                        alert('Error assigning user to asset.');
-                    }
+                    alert('Error assigning user to asset.');
                 }
             });
         });
