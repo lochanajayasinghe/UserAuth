@@ -19,6 +19,10 @@ public class Asset {
     private String warrantyPeriod;
     private String purchaseStore;
 
+    // Add invoiceNumber field
+    @Column(name = "invoice_number")
+    private String invoiceNumber;
+
     @ManyToOne
     @JoinColumn(name = "locationId")
     private Location location;
@@ -69,6 +73,9 @@ public class Asset {
 
     public String getPurchaseStore() { return purchaseStore; }
     public void setPurchaseStore(String purchaseStore) { this.purchaseStore = purchaseStore; }
+
+    public String getInvoiceNumber() { return invoiceNumber; }
+    public void setInvoiceNumber(String invoiceNumber) { this.invoiceNumber = invoiceNumber; }
 
     public Location getLocation() { return location; }
     public void setLocation(Location location) { this.location = location; }
