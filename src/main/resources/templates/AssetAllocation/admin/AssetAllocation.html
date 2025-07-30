@@ -504,6 +504,17 @@
 
         <!-- Main Content -->
         <main class="main-content">
+            <!-- Asset Assignment Filter -->
+            <div class="d-flex justify-content-center align-items-center mb-3" style="gap: 2rem;">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="assetViewMode" id="showAllAssets" value="all" checked>
+                    <label class="form-check-label" for="showAllAssets">All Assignments</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="assetViewMode" id="showCurrentAssets" value="current">
+                    <label class="form-check-label" for="showCurrentAssets">Current Assignments Only</label>
+                </div>
+            </div>
             <h1 style="color: var(--primary-color); font-weight: 700;">Admin - Asset Allocation</h1>
 
             <!-- View All Section -->
@@ -533,11 +544,12 @@
                         <table class="table table-hover align-middle shadow-sm rounded" id="userAssetTable" style="background-color: var(--text-light);">
                             <thead style="background-color: var(--primary-light);">
                                 <tr>
-                                    <th style="color: var(--primary-color);">User ID</th>
-                                    <th style="color: var(--primary-color);">User Name</th>
-                                    <th style="color: var(--primary-color);">Job Role</th>
                                     <th style="color: var(--primary-color);">Asset ID</th>
                                     <th style="color: var(--primary-color);">Asset Name</th>
+                                    <th style="color: var(--primary-color);">User Name</th>
+                                    <th style="color: var(--primary-color);">User ID</th>
+                                    <th style="color: var(--primary-color);">Job Role</th>
+                                    <th style="color: var(--primary-color);">Time Period</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -603,37 +615,70 @@
     <script>
         // --- Load all assignments on page load ---
         let userAssetData = [];
-        function renderUserAssetTable() {
+        // Render asset assignments based on radio button selection
+        function renderFilteredAssetTable() {
             const userNameValue = document.getElementById('filterUserName').value.toLowerCase();
             const assetIdValue = document.getElementById('filterAssetId').value.toLowerCase();
+            const viewMode = document.querySelector('input[name="assetViewMode"]:checked').value;
+            let filtered = userAssetData.filter(row => {
+                const userNameMatch = (row.userName || '').toLowerCase().includes(userNameValue);
+                const assetIdMatch = (row.assetId || '').toLowerCase().includes(assetIdValue);
+                return userNameMatch && assetIdMatch;
+            });
+            if (viewMode === 'current') {
+                filtered = filtered.filter(row => {
+                    // Current assignments: timePeriod ends with 'Present'
+                    return (row.timePeriod || '').endsWith('Present');
+                });
+            }
+            if (viewMode === 'all') {
+                filtered = filtered.sort((a, b) => {
+                    const aCurrent = (a.timePeriod || '').endsWith('Present');
+                    const bCurrent = (b.timePeriod || '').endsWith('Present');
+                    if (aCurrent === bCurrent) return 0;
+                    return aCurrent ? -1 : 1;
+                });
+            }
             const tbody = document.querySelector('#userAssetTable tbody');
-            tbody.innerHTML = userAssetData
-                .filter(row => {
-                    const userNameMatch = row.userName.toLowerCase().includes(userNameValue);
-                    const assetIdMatch = row.assetId.toLowerCase().includes(assetIdValue);
-                    return userNameMatch && assetIdMatch;
-                })
-                .map(row => `
+            tbody.innerHTML = filtered.map(row => {
+                let endDateBtn = '';
+                if (viewMode === 'current' && (row.timePeriod || '').endsWith('Present')) {
+                    endDateBtn = `<button class="btn btn-sm btn-warning add-end-date-btn" data-userid="${row.userId}" data-assetid="${row.assetId}">Add End Date</button>`;
+                }
+                return `
                     <tr>
-                        <td>${row.userId}</td>
-                        <td>${row.userName}</td>
-                        <td>${row.jobRole}</td>
-                        <td>${row.assetId}</td>
-                        <td>${row.assetName}</td>
+                        <td>${row.assetId || ''}</td>
+                        <td>${row.assetName || ''}</td>
+                        <td>${row.userName || ''}</td>
+                        <td>${row.userId || ''}</td>
+                        <td>${row.jobRole || ''}</td>
+                        <td>${row.timePeriod || ''} ${endDateBtn}</td>
                     </tr>
-                `).join('');
+                `;
+            }).join('');
+            // Attach event listeners for end date buttons
+            document.querySelectorAll('.add-end-date-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const userId = this.getAttribute('data-userid');
+                    const assetId = this.getAttribute('data-assetid');
+                    showEndDateModal(userId, assetId);
+                });
+            });
         }
         function loadUserAssetAssignments() {
             fetch('/admin/assetAllocation/all')
                 .then(res => res.json())
                 .then(data => {
                     userAssetData = data;
-                    renderUserAssetTable();
+                    renderFilteredAssetTable();
                 });
         }
         document.addEventListener('DOMContentLoaded', loadUserAssetAssignments);
-        document.getElementById('filterUserName').addEventListener('input', renderUserAssetTable);
-        document.getElementById('filterAssetId').addEventListener('input', renderUserAssetTable);
+        document.getElementById('filterUserName').addEventListener('input', renderFilteredAssetTable);
+        document.getElementById('filterAssetId').addEventListener('input', renderFilteredAssetTable);
+        document.getElementsByName('assetViewMode').forEach(radio => {
+            radio.addEventListener('change', renderFilteredAssetTable);
+        });
         // --- User Name auto-suggest and job role auto-fill ---
         document.getElementById('userNameInput').addEventListener('input', function() {
             const query = this.value;
@@ -728,6 +773,69 @@
                 }
             });
         });
+    </script>
+    <!-- End Date Modal -->
+    <div class="modal fade" id="endDateModal" tabindex="-1" aria-labelledby="endDateModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow" style="background-color: var(--text-light);">
+          <div class="modal-header" style="background-color: var(--primary-color); color: var(--text-light);">
+            <h5 class="modal-title" id="endDateModalLabel">Close Asset Assignment</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body rounded-bottom" style="background-color: var(--text-light);">
+            <div id="endDateModalStep1">
+              <p>Do you want to close this asset record?</p>
+              <button id="confirmCloseBtn" class="btn btn-danger">Yes, Close</button>
+            </div>
+            <div id="endDateModalStep2" style="display:none;">
+              <label for="endDateInputModal" class="form-label" style="color: var(--primary-color);">End Date</label>
+              <input type="date" class="form-control" id="endDateInputModal" required>
+              <button id="saveEndDateBtn" class="btn btn-success mt-3">Save End Date</button>
+            </div>
+            <div id="endDateModalError" class="alert alert-danger py-2 px-3 mb-2 d-none" style="font-size: 0.95rem;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+    let endDateUserId = '';
+    let endDateAssetId = '';
+    function showEndDateModal(userId, assetId) {
+        endDateUserId = userId;
+        endDateAssetId = assetId;
+        document.getElementById('endDateModalStep1').style.display = '';
+        document.getElementById('endDateModalStep2').style.display = 'none';
+        document.getElementById('endDateModalError').classList.add('d-none');
+        const modal = new bootstrap.Modal(document.getElementById('endDateModal'));
+        modal.show();
+        document.getElementById('confirmCloseBtn').onclick = function() {
+            document.getElementById('endDateModalStep1').style.display = 'none';
+            document.getElementById('endDateModalStep2').style.display = '';
+        };
+        document.getElementById('saveEndDateBtn').onclick = function() {
+            const endDate = document.getElementById('endDateInputModal').value;
+            if (!endDate) {
+                document.getElementById('endDateModalError').textContent = 'Please select an end date.';
+                document.getElementById('endDateModalError').classList.remove('d-none');
+                return;
+            }
+            // Save end date to backend
+            fetch('/admin/assetAllocation/endDate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: endDateUserId, assetId: endDateAssetId, endDate })
+            })
+            .then(async res => {
+                if (res.ok) {
+                    alert('End date saved successfully!');
+                    location.reload();
+                } else {
+                    document.getElementById('endDateModalError').textContent = 'Error saving end date.';
+                    document.getElementById('endDateModalError').classList.remove('d-none');
+                }
+            });
+        };
+    }
     </script>
         <div class="footer-container">
             <div class="footer-row">
