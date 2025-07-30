@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class H_A_AssetController {
     private final H_AssetService assetService;
 
+    @Autowired
+    private com.example.Login.service.M_InvoiceService invoiceService; // Service to fetch invoice numbers
+
     public H_A_AssetController(H_AssetService assetService) {
         this.assetService = assetService;
     }
@@ -35,6 +38,7 @@ public class H_A_AssetController {
         model.addAttribute("deletedAssets", assetService.getDeletedAssets());
         model.addAttribute("asset", new Asset());
         model.addAttribute("success", true);
+        model.addAttribute("invoiceNumbers", invoiceService.getAllInvoiceNumbers());
         return "Asset/admin/AddAsset";
     }
 
@@ -46,6 +50,7 @@ public class H_A_AssetController {
         model.addAttribute("assets", assetService.getAllAssets());
         model.addAttribute("deletedAssets", assetService.getDeletedAssets());
         model.addAttribute("asset", new Asset());
+        model.addAttribute("invoiceNumbers", invoiceService.getAllInvoiceNumbers());
         return "Asset/admin/AddAsset";
     }
 
@@ -57,6 +62,7 @@ public class H_A_AssetController {
         model.addAttribute("assets", assetService.getAllAssets());
         model.addAttribute("deletedAssets", assetService.getDeletedAssets());
         model.addAttribute("asset", new Asset());
+        model.addAttribute("invoiceNumbers", invoiceService.getAllInvoiceNumbers());
         return "Asset/admin/AddAsset";
     }
     // Show all assets and provide empty asset for modal form
@@ -66,6 +72,7 @@ public class H_A_AssetController {
         model.addAttribute("assets", assetService.getAllAssets());
         model.addAttribute("deletedAssets", assetService.getDeletedAssets());
         model.addAttribute("asset", new Asset());
+        model.addAttribute("invoiceNumbers", invoiceService.getAllInvoiceNumbers());
         return "Asset/admin/AddAsset";
     }
 
@@ -79,6 +86,7 @@ public class H_A_AssetController {
         model.addAttribute("assets", assetService.getAllAssets());
         model.addAttribute("deletedAssets", assetService.getDeletedAssets());
         model.addAttribute("asset", new Asset());
+        model.addAttribute("invoiceNumbers", invoiceService.getAllInvoiceNumbers());
         return "Asset/admin/AddAsset";
     }
 
