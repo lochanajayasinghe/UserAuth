@@ -19,7 +19,7 @@ public class L_StaffController {
         this.staffService = staffService;
     }
 
-@GetMapping("/staff")
+@GetMapping("/Staff")
     public String getStaffList(Model model) {
         List<StaffDto> staffList = staffService.getAllStaff();
         // Defensive: ensure staffList is not null
@@ -39,7 +39,7 @@ public class L_StaffController {
         return "Staff/StaffList";
     }
 
-    @PostMapping("/staff/add")
+    @PostMapping("/Staff/add")
     @ResponseBody
     public String addStaff(@RequestBody StaffDto dto) {
         boolean success = staffService.addStaff(dto);
