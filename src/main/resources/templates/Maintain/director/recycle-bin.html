@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Management System | University of Peradeniya</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #800000;
+            --primary-dark: #600000;
+            --primary-light: #a04040;
+            --accent-color: #ffc107;
+            --text-light: #f8f9fa;
+            --text-dark: #343a40;
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        
+        /* Header Styles */
+        .main-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.8rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+        
+        .logo-container:hover {
+            transform: translateX(3px);
+        }
+        
+        .logo-img {
+            height: 40px;
+            margin-right: 10px;
+            transition: var(--transition);
+        }
+        
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+        
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+        
+        .main-nav li {
+            margin-left: 15px;
+            position: relative;
+        }
+        
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .main-nav a:not(.login-btn):hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .main-nav a:not(.login-btn)::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: var(--accent-color);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+        
+        .main-nav a:not(.login-btn):hover::after {
+            width: 70%;
+        }
+        
+        .login-btn {
+            background-color: var(--accent-color);
+            color: #212529;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-btn:hover {
+            background-color: #e0a800;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            height: calc(100vh - 60px);
+            position: sticky;
+            top: 60px;
+            transition: var(--transition);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding-top: 1rem;
+        }
+        
+        .sidebar-menu {
+            padding: 0;
+            list-style: none;
+        }
+        
+        .menu-item {
+            display: block;
+            padding: 0.8rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            margin: 0.25rem 1rem;
+            border-left: 4px solid transparent;
+            font-size: 0.95rem;
+            border-radius: 0 4px 4px 0;
+            position: relative;
+        }
+        
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--accent-color);
+            transform: translateX(5px);
+        }
+        
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid var(--accent-color);
+            font-weight: 500;
+        }
+        
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background-color: rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .menu-item:hover::before {
+            width: 100%;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 1rem;
+        }
+        
+        /* Footer Styles */
+        .main-footer {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 40px 0;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .footer-col {
+            width: 25%;
+            margin-bottom: 20px;
+        }
+        
+        .footer-col h4 {
+            color: var(--accent-color);
+            margin-bottom: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+        
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-col li {
+            margin-bottom: 0.6rem;
+            transition: var(--transition);
+        }
+        
+        .footer-col li:hover {
+            transform: translateX(5px);
+        }
+        
+        .footer-col a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+            padding: 0.2rem 0;
+        }
+        
+        .footer-col a:hover {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        .social-icons {
+            display: flex;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icons a {
+            color: white;
+            margin-right: 15px;
+            font-size: 1.2rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--accent-color);
+            color: var(--text-dark);
+            transform: translateY(-3px);
+        }
+        
+        .newsletter-form {
+            display: flex;
+            margin-top: 1.5rem;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .newsletter-form button {
+            background-color: var(--accent-color);
+            color: #212529;
+            border: none;
+            padding: 0 1.2rem;
+            border-radius: 0 4px 4px 0;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .newsletter-form button:hover {
+            background-color: #e0a800;
+        }
+        
+        .footer-divider {
+            border-color: rgba(255,255,255,0.1);
+            margin: 20px 0;
+        }
+        
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        /* Button Styles */
+        .btn-hero {
+            padding: 0.8rem 1.8rem;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-hero-primary {
+            background-color: var(--accent-color);
+            color: #212529;
+            border: 2px solid transparent;
+        }
+        
+        .btn-hero-primary:hover {
+            background-color: #e0a800;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-hero-outline {
+            border: 2px solid white;
+            color: white;
+            background-color: transparent;
+        }
+        
+        .btn-hero-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Card Styles */
+        .feature-card {
+            border: none;
+            border-radius: 8px;
+            transition: var(--transition);
+            height: 100%;
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .footer-col {
+                width: 50%;
+            }
+            
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+            
+            .menu-text {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .main-nav {
+                margin-top: 1rem;
+                width: 100%;
+            }
+            
+            .main-nav ul {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .main-nav li {
+                margin: 0.3rem;
+            }
+            
+            .footer-col {
+                width: 100%;
+            }
+            
+            .sidebar {
+                position: fixed;
+                height: 100vh;
+                top: 0;
+                z-index: 900;
+                transform: translateX(-100%);
+                padding-top: 60px;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .mobile-menu-btn {
+                display: block !important;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: white;
+                cursor: pointer;
+                margin-right: 1rem;
+                transition: var(--transition);
+            }
+            
+            .mobile-menu-btn:hover {
+                color: var(--accent-color);
+                transform: scale(1.1);
+            }
+            
+            .btn-hero {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+            }
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo-container">
+                <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
+                <div>
+                    <h5 class="mb-0 text-light">University of Peradeniya</h5>
+                    <small class="text-light">Asset Management System - Director</small>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/directorhome">Home</a></li>
+                    <li><a th:href="@{/}" class="btn btn-outline-light">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content with Sidebar -->
+    <div class="d-flex flex-grow-1">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav>
+                <ul class="sidebar-menu">
+                    <li><a href="/director/home" class="menu-item  ">Dashboard</a></li>
+                    <li><a href="/director/directorStaff" class="menu-item ">Staff</a></li>
+                    <li><a href="/director/directorUserHistory" class="menu-item">User History</a></li>
+                    <li><a href="/director/directorMaintain" class="menu-item active">Maintain</a></li>
+                    <li><a href="/director/directorCondemn" class="menu-item">Condemn</a></li>
+                    <li><a href="/director/directorAssetAllocation" class="menu-item">Asset Allocation</a></li>
+                    <li><a href="/director/directorAsset" class="menu-item ">Asset</a></li>
+                    <li><a href="/director/directorInvoice" class="menu-item ">Invoice</a></li>
+                    <li><a href="/director/directorMovement" class="menu-item">Movement</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+        <div class="header-container">
+            <div class="logo-container">
+                
+                
+            </div>
+            <a href="/director/directorMaintain" class="btn btn-hero btn-hero-outline">Back to Maintenance List</a>
+        </div>
+    </header>
+    <main class="main-content">
+        <h2 class="mb-4"><i class="fas fa-trash"></i> Recycle Bin - Deleted Maintenance Records</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Maintains Date</th>
+                    <th>Next Maintain Date</th>
+                    <th>Description</th>
+                    <th>Cost</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="maintain : ${deletedMaintains}">
+                    <td th:text="${maintain.maintainId}"></td>
+                    <td th:text="${#temporals.format(maintain.maintainsDate, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${#temporals.format(maintain.nextMaintainDate, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${maintain.description}"></td>
+                    <td th:text="${maintain.cost}"></td>
+                    <td>
+                        <a th:href="@{/director/directorMaintain/restore/{id}(id=${maintain.maintainId})}" class="btn btn-success btn-sm"><i class="fas fa-undo"></i> Restore</a>
+                        <a th:href="@{/director/directorMaintain/permanent-delete/{id}(id=${maintain.maintainId})}" class="btn btn-danger btn-sm" onclick="return confirm('Permanently delete this record?');"><i class="fas fa-trash-alt"></i> Delete Permanently</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(deletedMaintains)}">
+                    <td colspan="6" class="text-center">No deleted records found.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-row">
+                <div class="footer-col">
+                    <h4>University of Peradeniya</h4>
+                    <p>The University of Peradeniya is a leading higher education institution in Sri Lanka, committed to excellence in teaching, research, and innovation.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/home">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contactUs">Contact</a></li>
+                        <li><a th:href="@{/login}">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">User Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Training Videos</a></li>
+                        <li><a href="#">System Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe to receive updates and system announcements.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="footer-bottom">
+                <p>&copy; 2023 University of Peradeniya. All rights reserved.</p>
+                <p>Asset Management System v2.1</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mobile menu toggle functionality
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+        
+        // Add active class to current nav item
+        document.querySelectorAll('.main-nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.main-nav a').forEach(item => {
+                    item.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
