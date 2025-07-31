@@ -6,24 +6,31 @@
     <title>Asset Management System | University of Peradeniya</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #800000;
             --primary-dark: #600000;
             --primary-light: #a04040;
+            --secondary-color: #f8f9fa;
             --accent-color: #ffc107;
-            --text-light: #f8f9fa;
             --text-dark: #343a40;
+            --text-light: #f8f9fa;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
+            --gradient-primary: linear-gradient(135deg, #800000 0%, #a04040 100%);
+            --gradient-light: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
         }
         
+        /* Base Styles */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             color: var(--text-dark);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            background-color: #f5f5f5;
+            margin: 0;
         }
         
         /* Header Styles */
@@ -57,9 +64,10 @@
         }
         
         .logo-img {
-            height: 40px;
-            margin-right: 10px;
+            height: 50px;
+            margin-right: 15px;
             transition: var(--transition);
+            filter: brightness(1.1) drop-shadow(0 0 2px rgba(0,0,0,0.3));
         }
         
         .logo-img:hover {
@@ -186,22 +194,526 @@
         .menu-item:hover::before {
             width: 100%;
         }
-        
-        /* Main Content Styles */
+
+        /* Main Content Styles - Enhanced */
         .main-content {
             flex: 1;
+            padding: 2.5rem;
+            background: var(--gradient-light);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin: 1.5rem;
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 20px 20px 0 0;
+        }
+
+        /* Page Header Styles - Enhanced */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
             padding: 2rem;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin: 1rem;
+            background: var(--gradient-light);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(128, 0, 0, 0.03) 0%, rgba(255, 193, 7, 0.03) 100%);
+            pointer-events: none;
         }
         
+        .page-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .page-title i {
+            margin-right: 15px;
+            padding: 12px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(128, 0, 0, 0.3);
+        }
+        
+        .page-subtitle {
+            color: #6c757d;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Card Styles - Enhanced */
+        .asset-card {
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            border: none;
+            overflow: hidden;
+            background: var(--gradient-light);
+            position: relative;
+        }
+
+        .asset-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .asset-card .card-header {
+            background: rgba(128, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(128, 0, 0, 0.1);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .asset-card .card-header h5 {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .asset-card .card-header i {
+            margin-right: 10px;
+            padding: 8px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .table {
+            margin-bottom: 0;
+            background: white;
+        }
+        
+        .table thead th {
+            border-bottom: 2px solid rgba(128, 0, 0, 0.1);
+            font-weight: 600;
+            color: var(--primary-dark);
+            background: linear-gradient(135deg, rgba(128, 0, 0, 0.05) 0%, rgba(255, 193, 7, 0.05) 100%);
+            padding: 1.2rem 1.5rem;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .table thead th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            opacity: 0.3;
+        }
+        
+        .table tbody td {
+            padding: 1.2rem 1.5rem;
+            vertical-align: middle;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 0.95rem;
+        }
+        
+        .table-hover tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        .table-hover tbody tr:hover {
+            background: linear-gradient(135deg, rgba(128, 0, 0, 0.03) 0%, rgba(255, 193, 7, 0.03) 100%);
+            transform: translateX(5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Status Controls - Enhanced */
+        .status-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .form-check-custom {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.6rem 1.2rem;
+            background: rgba(128, 0, 0, 0.05);
+            border-radius: 25px;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-check-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .form-check-custom:hover::before {
+            left: 100%;
+        }
+
+        .form-check-custom:hover {
+            background: rgba(128, 0, 0, 0.1);
+            transform: translateY(-2px);
+            border-color: rgba(128, 0, 0, 0.2);
+        }
+
+        .form-check-custom input[type="radio"] {
+            margin-right: 0.6rem;
+            transform: scale(1.2);
+            accent-color: var(--primary-color);
+        }
+
+        .form-check-custom label {
+            margin: 0;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .form-check-custom label i {
+            margin-right: 0.4rem;
+        }
+
+        /* View Button - Enhanced */
+        .view-btn {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            transition: var(--transition);
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(128, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .view-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .view-btn:hover::before {
+            left: 100%;
+        }
+        
+        .view-btn:hover {
+            background: linear-gradient(135deg, #600000 0%, #800000 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(128, 0, 0, 0.3);
+        }
+        
+        .view-btn i {
+            margin-right: 6px;
+        }
+
+        /* Modal Styles - Enhanced */
+        .modal-content {
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1.5rem 2rem;
+            border: none;
+        }
+        
+        .modal-title {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .modal-title i {
+            margin-right: 12px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+            background: var(--gradient-light);
+        }
+        
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.7rem;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+        }
+
+        .form-label i {
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+        
+        .form-control {
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 0.25rem rgba(128, 0, 0, 0.1);
+            background: white;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .status-badge i {
+            margin-right: 0.5rem;
+        }
+        
+        .status-active {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+        
+        .status-condemned {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+        }
+
+        /* Button Styles - Enhanced */
+        .btn-custom {
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-custom:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary-custom {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(128, 0, 0, 0.3);
+        }
+        
+        .btn-primary-custom:hover {
+            background: linear-gradient(135deg, #600000 0%, #800000 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(128, 0, 0, 0.4);
+        }
+        
+        .btn-accent-custom {
+            background: linear-gradient(135deg, var(--accent-color), #e0a800);
+            color: var(--text-dark);
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        }
+        
+        .btn-accent-custom:hover {
+            background: linear-gradient(135deg, #e0a800, #d39e00);
+            color: var(--text-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+        }
+
+        .btn-custom i {
+            margin-right: 8px;
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success Message - Enhanced */
+        .success-message {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            z-index: 1100;
+            animation: slideInRight 0.5s ease-out, fadeOut 0.5s ease-in 2.5s forwards;
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+            font-weight: 500;
+        }
+        
+        .success-message i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100%); }
+        }
+
+        /* Asset Details Modal */
+        .asset-details {
+            margin-bottom: 1.5rem;
+        }
+        
+        .asset-details .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(128, 0, 0, 0.03);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .asset-details .detail-label {
+            font-weight: 600;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+        }
+
+        .asset-details .detail-label i {
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+
+        .asset-details .detail-value {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
         /* Footer Styles */
         .main-footer {
             background-color: var(--primary-color);
             color: var(--text-light);
             padding: 40px 0;
+            margin-top: auto;
         }
         
         .footer-container {
@@ -219,6 +731,7 @@
         .footer-col {
             width: 25%;
             margin-bottom: 20px;
+            padding: 0 15px;
         }
         
         .footer-col h4 {
@@ -226,6 +739,7 @@
             margin-bottom: 1.2rem;
             position: relative;
             padding-bottom: 0.5rem;
+            font-size: 1.1rem;
         }
         
         .footer-col h4::after {
@@ -245,11 +759,6 @@
         
         .footer-col li {
             margin-bottom: 0.6rem;
-            transition: var(--transition);
-        }
-        
-        .footer-col li:hover {
-            transform: translateX(5px);
         }
         
         .footer-col a {
@@ -258,22 +767,23 @@
             transition: var(--transition);
             display: inline-block;
             padding: 0.2rem 0;
+            font-size: 0.9rem;
         }
         
         .footer-col a:hover {
             color: var(--accent-color);
-            text-decoration: none;
+            transform: translateX(3px);
         }
         
         .social-icons {
             display: flex;
             margin-top: 1.5rem;
+            gap: 10px;
         }
         
         .social-icons a {
             color: white;
-            margin-right: 15px;
-            font-size: 1.2rem;
+            font-size: 1rem;
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -301,6 +811,7 @@
             border: none;
             border-radius: 4px 0 0 4px;
             background-color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
         }
         
         .newsletter-form button {
@@ -312,6 +823,7 @@
             font-weight: 600;
             transition: var(--transition);
             cursor: pointer;
+            font-size: 0.9rem;
         }
         
         .newsletter-form button:hover {
@@ -327,58 +839,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            padding-top: 20px;
         }
-        
-        /* Button Styles */
-        .btn-hero {
-            padding: 0.8rem 1.8rem;
-            font-weight: 600;
-            border-radius: 4px;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .btn-hero-primary {
-            background-color: var(--accent-color);
-            color: #212529;
-            border: 2px solid transparent;
-        }
-        
-        .btn-hero-primary:hover {
-            background-color: #e0a800;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .btn-hero-outline {
-            border: 2px solid white;
-            color: white;
-            background-color: transparent;
-        }
-        
-        .btn-hero-outline:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* Card Styles */
-        .feature-card {
-            border: none;
-            border-radius: 8px;
-            transition: var(--transition);
-            height: 100%;
-            border-top: 4px solid var(--primary-color);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        
+
         /* Responsive Adjustments */
         @media (max-width: 992px) {
             .footer-col {
@@ -393,8 +857,35 @@
             .menu-text {
                 display: none;
             }
+            
+            .menu-item {
+                justify-content: center;
+                padding: 0.8rem 0.5rem;
+            }
+            
+            .menu-item i {
+                margin-right: 0;
+            }
+
+            .main-content {
+                margin: 1rem;
+                padding: 2rem;
+            }
+
+            .page-header {
+                padding: 1.5rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .status-controls {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
-        
+
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
@@ -448,13 +939,43 @@
                 transform: scale(1.1);
             }
             
-            .btn-hero {
-                padding: 0.7rem 1.5rem;
-                font-size: 0.9rem;
-                margin-bottom: 0.5rem;
+            .main-content {
+                margin: 0.5rem;
+                padding: 1.5rem;
+                border-radius: 16px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .page-title {
+                font-size: 1.3rem;
+            }
+
+            .table-responsive {
+                font-size: 0.85rem;
+            }
+
+            .status-controls {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .form-check-custom {
+                width: 100%;
+                justify-content: center;
             }
         }
-        
+
         .mobile-menu-btn {
             display: none;
         }
@@ -489,90 +1010,130 @@
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/admin/home" class="menu-item  ">Dashboard</a></li>
-                    <li><a href="/admin/adminStaff" class="menu-item ">Staff</a></li>
+                    <li><a href="/admin/home" class="menu-item">Dashboard</a></li>
+                    <li><a href="/admin/adminStaff" class="menu-item">Staff</a></li>
                     <li><a href="/admin/adminUserHistory" class="menu-item">User History</a></li>
                     <li><a href="/admin/adminMaintain" class="menu-item">Maintain</a></li>
                     <li><a href="/admin/adminCondemn" class="menu-item active">Condemn</a></li>
                     <li><a href="/admin/adminAssetAllocation" class="menu-item">Asset Allocation</a></li>
-                    <li><a href="/admin/adminAsset" class="menu-item ">Asset</a></li>
-                    <li><a href="/admin/adminInvoice" class="menu-item ">Invoice</a></li>
+                    <li><a href="/admin/adminAsset" class="menu-item">Asset</a></li>
+                    <li><a href="/admin/adminInvoice" class="menu-item">Invoice</a></li>
                     <li><a href="/admin/adminMovement" class="menu-item">Movement</a></li>
                 </ul>
             </nav>
         </aside>
 
-        <!-- Main Content -->
+        <!-- Enhanced Main Content -->
         <main class="main-content">
-            <h1 style="color: var(--primary-color); font-weight: 700;">Admin - Condemn</h1>
-
-            <!-- Asset Table -->
-            <div class="card shadow-sm mb-4 border-0" style="max-width: 900px; margin: 2rem auto; background-color: var(--text-light);">
-                <div class="card-header" style="background-color: var(--primary-dark); color: var(--text-light);">
-                    <h5 class="mb-0">Assets</h5>
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">
+                        <i class="fas fa-exclamation-triangle"></i>Asset Condemnation Management
+                    </h1>
+                    <p class="page-subtitle">Manage and track condemned assets with detailed documentation</p>
                 </div>
-                <div class="card-body rounded-bottom" style="background-color: var(--text-light);">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle shadow-sm rounded" id="assetTable" style="background-color: var(--text-light);">
-                            <thead style="background-color: var(--primary-light);">
-                                <tr>
-                                    <th style="color: var(--primary-color);">Asset ID</th>
-                                    <th style="color: var(--primary-color);">Asset Name</th>
-                                    <th style="color: var(--primary-color);">Condemn Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Data will be loaded here -->
-                            </tbody>
-                        </table>
+            </div>
+
+            <!-- Asset Management Card -->
+            <div class="asset-card">
+                <div class="card-header">
+                    <h5><i class="fas fa-list-alt"></i>Asset Condemnation Registry</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="assetTable">
+                                <thead>
+                                    <tr>
+                                        <th><i class="fas fa-hashtag me-2"></i>Asset ID</th>
+                                        <th><i class="fas fa-tag me-2"></i>Asset Name</th>
+                                        <th><i class="fas fa-toggle-on me-2"></i>Condemnation Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Condemn Popup Modal -->
+            <!-- Condemn Confirmation Modal -->
             <div class="modal fade" id="condemnConfirmModal" tabindex="-1" aria-labelledby="condemnConfirmModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content shadow" style="background-color: var(--text-light);">
-                  <div class="modal-header" style="background-color: var(--primary-color); color: var(--text-light);">
-                    <h5 class="modal-title" id="condemnConfirmModalLabel">Condemn Asset</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body rounded-bottom" style="background-color: var(--text-light);">
-                    <p>If you want this asset to be condemn?</p>
-                    <div class="text-end">
-                        <button type="button" class="btn" style="background-color: var(--accent-color); color: var(--primary-dark); font-weight: 600;" id="confirmCondemnBtn">Yes, I want</button>
-                        <button type="button" class="btn" style="background-color: var(--primary-light); color: var(--text-light); font-weight: 600;" data-bs-dismiss="modal">Cancel</button>
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="condemnConfirmModalLabel">
+                                <i class="fas fa-exclamation-triangle"></i>Confirm Asset Condemnation
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-center mb-4">
+                                <i class="fas fa-exclamation-circle text-warning" style="font-size: 3rem;"></i>
+                            </div>
+                            <p class="text-center fs-5 mb-4">Are you sure you want to condemn this asset?</p>
+                            <p class="text-center text-muted">This action will mark the asset as condemned and require detailed documentation.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-custom btn-accent-custom" id="confirmCondemnBtn">
+                                <i class="fas fa-check"></i>Yes, Condemn Asset
+                            </button>
+                            <button type="button" class="btn btn-custom btn-primary-custom" data-bs-dismiss="modal">
+                                <i class="fas fa-times"></i>Cancel
+                            </button>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
 
             <!-- Condemn Details Modal -->
             <div class="modal fade" id="condemnDetailsModal" tabindex="-1" aria-labelledby="condemnDetailsModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content shadow" style="background-color: var(--text-light);">
-                  <div class="modal-header" style="background-color: var(--primary-color); color: var(--text-light);">
-                    <h5 class="modal-title" id="condemnDetailsModalLabel">Condemn Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body rounded-bottom" style="background-color: var(--text-light);">
-                    <form id="condemnDetailsForm">
-                        <div class="mb-3">
-                            <label for="condemnDateInput" class="form-label" style="color: var(--primary-color);">Condemn Date</label>
-                            <input type="date" class="form-control" id="condemnDateInput" required style="border: 2px solid var(--primary-color); background-color: var(--text-light); color: var(--primary-dark);">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="condemnDetailsModalLabel">
+                                <i class="fas fa-file-alt"></i>Asset Condemnation Details
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="mb-3">
-                            <label for="condemnDetailsInput" class="form-label" style="color: var(--primary-color);">Condemn Details</label>
-                            <textarea class="form-control" id="condemnDetailsInput" rows="3" required style="border: 2px solid var(--primary-color); background-color: var(--text-light); color: var(--primary-dark);"></textarea>
+                        <div class="modal-body">
+                            <form id="condemnDetailsForm">
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <label for="condemnDateInput" class="form-label">
+                                            <i class="fas fa-calendar-alt"></i>Condemnation Date
+                                        </label>
+                                        <input type="date" class="form-control" id="condemnDateInput" required>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label class="form-label">
+                                            <i class="fas fa-info-circle"></i>Status
+                                        </label>
+                                        <div class="mt-2">
+                                            <span class="status-badge status-condemned">
+                                                <i class="fas fa-exclamation-triangle"></i>Condemned
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="condemnDetailsInput" class="form-label">
+                                        <i class="fas fa-clipboard-list"></i>Condemnation Details & Reason
+                                    </label>
+                                    <textarea class="form-control" id="condemnDetailsInput" rows="4" required placeholder="Please provide detailed information about the reason for condemnation, condition of the asset, and any relevant observations..."></textarea>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-custom btn-accent-custom btn-lg">
+                                        <i class="fas fa-save"></i>Submit Condemnation Record
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="text-end">
-                            <button type="submit" class="btn" style="background-color: var(--accent-color); color: var(--primary-dark); font-weight: 600;">Submit</button>
-                        </div>
-                    </form>
-                  </div>
+                    </div>
                 </div>
-              </div>
             </div>
         </main>
     </div>
@@ -629,6 +1190,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         let selectedAssetId = null;
+        
         // Load assets and render table
         function renderAssetTable(assets) {
             const tbody = document.querySelector('#assetTable tbody');
@@ -636,22 +1198,31 @@
                 const isCondemned = asset.activityStatus === false || asset.activityStatus === 0 || asset.activityStatus === "0";
                 return `
                 <tr>
-                    <td>${asset.assetId}</td>
+                    <td><strong>${asset.assetId}</strong></td>
                     <td>${asset.name}</td>
                     <td>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="condemnStatus_${asset.assetId}" id="condemnOff_${asset.assetId}" value="off" ${isCondemned ? 'disabled' : 'checked'}>
-                            <label class="form-check-label" for="condemnOff_${asset.assetId}">Off</label>
+                        <div class="status-controls">
+                            <div class="form-check-custom">
+                                <input class="form-check-input" type="radio" name="condemnStatus_${asset.assetId}" id="condemnOff_${asset.assetId}" value="off" ${isCondemned ? 'disabled' : 'checked'}>
+                                <label class="form-check-label" for="condemnOff_${asset.assetId}">
+                                    <i class="fas fa-check-circle text-success"></i>Active
+                                </label>
+                            </div>
+                            <div class="form-check-custom">
+                                <input class="form-check-input" type="radio" name="condemnStatus_${asset.assetId}" id="condemnOn_${asset.assetId}" value="on" ${isCondemned ? 'checked disabled' : ''}>
+                                <label class="form-check-label" for="condemnOn_${asset.assetId}">
+                                    <i class="fas fa-exclamation-triangle text-warning"></i>Condemn
+                                </label>
+                            </div>
+                            <button class="btn view-btn" onclick="viewAsset('${asset.assetId}')">
+                                <i class="fas fa-eye"></i>View Details
+                            </button>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="condemnStatus_${asset.assetId}" id="condemnOn_${asset.assetId}" value="on" ${isCondemned ? 'checked disabled' : ''}>
-                            <label class="form-check-label" for="condemnOn_${asset.assetId}">Condemn On</label>
-                        </div>
-                        <button class="btn btn-sm" style="background-color: #800000; color: #fff; margin-left:10px;" onclick="viewAsset('${asset.assetId}')">View</button>
                     </td>
                 </tr>
                 `;
             }).join('');
+            
             // Add event listeners for radio buttons only if not condemned
             assets.forEach(asset => {
                 if (asset.activityStatus) {
@@ -665,88 +1236,138 @@
                 }
             });
         }
+        
         function loadAssets() {
-        // View asset details popup
-        window.viewAsset = function(assetId) {
-            fetch('/admin/condemn/assets')
-                .then(res => res.json())
-                .then(assets => {
-                    const asset = assets.find(a => a.assetId === assetId);
-                    if (!asset) return;
-                    let activityStatusText = (asset.activityStatus === false || asset.activityStatus === 0 || asset.activityStatus === "0") ? 'Condemn' : 'Active';
-                    if (activityStatusText === 'Condemn') {
-                        // Condemned: fetch condemn details
-                        fetch(`/admin/condemn/condemnDetails?assetId=${assetId}`)
-                            .then(res => res.json())
-                            .then(condemn => {
-                                showViewModal({
-                                    assetId: asset.assetId,
-                                    name: asset.name,
-                                    activityStatus: activityStatusText,
-                                    condemnDate: condemn.condemnDate,
-                                    condemnDetails: condemn.condemnDetails
+            // View asset details popup
+            window.viewAsset = function(assetId) {
+                fetch('/admin/condemn/assets')
+                    .then(res => res.json())
+                    .then(assets => {
+                        const asset = assets.find(a => a.assetId === assetId);
+                        if (!asset) return;
+                        let activityStatusText = (asset.activityStatus === false || asset.activityStatus === 0 || asset.activityStatus === "0") ? 'Condemn' : 'Active';
+                        if (activityStatusText === 'Condemn') {
+                            // Condemned: fetch condemn details
+                            fetch(`/admin/condemn/condemnDetails?assetId=${assetId}`)
+                                .then(res => res.json())
+                                .then(condemn => {
+                                    showViewModal({
+                                        assetId: asset.assetId,
+                                        name: asset.name,
+                                        activityStatus: activityStatusText,
+                                        condemnDate: condemn.condemnDate,
+                                        condemnDetails: condemn.condemnDetails
+                                    });
                                 });
+                        } else {
+                            showViewModal({
+                                assetId: asset.assetId,
+                                name: asset.name,
+                                activityStatus: activityStatusText
                             });
-                    } else {
-                        showViewModal({
-                            assetId: asset.assetId,
-                            name: asset.name,
-                            activityStatus: activityStatusText
-                        });
-                    }
-                });
-        }
+                        }
+                    });
+            }
 
-        // Proper function for showing the modal
-        window.showViewModal = function(data) {
-            if (!document.getElementById('viewAssetModal')) {
-                const modalHtml = `
-                <div class="modal fade" id="viewAssetModal" tabindex="-1" aria-labelledby="viewAssetModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content shadow" style="background-color: var(--text-light);">
-                      <div class="modal-header" style="background-color: var(--primary-color); color: var(--text-light);">
-                        <h5 class="modal-title" id="viewAssetModalLabel">Asset Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            // Proper function for showing the modal
+            window.showViewModal = function(data) {
+                if (!document.getElementById('viewAssetModal')) {
+                    const modalHtml = `
+                    <div class="modal fade" id="viewAssetModal" tabindex="-1" aria-labelledby="viewAssetModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="viewAssetModalLabel">
+                                <i class="fas fa-info-circle"></i>Asset Information
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body" id="viewAssetModalBody">
+                            <!-- Details will be loaded here -->
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-custom btn-primary-custom" data-bs-dismiss="modal">
+                                <i class="fas fa-times"></i>Close
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                      <div class="modal-body rounded-bottom" style="background-color: var(--text-light);" id="viewAssetModalBody">
-                        <!-- Details will be loaded here -->
-                      </div>
-                    </div>
-                  </div>
-                </div>`;
-                document.body.insertAdjacentHTML('beforeend', modalHtml);
-            }
-            let html = `<div class='mb-2'><strong>Asset ID:</strong> ${data.assetId}</div>
-                        <div class='mb-2'><strong>Name:</strong> ${data.name}</div>
-                        <div class='mb-2'><strong>Status:</strong> ${data.activityStatus}</div>`;
-            if (data.activityStatus === 'Condemn') {
-                // Format date if present
-                let dateText = '-';
-                if (data.condemnDate !== undefined && data.condemnDate !== null && String(data.condemnDate).trim() !== '') {
-                    let d = new Date(data.condemnDate);
-                    if (!isNaN(d.getTime())) {
-                        dateText = d.toLocaleDateString('en-CA');
-                    } else {
-                        dateText = data.condemnDate;
+                    </div>`;
+                    document.body.insertAdjacentHTML('beforeend', modalHtml);
+                }
+                
+                let html = `
+                    <div class="asset-details">
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fas fa-hashtag"></i>Asset ID
+                            </div>
+                            <div class="detail-value">${data.assetId}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fas fa-tag"></i>Asset Name
+                            </div>
+                            <div class="detail-value">${data.name}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fas fa-info-circle"></i>Current Status
+                            </div>
+                            <div class="detail-value">
+                                <span class="status-badge ${data.activityStatus === 'Condemn' ? 'status-condemned' : 'status-active'}">
+                                    <i class="fas ${data.activityStatus === 'Condemn' ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i>
+                                    ${data.activityStatus}
+                                </span>
+                            </div>
+                        </div>`;
+                
+                if (data.activityStatus === 'Condemn') {
+                    // Format date if present
+                    let dateText = 'Not specified';
+                    if (data.condemnDate !== undefined && data.condemnDate !== null && String(data.condemnDate).trim() !== '') {
+                        let d = new Date(data.condemnDate);
+                        if (!isNaN(d.getTime())) {
+                            dateText = d.toLocaleDateString('en-CA');
+                        } else {
+                            dateText = data.condemnDate;
+                        }
                     }
+                    
+                    let detailsText = 'No details provided';
+                    if (data.condemnDetails !== undefined && data.condemnDetails !== null && String(data.condemnDetails).trim() !== '') {
+                        detailsText = data.condemnDetails;
+                    }
+                    
+                    html += `
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fas fa-calendar-alt"></i>Condemnation Date
+                            </div>
+                            <div class="detail-value">${dateText}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fas fa-clipboard-list"></i>Condemnation Details
+                            </div>
+                            <div class="detail-value">${detailsText}</div>
+                        </div>`;
                 }
-                let detailsText = '-';
-                if (data.condemnDetails !== undefined && data.condemnDetails !== null && String(data.condemnDetails).trim() !== '') {
-                    detailsText = data.condemnDetails;
-                }
-                html += `<div class='mb-2'><strong>Condemn Date:</strong> ${dateText} </div>
-                          <div class='mb-2'><strong>Condemn Details:</strong> ${detailsText} </div>`;
+                
+                html += '</div>';
+                
+                document.getElementById('viewAssetModalBody').innerHTML = html;
+                const modal = new bootstrap.Modal(document.getElementById('viewAssetModal'));
+                modal.show();
             }
-            document.getElementById('viewAssetModalBody').innerHTML = html;
-            const modal = new bootstrap.Modal(document.getElementById('viewAssetModal'));
-            modal.show();
-        }
+            
             fetch('/admin/condemn/assets')
                 .then(res => res.json())
                 .then(data => {
                     renderAssetTable(data);
                 });
         }
+        
         document.addEventListener('DOMContentLoaded', loadAssets);
 
         // Confirm Condemn
@@ -762,6 +1383,13 @@
             e.preventDefault();
             const condemnDate = document.getElementById('condemnDateInput').value;
             const condemnDetails = document.getElementById('condemnDetailsInput').value;
+            
+            // Show loading state
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="loading-spinner me-2"></span>Processing...';
+            submitBtn.disabled = true;
+            
             // Prepare payload
             const payload = {
                 condemnId: selectedAssetId + '_' + Date.now(),
@@ -770,6 +1398,7 @@
                 activityStatus: 'Condemn',
                 asset: { assetId: selectedAssetId }
             };
+            
             fetch('/admin/condemn/condemn', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -777,13 +1406,40 @@
             })
             .then(res => {
                 if (res.ok) {
-                    alert('Condemn details saved successfully!');
-                    location.reload();
+                    // Success animation
+                    submitBtn.innerHTML = '<i class="fas fa-check me-2"></i>Success!';
+                    submitBtn.classList.remove('btn-accent-custom');
+                    submitBtn.classList.add('btn-success');
+                    
+                    // Show success message
+                    showSuccessMessage('Asset condemnation recorded successfully!');
+                    
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
                 } else {
-                    alert('Error saving condemn details.');
+                    throw new Error('Server error');
                 }
+            })
+            .catch(error => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                alert('Error saving condemnation details. Please try again.');
             });
         });
+
+        // Show success message
+        function showSuccessMessage(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message';
+            successDiv.innerHTML = `<i class="fas fa-check-circle"></i>${message}`;
+            document.body.appendChild(successDiv);
+            
+            // Remove after animation completes
+            setTimeout(() => {
+                successDiv.remove();
+            }, 3000);
+        }
     </script>
     <script>
         // Mobile menu toggle functionality
@@ -805,9 +1461,12 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
     </script>
