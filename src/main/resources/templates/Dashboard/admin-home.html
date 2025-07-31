@@ -216,28 +216,62 @@
             margin: 0 auto;
         }
 
-        /* Card Styles */
-        .card {
+        /* Modern Metric Card Styles */
+        .metric-card {
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(128,0,0,0.08);
             border: none;
-            border-radius: 8px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            overflow: hidden;
-            height: 100%;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            transition: all 0.3s ease;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 40px rgba(128,0,0,0.15);
+        }
+        .icon-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: 0 4px 12px rgba(128,0,0,0.12);
+        }
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #800000 0%, #a04040 100%);
+        }
+        .bg-gradient-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+        .bg-gradient-warning {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+        }
+        .bg-gradient-info {
+            background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);
+        }
+        .bg-gradient-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
         }
 
-        .card:hover {
+        /* Modern Card Styles for charts and lists */
+        .modern-card {
+            border-radius: 18px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            box-shadow: 0 8px 32px rgba(128,0,0,0.08);
+            border: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .modern-card:hover {
+            box-shadow: 0 16px 40px rgba(128,0,0,0.15);
             transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .card .btn {
-            background-color: var(--primary-color);
-            border-color: var(--primary-dark);
-        }
-
-        .card .btn:hover {
-            background-color: var(--primary-dark);
-            border-color: var(--primary-dark);
         }
 
         .text-primary {
@@ -465,6 +499,52 @@
         .mobile-menu-btn {
             display: none;
         }
+
+        /* Card Styles */
+        .card {
+            border: none;
+            border-radius: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card .btn {
+            background-color: var(--primary-color);
+            border-color: var(--primary-dark);
+        }
+
+        .card .btn:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        /* List Group Item Styles */
+        .list-group-item {
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #fff 80%, #ffc107 100%);
+            box-shadow: 0 2px 8px rgba(128,0,0,0.05);
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .list-group-item:hover {
+            background: linear-gradient(90deg, #ffc107 0%, #fff 100%);
+            box-shadow: 0 4px 16px rgba(128,0,0,0.10);
+        }
+
+        .text-gradient {
+            background: linear-gradient(90deg, #800000, #ffc107);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
     </style>
 </head>
 <body>
@@ -565,6 +645,21 @@
                         <div class="card p-4 h-100 border-0 shadow-sm modern-card">
                             <h5 class="mb-3 fw-semibold"><i class="fas fa-chart-line text-success me-2"></i>Recent Asset Additions</h5>
                             <canvas id="assetBarChart" height="180"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- Additional Charts Row -->
+                <div class="row g-4">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card p-4 h-100 border-0 shadow-sm modern-card">
+                            <h5 class="mb-3 fw-semibold"><i class="fas fa-chart-pie text-warning me-2"></i>Asset Status Overview</h5>
+                            <canvas id="assetStatusChart" height="180"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card p-4 h-100 border-0 shadow-sm modern-card">
+                            <h5 class="mb-3 fw-semibold"><i class="fas fa-chart-area text-info me-2"></i>Monthly Asset Additions</h5>
+                            <canvas id="monthlyAdditionsChart" height="180"></canvas>
                         </div>
                     </div>
                 </div>
@@ -723,6 +818,81 @@
           }
         });
       });
+    // Asset Status Overview Doughnut Chart
+    fetch('/api/admin/dashboard/asset-status')
+      .then(res => res.json())
+      .then(data => {
+        const canvas = document.getElementById('assetStatusChart');
+        const parent = canvas.parentElement;
+        if (!data.statuses || data.statuses.length === 0) {
+          canvas.style.display = 'none';
+          if (!parent.querySelector('.nodata-msg')) {
+            const msg = document.createElement('div');
+            msg.className = 'nodata-msg text-center text-muted py-5';
+            msg.innerHTML = '<i class="fas fa-info-circle"></i> No data available';
+            parent.appendChild(msg);
+          }
+          return;
+        }
+        canvas.style.display = '';
+        const statusLabels = data.statuses.map(s => s.status);
+        const statusCounts = data.statuses.map(s => s.count);
+        new Chart(canvas, {
+          type: 'doughnut',
+          data: {
+            labels: statusLabels,
+            datasets: [{
+              data: statusCounts,
+              backgroundColor: [
+                '#28a745', '#ffc107', '#dc3545', '#17a2b8', '#800000', '#fd7e14', '#6f42c1'
+              ]
+            }]
+          },
+          options: {
+            plugins: { legend: { position: 'bottom' } }
+          }
+        });
+      });
+
+    // Monthly Asset Additions Line Chart
+    fetch('/api/admin/dashboard/monthly-additions')
+      .then(res => res.json())
+      .then(data => {
+        const canvas = document.getElementById('monthlyAdditionsChart');
+        const parent = canvas.parentElement;
+        if (!data.months || !data.additions || data.months.length === 0 || data.additions.length === 0) {
+          canvas.style.display = 'none';
+          if (!parent.querySelector('.nodata-msg')) {
+            const msg = document.createElement('div');
+            msg.className = 'nodata-msg text-center text-muted py-5';
+            msg.innerHTML = '<i class="fas fa-info-circle"></i> No data available';
+            parent.appendChild(msg);
+          }
+          return;
+        }
+        canvas.style.display = '';
+        const months = data.months;
+        const additions = data.additions;
+        new Chart(canvas, {
+          type: 'line',
+          data: {
+            labels: months,
+            datasets: [{
+              label: 'Assets Added',
+              data: additions,
+              fill: true,
+              borderColor: '#800000',
+              backgroundColor: 'rgba(128,0,0,0.08)',
+              pointBackgroundColor: '#ffc107',
+              tension: 0.3
+            }]
+          },
+          options: {
+            plugins: { legend: { display: true, position: 'bottom' } },
+            scales: { y: { beginAtZero: true } }
+          }
+        });
+      });
 
     // Recent Asset Additions Bar Chart
     fetch('/api/admin/dashboard/activity')
@@ -731,6 +901,9 @@
         const assets = data.recentAssets || [];
         const labels = assets.map(a => a.name || a.assetId);
         const values = assets.map(a => 1); // Each bar = 1 asset
+        const colors = [
+          '#800000', '#ffc107', '#28a745', '#17a2b8', '#fd7e14', '#6f42c1', '#343a40', '#20c997', '#e83e8c', '#007bff'
+        ];
         new Chart(document.getElementById('assetBarChart'), {
           type: 'bar',
           data: {
@@ -738,7 +911,7 @@
             datasets: [{
               label: 'Recent Assets',
               data: values,
-              backgroundColor: '#800000'
+              backgroundColor: labels.map((_, i) => colors[i % colors.length]),
             }]
           },
           options: {
