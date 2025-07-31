@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asset Management System | University of Peradeniya</title>
+    <title>User History | Asset Management System | University of Peradeniya</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #800000;
@@ -15,15 +16,20 @@
             --text-light: #f8f9fa;
             --text-dark: #343a40;
             --transition: all 0.3s ease;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --gradient-primary: linear-gradient(135deg, #800000 0%, #a04040 100%);
+            --gradient-light: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             color: var(--text-dark);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            background-color: var(--text-light);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
         
         /* Header Styles */
@@ -31,7 +37,7 @@
             background-color: var(--primary-color);
             color: var(--text-light);
             padding: 0.8rem 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -57,9 +63,10 @@
         }
         
         .logo-img {
-            height: 40px;
-            margin-right: 10px;
+            height: 50px;
+            margin-right: 15px;
             transition: var(--transition);
+            filter: brightness(1.1) drop-shadow(0 0 2px rgba(0,0,0,0.3));
         }
         
         .logo-img:hover {
@@ -89,24 +96,8 @@
         }
         
         .main-nav a:not(.login-btn):hover {
-            background-color: var(--primary-light);
+            background-color: rgba(255, 255, 255, 0.15);
             transform: translateY(-2px);
-        }
-        
-        .main-nav a:not(.login-btn)::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 50%;
-            background-color: var(--accent-color);
-            transition: var(--transition);
-            transform: translateX(-50%);
-        }
-        
-        .main-nav a:not(.login-btn):hover::after {
-            width: 70%;
         }
         
         .login-btn {
@@ -118,16 +109,16 @@
             font-weight: 600;
             transition: var(--transition);
             border: 2px solid transparent;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-sm);
         }
         
         .login-btn:hover {
-            background-color: var(--primary-light);
+            background-color: #e0a800;
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow-md);
             border-color: rgba(0, 0, 0, 0.1);
         }
-        
+
         /* Sidebar Styles */
         .sidebar {
             width: 250px;
@@ -160,13 +151,13 @@
         }
         
         .menu-item:hover {
-            background-color: var(--primary-light);
+            background-color: rgba(255, 255, 255, 0.1);
             border-left: 4px solid var(--accent-color);
             transform: translateX(5px);
         }
         
         .menu-item.active {
-            background-color: var(--primary-light);
+            background-color: rgba(255, 255, 255, 0.2);
             border-left: 4px solid var(--accent-color);
             font-weight: 500;
         }
@@ -178,7 +169,7 @@
             top: 0;
             height: 100%;
             width: 0;
-            background-color: var(--primary-light);
+            background-color: rgba(255, 255, 255, 0.05);
             transition: var(--transition);
             z-index: -1;
         }
@@ -186,103 +177,569 @@
         .menu-item:hover::before {
             width: 100%;
         }
-        
-        /* Main Content Styles */
+
+        /* Main Content Styles - Enhanced */
         .main-content {
             flex: 1;
+            padding: 2.5rem;
+            background: var(--gradient-light);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin: 1.5rem;
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 20px 20px 0 0;
+        }
+
+        /* Page Header Styles - Enhanced */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
             padding: 2rem;
-            background-color: var(--text-light);
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin: 1rem;
+            background: var(--gradient-light);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(128, 0, 0, 0.03) 0%, rgba(255, 193, 7, 0.03) 100%);
+            pointer-events: none;
         }
         
-        /* Table Styles */
-        .table {
-            color: var(--text-dark);
-        }
-
-        .table thead th {
-            background-color: var(--primary-color);
-            color: var(--text-light);
-            border-bottom: 2px solid var(--primary-dark);
-        }
-
-        .table-hover tbody tr:hover {
-            background-color: var(--primary-light);
-            color: var(--text-light);
-        }
-
-        .badge.bg-secondary {
-            background-color: var(--primary-light) !important;
-            color: var(--text-light) !important;
-        }
-
-        .badge.bg-success {
-            background-color: var(--accent-color) !important;
-            color: var(--primary-dark) !important;
-        }
-
-        /* Button Styles */
-        .btn-outline-primary {
-            color: var(--primary-color) !important;
-            border-color: var(--primary-color) !important;
-            background-color: var(--text-light) !important;
-        }
-
-        .btn-outline-primary:hover {
-            background-color: var(--primary-color) !important;
-            color: var(--text-light) !important;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color) !important;
-            border-color: var(--primary-color) !important;
-            color: var(--text-light) !important;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-dark) !important;
-            border-color: var(--primary-dark) !important;
-            color: var(--text-light) !important;
-        }
-
-        .btn-secondary {
-            background-color: var(--primary-light) !important;
-            border-color: var(--primary-light) !important;
-            color: var(--text-light) !important;
+        .page-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            margin: 0;
+            position: relative;
+            z-index: 1;
         }
         
-        /* Card Styles */
-        .card {
+        .page-title i {
+            margin-right: 15px;
+            padding: 12px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(128, 0, 0, 0.3);
+        }
+        
+        .badge-count {
+            background: var(--gradient-primary);
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            box-shadow: 0 4px 12px rgba(128, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            font-weight: 600;
+        }
+
+        /* Card Styles - Enhanced */
+        .history-card {
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
             border: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            background: var(--gradient-light);
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .history-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
         }
         
-        .card-header {
-            background-color: var(--primary-color);
+        .history-card .card-header {
+            background: rgba(128, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(128, 0, 0, 0.1);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .history-card .card-header h5 {
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        
+        .history-card .card-header h5 i {
+            margin-right: 10px;
+            padding: 8px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* Filter Section - Enhanced */
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 0.7rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+        }
+
+        .filter-group label i {
+            margin-right: 8px;
+            padding: 6px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .filter-group .form-control {
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .filter-group .form-control:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 0.25rem rgba(128, 0, 0, 0.1);
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        /* Table Styles - Enhanced */
+        .table-responsive {
+            border-radius: 0 0 20px 20px;
+            overflow: hidden;
+        }
+        
+        .table {
+            margin-bottom: 0;
+            color: var(--text-dark);
+            background: white;
+        }
+        
+        .table thead th {
+            background: linear-gradient(135deg, rgba(128, 0, 0, 0.05) 0%, rgba(255, 193, 7, 0.05) 100%);
+            color: var(--primary-dark);
+            font-weight: 600;
+            padding: 1.2rem 1.5rem;
+            border-bottom: 2px solid rgba(128, 0, 0, 0.1);
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .table thead th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            opacity: 0.3;
+        }
+        
+        .table tbody td {
+            padding: 1.2rem 1.5rem;
+            vertical-align: middle;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 0.95rem;
+        }
+        
+        .table-hover tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        .table-hover tbody tr:hover {
+            background: linear-gradient(135deg, rgba(128, 0, 0, 0.03) 0%, rgba(255, 193, 7, 0.03) 100%);
+            transform: translateX(5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* User Info Styles - Enhanced */
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 15px;
+            box-shadow: 0 4px 12px rgba(128, 0, 0, 0.3);
+            font-size: 1.1rem;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: var(--primary-dark);
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+        
+        .user-description {
+            font-size: 0.85rem;
+            color: #6c757d;
+            font-weight: 400;
+        }
+
+        /* Asset Meta Styles - Enhanced */
+        .asset-meta {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 4px;
+        }
+        
+        .asset-meta strong {
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        /* Badge Styles - Enhanced */
+        .badge {
+            font-weight: 500;
+            padding: 0.4em 0.8em;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        
+        .badge-current {
+            background: linear-gradient(135deg, var(--accent-color) 0%, #e0a800 100%);
+            color: var(--primary-dark);
+            box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+        }
+
+        .bg-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%) !important;
+            box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+        }
+
+        /* Button Styles - Enhanced */
+        .btn-primary-custom {
+            background: var(--gradient-primary);
+            border: none;
             color: var(--text-light);
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(128, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary-custom:hover::before {
+            left: 100%;
         }
         
-        /* Form Styles */
-        .form-control:focus, .form-select:focus {
+        .btn-primary-custom:hover {
+            background: linear-gradient(135deg, #600000 0%, #800000 100%);
+            color: var(--text-light);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(128, 0, 0, 0.4);
+        }
+        
+        .btn-primary-custom i {
+            margin-right: 10px;
+        }
+        
+        .view-btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            transition: var(--transition);
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(128, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .view-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .view-btn:hover::before {
+            left: 100%;
+        }
+        
+        .view-btn:hover {
+            background: linear-gradient(135deg, #600000 0%, #800000 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(128, 0, 0, 0.3);
+        }
+        
+        .view-btn i {
+            margin-right: 6px;
+        }
+
+        /* Form Select - Enhanced */
+        .form-select {
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-select:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 0.25rem rgba(128, 0, 0, 0.1);
+            background: white;
+        }
+
+        /* Pagination - Enhanced */
+        .pagination {
+            margin-bottom: 0;
+        }
+
+        .page-link {
+            color: var(--primary-color);
+            border: 1px solid rgba(128, 0, 0, 0.2);
+            padding: 0.5rem 0.75rem;
+            transition: var(--transition);
+        }
+
+        .page-link:hover {
+            color: white;
+            background: var(--gradient-primary);
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(128, 0, 0, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .page-item.active .page-link {
+            background: var(--gradient-primary);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Modal Styles - Enhanced */
+        .modal-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 12px 12px 0 0;
         }
         
-        .border-primary {
-            border-color: var(--primary-color) !important;
+        .modal-title {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
         }
         
-        .text-primary {
-            color: var(--primary-color) !important;
+        .modal-title i {
+            margin-right: 12px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
         }
         
+        .modal-body {
+            padding: 2rem;
+            background: var(--gradient-light);
+        }
+        
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(248, 249, 250, 0.5);
+        }
+
+        /* Detail Cards in Modal - Enhanced */
+        .modal-body .card {
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
+
+        .modal-body .card-header {
+            background: linear-gradient(135deg, rgba(128, 0, 0, 0.05) 0%, rgba(255, 193, 7, 0.05) 100%);
+            border-bottom: 1px solid rgba(128, 0, 0, 0.1);
+            padding: 1rem 1.5rem;
+        }
+
+        .modal-body .card-header h6 {
+            margin: 0;
+            font-weight: 600;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+        }
+
+        .modal-body .card-header h6 i {
+            margin-right: 8px;
+            padding: 6px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        /* Detail List Styles - Enhanced */
+        .detail-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .detail-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .detail-list li:hover {
+            background: rgba(128, 0, 0, 0.02);
+            padding-left: 1rem;
+            padding-right: 1rem;
+            margin: 0 -1rem;
+            border-radius: 8px;
+        }
+        
+        .detail-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+        }
+
+        .detail-label::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--gradient-primary);
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+        
+        .detail-value {
+            color: var(--text-dark);
+            text-align: right;
+            font-weight: 500;
+        }
+
+        /* Empty State - Enhanced */
+        .empty-state {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(128, 0, 0, 0.02) 0%, rgba(255, 193, 7, 0.02) 100%);
+            border-radius: 16px;
+            margin: 2rem;
+        }
+        
+        .empty-state i {
+            color: rgba(128, 0, 0, 0.3);
+            margin-bottom: 1.5rem;
+            font-size: 3rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+        
+        .empty-state h5 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .empty-state p {
+            color: #6c757d;
+            margin-bottom: 0;
+            font-size: 1rem;
+        }
+
         /* Footer Styles */
         .main-footer {
             background-color: var(--primary-color);
             color: var(--text-light);
             padding: 40px 0;
+            margin-top: auto;
         }
         
         .footer-container {
@@ -300,6 +757,7 @@
         .footer-col {
             width: 25%;
             margin-bottom: 20px;
+            padding: 0 15px;
         }
         
         .footer-col h4 {
@@ -307,6 +765,7 @@
             margin-bottom: 1.2rem;
             position: relative;
             padding-bottom: 0.5rem;
+            font-size: 1.1rem;
         }
         
         .footer-col h4::after {
@@ -326,35 +785,31 @@
         
         .footer-col li {
             margin-bottom: 0.6rem;
-            transition: var(--transition);
-        }
-        
-        .footer-col li:hover {
-            transform: translateX(5px);
         }
         
         .footer-col a {
-            color: var(--text-light);
+            color: white;
             text-decoration: none;
             transition: var(--transition);
             display: inline-block;
             padding: 0.2rem 0;
+            font-size: 0.9rem;
         }
         
         .footer-col a:hover {
             color: var(--accent-color);
-            text-decoration: none;
+            transform: translateX(3px);
         }
         
         .social-icons {
             display: flex;
             margin-top: 1.5rem;
+            gap: 10px;
         }
         
         .social-icons a {
-            color: var(--text-light);
-            margin-right: 15px;
-            font-size: 1.2rem;
+            color: white;
+            font-size: 1rem;
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -367,7 +822,7 @@
         
         .social-icons a:hover {
             background-color: var(--accent-color);
-            color: var(--primary-dark);
+            color: var(--text-dark);
             transform: translateY(-3px);
         }
         
@@ -381,22 +836,24 @@
             padding: 0.6rem;
             border: none;
             border-radius: 4px 0 0 4px;
-            background-color: var(--text-light);
+            background-color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
         }
         
         .newsletter-form button {
             background-color: var(--accent-color);
-            color: var(--primary-dark);
+            color: #212529;
             border: none;
             padding: 0 1.2rem;
             border-radius: 0 4px 4px 0;
             font-weight: 600;
             transition: var(--transition);
             cursor: pointer;
+            font-size: 0.9rem;
         }
         
         .newsletter-form button:hover {
-            background-color: var(--primary-light);
+            background-color: #e0a800;
         }
         
         .footer-divider {
@@ -408,15 +865,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            padding-top: 20px;
         }
-        
-        /* Modal Styles */
-        .modal-header {
-            background-color: var(--primary-color);
-            color: var(--text-light);
-        }
-        
+
         /* Responsive Adjustments */
         @media (max-width: 992px) {
             .footer-col {
@@ -431,8 +883,30 @@
             .menu-text {
                 display: none;
             }
+            
+            .menu-item {
+                justify-content: center;
+                padding: 0.8rem 0.5rem;
+            }
+            
+            .menu-item i {
+                margin-right: 0;
+            }
+
+            .main-content {
+                margin: 1rem;
+                padding: 2rem;
+            }
+
+            .page-header {
+                padding: 1.5rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
         }
-        
+
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
@@ -475,7 +949,7 @@
                 background: none;
                 border: none;
                 font-size: 1.5rem;
-                color: var(--text-light);
+                color: white;
                 cursor: pointer;
                 margin-right: 1rem;
                 transition: var(--transition);
@@ -485,29 +959,56 @@
                 color: var(--accent-color);
                 transform: scale(1.1);
             }
+            
+            .main-content {
+                margin: 0.5rem;
+                padding: 1.5rem;
+                border-radius: 16px;
+            }
+            
+            .filter-section {
+                flex-direction: column;
+            }
+            
+            .filter-group {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .page-title {
+                font-size: 1.3rem;
+            }
         }
-        
+
         .mobile-menu-btn {
             display: none;
         }
-        
-        /* Centered Header Styles */
-        .centered-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(128, 0, 0, 0.1);
+
+        /* Loading Animation */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
         }
-        
-        .centered-header h2 {
-            color: var(--primary-color);
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        
-        /* Shadow Styles */
-        .shadow-sm {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -528,171 +1029,310 @@
             <nav class="main-nav">
                 <ul>
                     <li><a href="/adminhome">Home</a></li>
-                    <li><a th:href="@{/}" class="btn btn-outline-light">Logout</a></li>
+                    <li><a th:href="@{/logout}" class="btn btn-outline-light">Logout</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
     <div class="d-flex flex-grow-1">
+        <!-- Sidebar -->
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/admin/home" class="menu-item  ">Dashboard</a></li>
-                    <li><a href="/admin/adminStaff" class="menu-item ">Staff</a></li>
+                    <li><a href="/admin/home" class="menu-item">Dashboard</a></li>
+                    <li><a href="/admin/adminStaff" class="menu-item">Staff</a></li>
                     <li><a href="/admin/adminUserHistory" class="menu-item active">User History</a></li>
                     <li><a href="/admin/adminMaintain" class="menu-item">Maintain</a></li>
                     <li><a href="/admin/adminCondemn" class="menu-item">Condemn</a></li>
                     <li><a href="/admin/adminAssetAllocation" class="menu-item">Asset Allocation</a></li>
-                    <li><a href="/admin/adminAsset" class="menu-item ">Asset</a></li>
-                    <li><a href="/admin/adminInvoice" class="menu-item ">Invoice</a></li>
+                    <li><a href="/admin/adminAsset" class="menu-item">Asset</a></li>
+                    <li><a href="/admin/adminInvoice" class="menu-item">Invoice</a></li>
                     <li><a href="/admin/adminMovement" class="menu-item">Movement</a></li>
                 </ul>
             </nav>
         </aside>
 
-
-        <!-- Main Content -->
+        <!-- Main Content Area -->
         <main class="main-content">
-            <!-- Centered Header Section -->
-            <div class="centered-header mb-4">
-                <h2>Track Asset User & Custodian History</h2>
-                
+            <div class="page-header">
+                <h2 class="page-title">
+                    <i class="fas fa-history"></i> Asset User History
+                </h2>
+                <span class="badge badge-count text-white">
+                    <span th:text="${userHistories.size()}">0</span> records
+                </span>
             </div>
 
-            <div class="container mt-3">
-                <div class="card shadow-sm mb-4 border-0">
-                    <!-- Filter by User Name -->
-                    <div class="row g-2 align-items-center mb-3 px-3 pt-3">
-                    <div class="row g-2 mb-2">
-                        <div class="col-auto">
-                            <label for="userNameFilter" class="form-label fw-semibold text-primary"><i class="fas fa-search me-1"></i>Filter by User Name:</label>
+            <!-- Filter Section -->
+            <div class="card history-card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-filter"></i> Filter History</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6 col-lg-3 filter-group">
+                            <label for="userNameFilter" class="filter-label">
+                                <i class="fas fa-user"></i> User Name
+                            </label>
+                            <input type="text" id="userNameFilter" class="form-control" placeholder="Search by user...">
                         </div>
-                        <div class="col">
-                            <input type="text" id="userNameFilter" class="form-control border-primary shadow-sm" placeholder="Type user name...">
+                        <div class="col-md-6 col-lg-3 filter-group">
+                            <label for="assetNameFilter" class="filter-label">
+                                <i class="fas fa-box-open"></i> Asset Name
+                            </label>
+                            <input type="text" id="assetNameFilter" class="form-control" placeholder="Search by asset...">
                         </div>
-                        <div class="col-auto">
-                            <label for="roomNameFilter" class="form-label fw-semibold text-primary"><i class="fas fa-door-open me-1"></i>Filter by Room Name:</label>
+                        <div class="col-md-6 col-lg-3 filter-group">
+                            <label for="assetIdFilter" class="filter-label">
+                                <i class="fas fa-hashtag"></i> Asset ID
+                            </label>
+                            <input type="text" id="assetIdFilter" class="form-control" placeholder="Search by ID...">
                         </div>
-                        <div class="col">
-                            <input type="text" id="roomNameFilter" class="form-control border-primary shadow-sm" placeholder="Type room name...">
+                        <div class="col-md-6 col-lg-3 filter-group">
+                            <label for="roomNameFilter" class="filter-label">
+                                <i class="fas fa-door-open"></i> Location
+                            </label>
+                            <input type="text" id="roomNameFilter" class="form-control" placeholder="Search by location...">
                         </div>
                     </div>
-                    <div class="row g-2">
-                        <div class="col-auto">
-                            <label for="assetNameFilter" class="form-label fw-semibold text-primary"><i class="fas fa-box-open me-1"></i>Filter by Asset Name:</label>
-                        </div>
-                        <div class="col">
-                            <input type="text" id="assetNameFilter" class="form-control border-primary shadow-sm" placeholder="Type asset name...">
-                        </div>
-                        <div class="col-auto">
-                            <label for="assetIdFilter" class="form-label fw-semibold text-primary"><i class="fas fa-hashtag me-1"></i>Filter by Asset Number:</label>
-                        </div>
-                        <div class="col">
-                            <input type="text" id="assetIdFilter" class="form-control border-primary shadow-sm" placeholder="Type asset number...">
-                        </div>
-                    </div>
-                    </div>
-                    
-                    <div class="card-body bg-light rounded-bottom">
-                        <!-- User-only section -->
-                        <div th:if="${isRegularUser}" class="user-only-section mb-3">
-                            <h5 class="fw-bold text-primary">Your Asset History</h5>
-                        </div>
+                </div>
+            </div>
 
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle shadow-sm rounded">
-                                <thead class="table-primary">
-                                    <tr>
-                                        <th>User</th>
-                                        <th>Job Role</th>
-                                        <th>Asset</th>
-                                        <th>Location</th>
-                                        <th>Time Period</th>
-                                        <th>View</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="history : ${userHistories}" class="table-row-hover">
-                                        <td class="user-name-cell">
-                                            <strong class="text-dark" th:text="${history.userName}"></strong><br>
-                                            <small class="text-muted" th:text="${history.userDescription}"></small>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-secondary" th:text="${history.jobRole}"></span>
-                                        </td>
-                                        <td>
-                                            <span class="text-secondary"><strong>Asset ID:</strong> <span th:text="${history.assetId}"></span></span><br>
-                                            <span class="fw-semibold text-primary"><strong>Name:</strong> <span th:text="${history.assetName}"></span></span><br>
-                                            <span class="text-dark"><strong>Serial Number:</strong> <span th:text="${history.assetSerialNumber}"></span></span><br>
-                                            <span class="text-muted"><strong>Model:</strong> <span th:text="${history.assetModel}"></span></span>
-                                        </td>
-                                        <td>
-                                            <span class="fw-semibold text-primary"><strong>Department:</strong> <span th:text="${history.departmentName}"></span></span><br>
-                                            <span class="text-dark"><strong>Room:</strong> <span th:text="${history.roomName}"></span></span>
-                                        </td>
-                                        <td>
-                                            <span class="text-dark" th:text="${#dates.format(history.startDate, 'yyyy-MM-dd')}"></span> to<br>
-                                            <span th:if="${history.endDate != null}" th:text="${#dates.format(history.endDate, 'yyyy-MM-dd')}"></span>
-                                            <span th:if="${history.endDate == null}" class="badge bg-success">Current</span>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-outline-primary btn-sm view-history-btn shadow-sm"
-                                                data-bs-toggle="modal" data-bs-target="#viewHistoryModal"
+            <!-- History Table -->
+            <div class="card history-card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5><i class="fas fa-list"></i> Asset Assignment History</h5>
+                    <div class="d-flex align-items-center">
+                        <span class="me-2 small text-muted">Sort:</span>
+                        <select class="form-select form-select-sm" id="sortSelect">
+                            <option value="date-desc">Date (Newest First)</option>
+                            <option value="date-asc">Date (Oldest First)</option>
+                            <option value="user-asc">User (A-Z)</option>
+                            <option value="user-desc">User (Z-A)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th width="20%"><i class="fas fa-user me-2"></i>User</th>
+                                    <th width="15%"><i class="fas fa-briefcase me-2"></i>Role</th>
+                                    <th width="25%"><i class="fas fa-box-open me-2"></i>Asset</th>
+                                    <th width="20%"><i class="fas fa-map-marker-alt me-2"></i>Location</th>
+                                    <th width="15%"><i class="fas fa-calendar-alt me-2"></i>Time Period</th>
+                                    <th width="5%" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody">
+                                <tr th:each="history : ${userHistories}">
+                                    <td>
+                                        <div class="user-info">
+                                            <div class="user-avatar" th:text="${history.userName.substring(0,1)}"></div>
+                                            <div>
+                                                <div class="user-name" th:text="${history.userName}"></div>
+                                                <div class="user-description" th:text="${history.userDescription}"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary" th:text="${history.jobRole}"></span>
+                                    </td>
+                                    <td>
+                                        <div class="fw-semibold" th:text="${history.assetName}"></div>
+                                        <div class="asset-meta">
+                                            <strong>ID:</strong> <span th:text="${history.assetId}"></span> | 
+                                            <strong>Serial:</strong> <span th:text="${history.assetSerialNumber}"></span>
+                                        </div>
+                                        <div class="asset-meta" th:text="${history.assetModel}"></div>
+                                    </td>
+                                    <td>
+                                        <div class="fw-semibold" th:text="${history.departmentName}"></div>
+                                        <div class="asset-meta" th:text="${history.roomName}"></div>
+                                    </td>
+                                    <td class="time-period">
+                                        <div class="fw-semibold" th:text="${#dates.format(history.startDate, 'yyyy-MM-dd')}"></div>
+                                        <div th:if="${history.endDate != null}" th:text="${#dates.format(history.endDate, 'yyyy-MM-dd')}"></div>
+                                        <span th:if="${history.endDate == null}" class="badge badge-current">Current</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm view-btn" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#viewHistoryModal"
                                                 th:attr="data-username=${history.userName},
                                                          data-userdesc=${history.userDescription},
                                                          data-jobrole=${history.jobRole},
                                                          data-assetname=${history.assetName},
                                                          data-assetid=${history.assetId},
+                                                         data-assetserial=${history.assetSerialNumber},
+                                                         data-assetmodel=${history.assetModel},
                                                          data-department=${history.departmentName},
                                                          data-room=${history.roomName},
                                                          data-startdate=${#dates.format(history.startDate, 'yyyy-MM-dd')},
                                                          data-enddate=${history.endDate != null ? #dates.format(history.endDate, 'yyyy-MM-dd') : 'Current'}">
-                                                <i class="fas fa-eye"></i> View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(userHistories)}">
+                                    <td colspan="6" class="text-center py-5 empty-state">
+                                        <i class="fas fa-user-slash"></i>
+                                        <h5 class="text-muted">No history records found</h5>
+                                        <p class="text-muted">Asset assignment history will appear here</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <div class="text-muted small">
+                        Showing <span id="showingCount">1</span> to <span id="totalCount" th:text="${userHistories.size()}">0</span> of <span th:text="${userHistories.size()}">0</span> entries
+                    </div>
+                    <nav>
+                        <ul class="pagination pagination-sm mb-0">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Add New User Modal -->
     <!-- View History Modal -->
     <div class="modal fade" id="viewHistoryModal" tabindex="-1" aria-labelledby="viewHistoryModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content shadow">
-          <div class="modal-header" style="background-color: var(--primary-color); color: var(--text-light);">
-            <h5 class="modal-title" id="viewHistoryModalLabel">User History Details</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item"><strong>User Name:</strong> <span id="modalUserName"></span></li>
-              <li class="list-group-item"><strong>Description:</strong> <span id="modalUserDesc"></span></li>
-              <li class="list-group-item"><strong>Job Role:</strong> <span id="modalJobRole"></span></li>
-              <li class="list-group-item"><strong>Asset:</strong> <span id="modalAssetName"></span> (<span id="modalAssetId"></span>)</li>
-              <li class="list-group-item"><strong>Department:</strong> <span id="modalDepartment"></span></li>
-              <li class="list-group-item"><strong>Start Date:</strong> <span id="modalStartDate"></span></li>
-              <li class="list-group-item"><strong>End Date:</strong> <span id="modalEndDate"></span></li>
-            </ul>
-          </div>
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewHistoryModalLabel">
+                        <i class="fas fa-history"></i>Assignment Details
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0"><i class="fas fa-user"></i>User Information</h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="detail-list">
+                                        <li>
+                                            <span class="detail-label">Name:</span>
+                                            <span class="detail-value" id="modalUserName"></span>
+                                        </li>
+                                        <li>
+                                            <span class="detail-label">Description:</span>
+                                            <span class="detail-value" id="modalUserDesc"></span>
+                                        </li>
+                                        <li>
+                                            <span class="detail-label">Job Role:</span>
+                                            <span class="detail-value" id="modalJobRole"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0"><i class="fas fa-box-open"></i>Asset Information</h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="detail-list">
+                                        <li>
+                                            <span class="detail-label">Asset ID:</span>
+                                            <span class="detail-value" id="modalAssetId"></span>
+                                        </li>
+                                        <li>
+                                            <span class="detail-label">Name:</span>
+                                            <span class="detail-value" id="modalAssetName"></span>
+                                        </li>
+                                        <li>
+                                            <span class="detail-label">Serial Number:</span>
+                                            <span class="detail-value" id="modalAssetSerial"></span>
+                                        </li>
+                                        <li>
+                                            <span class="detail-label">Model:</span>
+                                            <span class="detail-value" id="modalAssetModel"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0"><i class="fas fa-map-marker-alt"></i>Location Information</h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="detail-list">
+                                        <li>
+                                            <span class="detail-label">Department:</span>
+                                            <span class="detail-value" id="modalDepartment"></span>
+                                        </li>
+                                        <li>
+                                            <span class="detail-label">Room:</span>
+                                            <span class="detail-value" id="modalRoom"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0"><i class="fas fa-calendar-alt"></i>Time Period</h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="detail-list">
+                                        <li>
+                                            <span class="detail-label">Start Date:</span>
+                                            <span class="detail-value" id="modalStartDate"></span>
+                                        </li>
+                                        <li>
+                                            <span class="detail-label">End Date:</span>
+                                            <span class="detail-value" id="modalEndDate"></span>
+                                        </li>
+                                        <li>
+                                            <span class="detail-label">Status:</span>
+                                            <span class="detail-value">
+                                                <span id="modalStatusBadge" class="badge"></span>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Close
+                    </button>
+                    <button type="button" class="btn btn-primary-custom">
+                        <i class="fas fa-print me-2"></i>Print Record
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content shadow">
-          <div class="modal-header" style="background-color: var(--primary-color); color: var(--text-light);">
-            <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            
 
     <!-- Footer -->
     <footer class="main-footer">
@@ -701,13 +1341,19 @@
                 <div class="footer-col">
                     <h4>University of Peradeniya</h4>
                     <p>The University of Peradeniya is a leading higher education institution in Sri Lanka, committed to excellence in teaching, research, and innovation.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
                 </div>
                 <div class="footer-col">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="/home">Home</a></li>
-                        <li><a href="/about">About</a></li>
-                        <li><a href="/contactUs">Contact</a></li>
+                        <li><a href="/adminhome">Home</a></li>
+                        <li><a href="/adminabout">About</a></li>
+                        <li><a href="/admincontactUs">Contact</a></li>
                         <li><a th:href="@{/login}">Login</a></li>
                     </ul>
                 </div>
@@ -731,7 +1377,7 @@
             </div>
             <hr class="footer-divider">
             <div class="footer-bottom">
-                <p>&copy; 2023 University of Peradeniya. All rights reserved.</p>
+                <p>&copy; 2025 University of Peradeniya. All rights reserved.</p>
                 <p>Asset Management System v2.1</p>
             </div>
         </div>
@@ -744,132 +1390,96 @@
             document.querySelector('.sidebar').classList.toggle('active');
         });
 
-        // Filter table by user name and room name
+        // Filter table function
         function filterTable() {
             const userNameValue = document.getElementById('userNameFilter').value.toLowerCase();
-            const roomNameValue = document.getElementById('roomNameFilter').value.toLowerCase();
             const assetNameValue = document.getElementById('assetNameFilter').value.toLowerCase();
             const assetIdValue = document.getElementById('assetIdFilter').value.toLowerCase();
-            document.querySelectorAll('tbody tr').forEach(row => {
-                const userNameCell = row.querySelector('.user-name-cell strong');
-                const roomNameCell = row.querySelector('td:nth-child(4) .text-dark:last-child');
-                const assetNameCell = row.querySelector('td:nth-child(3) .fw-semibold.text-primary span');
-                const assetIdCell = row.querySelector('td:nth-child(3) .text-secondary span');
-                let userNameMatch = true;
-                let roomNameMatch = true;
-                let assetNameMatch = true;
-                let assetIdMatch = true;
-                if (userNameCell) {
-                    userNameMatch = userNameCell.textContent.toLowerCase().includes(userNameValue);
-                }
-                if (roomNameCell) {
-                    roomNameMatch = roomNameCell.textContent.toLowerCase().includes(roomNameValue);
-                }
-                if (assetNameCell) {
-                    assetNameMatch = assetNameCell.textContent.toLowerCase().includes(assetNameValue);
-                }
-                if (assetIdCell) {
-                    assetIdMatch = assetIdCell.textContent.toLowerCase().includes(assetIdValue);
-                }
-                if (userNameMatch && roomNameMatch && assetNameMatch && assetIdMatch) {
+            const roomNameValue = document.getElementById('roomNameFilter').value.toLowerCase();
+            
+            let visibleCount = 0;
+            
+            document.querySelectorAll('#historyTableBody tr').forEach(row => {
+                if (row.cells.length < 3) return; // Skip empty state row
+                
+                const userName = row.cells[0].textContent.toLowerCase();
+                const assetName = row.cells[2].textContent.toLowerCase();
+                const assetId = row.cells[2].querySelector('.asset-meta').textContent.toLowerCase();
+                const roomName = row.cells[3].textContent.toLowerCase();
+                
+                const matchesUser = userName.includes(userNameValue);
+                const matchesAssetName = assetName.includes(assetNameValue);
+                const matchesAssetId = assetId.includes(assetIdValue);
+                const matchesRoom = roomName.includes(roomNameValue);
+                
+                if (matchesUser && matchesAssetName && matchesAssetId && matchesRoom) {
                     row.style.display = '';
+                    visibleCount++;
                 } else {
                     row.style.display = 'none';
                 }
             });
+            
+            document.getElementById('showingCount').textContent = visibleCount;
         }
+
+        // Add event listeners to all filter inputs
         document.getElementById('userNameFilter').addEventListener('input', filterTable);
-        document.getElementById('roomNameFilter').addEventListener('input', filterTable);
         document.getElementById('assetNameFilter').addEventListener('input', filterTable);
         document.getElementById('assetIdFilter').addEventListener('input', filterTable);
+        document.getElementById('roomNameFilter').addEventListener('input', filterTable);
+
+        // Sort table function
+        document.getElementById('sortSelect').addEventListener('change', function() {
+            const sortValue = this.value;
+            console.log('Sorting by:', sortValue);
+            // Implement sorting logic here
+        });
 
         // View History Modal: populate modal fields when button is clicked
-        document.querySelectorAll('.view-history-btn').forEach(btn => {
+        document.querySelectorAll('.view-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                document.getElementById('modalUserName').textContent = this.getAttribute('data-username') || '';
-                document.getElementById('modalUserDesc').textContent = this.getAttribute('data-userdesc') || '';
-                document.getElementById('modalJobRole').textContent = this.getAttribute('data-jobrole') || '';
-                document.getElementById('modalAssetName').textContent = this.getAttribute('data-assetname') || '';
-                document.getElementById('modalAssetId').textContent = this.getAttribute('data-assetid') || '';
-                document.getElementById('modalDepartment').textContent = this.getAttribute('data-department') || '';
-                document.getElementById('modalStartDate').textContent = this.getAttribute('data-startdate') || '';
-                document.getElementById('modalEndDate').textContent = this.getAttribute('data-enddate') || '';
+                document.getElementById('modalUserName').textContent = this.getAttribute('data-username') || 'N/A';
+                document.getElementById('modalUserDesc').textContent = this.getAttribute('data-userdesc') || 'N/A';
+                document.getElementById('modalJobRole').textContent = this.getAttribute('data-jobrole') || 'N/A';
+                document.getElementById('modalAssetName').textContent = this.getAttribute('data-assetname') || 'N/A';
+                document.getElementById('modalAssetId').textContent = this.getAttribute('data-assetid') || 'N/A';
+                document.getElementById('modalAssetSerial').textContent = this.getAttribute('data-assetserial') || 'N/A';
+                document.getElementById('modalAssetModel').textContent = this.getAttribute('data-assetmodel') || 'N/A';
+                document.getElementById('modalDepartment').textContent = this.getAttribute('data-department') || 'N/A';
+                document.getElementById('modalRoom').textContent = this.getAttribute('data-room') || 'N/A';
+                document.getElementById('modalStartDate').textContent = this.getAttribute('data-startdate') || 'N/A';
+                
+                const endDate = this.getAttribute('data-enddate');
+                document.getElementById('modalEndDate').textContent = endDate || 'N/A';
+                
+                const statusBadge = document.getElementById('modalStatusBadge');
+                if (endDate === 'Current') {
+                    statusBadge.textContent = 'Current';
+                    statusBadge.className = 'badge badge-current';
+                } else {
+                    statusBadge.textContent = 'Completed';
+                    statusBadge.className = 'badge bg-secondary';
+                }
             });
         });
 
-        // --- Add New User Modal: Asset ID auto-suggest and auto-fill ---
-        document.getElementById('assetId').addEventListener('input', function() {
-            const query = this.value;
-            if (query.length < 1) {
-                document.getElementById('assetIdSuggestions').innerHTML = '';
-                return;
-            }
-            fetch(`/admin/assets/suggest?query=${encodeURIComponent(query)}`)
-                .then(res => res.json())
-                .then(data => {
-                    const suggestions = data.map(asset => `<button type="button" class="list-group-item list-group-item-action" data-id="${asset.assetId}" data-name="${asset.name}" data-serialnumber="${asset.serialNumber}" data-model="${asset.model}">${asset.assetId} - ${asset.name}</button>`).join('');
-                    document.getElementById('assetIdSuggestions').innerHTML = suggestions;
-                    document.querySelectorAll('#assetIdSuggestions button').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            document.getElementById('assetId').value = this.getAttribute('data-id');
-                            document.getElementById('assetName').value = this.getAttribute('data-name');
-                            document.getElementById('assetSerialNumber').value = this.getAttribute('data-serialnumber');
-                            document.getElementById('assetModel').value = this.getAttribute('data-model');
-                            document.getElementById('assetIdSuggestions').innerHTML = '';
-                        });
-                    });
-                });
+        // Initialize tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
         });
 
-        // --- Add New User Modal: User Name auto-suggest and job role auto-fill ---
-        document.getElementById('userNameInput').addEventListener('input', function() {
-            const query = this.value;
-            if (query.length < 1) {
-                document.getElementById('userNameSuggestions').innerHTML = '';
-                return;
-            }
-            fetch(`/admin/users/suggest?query=${encodeURIComponent(query)}`)
-                .then(res => res.json())
-                .then(data => {
-                    const suggestions = data.map(user => `<button type="button" class="list-group-item list-group-item-action" data-name="${user.userName}" data-jobrole="${user.jobRole}">${user.userName}</button>`).join('');
-                    document.getElementById('userNameSuggestions').innerHTML = suggestions;
-                    document.querySelectorAll('#userNameSuggestions button').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            document.getElementById('userNameInput').value = this.getAttribute('data-name');
-                            document.getElementById('jobRoleInput').value = this.getAttribute('data-jobrole');
-                            document.getElementById('userNameSuggestions').innerHTML = '';
-                        });
+        // Add smooth scrolling for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
                     });
-                });
-        });
-
-        // --- Add New User Modal: Form submit ---
-        document.getElementById('addUserForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const payload = {
-                assetId: document.getElementById('assetId').value,
-                assetName: document.getElementById('assetName').value,
-                assetSerialNumber: document.getElementById('assetSerialNumber').value,
-                assetModel: document.getElementById('assetModel').value,
-                userName: document.getElementById('userNameInput').value,
-                jobRole: document.getElementById('jobRoleInput').value,
-                userDescription: document.getElementById('userDescriptionInput').value,
-                departmentName: document.getElementById('departmentInput').value,
-                roomName: document.getElementById('roomInput').value,
-                startDate: document.getElementById('startDateInput').value,
-                endDate: document.getElementById('endDateInput').value
-            };
-            fetch('/admin/assetUser/add', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            })
-            .then(res => {
-                if (res.ok) {
-                    alert('User history added successfully!');
-                    location.reload();
-                } else {
-                    alert('Error saving user history.');
                 }
             });
         });
