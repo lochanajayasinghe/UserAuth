@@ -6,8 +6,8 @@
     <title>Invoice Management | University of Peradeniya</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Your existing styles remain unchanged */
         :root {
             --primary-color: #800000;
             --primary-dark: #600000;
@@ -18,115 +18,19 @@
             --text-light: #f8f9fa;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
-        }
-
-        
-        /* Add these new styles for validation */
-        .error-message {
-            color: #dc3545;
-            font-size: 0.875rem;
-            margin-top: 0.25rem;
-        }
-        .is-invalid {
-            border-color: #dc3545;
-        }
-        .success-message {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            z-index: 1100;
-            animation: fadeInOut 3s ease-in-out;
-        }
-        @keyframes fadeInOut {
-            0% { opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-
-        /* New UI enhancements */
-        .invoice-card {
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            border-left: 4px solid var(--primary-color);
+            --gradient-primary: linear-gradient(135deg, #800000 0%, #a04040 100%);
+            --gradient-light: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
         }
         
-        .invoice-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-        }
-        
-        .invoice-header {
-            background-color: rgba(128, 0, 0, 0.05);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .badge-count {
-            background-color: var(--primary-color);
-            font-size: 0.8rem;
-            padding: 0.35rem 0.6rem;
-        }
-        
-        .table-hover tbody tr:hover {
-            background-color: rgba(128, 0, 0, 0.03);
-        }
-        
-        .table thead th {
-            border-bottom-width: 1px;
-            font-weight: 600;
-            color: var(--primary-dark);
-        }
-        
-        .empty-state {
-            padding: 3rem 1rem;
-            text-align: center;
-            background-color: rgba(128, 0, 0, 0.02);
-            border-radius: 8px;
-        }
-        
-        .empty-state i {
-            color: rgba(128, 0, 0, 0.2);
-            margin-bottom: 1rem;
-        }
-        
-        .modal-header {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .btn-primary-custom {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-        
-        .btn-primary-custom:hover {
-            background-color: var(--primary-dark);
-            border-color: var(--primary-dark);
-        }
-        
-        .form-control:focus {
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 0.25rem rgba(128, 0, 0, 0.1);
-        }
-
-        :root {
-            --primary-color: #800000;
-            --primary-dark: #600000;
-            --primary-light: #a04040;
-            --accent-color: #ffc107;
-            --text-light: #f8f9fa;
-            --text-dark: #343a40;
-            --transition: all 0.3s ease;
-        }
-        
+        /* Base Styles */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             color: var(--text-dark);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            background-color: #f5f5f5;
+            margin: 0;
         }
         
         /* Header Styles */
@@ -160,9 +64,10 @@
         }
         
         .logo-img {
-            height: 40px;
-            margin-right: 10px;
+            height: 50px;
+            margin-right: 15px;
             transition: var(--transition);
+            filter: brightness(1.1) drop-shadow(0 0 2px rgba(0,0,0,0.3));
         }
         
         .logo-img:hover {
@@ -196,22 +101,6 @@
             transform: translateY(-2px);
         }
         
-        .main-nav a:not(.login-btn)::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 50%;
-            background-color: var(--accent-color);
-            transition: var(--transition);
-            transform: translateX(-50%);
-        }
-        
-        .main-nav a:not(.login-btn):hover::after {
-            width: 70%;
-        }
-        
         .login-btn {
             background-color: var(--accent-color);
             color: #212529;
@@ -230,7 +119,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-color: rgba(0, 0, 0, 0.1);
         }
-        
+
         /* Sidebar Styles */
         .sidebar {
             width: 250px;
@@ -289,17 +178,613 @@
         .menu-item:hover::before {
             width: 100%;
         }
-        
-        /* Main Content Styles */
+
+        /* Main Content Styles - Enhanced */
         .main-content {
             flex: 1;
+            padding: 2.5rem;
+            background: var(--gradient-light);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin: 1.5rem;
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 20px 20px 0 0;
+        }
+
+        /* Page Header Styles - Enhanced */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
             padding: 2rem;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin: 1rem;
+            background: var(--gradient-light);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(128, 0, 0, 0.03) 0%, rgba(255, 193, 7, 0.03) 100%);
+            pointer-events: none;
         }
         
+        .page-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .page-title i {
+            margin-right: 15px;
+            padding: 12px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(128, 0, 0, 0.3);
+        }
+        
+        .badge-count {
+            background: var(--gradient-primary);
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            box-shadow: 0 4px 12px rgba(128, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            font-weight: 600;
+        }
+
+        /* Action Bar - Enhanced */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            max-width: 450px;
+            position: relative;
+        }
+        
+        .search-box .input-group {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .search-box .input-group-text {
+            background: var(--gradient-primary);
+            border: none;
+            color: white;
+            padding: 0.8rem 1rem;
+        }
+        
+        .search-box .form-control {
+            border: none;
+            padding: 0.8rem 1rem;
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .search-box .form-control:focus {
+            box-shadow: none;
+            background: white;
+        }
+        
+        .btn-primary-custom {
+            background: var(--gradient-primary);
+            border: none;
+            color: var(--text-light);
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(128, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary-custom:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary-custom:hover {
+            background: linear-gradient(135deg, #600000 0%, #800000 100%);
+            color: var(--text-light);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(128, 0, 0, 0.4);
+        }
+        
+        .btn-primary-custom i {
+            margin-right: 10px;
+        }
+
+        /* Card Styles - Enhanced */
+        .invoice-card {
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            border: none;
+            overflow: hidden;
+            background: var(--gradient-light);
+            position: relative;
+        }
+
+        .invoice-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .invoice-card .card-header {
+            background: rgba(128, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(128, 0, 0, 0.1);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .invoice-card .card-header strong {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        
+        .invoice-card .card-header i {
+            margin-right: 10px;
+            padding: 8px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .table {
+            margin-bottom: 0;
+            background: white;
+        }
+        
+        .table thead th {
+            border-bottom: 2px solid rgba(128, 0, 0, 0.1);
+            font-weight: 600;
+            color: var(--primary-dark);
+            background: linear-gradient(135deg, rgba(128, 0, 0, 0.05) 0%, rgba(255, 193, 7, 0.05) 100%);
+            padding: 1.2rem 1.5rem;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .table thead th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            opacity: 0.3;
+        }
+        
+        .table tbody td {
+            padding: 1.2rem 1.5rem;
+            vertical-align: middle;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 0.95rem;
+        }
+        
+        .table-hover tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        .table-hover tbody tr:hover {
+            background: linear-gradient(135deg, rgba(128, 0, 0, 0.03) 0%, rgba(255, 193, 7, 0.03) 100%);
+            transform: translateX(5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .empty-state {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(128, 0, 0, 0.02) 0%, rgba(255, 193, 7, 0.02) 100%);
+            border-radius: 16px;
+            margin: 2rem;
+        }
+        
+        .empty-state i {
+            color: rgba(128, 0, 0, 0.3);
+            margin-bottom: 1.5rem;
+            font-size: 3rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+        
+        .empty-state p {
+            color: #6c757d;
+            margin-bottom: 0;
+            font-size: 1.1rem;
+        }
+
+        /* Modal Styles - Enhanced */
+        .modal-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .modal-title {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .modal-title i {
+            margin-right: 12px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+            background: var(--gradient-light);
+        }
+        
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.7rem;
+            color: var(--primary-dark);
+        }
+        
+        .form-control {
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 0.25rem rgba(128, 0, 0, 0.1);
+            background: white;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .is-invalid {
+            border-color: #dc3545;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .is-invalid + .error-message {
+            display: block;
+        }
+
+        /* Success Message - Enhanced */
+        .success-message {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            z-index: 1100;
+            animation: slideInRight 0.5s ease-out, fadeOut 0.5s ease-in 2.5s forwards;
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+            font-weight: 500;
+        }
+        
+        .success-message i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100%); }
+        }
+
+        /* View Button - Enhanced */
+        .view-btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            transition: var(--transition);
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(128, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .view-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .view-btn:hover::before {
+            left: 100%;
+        }
+        
+        .view-btn:hover {
+            background: linear-gradient(135deg, #600000 0%, #800000 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(128, 0, 0, 0.3);
+        }
+        
+        .view-btn i {
+            margin-right: 6px;
+        }
+
+        /* Item Count Badge */
+        .item-count-badge {
+            background: var(--gradient-primary);
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem 0.8rem;
+            border-radius: 25px;
+            box-shadow: 0 2px 8px rgba(128, 0, 0, 0.2);
+        }
+
+        /* Vendor Suggestions */
+        #vendor-suggest-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        #vendor-suggest-list button {
+            border: none;
+            background: white;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            transition: var(--transition);
+        }
+
+        #vendor-suggest-list button:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .footer-col {
+                width: 50%;
+            }
+            
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+            
+            .menu-text {
+                display: none;
+            }
+            
+            .menu-item {
+                justify-content: center;
+                padding: 0.8rem 0.5rem;
+            }
+            
+            .menu-item i {
+                margin-right: 0;
+            }
+
+            .main-content {
+                margin: 1rem;
+                padding: 2rem;
+            }
+
+            .page-header {
+                padding: 1.5rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .main-nav {
+                margin-top: 1rem;
+                width: 100%;
+            }
+            
+            .main-nav ul {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .main-nav li {
+                margin: 0.3rem;
+            }
+            
+            .footer-col {
+                width: 100%;
+            }
+            
+            .sidebar {
+                position: fixed;
+                height: 100vh;
+                top: 0;
+                z-index: 900;
+                transform: translateX(-100%);
+                padding-top: 60px;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .mobile-menu-btn {
+                display: block !important;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: white;
+                cursor: pointer;
+                margin-right: 1rem;
+                transition: var(--transition);
+            }
+            
+            .mobile-menu-btn:hover {
+                color: var(--accent-color);
+                transform: scale(1.1);
+            }
+            
+            .main-content {
+                margin: 0.5rem;
+                padding: 1.5rem;
+                border-radius: 16px;
+            }
+            
+            .action-bar {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 1rem;
+            }
+            
+            .search-box {
+                max-width: 100%;
+                min-width: auto;
+            }
+            
+            .btn-primary-custom {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .page-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+        }
         /* Footer Styles */
         .main-footer {
             background-color: var(--primary-color);
@@ -433,167 +918,6 @@
             font-size: 0.9rem;
         }
         
-        /* Button Styles */
-        .btn-hero {
-            padding: 0.8rem 1.8rem;
-            font-weight: 600;
-            border-radius: 4px;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .btn-hero-primary {
-            background-color: var(--accent-color);
-            color: #212529;
-            border: 2px solid transparent;
-        }
-        
-        .btn-hero-primary:hover {
-            background-color: #e0a800;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .btn-hero-outline {
-            border: 2px solid white;
-            color: white;
-            background-color: transparent;
-        }
-        
-        .btn-hero-outline:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* Card Styles */
-        .feature-card {
-            border: none;
-            border-radius: 8px;
-            transition: var(--transition);
-            height: 100%;
-            border-top: 4px solid var(--primary-color);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Responsive Adjustments */
-        @media (max-width: 992px) {
-            .footer-col {
-                width: 50%;
-            }
-            
-            .sidebar {
-                width: 70px;
-                overflow: hidden;
-            }
-            
-            .menu-text {
-                display: none;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .main-nav {
-                margin-top: 1rem;
-                width: 100%;
-            }
-            
-            .main-nav ul {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            
-            .main-nav li {
-                margin: 0.3rem;
-            }
-            
-            .footer-col {
-                width: 100%;
-            }
-            
-            .sidebar {
-                position: fixed;
-                height: 100vh;
-                top: 0;
-                z-index: 900;
-                transform: translateX(-100%);
-                padding-top: 60px;
-            }
-            
-            .sidebar.active {
-                transform: translateX(0);
-            }
-            
-            .mobile-menu-btn {
-                display: block !important;
-                background: none;
-                border: none;
-                font-size: 1.5rem;
-                color: white;
-                cursor: pointer;
-                margin-right: 1rem;
-                transition: var(--transition);
-            }
-            
-            .mobile-menu-btn:hover {
-                color: var(--accent-color);
-                transform: scale(1.1);
-            }
-            
-            .btn-hero {
-                padding: 0.7rem 1.5rem;
-                font-size: 0.9rem;
-                margin-bottom: 0.5rem;
-            }
-        }
-        
-        .mobile-menu-btn {
-            display: none;
-        }
-
-        /* Add this to your style section */
-.all-invoices-heading {
-    color: var(--primary-color) !important;
-}
-
-.item-count-badge {
-    background-color: var(--primary-color) !important;
-    color: white !important;
-}
-
-.btn-primary-custom {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    color: var(--text-light);
-}
-
-.btn-primary-custom:hover {
-    background-color: var(--primary-dark);
-    border-color: var(--primary-dark);
-    color: var(--text-light);
-}
-
-.btn-view {
-    background-color: var(--primary-color);
-    color: var(--text-light);
-    border-color: var(--primary-dark);
-}
-
-.btn-view:hover {
-    background-color: var(--primary-dark);
-    color: var(--text-light);
-}
     </style>
 </head>
 <body>
@@ -621,18 +945,17 @@
 
     <!-- Success Message Alert -->
     <div th:if="${success}" class="alert alert-success success-message" role="alert">
-        Invoice added successfully!
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <i class="fas fa-check-circle me-2"></i>Invoice added successfully!
     </div>
 
     <!-- Main Content -->
     <div class="d-flex flex-grow-1">
-        <!-- Sidebar (unchanged) -->
+        <!-- Sidebar -->
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/admin/home" class="menu-item ">Dashboard</a></li>
-                    <li><a href="/admin/adminStaff" class="menu-item ">Staff</a></li>
+                    <li><a href="/admin/home" class="menu-item">Dashboard</a></li>
+                    <li><a href="/admin/adminStaff" class="menu-item">Staff</a></li>
                     <li><a href="/admin/adminUserHistory" class="menu-item">User History</a></li>
                     <li><a href="/admin/adminMaintain" class="menu-item">Maintain</a></li>
                     <li><a href="/admin/adminCondemn" class="menu-item">Condemn</a></li>
@@ -642,252 +965,283 @@
                     <li><a href="/admin/adminMovement" class="menu-item">Movement</a></li>
                 </ul>
             </nav>
-            </nav>
         </aside>
 
         <!-- Main Content Area -->
         <main class="main-content">
-            <div class="container mt-4">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="mb-0" style="color: #800000;">
-                        <i class="fas fa-file-invoice me-2"></i>Invoice Management
-                    </h2>
-                    <span class="badge badge-count text-white">
-                        <span th:text="${invoices.size()}">0</span> invoices
-                    </span>
-                </div>
+            <div class="page-header">
+                <h2 class="page-title">
+                    <i class="fas fa-file-invoice"></i>Invoice Management
+                </h2>
+                <span class="badge badge-count text-white">
+                    <span th:text="${invoices.size()}">0</span> invoices
+                </span>
+            </div>
 
-                <!-- Add New Invoice Button -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <form th:action="@{/admin/adminInvoice}" method="get" class="search-box" style="width: 300px;">
-                        <div class="input-group">
-                            <span class="input-group-text bg-white border-end-0">
-                                <i class="fas fa-search text-muted"></i>
-                            </span>
-                            <input type="text" class="form-control border-start-0" name="invoiceNumberFilter" th:value="${invoiceNumberFilter}" placeholder="Filter by Invoice Number...">
-                            <button type="submit" class="btn btn-primary-custom">Filter</button>
-                        </div>
-                    </form>
-                    <button type="button" class="btn btn-primary-custom" 
-                            data-bs-toggle="modal" data-bs-target="#addInvoiceModal"
-                            style="color: var(--text-light);">
-                        <i class="fas fa-plus-circle me-2"></i> Add New Invoice
-                    </button>
-                </div>
-
-                <!-- Add Invoice Modal -->
-                <div class="modal fade" id="addInvoiceModal" tabindex="-1" aria-labelledby="addInvoiceModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <form th:action="@{/admin/adminInvoice/add}" th:object="${invoice}" method="post">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="addInvoiceModalLabel">
-                                        <i class="fas fa-file-invoice me-2"></i>Add New Invoice
-                                    </h5>
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    
-                                    <!-- Invoice Number Field -->
-                                    <div class="mb-3">
-                                        <label for="invoiceNumber" class="form-label">Invoice Number *</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">
-                                                <i class="fas fa-hashtag"></i>
-                                            </span>
-                                            <input type="text" class="form-control" id="invoiceNumber" 
-                                                   th:field="*{invoiceNumber}"
-                                                   th:classappend="${#fields.hasErrors('invoiceNumber')} ? 'is-invalid' : ''"
-                                                   placeholder="e.g., INV-2023-001" required>
-                                        </div>
-                                        <div th:if="${#fields.hasErrors('invoiceNumber')}" th:errors="*{invoiceNumber}" class="error-message"></div>
-                                    </div>
-
-                                    <!-- Order ID Field -->
-                                    <div class="mb-3">
-                                        <label for="orderId" class="form-label">Order ID *</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">
-                                                <i class="fas fa-barcode"></i>
-                                            </span>
-                                            <input type="text" class="form-control" id="orderId" 
-                                                   th:field="*{orderId}"
-                                                   th:classappend="${#fields.hasErrors('orderId')} ? 'is-invalid' : ''"
-                                                   placeholder="e.g., ORD-2023-001" required>
-                                        </div>
-                                        <div th:if="${#fields.hasErrors('orderId')}" th:errors="*{orderId}" class="error-message"></div>
-                                    </div>
-                                    
-                                    <!-- Invoice Date Field -->
-                                    <div class="mb-3">
-                                        <label for="invoiceDate" class="form-label">Invoice Date *</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">
-                                                <i class="fas fa-calendar-alt"></i>
-                                            </span>
-                                            <input type="date" class="form-control" id="invoiceDate" 
-                                                   th:field="*{invoiceDate}"
-                                                   th:classappend="${#fields.hasErrors('invoiceDate')} ? 'is-invalid' : ''"
-                                                   required>
-                                        </div>
-                                        <div th:if="${#fields.hasErrors('invoiceDate')}" th:errors="*{invoiceDate}" class="error-message"></div>
-                                    </div>
-                                    <!-- Invoice Cost Field -->
-                                    <div class="mb-3">
-                                        <label for="invoiceCost" class="form-label">Invoice Cost *</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">
-                                                <i class="fas fa-money-bill-wave"></i>
-                                            </span>
-                                            <input type="text" class="form-control" id="invoiceCost" 
-                                                   th:field="*{invoiceCost}"
-                                                   th:classappend="${#fields.hasErrors('invoiceCost')} ? 'is-invalid' : ''"
-                                                   placeholder="e.g., 100.00" required>
-                                        </div>
-                                        <div th:if="${#fields.hasErrors('invoiceCost')}" th:errors="*{invoiceCost}" class="error-message"></div>
-                                    </div>
-
-                                    <!-- Vender Name Field -->
-                                    <div class="mb-3 position-relative">
-                                        <label for="venderName" class="form-label">Vendor Name *</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">
-                                                <i class="fas fa-user-tie"></i>
-                                            </span>
-                                            <input type="text" class="form-control" id="venderName"
-                                                   th:field="*{venderName}"
-                                                   th:classappend="${#fields.hasErrors('venderName')} ? 'is-invalid' : ''"
-                                                   placeholder="e.g., ABC Suppliers" autocomplete="off" required>
-                                            <div id="vendor-suggest-list" class="list-group position-absolute w-100" style="z-index: 1000; top: 100%; left: 0; display: none;"></div>
-                                        </div>
-                                        <div th:if="${#fields.hasErrors('venderName')}", th:errors="*{venderName}" class="error-message"></div>
-                                    </div>
-
-                                    <!-- Vendor Address Field -->
-                                    <div class="mb-3">
-                                        <label for="address" class="form-label">Vendor Address *</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">
-                                                <i class="fas fa-map-marker-alt"></i>
-                                            </span>
-                                            <input type="text" class="form-control" id="address"
-                                                   th:field="*{address}"
-                                                   th:classappend="${#fields.hasErrors('address')} ? 'is-invalid' : ''"
-                                                   placeholder="e.g., 123 Main St, Kandy" required readonly>
-                                        </div>
-                                        <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error-message"></div>
-                                    </div>
-
-                                    <!-- Vendor Contact No Field -->
-                                    <div class="mb-3">
-                                        <label for="contactNo" class="form-label">Vendor Contact No *</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">
-                                                <i class="fas fa-phone"></i>
-                                            </span>
-                                            <input type="text" class="form-control" id="contactNo"
-                                                   th:field="*{contactNo}"
-                                                   th:classappend="${#fields.hasErrors('contactNo')} ? 'is-invalid' : ''"
-                                                   placeholder="e.g., 0771234567" required readonly>
-                                        </div>
-                                        <div th:if="${#fields.hasErrors('contactNo')}" th:errors="*{contactNo}" class="error-message"></div>
-                                    </div>
-                                    <!-- Item Count Field -->
-                                    <div class="mb-3">
-                                        <label for="itemCount" class="form-label">Item Count *</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">
-                                                <i class="fas fa-cubes"></i>
-                                            </span>
-                                            <input type="number" class="form-control" id="itemCount" 
-                                                   th:field="*{itemCount}"
-                                                   th:classappend="${#fields.hasErrors('itemCount')} ? 'is-invalid' : ''"
-                                                   min="1" required>
-                                        </div>
-                                        <div th:if="${#fields.hasErrors('itemCount')}" th:errors="*{itemCount}" class="error-message"></div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                        <i class="fas fa-times me-2"></i>Cancel
-                                    </button>
-                                    <button type="submit" class="btn btn-primary-custom">
-                                        <i class="fas fa-save me-2"></i> Save Invoice
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+            <!-- Search and Add Button -->
+            <div class="action-bar">
+                <form th:action="@{/admin/adminInvoice}" method="get" class="search-box">
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" class="form-control" name="invoiceNumberFilter" th:value="${invoiceNumberFilter}" placeholder="Filter by Invoice Number...">
+                        <button type="submit" class="btn btn-primary-custom">Filter</button>
                     </div>
+                </form>
+                <button type="button" class="btn btn-primary-custom" 
+                        data-bs-toggle="modal" data-bs-target="#addInvoiceModal">
+                    <i class="fas fa-plus-circle me-2"></i> Add New Invoice
+                </button>
+            </div>
+
+            <!-- Invoices Table -->
+            <div class="card invoice-card">
+                <div class="card-header">
+                    <strong>
+                        <i class="fas fa-list me-2"></i> All Invoices
+                    </strong>
+                    <span class="text-muted small">Showing <span th:text="${invoices.size()}">0</span> records</span>
                 </div>
-
-                
-
-                <!-- Invoices Table -->
-                <div class="card invoice-card">
-                    <div class="card-header invoice-header d-flex justify-content-between align-items-center">
-                        <!-- Change the All Invoices heading -->
-                        <strong class="all-invoices-heading">
-                            <i class="fas fa-list me-2"></i>All Invoices
-                        </strong>
-
-                        <div class="d-flex align-items-center">
-                            <span class="text-muted small me-3">Showing <span th:text="${invoices.size()}">0</span> records</span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr class="table-light">
-                                        <th><i class="fas fa-hashtag me-2"></i>Invoice Number</th>
-                                        <th><i class="fas fa-barcode me-2"></i>Order ID</th>
-                                        <th><i class="fas fa-calendar-alt me-2"></i>Date</th>
-                                        <th><i class="fas fa-money-bill-wave me-2"></i>Cost</th>
-                                        <th class="text-end"><i class="fas fa-cubes me-2"></i>Items</th>
-                                        <th class="text-end">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="invoice : ${invoices}">
-                                        <td>
-                                            <i class="fas fa-file-invoice text-muted me-2"></i>
-                                            <span th:text="${invoice.invoiceNumber}">INV-2023-001</span>
-                                        </td>
-                                        <td>
-                                            <span th:text="${invoice.orderId}">ORD-2023-001</span>
-                                        </td>
-                                        <td th:text="${#temporals.format(invoice.invoiceDate, 'yyyy-MM-dd')}">2023-07-01</td>
-                                        <td th:text="${invoice.invoiceCost}">100.00</td>
-                                        <td class="text-end">
-                                            <span class="badge item-count-badge rounded-pill" th:text="${invoice.itemCount}">5</span>
-                                        </td>
-                                       <td class="text-end">
-                                            <a th:href="@{'/admin/adminInvoice/view/' + ${invoice.invoiceNumber}}" 
-                                                class="btn btn-sm" 
-                                                style="background-color: #800000; color: white; border-color: #600000;">
-                                                <i class="fas fa-eye"></i> View
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr th:if="${#lists.isEmpty(invoices)}">
-                                        <td colspan="3" class="text-center text-muted py-4 empty-state">
-                                            <i class="fas fa-file-invoice fa-3x mb-3"></i>
-                                            <h5 class="mb-2">No invoices found</h5>
-                                            <p class="mb-0">Add your first invoice by clicking the button above</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-hashtag me-2"></i>Invoice Number</th>
+                                    <th><i class="fas fa-barcode me-2"></i>Order ID</th>
+                                    <th><i class="fas fa-calendar-alt me-2"></i>Date</th>
+                                    <th><i class="fas fa-money-bill-wave me-2"></i>Cost</th>
+                                    <th class="text-end"><i class="fas fa-cubes me-2"></i>Items</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="invoice : ${invoices}">
+                                    <td>
+                                        <i class="fas fa-file-invoice text-muted me-2"></i>
+                                        <span th:text="${invoice.invoiceNumber}">INV-2023-001</span>
+                                    </td>
+                                    <td th:text="${invoice.orderId}">ORD-2023-001</td>
+                                    <td th:text="${#temporals.format(invoice.invoiceDate, 'yyyy-MM-dd')}">2023-07-01</td>
+                                    <td th:text="${invoice.invoiceCost}">100.00</td>
+                                    <td class="text-end">
+                                        <span class="badge item-count-badge" th:text="${invoice.itemCount}">5</span>
+                                    </td>
+                                    <td class="text-end">
+                                        <a th:href="@{'/admin/adminInvoice/view/' + ${invoice.invoiceNumber}}" 
+                                           class="btn btn-sm view-btn">
+                                            <i class="fas fa-eye me-2"></i>View
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(invoices)}">
+                                    <td colspan="6" class="text-center py-4 empty-state">
+                                        <i class="fas fa-file-invoice"></i>
+                                        <p class="mt-2">No invoices found. Add your first invoice!</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Footer (unchanged) -->
+    <!-- Add Invoice Modal -->
+    <div class="modal fade" id="addInvoiceModal" tabindex="-1" aria-labelledby="addInvoiceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form th:action="@{/admin/adminInvoice/add}" th:object="${invoice}" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addInvoiceModalLabel">
+                            <i class="fas fa-file-invoice me-2"></i>Add New Invoice
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Invoice Number Field -->
+                        <div class="mb-3">
+                            <label for="invoiceNumber" class="form-label">Invoice Number *</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-hashtag"></i>
+                                </span>
+                                <input type="text" class="form-control" id="invoiceNumber" 
+                                       th:field="*{invoiceNumber}"
+                                       th:classappend="${#fields.hasErrors('invoiceNumber')} ? 'is-invalid' : ''"
+                                       placeholder="e.g., INV-2023-001" required>
+                            </div>
+                            <div th:if="${#fields.hasErrors('invoiceNumber')}" th:errors="*{invoiceNumber}" class="error-message"></div>
+                        </div>
+
+                        <!-- Order ID Field -->
+                        <div class="mb-3">
+                            <label for="orderId" class="form-label">Order ID *</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-barcode"></i>
+                                </span>
+                                <input type="text" class="form-control" id="orderId" 
+                                       th:field="*{orderId}"
+                                       th:classappend="${#fields.hasErrors('orderId')} ? 'is-invalid' : ''"
+                                       placeholder="e.g., ORD-2023-001" required>
+                            </div>
+                            <div th:if="${#fields.hasErrors('orderId')}" th:errors="*{orderId}" class="error-message"></div>
+                        </div>
+                        
+                        <!-- Invoice Date Field -->
+                        <div class="mb-3">
+                            <label for="invoiceDate" class="form-label">Invoice Date *</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </span>
+                                <input type="date" class="form-control" id="invoiceDate" 
+                                       th:field="*{invoiceDate}"
+                                       th:classappend="${#fields.hasErrors('invoiceDate')} ? 'is-invalid' : ''"
+                                       required>
+                            </div>
+                            <div th:if="${#fields.hasErrors('invoiceDate')}" th:errors="*{invoiceDate}" class="error-message"></div>
+                        </div>
+                        
+                        <!-- Invoice Cost Field -->
+                        <div class="mb-3">
+                            <label for="invoiceCost" class="form-label">Invoice Cost *</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </span>
+                                <input type="text" class="form-control" id="invoiceCost" 
+                                       th:field="*{invoiceCost}"
+                                       th:classappend="${#fields.hasErrors('invoiceCost')} ? 'is-invalid' : ''"
+                                       placeholder="e.g., 100.00" required>
+                            </div>
+                            <div th:if="${#fields.hasErrors('invoiceCost')}" th:errors="*{invoiceCost}" class="error-message"></div>
+                        </div>
+
+                        <!-- Vender Name Field -->
+                        <div class="mb-3 position-relative">
+                            <label for="venderName" class="form-label">Vendor Name *</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user-tie"></i>
+                                </span>
+                                <input type="text" class="form-control" id="venderName"
+                                       th:field="*{venderName}"
+                                       th:classappend="${#fields.hasErrors('venderName')} ? 'is-invalid' : ''"
+                                       placeholder="e.g., ABC Suppliers" autocomplete="off" required>
+                                <div id="vendor-suggest-list" class="list-group position-absolute w-100" style="z-index: 1000; top: 100%; left: 0; display: none;"></div>
+                            </div>
+                            <div th:if="${#fields.hasErrors('venderName')}" th:errors="*{venderName}" class="error-message"></div>
+                        </div>
+
+                        <!-- Vendor Address Field -->
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Vendor Address *</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </span>
+                                <input type="text" class="form-control" id="address"
+                                       th:field="*{address}"
+                                       th:classappend="${#fields.hasErrors('address')} ? 'is-invalid' : ''"
+                                       placeholder="e.g., 123 Main St, Kandy" required readonly>
+                            </div>
+                            <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error-message"></div>
+                        </div>
+
+                        <!-- Vendor Contact No Field -->
+                        <div class="mb-3">
+                            <label for="contactNo" class="form-label">Vendor Contact No *</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-phone"></i>
+                                </span>
+                                <input type="text" class="form-control" id="contactNo"
+                                       th:field="*{contactNo}"
+                                       th:classappend="${#fields.hasErrors('contactNo')} ? 'is-invalid' : ''"
+                                       placeholder="e.g., 0771234567" required readonly>
+                            </div>
+                            <div th:if="${#fields.hasErrors('contactNo')}" th:errors="*{contactNo}" class="error-message"></div>
+                        </div>
+                        
+                        <!-- Item Count Field -->
+                        <div class="mb-3">
+                            <label for="itemCount" class="form-label">Item Count *</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-cubes"></i>
+                                </span>
+                                <input type="number" class="form-control" id="itemCount" 
+                                       th:field="*{itemCount}"
+                                       th:classappend="${#fields.hasErrors('itemCount')} ? 'is-invalid' : ''"
+                                       min="1" required>
+                            </div>
+                            <div th:if="${#fields.hasErrors('itemCount')}" th:errors="*{itemCount}" class="error-message"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary-custom">
+                            <i class="fas fa-save me-2"></i> Save Invoice
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
     <footer class="main-footer">
-        <!-- Your existing footer content -->
+        <div class="footer-container">
+            <div class="footer-row">
+                <div class="footer-col">
+                    <h4>University of Peradeniya</h4>
+                    <p>The University of Peradeniya is a leading higher education institution in Sri Lanka, committed to excellence in teaching, research, and innovation.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/adminhome">Home</a></li>
+                        <li><a href="/adminabout">About</a></li>
+                        <li><a href="/admincontactUs">Contact</a></li>
+                        <li><a th:href="@{/login}">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">User Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Training Videos</a></li>
+                        <li><a href="#">System Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe to receive updates and system announcements.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="footer-bottom">
+                <p>&copy; 2025 University of Peradeniya. All rights reserved.</p>
+                <p>Asset Management System v2.1</p>
+            </div>
+        </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -940,21 +1294,11 @@
                 vendorSuggestList.style.display = 'none';
             }
         });
-    </script>
-    <script>
+
         // Mobile menu toggle
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
             document.querySelector('.sidebar').classList.toggle('active');
         });
-
-        // Auto-close success message after 3 seconds
-        const successAlert = document.querySelector('.success-message');
-        if (successAlert) {
-            setTimeout(() => {
-                const alert = bootstrap.Alert.getOrCreateInstance(successAlert);
-                alert.close();
-            }, 3000);
-        }
 
         // Show modal if there are validation errors
         document.addEventListener('DOMContentLoaded', function() {
