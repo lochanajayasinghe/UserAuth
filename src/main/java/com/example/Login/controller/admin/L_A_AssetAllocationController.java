@@ -114,11 +114,16 @@ public class L_A_AssetAllocationController {
         if (!asset.isActivityStatus()) {
             return "Error: This asset is condemned and cannot be assigned.";
         }
-        // Prevent assignment if asset is already currently assigned (endDate == null)
-        boolean alreadyAssigned = assetUserRepository.findAll().stream()
-            .anyMatch(u -> assetId.equals(u.getAsset().getAssetId()) && u.getEndDate() == null);
-        if (alreadyAssigned) {
-            return "Error: That asset is already assigned and currently in use.";
+        // If asset is already assigned, end previous assignment
+        List<AssetUser> currentAssignments = assetUserRepository.findAll().stream()
+            .filter(u -> assetId.equals(u.getAsset().getAssetId()) && u.getEndDate() == null)
+            .toList();
+        if (!currentAssignments.isEmpty()) {
+            java.util.Date today = new java.util.Date();
+            for (AssetUser u : currentAssignments) {
+                u.setEndDate(today);
+                assetUserRepository.save(u);
+            }
         }
         AssetUser assetUser = new AssetUser();
         assetUser.setUserId(userId);
