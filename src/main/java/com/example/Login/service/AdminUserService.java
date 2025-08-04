@@ -3,6 +3,8 @@ package com.example.Login.service;
 import com.example.Login.dto.UserDto;
 import com.example.Login.model.User;
 import com.example.Login.repository.UserRepository;
+import com.example.Login.repository.RoleRepository;
+import com.example.Login.model.Role;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
@@ -10,11 +12,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class AdminUserService {
-
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public AdminUserService(UserRepository userRepository) {
+    public AdminUserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     public List<UserDto> getAllUsers() {
@@ -25,7 +28,7 @@ public class AdminUserService {
 
     private UserDto convertToDto(User user) {
         Set<String> roleNames = user.getRoles().stream()
-                .map(role -> role.getName())
+                .map(Role::getName)
                 .collect(Collectors.toSet());
 
         return new UserDto(
@@ -36,5 +39,16 @@ public class AdminUserService {
                 roleNames,
                 user.isEnabled()
         );
+    }
+
+    public void updateUserRoles(Long userId, List<String> roles) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
+        Set<Role> newRoles = roles.stream()
+                .map(roleName -> roleRepository.findByName(roleName)
+                        .orElseThrow(() -> new IllegalArgumentException("Role not found: " + roleName)))
+                .collect(Collectors.toSet());
+        user.setRoles(newRoles);
+        userRepository.save(user);
     }
 }
