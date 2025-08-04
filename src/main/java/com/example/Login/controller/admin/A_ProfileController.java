@@ -21,21 +21,10 @@ public class A_ProfileController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/profile")
     public String showProfile(Model model, Authentication authentication) {
-        // DEBUG: Print all users to the console and their usernames for case/whitespace issues
-        System.out.println("--- ALL USERS IN DATABASE ---");
-        for (User u : userRepository.findAll()) {
-            System.out.println("username: [" + u.getUsername() + "] enabled: " + u.isEnabled() + " email: " + u.getEmail() + " fullName: " + u.getFullName());
-        }
-        // Use the exact username from the database, trimmed and lowercased for safety
-        String username = "sashinlochana";
-        username = username.trim();
-        User user = null;
-        for (User u : userRepository.findAll()) {
-            if (u.getUsername() != null && u.getUsername().trim().equalsIgnoreCase(username)) {
-                user = u;
-                break;
-            }
-        }
+        String username = authentication.getName();
+        // Try to find by username first, then by email if not found
+        User user = userRepository.findByUsername(username)
+                .orElseGet(() -> userRepository.findByEmail(username).orElse(null));
         if (user != null) {
             model.addAttribute("username", user.getUsername());
             model.addAttribute("fullName", user.getFullName());
