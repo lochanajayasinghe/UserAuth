@@ -3,9 +3,12 @@ package com.example.Login.controller.admin;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.Login.model.Asset;
+import com.example.Login.model.User;
+import com.example.Login.repository.UserRepository;
 import com.example.Login.service.H_AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,14 +68,33 @@ public class H_A_AssetController {
         model.addAttribute("invoiceNumbers", invoiceService.getAllInvoiceNumbers());
         return "Asset/admin/AddAsset";
     }
-    // Show all assets and provide empty asset for modal form
+    // Show all assets and provide empty asset for modal form, also add user info for header
     @GetMapping("/adminAsset")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DIRECTOR')")
-    public String showAssets(Model model) {
+    public String showAssets(Model model, Authentication authentication) {
         model.addAttribute("assets", assetService.getAllAssets());
         model.addAttribute("deletedAssets", assetService.getDeletedAssets());
         model.addAttribute("asset", new Asset());
         model.addAttribute("invoiceNumbers", invoiceService.getAllInvoiceNumbers());
+        // Add user info for header
+        if (authentication != null) {
+            String username = authentication.getName();
+            User user = userRepository.findByUsername(username).orElse(null);
+            if (user != null) {
+                model.addAttribute("username", user.getUsername());
+                model.addAttribute("email", user.getEmail());
+                String role = user.getRoles().stream().findFirst().map(r -> r.getName().replace("ROLE_", "")).orElse("");
+                model.addAttribute("role", role);
+            } else {
+                model.addAttribute("username", username);
+                model.addAttribute("email", "");
+                model.addAttribute("role", "");
+            }
+        } else {
+            model.addAttribute("username", "");
+            model.addAttribute("email", "");
+            model.addAttribute("role", "");
+        }
         return "Asset/admin/AddAsset";
     }
 
@@ -89,5 +111,7 @@ public class H_A_AssetController {
         model.addAttribute("invoiceNumbers", invoiceService.getAllInvoiceNumbers());
         return "Asset/admin/AddAsset";
     }
+    @Autowired
+    private UserRepository userRepository;
 
 }
