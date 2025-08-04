@@ -1,6 +1,10 @@
 
 package com.example.Login.controller.admin;
 
+import com.example.Login.model.User;
+import com.example.Login.repository.UserRepository;
+import org.springframework.security.core.Authentication;
+
 import com.example.Login.model.Maintain;
 import com.example.Login.repository.S_MaintainRepository;
 import com.example.Login.repository.AssetRepository;
@@ -16,6 +20,11 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/admin/adminMaintain")
 public class S_A_MaintainController {
+    private final UserRepository userRepository;
+
+    public S_A_MaintainController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Autowired
     private S_MaintainRepository maintainRepository;
@@ -25,13 +34,34 @@ public class S_A_MaintainController {
 
     // List all maintenance records (not deleted)
     @GetMapping
-    public String listMaintains(Model model) {
+    public String listMaintains(Model model, Authentication authentication) {
         List<Maintain> maintains = maintainRepository.findAll().stream()
             .filter(m -> !m.isDeleted())
             .toList();
         model.addAttribute("maintains", maintains);
         model.addAttribute("maintain", new Maintain()); // For modal or form
         model.addAttribute("assets", assetRepository.findAll());
+
+        // Add user info for header
+        if (authentication != null) {
+            String username = authentication.getName();
+            User user = userRepository.findByUsername(username).orElse(null);
+            if (user != null) {
+                model.addAttribute("username", user.getUsername());
+                model.addAttribute("email", user.getEmail());
+                String role = user.getRoles().stream().findFirst().map(r -> r.getName().replace("ROLE_", "")).orElse("");
+                model.addAttribute("role", role);
+            } else {
+                model.addAttribute("username", username);
+                model.addAttribute("email", "");
+                model.addAttribute("role", "");
+            }
+        } else {
+            model.addAttribute("username", "");
+            model.addAttribute("email", "");
+            model.addAttribute("role", "");
+        }
+
         return "Maintain/admin/list";
     }
 
