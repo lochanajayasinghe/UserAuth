@@ -91,13 +91,59 @@ public class AdminDirectorController {
     //     return "Asset/admin/Asset";
     // }
     @GetMapping("/admin/adminAssetAllocation")
-    public String AdminAssetAllocation(Model model) {
+    public String AdminAssetAllocation(Model model, Authentication authentication) {
+        if (authentication != null) {
+            String username = authentication.getName();
+            User user = userRepository.findByUsername(username).orElse(null);
+            if (user != null) {
+                model.addAttribute("username", user.getUsername());
+                model.addAttribute("email", user.getEmail());
+                String role = user.getRoles().stream().findFirst().map(r -> r.getName().replace("ROLE_", "")).orElse("");
+                model.addAttribute("role", role);
+            } else {
+                model.addAttribute("username", username);
+                model.addAttribute("email", "");
+                model.addAttribute("role", "");
+            }
+        } else {
+            model.addAttribute("username", "");
+            model.addAttribute("email", "");
+            model.addAttribute("role", "");
+        }
         return "AssetAllocation/admin/AssetAllocation";
     }
-    @GetMapping("/admin/adminCondemn")
-    public String AdminCondemn(Model model) {
+
+
+     @GetMapping("/admin/adminCondemn")
+    public String AdminCondemn(Model model, Authentication authentication) {
+        if (authentication != null) {
+            String username = authentication.getName();
+            User user = userRepository.findByUsername(username).orElse(null);
+            if (user != null) {
+                model.addAttribute("username", user.getUsername());
+                model.addAttribute("email", user.getEmail());
+                String role = user.getRoles().stream().findFirst().map(r -> r.getName().replace("ROLE_", "")).orElse("");
+                model.addAttribute("role", role);
+            } else {
+                model.addAttribute("username", username);
+                model.addAttribute("email", "");
+                model.addAttribute("role", "");
+            }
+        } else {
+            model.addAttribute("username", "");
+            model.addAttribute("email", "");
+            model.addAttribute("role", "");
+        }
         return "Condemn/admin/Condemn";
     }
+
+
+
+
+    // @GetMapping("/admin/adminCondemn")
+    // public String AdminCondemn(Model model) {
+    //     return "Condemn/admin/Condemn";
+    // }
     // @GetMapping("/adminInvoice")
     // public String AdminInvoice(Model model) {
     //     return "Invoice/admin/Invoice";
