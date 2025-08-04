@@ -17,7 +17,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
     @Column(nullable = false, unique = true)
@@ -28,7 +28,11 @@ public class User {
     private String password;
 
     private String description;
+
     private boolean enabled;
+
+    @Column(nullable = true)
+    private String phone;
 
     @Builder.Default
     @ManyToMany(fetch = FetchType.EAGER)
