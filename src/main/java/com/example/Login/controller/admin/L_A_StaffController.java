@@ -2,6 +2,9 @@ package com.example.Login.controller.admin;
 
 import com.example.Login.dto.StaffDto;
 import com.example.Login.service.L_StaffService;
+import com.example.Login.model.User;
+import com.example.Login.repository.UserRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +18,15 @@ import java.util.List;
 @RequestMapping("/admin")
 public class L_A_StaffController {
     private final L_StaffService staffService;
+    private final UserRepository userRepository;
 
-    public L_A_StaffController(L_StaffService staffService) {
+    public L_A_StaffController(L_StaffService staffService, UserRepository userRepository) {
         this.staffService = staffService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/adminStaff")
-    public String getStaffList(Model model) {
+    public String getStaffList(Model model, Authentication authentication) {
         List<StaffDto> staffList = staffService.getAllStaff();
         // Defensive: ensure staffList is not null
         if (staffList == null) staffList = new java.util.ArrayList<>();
@@ -36,6 +41,27 @@ public class L_A_StaffController {
         uniqueStaffList.sort(java.util.Comparator.comparing(
             s -> s != null && s.getUserId() != null ? s.getUserId() : "",
             String.CASE_INSENSITIVE_ORDER));
+
+        // Add user info for header
+        if (authentication != null) {
+            String username = authentication.getName();
+            User user = userRepository.findByUsername(username).orElse(null);
+            if (user != null) {
+                model.addAttribute("username", user.getUsername());
+                model.addAttribute("email", user.getEmail());
+                String role = user.getRoles().stream().findFirst().map(r -> r.getName().replace("ROLE_", "")).orElse("");
+                model.addAttribute("role", role);
+            } else {
+                model.addAttribute("username", username);
+                model.addAttribute("email", "");
+                model.addAttribute("role", "");
+            }
+        } else {
+            model.addAttribute("username", "");
+            model.addAttribute("email", "");
+            model.addAttribute("role", "");
+        }
+
         model.addAttribute("uniqueStaffList", uniqueStaffList);
         return "Staff/admin/StaffList";
     }
