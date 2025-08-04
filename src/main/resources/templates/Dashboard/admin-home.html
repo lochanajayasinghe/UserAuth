@@ -601,9 +601,34 @@
 
         <div class="main-content-container">
             <main class="main-content">
+
                 <h1 class="mb-4 fw-bold text-gradient">Admin Dashboard</h1>
                 <p class="lead">Welcome, <span sec:authentication="name"></span>! You have director privileges.</p>
                 <p class="mb-4">This section provides a high-level overview and tools for strategic decision-making.</p>
+
+                <!-- User Profile Card -->
+                <div class="row justify-content-center mb-4">
+                    <div class="col-lg-6 col-md-8">
+                        <div class="card shadow-lg border-0 profile-card p-4" style="border-radius: 18px; background: linear-gradient(135deg, #fff 60%, #ffc107 100%);">
+                            <div class="d-flex align-items-center mb-3">
+                                <img th:src="@{'https://ui-avatars.com/api/?name=' + ${fullName != null ? fullName : username}}" src="https://ui-avatars.com/api/?name=User" alt="Avatar" width="70" height="70" class="rounded-circle me-3 border" style="object-fit:cover; background:#fff; border:2px solid #800000;">
+                                <div>
+                                    <h4 class="fw-bold mb-0 text-gradient" th:text="${fullName != null ? fullName : username}">Full Name</h4>
+                                    <span class="badge bg-gradient-primary text-light px-3 py-1 mt-1" style="font-size:0.95rem;">Admin</span>
+                                </div>
+                            </div>
+                            <ul class="list-group list-group-flush mb-3">
+                                <li class="list-group-item d-flex align-items-center"><i class="fas fa-user fa-fw me-2 text-primary"></i> <span class="fw-semibold">Username:</span> <span class="ms-2" th:text="${username}">username</span></li>
+                                <li class="list-group-item d-flex align-items-center"><i class="fas fa-envelope fa-fw me-2 text-primary"></i> <span class="fw-semibold">Email:</span> <span class="ms-2" th:text="${email}">email</span></li>
+                                <li class="list-group-item d-flex align-items-center"><i class="fas fa-info-circle fa-fw me-2 text-primary"></i> <span class="fw-semibold">Description:</span> <span class="ms-2" th:text="${description}">description</span></li>
+                                <li class="list-group-item d-flex align-items-center"><i class="fas fa-phone fa-fw me-2 text-primary"></i> <span class="fw-semibold">Phone:</span> <span class="ms-2" th:text="${phone}">phone</span></li>
+                            </ul>
+                            <div class="d-flex justify-content-end">
+                                <a th:href="@{/admin/profile}" class="btn btn-primary btn-sm px-4"><i class="fas fa-user-edit me-1"></i> View Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Modern Metric Cards -->
                 <div class="row g-4 mt-4 mb-4 justify-content-center">
@@ -613,6 +638,7 @@
                             <h6 class="fw-semibold">Users</h6>
                             <h3 id="userCount" class="fw-bold mb-1">-</h3>
                             <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#usersModal">View Users</button>
+                            <a href="/admin/users" class="btn btn-sm btn-primary mt-2 w-100"><i class="fas fa-user-plus me-1"></i> Create User</a>
                         </div>
                     </div>
                     <div class="col-md-2 col-6">
@@ -757,21 +783,9 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="table-responsive">
-              <table class="table table-bordered table-hover align-middle mb-0">
-                <thead class="table-light">
-                  <tr>
-                    <th>#</th>
-                    <th>Username</th>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Role(s)</th>
-                  </tr>
-                </thead>
-                <tbody id="usersTableBody">
-                  <tr><td colspan="5" class="text-center">Loading...</td></tr>
-                </tbody>
-              </table>
+            <div class="row g-3" id="usersCardBody">
+              <!-- User cards will be injected here -->
+              <div class="col-12 text-center text-muted" id="usersCardLoading">Loading...</div>
             </div>
           </div>
         </div>
@@ -783,15 +797,30 @@
       fetch('/api/admin/dashboard/recent-users')
         .then(res => res.json())
         .then(users => {
-          const tbody = document.getElementById('usersTableBody');
-          tbody.innerHTML = '';
-          if (users.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" class="text-center">No users found.</td></tr>';
+          const cardBody = document.getElementById('usersCardBody');
+          const loading = document.getElementById('usersCardLoading');
+          cardBody.innerHTML = '';
+          if (!users || users.length === 0) {
+            cardBody.innerHTML = '<div class="col-12 text-center text-muted">No users found.</div>';
             return;
           }
           users.forEach((u, i) => {
             const roles = (u.roles || []).map(r => r.name || r).join(', ');
-            tbody.innerHTML += `<tr><td>${i+1}</td><td>${u.username}</td><td>${u.fullName || ''}</td><td>${u.email}</td><td>${roles}</td></tr>`;
+            cardBody.innerHTML += `
+              <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm border-0 h-100 p-3 user-card" style="border-radius: 16px; background: linear-gradient(135deg, #fff 70%, #ffc107 100%);">
+                  <div class="d-flex align-items-center mb-2">
+                    <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(u.fullName || u.username)}" alt="Avatar" width="48" height="48" class="rounded-circle me-3 border" style="object-fit:cover; background:#fff; border:2px solid #800000;">
+                    <div>
+                      <div class="fw-bold text-gradient" style="font-size:1.1rem;">${u.fullName || u.username}</div>
+                      <div class="small text-muted">${u.username}</div>
+                    </div>
+                  </div>
+                  <div class="mb-1"><i class="fas fa-envelope fa-fw me-1 text-primary"></i> <span class="small">${u.email}</span></div>
+                  <div class="mb-1"><i class="fas fa-user-tag fa-fw me-1 text-primary"></i> <span class="small">${roles}</span></div>
+                </div>
+              </div>
+            `;
           });
         });
     });
