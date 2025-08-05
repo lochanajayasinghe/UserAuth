@@ -1,48 +1,590 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Management System | University of Peradeniya</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; color: #343a40; min-height: 100vh; margin: 0; }
-        .main-header { background-color: #800000; color: white; padding: 0.8rem 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .header-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .logo-container { display: flex; align-items: center; }
-        .logo-img { height: 50px; margin-right: 15px; }
-        .main-nav ul { display: flex; list-style: none; margin: 0; padding: 0; align-items: center; }
-        .main-nav li { margin-left: 15px; position: relative; }
-        .main-nav a { color: white; text-decoration: none; padding: 0.5rem 0.8rem; border-radius: 4px; transition: all 0.3s ease; display: inline-block; }
-        .main-nav a:not(.login-btn):hover { background-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
-        .sidebar { width: 250px; background: linear-gradient(180deg, #800000, #600000); color: white; height: calc(100vh - 60px); position: sticky; top: 60px; box-shadow: 2px 0 10px rgba(0,0,0,0.1); padding-top: 1rem; flex-shrink: 0; }
-        .sidebar-menu { padding: 0; list-style: none; margin: 0; }
-        .menu-item { display: block; padding: 0.8rem 1.5rem; color: white; text-decoration: none; margin: 0.25rem 1rem; border-left: 4px solid transparent; font-size: 0.95rem; border-radius: 0 4px 4px 0; position: relative; }
-        .menu-item:hover { background-color: rgba(255,255,255,0.1); border-left: 4px solid #ffc107; transform: translateX(5px); }
-        .menu-item.active { background-color: rgba(255,255,255,0.2); border-left: 4px solid #ffc107; font-weight: 500; }
-        .main-content-container { flex: 1; padding: 2rem; background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 1rem; overflow-y: auto; }
-        .main-content { max-width: 1200px; margin: 0 auto; }
-        .main-footer { background-color: #800000; color: #f8f9fa; padding: 40px 0; }
-        .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .footer-row { display: flex; flex-wrap: wrap; justify-content: space-between; }
-        .footer-col { width: 25%; margin-bottom: 20px; }
-        .footer-col h4 { color: #ffc107; margin-bottom: 1.2rem; position: relative; padding-bottom: 0.5rem; }
-        .footer-col h4::after { content: ''; position: absolute; left: 0; bottom: 0; width: 40px; height: 2px; background-color: #ffc107; }
-        .footer-col ul { list-style: none; padding: 0; }
-        .footer-col li { margin-bottom: 0.6rem; }
-        .footer-col a { color: white; text-decoration: none; display: inline-block; padding: 0.2rem 0; }
-        .footer-col a:hover { color: #ffc107; text-decoration: none; }
-        .footer-divider { border-color: rgba(255,255,255,0.1); margin: 20px 0; }
-        .footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
-        @media (max-width: 992px) { .footer-col { width: 50%; } .sidebar { width: 70px; overflow: hidden; } }
-        @media (max-width: 768px) { .header-container { flex-direction: column; text-align: center; } .main-nav { margin-top: 1rem; width: 100%; } .main-nav ul { justify-content: center; flex-wrap: wrap; } .main-nav li { margin: 0.3rem; } .footer-col { width: 100%; } .sidebar { position: fixed; height: 100vh; top: 0; z-index: 900; transform: translateX(-100%); padding-top: 60px; } .sidebar.active { transform: translateX(0); } }
+        :root {
+            --primary-color: #800000;
+            --primary-dark: #600000;
+            --primary-light: #a04040;
+            --accent-color: #ffc107;
+            --text-light: #f8f9fa;
+            --text-dark: #343a40;
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        
+        /* Header Styles */
+        .main-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.8rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+        
+        .logo-container:hover {
+            transform: translateX(3px);
+        }
+        
+        .logo-img {
+            height: 40px;
+            margin-right: 10px;
+            transition: var(--transition);
+        }
+        
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+        
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+        
+        .main-nav li {
+            margin-left: 15px;
+            position: relative;
+        }
+        
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .main-nav a:not(.login-btn):hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .main-nav a:not(.login-btn)::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: var(--accent-color);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+        
+        .main-nav a:not(.login-btn):hover::after {
+            width: 70%;
+        }
+        
+        .login-btn {
+            background-color: var(--accent-color);
+            color: #212529;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-btn:hover {
+            background-color: #e0a800;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            height: calc(100vh - 60px);
+            position: sticky;
+            top: 60px;
+            transition: var(--transition);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding-top: 1rem;
+        }
+        
+        .sidebar-menu {
+            padding: 0;
+            list-style: none;
+        }
+        
+        .menu-item {
+            display: block;
+            padding: 0.8rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            margin: 0.25rem 1rem;
+            border-left: 4px solid transparent;
+            font-size: 0.95rem;
+            border-radius: 0 4px 4px 0;
+            position: relative;
+        }
+        
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--accent-color);
+            transform: translateX(5px);
+        }
+        
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid var(--accent-color);
+            font-weight: 500;
+        }
+        
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background-color: rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .menu-item:hover::before {
+            width: 100%;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 1rem;
+            border: 4px solid #fff;
+        }
+        
+        /* Footer Styles */
+        .main-footer {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 40px 0;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .footer-col {
+            width: 25%;
+            margin-bottom: 20px;
+        }
+        
+        .footer-col h4 {
+            color: var(--accent-color);
+            margin-bottom: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+        
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-col li {
+            margin-bottom: 0.6rem;
+            transition: var(--transition);
+        }
+        
+        .footer-col li:hover {
+            transform: translateX(5px);
+        }
+        
+        .footer-col a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+            padding: 0.2rem 0;
+        }
+        
+        .footer-col a:hover {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        .social-icons {
+            display: flex;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icons a {
+            color: white;
+            margin-right: 15px;
+            font-size: 1.2rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--accent-color);
+            color: var(--text-dark);
+            transform: translateY(-3px);
+        }
+        
+        .newsletter-form {
+            display: flex;
+            margin-top: 1.5rem;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .newsletter-form button {
+            background-color: var(--accent-color);
+            color: #212529;
+            border: none;
+            padding: 0 1.2rem;
+            border-radius: 0 4px 4px 0;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .newsletter-form button:hover {
+            background-color: #e0a800;
+        }
+        
+        .footer-divider {
+            border-color: rgba(255,255,255,0.1);
+            margin: 20px 0;
+        }
+        
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        /* Button Styles */
+        .btn-hero {
+            padding: 0.8rem 1.8rem;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-hero-primary {
+            background-color: var(--accent-color);
+            color: #212529;
+            border: 2px solid transparent;
+        }
+        
+        .btn-hero-primary:hover {
+            background-color: #e0a800;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-hero-outline {
+            border: 2px solid white;
+            color: white;
+            background-color: transparent;
+        }
+        
+        .btn-hero-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Card Styles */
+        .feature-card {
+            border: none;
+            border-radius: 8px;
+            transition: var(--transition);
+            height: 100%;
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .footer-col {
+                width: 50%;
+            }
+            
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+            
+            .menu-text {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .main-nav {
+                margin-top: 1rem;
+                width: 100%;
+            }
+            
+            .main-nav ul {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .main-nav li {
+                margin: 0.3rem;
+            }
+            
+            .footer-col {
+                width: 100%;
+            }
+            
+            .sidebar {
+                position: fixed;
+                height: 100vh;
+                top: 0;
+                z-index: 900;
+                transform: translateX(-100%);
+                padding-top: 60px;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .mobile-menu-btn {
+                display: block !important;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: white;
+                cursor: pointer;
+                margin-right: 1rem;
+                transition: var(--transition);
+            }
+            
+            .mobile-menu-btn:hover {
+                color: var(--accent-color);
+                transform: scale(1.1);
+            }
+            
+            .btn-hero {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+            }
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+        }
+        body {
+            background: #f5f5f5;
+            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .who-header {
+            text-align: center;
+            margin-top: 48px;
+            margin-bottom: 0;
+            letter-spacing: 2px;
+        }
+        .who-title {
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: #ff9800;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+        .profile-pic {
+            width: 210px;
+            height: 210px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 7px solid #ff9800;
+            background: #fff;
+            margin: 32px auto 18px auto;
+            display: block;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+        }
+        .who-desc {
+            color: #d1d1d1;
+            font-size: 1.08rem;
+            max-width: 700px;
+            margin: 0 auto 32px auto;
+            text-align: center;
+        }
+        .who-username {
+            color: #ff9800;
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .who-email {
+            color: #bdbdbd;
+            font-size: 1.08rem;
+            margin-bottom: 0.5rem;
+        }
+        .who-roles {
+            margin-bottom: 1.5rem;
+        }
+        .who-role-badge {
+            background: linear-gradient(90deg, #800000 0%, #a04040 100%);
+            color: #fff;
+            font-size: 1.08rem;
+            margin-right: 10px;
+            margin-bottom: 7px;
+            padding: 10px 28px;
+            border-radius: 30px;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+        .who-cards {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin: 48px auto 0 auto;
+            max-width: 900px;
+            flex-wrap: wrap;
+        }
+        .who-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(128,0,0,0.10);
+            border: 2px solid var(--primary-color);
+            padding: 2.2rem 1.5rem 1.5rem 1.5rem;
+            text-align: center;
+            width: 220px;
+            min-height: 180px;
+            transition: var(--transition);
+            margin-bottom: 24px;
+        }
+        .who-card:hover {
+            transform: translateY(-7px) scale(1.04);
+            box-shadow: 0 16px 40px rgba(128,0,0,0.18);
+            border-color: var(--accent-color);
+        }
+        .who-card i {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        .who-card-title {
+            font-size: 1.18rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            letter-spacing: 0.5px;
+        }
+        .who-card-link {
+            color: var(--accent-color);
+            font-size: 1.02rem;
+            font-weight: 600;
+            text-decoration: underline;
+            margin-top: 0.7rem;
+            display: inline-block;
+            letter-spacing: 0.5px;
+        }
+        @media (max-width: 900px) {
+            .who-cards { gap: 18px; }
+            .who-card { width: 180px; padding: 1.5rem 1rem 1rem 1rem; }
+        }
+        @media (max-width: 600px) {
+            .who-cards { flex-direction: column; align-items: center; }
+            .who-card { width: 90vw; max-width: 320px; }
+        }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header class="main-header">
         <div class="header-container">
-            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
             <div class="logo-container">
                 <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
                 <div>
@@ -69,63 +611,54 @@
             </nav>
         </div>
     </header>
+
+    <!-- Main Content with Sidebar -->
+
     <div class="d-flex flex-grow-1">
+        <!-- Sidebar -->
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/admin/home" class="menu-item active active">Dashboard</a></li>
+                    <li><a href="/admin/home" class="menu-item">Dashboard</a></li>
                     <li><a href="/admin/adminStaff" class="menu-item">Staff</a></li>
-                    <li><a href="/admin/adminInvoice" class="menu-item">Invoice</a></li>
-                    <li><a href="/admin/adminAsset" class="menu-item">Asset</a></li>
-                    <li><a href="/admin/adminMovement" class="menu-item">Movement</a></li>
-                    <li><a href="/admin/adminAssetAllocation" class="menu-item">Asset Allocation</a></li>
+                    <li><a href="/admin/adminUserHistory" class="menu-item">User History</a></li>
                     <li><a href="/admin/adminMaintain" class="menu-item">Maintain</a></li>
                     <li><a href="/admin/adminCondemn" class="menu-item">Condemn</a></li>
-                    <li><a href="/admin/adminUserHistory" class="menu-item">User History</a></li>
+                    <li><a href="/admin/adminAssetAllocation" class="menu-item">Asset Allocation</a></li>
+                    <li><a href="/admin/adminAsset" class="menu-item">Asset</a></li>
+                    <li><a href="/admin/adminInvoice" class="menu-item">Invoice</a></li>
+                    <li><a href="/admin/adminMovement" class="menu-item">Movement</a></li>
+                    <li><a href="/admin/profile" class="menu-item active">Profile</a></li>
                 </ul>
             </nav>
         </aside>
-        <div class="main-content-container">
-            <main class="main-content">
-                <div class="container-fluid d-flex justify-content-center align-items-center" style="min-height:60vh;">
-                    <div class="card profile-card shadow-lg border-0 mx-auto p-0" style="max-width: 600px; min-width: 350px; min-height: 540px; border-radius: 32px; overflow: hidden; background: #fff;">
-                        <div class="profile-header" style="background: linear-gradient(90deg, #800000 0%, #a04040 100%); padding: 56px 0 36px 0; display: flex; flex-direction: column; align-items: center;">
-                            <div class="rounded-circle bg-white d-flex align-items-center justify-content-center mb-3" style="width:150px; height:150px; border: 7px solid #fff; box-shadow: 0 4px 18px rgba(44,62,80,0.15);">
-                                <img th:src="@{'https://ui-avatars.com/api/?name=' + ${fullName != null ? fullName : username}}" src="https://ui-avatars.com/api/?name=User" alt="Avatar" width="135" height="135" class="rounded-circle" style="object-fit:cover; background:#fff;">
-                            </div>
-                            <h2 class="fw-bold mb-0 mt-3 text-light" style="font-size:2.2rem;" th:text="${fullName}">Full Name</h2>
-                            <span class="text-light-50" style="font-size:1.3rem; opacity:0.85;" th:text="'@' + ${username}">@username</span>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="who-header">
+                <div style="font-size:1.1rem; color:#bdbdbd; margin-bottom:10px; letter-spacing:1.5px;">A BIT ABOUT ME</div>
+                <div class="who-title">Who Am I?</div>
+            </div>
+            <div class="d-flex justify-content-center mt-4 mb-4">
+                <div class="card shadow-lg border-0" style="min-width:340px; max-width:420px; background:#fff; border-radius:18px;">
+                    <div class="card-body text-center p-4">
+                        <img th:src="@{'https://ui-avatars.com/api/?name=' + (${fullName} ?: ${username})}" src="https://ui-avatars.com/api/?name=User" alt="Avatar" class="profile-pic mb-3" style="box-shadow:0 2px 16px rgba(128,0,0,0.10);">
+                        <div class="fw-bold" style="font-size:1.45rem; color:var(--primary-color); margin-bottom:0.5rem;"> <span th:text="${fullName}">Full Name</span> </div>
+                        <div style="font-size:1.08rem; color:#888; margin-bottom:0.5rem;"> <span th:text="${email}">email@email.com</span> </div>
+                        <div class="mb-2">
+                            <span th:if="${roles != null and #lists.size(roles) > 0}" th:each="role : ${roles}" th:text="${role.name}" class="who-role-badge">ROLE</span>
+                            <span th:if="${roles == null or #lists.size(roles) == 0}" class="text-muted">N/A</span>
                         </div>
-                        <div class="profile-body px-5 py-10" style="background: #fff; border-radius: 0 0 32px 32px;">
-                            <div class="mb-4">
-                                <div class="d-flex align-items-center mb-3" style="font-size:1.15rem;">
-                                    <i class="fa fa-envelope me-2 text-primary"></i>
-                                    <span th:text="${email}">email@email.com</span>
-                                </div>
-                                <div class="d-flex align-items-center mb-3" style="font-size:1.15rem;">
-                                    <i class="fa fa-phone me-2 text-success"></i>
-                                    <span th:text="${phone}">N/A</span>
-                                </div>
-                            </div>
-                            <div class="mb-4">
-                                <div class="d-flex align-items-start" style="font-size:1.08rem;">
-                                    <i class="fa fa-info-circle me-2 text-secondary mt-1"></i>
-                                    <span th:text="${description}">No description provided.</span>
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <strong class="text-maroon" style="color:#800000; font-size:1.13rem;">Roles:</strong>
-                                <div class="mt-3">
-                                    <span th:if="${roles != null and #lists.size(roles) > 0}" th:each="role : ${roles}" th:text="${role.name}" class="badge rounded-pill" style="background: linear-gradient(90deg, #800000 0%, #a04040 100%); color: #fff; font-size:1.08rem; margin-right:10px; margin-bottom:7px; padding: 10px 28px; letter-spacing: 0.5px;">ROLE</span>
-                                    <span th:if="${roles == null or #lists.size(roles) == 0}" class="text-muted">N/A</span>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="who-desc mt-3 text-center" style="color:#888; font-size:1.08rem;"> <span th:text="${description}">Hi I'm Jack Smith. Click here to add your own text and edit me. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</span> </div>
                     </div>
                 </div>
-            </main>
-        </div>
+            </div>
+            
+            
+        </main>
     </div>
+
+    <!-- Footer -->
     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-row">
@@ -142,9 +675,9 @@
                 <div class="footer-col">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="/adminhome">Home</a></li>
-                        <li><a href="/adminabout">About</a></li>
-                        <li><a href="/admincontactUs">Contact</a></li>
+                        <li><a href="/home">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contactUs">Contact</a></li>
                         <li><a th:href="@{/login}">Login</a></li>
                     </ul>
                 </div>
@@ -168,10 +701,38 @@
             </div>
             <hr class="footer-divider">
             <div class="footer-bottom">
-                <p>&copy; 2025 University of Peradeniya. All rights reserved.</p>
+                <p>&copy; 2023 University of Peradeniya. All rights reserved.</p>
                 <p>Asset Management System v2.1</p>
             </div>
         </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mobile menu toggle functionality
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+        
+        // Add active class to current nav item
+        document.querySelectorAll('.main-nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.main-nav a').forEach(item => {
+                    item.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </body>
 </html>
