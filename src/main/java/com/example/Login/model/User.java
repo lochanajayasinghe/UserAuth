@@ -31,8 +31,12 @@ public class User {
 
     private boolean enabled;
 
+
     @Column(nullable = true)
     private String phone;
+
+    @Column(name = "profile_photo_url")
+    private String profilePhotoUrl;
 
     @Builder.Default
     @ManyToMany(fetch = FetchType.EAGER)
