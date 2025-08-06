@@ -1,3 +1,4 @@
+   
 package com.example.Login.service;
 
 import com.example.Login.dto.UserDto;
@@ -50,5 +51,18 @@ public class AdminUserService {
                 .collect(Collectors.toSet());
         user.setRoles(newRoles);
         userRepository.save(user);
+    }
+    // Update profile photo URL for a user by username
+    public void updateProfilePhoto(String username, String photoUrl) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with username: " + username));
+        user.setProfilePhotoUrl(photoUrl);
+        userRepository.save(user);
+    }
+
+     // Get user by username
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with username: " + username));
     }
 }
