@@ -642,7 +642,19 @@
             <div class="d-flex justify-content-center mt-4 mb-4">
                 <div class="card shadow-lg border-0" style="min-width:340px; max-width:420px; background:#fff; border-radius:18px;">
                     <div class="card-body text-center p-4">
-                        <img th:src="@{'https://ui-avatars.com/api/?name=' + (${fullName} ?: ${username})}" src="https://ui-avatars.com/api/?name=User" alt="Avatar" class="profile-pic mb-3" style="box-shadow:0 2px 16px rgba(128,0,0,0.10);">
+                        <!-- Profile Photo Upload -->
+                        <form th:action="@{/admin/profile/photo}" method="post" enctype="multipart/form-data" id="photoUploadForm">
+                            <div class="mb-3 position-relative">
+                                <label for="profilePhotoInput" class="d-block" style="cursor:pointer;">
+                                    <img id="profilePhotoPreview" th:src="${profilePhotoUrl != null} ? ${profilePhotoUrl} : 'https://ui-avatars.com/api/?name=' + (${fullName} ?: ${username})" src="https://ui-avatars.com/api/?name=User" alt="Profile Photo" class="profile-pic mb-3" style="box-shadow:0 2px 16px rgba(128,0,0,0.10);">
+                                    <span class="position-absolute bottom-0 end-0 translate-middle p-2 bg-warning rounded-circle" style="border:2px solid #fff; cursor:pointer;">
+                                        <i class="fas fa-camera" style="color:#800000;"></i>
+                                    </span>
+                                </label>
+                                <input type="file" name="photo" id="profilePhotoInput" accept="image/*" style="display:none;" onchange="previewProfilePhoto(event)">
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-outline-warning mb-2">Update Photo</button>
+                        </form>
                         <div class="fw-bold" style="font-size:1.45rem; color:var(--primary-color); margin-bottom:0.5rem;"> <span th:text="${fullName}">Full Name</span> </div>
                         <div style="font-size:1.08rem; color:#888; margin-bottom:0.5rem;"> <span th:text="${email}">email@email.com</span> </div>
                         <div class="mb-2">
@@ -713,7 +725,6 @@
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
             document.querySelector('.sidebar').classList.toggle('active');
         });
-        
         // Add active class to current nav item
         document.querySelectorAll('.main-nav a').forEach(link => {
             link.addEventListener('click', function() {
@@ -723,7 +734,6 @@
                 this.classList.add('active');
             });
         });
-        
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
@@ -733,6 +743,17 @@
                 });
             });
         });
+        // Profile photo preview
+        function previewProfilePhoto(event) {
+            const input = event.target;
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profilePhotoPreview').src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 </body>
 </html>
