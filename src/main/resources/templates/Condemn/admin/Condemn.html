@@ -983,7 +983,7 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="main-header">
+<header class="main-header">
         <div class="header-container">
             <button class="mobile-menu-btn">
                 <i class="fas fa-bars"></i>
@@ -1021,19 +1021,36 @@
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/admin/home" class="menu-item">Dashboard</a></li>
-                    <li><a href="/admin/adminStaff" class="menu-item">Staff</a></li>
-                    <li><a href="/admin/adminUserHistory" class="menu-item">User History</a></li>
-                    <li><a href="/admin/adminMaintain" class="menu-item">Maintain</a></li>
-                    <li><a href="/admin/adminCondemn" class="menu-item active">Condemn</a></li>
-                    <li><a href="/admin/adminAssetAllocation" class="menu-item">Asset Allocation</a></li>
-                    <li><a href="/admin/adminAsset" class="menu-item">Asset</a></li>
-                    <li><a href="/admin/adminInvoice" class="menu-item">Invoice</a></li>
-                    <li><a href="/admin/adminMovement" class="menu-item">Movement</a></li>
+                    <li><a href="/admin/home" class="menu-item ">Dashboard</a></li>
+                    <li>
+                        <a class="menu-item d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#setupSubmenu" role="button" aria-expanded="false" aria-controls="setupSubmenu">
+                            <span>Setup</span>
+                            <i class="fas fa-chevron-down small"></i>
+                        </a>
+                        <ul class="collapse ps-4" id="setupSubmenu">
+                            <li><a href="/admin/adminInvoice" class="menu-item">Add Invoice</a></li>
+                            <li><a href="/admin/adminStaff" class="menu-item">Add Staff</a></li>
+                            <li><a href="/admin/adminAsset" class="menu-item active">Add Asset</a></li>
+                        </ul>
+                    </li>
+                        
+                        <a class="menu-item d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#allocationSubmenu" role="button" aria-expanded="false" aria-controls="allocationSubmenu">
+                            <span>Allocation</span>
+                            <i class="fas fa-chevron-down small"></i>
+                        </a>
+                        <ul class="collapse ps-4" id="allocationSubmenu">
+                            <li><a href="/admin/adminAssetAllocation" class="menu-item">User Allocation</a></li>
+                            <li><a href="/admin/adminMovement" class="menu-item">Location Allocation</a></li>
+                        </ul>
+                        
+                        
+                    <li><a href="/admin/adminUserHistory" class="menu-item">History</a></li>
+                    <li><a href="/admin/adminCondemn" class="menu-item">Condemn Details</a></li>
+                    <li><a href="/admin/adminMaintain" class="menu-item">Maintain Details</a></li>
+                    <li><a href="/admin/adminYearlyVerification" class="menu-item">Yearly Verification</a></li>
                 </ul>
             </nav>
         </aside>
-
         <!-- Enhanced Main Content -->
         <main class="main-content">
             <!-- Page Header -->
