@@ -22,4 +22,10 @@ public class S_A_CondemnController {
     public String condemnAsset(@RequestBody Condemn condemn) {
         return condemnService.condemnAsset(condemn);
     }
+
+    @GetMapping("/condemnDetails")
+    public Condemn getCondemnDetails(@RequestParam String assetId) {
+        Condemn c = condemnService.getLatestCondemnByAssetId(assetId);
+        return c != null ? c : new Condemn();
+    }
 }
