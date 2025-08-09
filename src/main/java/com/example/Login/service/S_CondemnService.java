@@ -29,4 +29,8 @@ public class S_CondemnService {
         }
         return "Asset not found";
     }
+
+    public Condemn getLatestCondemnByAssetId(String assetId) {
+        return condemnRepository.findTopByAsset_AssetIdOrderByCondemnDateDesc(assetId);
+    }
 }
