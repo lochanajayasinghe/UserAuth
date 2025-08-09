@@ -1,7 +1,10 @@
 package com.example.Login.controller.director; // Changed package to include 'director'
 
+import com.example.Login.model.Asset;
 import com.example.Login.model.AssetUser;
+import com.example.Login.model.User;
 import com.example.Login.service.L_AssetUserService;
+import com.example.Login.repository.UserRepository;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -23,12 +26,15 @@ import java.util.List;
 @RequestMapping("/director") // Base mapping for director-related paths
 public class L_D_UserHistoryController { // Renamed class
     private final L_AssetUserService assetUserService;
+    private final UserRepository userRepository;
 
-    public L_D_UserHistoryController(L_AssetUserService assetUserService) {
+    public L_D_UserHistoryController(L_AssetUserService assetUserService, UserRepository userRepository) {
         this.assetUserService = assetUserService;
+        this.userRepository = userRepository;
     }
+
     @GetMapping("/directorUserHistory") // Relative to /director
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DIRECTOR', 'ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_director', 'ROLE_DIRECTOR', 'ROLE_USER')")
     public String getUserHistory(Model model,
                                  Authentication authentication) {
         List<com.example.Login.dto.L_UserHistoryDto> userHistories = assetUserService.getAllUserHistoryDtos();
@@ -38,6 +44,26 @@ public class L_D_UserHistoryController { // Renamed class
                 .map(GrantedAuthority::getAuthority)
                 .anyMatch("ROLE_USER"::equals) &&
                 authentication.getAuthorities().size() == 1;
+
+        // Add user info for header (like H_A_AssetController)
+        if (authentication != null) {
+            String username = authentication.getName();
+            User user = userRepository.findByUsername(username).orElse(null);
+            if (user != null) {
+                model.addAttribute("username", user.getUsername());
+                model.addAttribute("email", user.getEmail());
+                String role = user.getRoles().stream().findFirst().map(r -> r.getName().replace("ROLE_", "")).orElse("");
+                model.addAttribute("role", role);
+            } else {
+                model.addAttribute("username", username);
+                model.addAttribute("email", "");
+                model.addAttribute("role", "");
+            }
+        } else {
+            model.addAttribute("username", "");
+            model.addAttribute("email", "");
+            model.addAttribute("role", "");
+        }
 
         model.addAttribute("userHistories", userHistories);
         model.addAttribute("isRegularUser", isRegularUser);
@@ -52,7 +78,7 @@ public class L_D_UserHistoryController { // Renamed class
         return "UserHistory/director/ViewHistory";
     }
 
-        // Asset auto-suggest endpoint
+    // Asset auto-suggest endpoint
     @GetMapping("/assets/suggest")
     @PreAuthorize("hasAnyRole('ROLE_director', 'ROLE_DIRECTOR', 'ROLE_USER')")
     public @ResponseBody List<com.example.Login.model.Asset> suggestAssets(@RequestParam("query") String query) {
