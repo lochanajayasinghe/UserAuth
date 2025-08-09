@@ -6,24 +6,31 @@
     <title>Asset Management System | University of Peradeniya</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #800000;
             --primary-dark: #600000;
             --primary-light: #a04040;
+            --secondary-color: #f8f9fa;
             --accent-color: #ffc107;
-            --text-light: #f8f9fa;
             --text-dark: #343a40;
+            --text-light: #f8f9fa;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
+            --gradient-primary: linear-gradient(135deg, #800000 0%, #a04040 100%);
+            --gradient-light: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
         }
         
+        /* Base Styles */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             color: var(--text-dark);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            background-color: #f5f5f5;
+            margin: 0;
         }
         
         /* Header Styles */
@@ -57,9 +64,10 @@
         }
         
         .logo-img {
-            height: 40px;
-            margin-right: 10px;
+            height: 50px;
+            margin-right: 15px;
             transition: var(--transition);
+            filter: brightness(1.1) drop-shadow(0 0 2px rgba(0,0,0,0.3));
         }
         
         .logo-img:hover {
@@ -93,22 +101,6 @@
             transform: translateY(-2px);
         }
         
-        .main-nav a:not(.login-btn)::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 50%;
-            background-color: var(--accent-color);
-            transition: var(--transition);
-            transform: translateX(-50%);
-        }
-        
-        .main-nav a:not(.login-btn):hover::after {
-            width: 70%;
-        }
-        
         .login-btn {
             background-color: var(--accent-color);
             color: #212529;
@@ -127,11 +119,11 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-color: rgba(0, 0, 0, 0.1);
         }
-        
+
         /* Sidebar Styles */
         .sidebar {
             width: 250px;
-            background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
+            background: var(--primary-color) !important;
             color: white;
             height: calc(100vh - 60px);
             position: sticky;
@@ -186,22 +178,295 @@
         .menu-item:hover::before {
             width: 100%;
         }
-        
-        /* Main Content Styles */
+
+        /* Main Content Styles - Enhanced */
         .main-content {
             flex: 1;
+            padding: 2.5rem;
+            background: var(--gradient-light);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin: 1.5rem;
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 20px 20px 0 0;
+        }
+
+        /* Page Header Styles - Enhanced */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
             padding: 2rem;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin: 1rem;
+            background: var(--gradient-light);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(128, 0, 0, 0.03) 0%, rgba(255, 193, 7, 0.03) 100%);
+            pointer-events: none;
         }
         
+        .page-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem; /* Changed from 2rem to 1.5rem for slightly smaller topic */
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .page-title i {
+            margin-right: 15px;
+            padding: 12px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(128, 0, 0, 0.3);
+        }
+
+        /* Enhanced Button Styles */
+        .btn-primary-custom {
+            background: var(--gradient-primary);
+            border: none;
+            color: var(--text-light);
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(128, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary-custom:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary-custom:hover {
+            background: linear-gradient(135deg, #600000 0%, #800000 100%);
+            color: var(--text-light);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(128, 0, 0, 0.4);
+        }
+        
+        .btn-primary-custom i {
+            margin-right: 10px;
+        }
+
+        /* Card Styles - Enhanced */
+        .asset-card {
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            border: none;
+            overflow: hidden;
+            background: var(--gradient-light);
+            position: relative;
+        }
+
+        .asset-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .asset-card .card-header {
+            background: rgba(128, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(128, 0, 0, 0.1);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .asset-card .card-header h5 {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .asset-card .card-header i {
+            margin-right: 10px;
+            padding: 8px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .table {
+            margin-bottom: 0;
+            background: white;
+        }
+        
+        .table thead th {
+            border-bottom: 2px solid rgba(128, 0, 0, 0.1);
+            font-weight: 600;
+            color: var(--primary-dark);
+            background: linear-gradient(135deg, rgba(128, 0, 0, 0.05) 0%, rgba(255, 193, 7, 0.05) 100%);
+            padding: 1.2rem 1.5rem;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .table thead th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            opacity: 0.3;
+        }
+        
+        .table tbody td {
+            padding: 1.2rem 1.5rem;
+            vertical-align: middle;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 0.95rem;
+        }
+        
+        .table-hover tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        .table-hover tbody tr:hover {
+            background: linear-gradient(135deg, rgba(128, 0, 0, 0.03) 0%, rgba(255, 193, 7, 0.03) 100%);
+            transform: translateX(5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Filter Section Styles */
+        .filter-section {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .filter-section .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .filter-section .form-check-label {
+            font-weight: 500;
+            color: var(--primary-dark);
+        }
+
+        /* Modal Styles - Enhanced */
+        .modal-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .modal-title {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .modal-title i {
+            margin-right: 12px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+            background: var(--gradient-light);
+        }
+        
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.7rem;
+            color: var(--primary-dark);
+        }
+        
+        .form-control {
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 0.25rem rgba(128, 0, 0, 0.1);
+            background: white;
+        }
+
         /* Footer Styles */
         .main-footer {
             background-color: var(--primary-color);
             color: var(--text-light);
             padding: 40px 0;
+            margin-top: auto;
         }
         
         .footer-container {
@@ -219,6 +484,7 @@
         .footer-col {
             width: 25%;
             margin-bottom: 20px;
+            padding: 0 15px;
         }
         
         .footer-col h4 {
@@ -226,6 +492,7 @@
             margin-bottom: 1.2rem;
             position: relative;
             padding-bottom: 0.5rem;
+            font-size: 1.1rem;
         }
         
         .footer-col h4::after {
@@ -245,11 +512,6 @@
         
         .footer-col li {
             margin-bottom: 0.6rem;
-            transition: var(--transition);
-        }
-        
-        .footer-col li:hover {
-            transform: translateX(5px);
         }
         
         .footer-col a {
@@ -258,22 +520,23 @@
             transition: var(--transition);
             display: inline-block;
             padding: 0.2rem 0;
+            font-size: 0.9rem;
         }
         
         .footer-col a:hover {
             color: var(--accent-color);
-            text-decoration: none;
+            transform: translateX(3px);
         }
         
         .social-icons {
             display: flex;
             margin-top: 1.5rem;
+            gap: 10px;
         }
         
         .social-icons a {
             color: white;
-            margin-right: 15px;
-            font-size: 1.2rem;
+            font-size: 1rem;
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -301,6 +564,7 @@
             border: none;
             border-radius: 4px 0 0 4px;
             background-color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
         }
         
         .newsletter-form button {
@@ -312,6 +576,7 @@
             font-weight: 600;
             transition: var(--transition);
             cursor: pointer;
+            font-size: 0.9rem;
         }
         
         .newsletter-form button:hover {
@@ -327,58 +592,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            padding-top: 20px;
         }
-        
-        /* Button Styles */
-        .btn-hero {
-            padding: 0.8rem 1.8rem;
-            font-weight: 600;
-            border-radius: 4px;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .btn-hero-primary {
-            background-color: var(--accent-color);
-            color: #212529;
-            border: 2px solid transparent;
-        }
-        
-        .btn-hero-primary:hover {
-            background-color: #e0a800;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .btn-hero-outline {
-            border: 2px solid white;
-            color: white;
-            background-color: transparent;
-        }
-        
-        .btn-hero-outline:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* Card Styles */
-        .feature-card {
-            border: none;
-            border-radius: 8px;
-            transition: var(--transition);
-            height: 100%;
-            border-top: 4px solid var(--primary-color);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        
+
         /* Responsive Adjustments */
         @media (max-width: 992px) {
             .footer-col {
@@ -393,8 +610,26 @@
             .menu-text {
                 display: none;
             }
+            
+            .menu-item {
+                justify-content: center;
+                padding: 0.8rem 0.5rem;
+            }
+            
+            .menu-item i {
+                margin-right: 0;
+            }
+
+            .main-content {
+                margin: 1rem;
+                padding: 2rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
         }
-        
+
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
@@ -448,13 +683,23 @@
                 transform: scale(1.1);
             }
             
-            .btn-hero {
-                padding: 0.7rem 1.5rem;
-                font-size: 0.9rem;
-                margin-bottom: 0.5rem;
+            .main-content {
+                margin: 0.5rem;
+                padding: 1.5rem;
+                border-radius: 16px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .page-title {
+                font-size: 1.3rem;
             }
         }
-        
+
         .mobile-menu-btn {
             display: none;
         }
@@ -462,7 +707,7 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="main-header">
+<header class="main-header">
         <div class="header-container">
             <button class="mobile-menu-btn">
                 <i class="fas fa-bars"></i>
@@ -477,6 +722,17 @@
             <nav class="main-nav">
                 <ul>
                     <li><a href="/directorhome">Home</a></li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a th:href="@{/director/profile}" href="/director/profile" class="d-flex align-items-center text-light text-decoration-none" style="min-width:140px;">
+                            <span class="d-flex align-items-center">
+                                <img th:src="@{'https://ui-avatars.com/api/?name=' + ${username}}" src="https://ui-avatars.com/api/?name=User" th:title="${email}" alt="Avatar" width="36" height="36" class="rounded-circle me-2" style="object-fit:cover; background:#fff; border:1px solid #ccc;">
+                                <span>
+                                    <span th:text="${username}" class="fw-semibold text-truncate" style="max-width:80px;">Username</span>
+                                   
+                                </span>
+                            </span>
+                        </a>
+                    </li>
                     <li><a th:href="@{/}" class="btn btn-outline-light">Logout</a></li>
                 </ul>
             </nav>
@@ -489,30 +745,69 @@
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/director/home" class="menu-item  ">Dashboard</a></li>
-                    <li><a href="/director/directorStaff" class="menu-item ">Staff</a></li>
-                    <li><a href="/director/directorUserHistory" class="menu-item">User History</a></li>
-                    <li><a href="/director/directorMaintain" class="menu-item">Maintain</a></li>
-                    <li><a href="/director/directorCondemn" class="menu-item">Condemn</a></li>
-                    <li><a href="/director/directorAssetAllocation" class="menu-item active">Asset Allocation</a></li>
-                    <li><a href="/director/directorAsset" class="menu-item ">Asset</a></li>
-                    <li><a href="/director/directorInvoice" class="menu-item ">Invoice</a></li>
-                    <li><a href="/director/directorMovement" class="menu-item">Movement</a></li>
+                    <li><a href="/director/home" class="menu-item ">Dashboard</a></li>
+                    <li>
+                        <a class="menu-item d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#setupSubmenu" role="button" aria-expanded="false" aria-controls="setupSubmenu">
+                            <span>Setup</span>
+                            <i class="fas fa-chevron-down small"></i>
+                        </a>
+                        <ul class="collapse ps-4" id="setupSubmenu">
+                            <li><a href="/director/directorInvoice" class="menu-item">Add Invoice</a></li>
+                            <li><a href="/director/directorStaff" class="menu-item">Add Staff</a></li>
+                            <li><a href="/director/directorAsset" class="menu-item ">Add Asset</a></li>
+                        </ul>
+                    </li>
+                        
+                        <a class="menu-item d-flex justify-content-between align-items-center active" data-bs-toggle="collapse" href="#allocationSubmenu" role="button" aria-expanded="false" aria-controls="allocationSubmenu">
+                            <span>Allocation</span>
+                            <i class="fas fa-chevron-down small"></i>
+                        </a>
+                        <ul class="collapse ps-4" id="allocationSubmenu">
+                            <li><a href="/director/directorAssetAllocation" class="menu-item active">User Allocation</a></li>
+                            <li><a href="/director/directorMovement" class="menu-item">Location Allocation</a></li>
+                        </ul>
+                        
+                        
+                    <li><a href="/director/directorUserHistory" class="menu-item">History</a></li>
+                    <li><a href="/director/directorCondemn" class="menu-item">Condemn Details</a></li>
+                    <li><a href="/director/directorMaintain" class="menu-item">Maintain Details</a></li>
+                    <li><a href="/director/directorYearlyVerification" class="menu-item">Yearly Verification</a></li>
                 </ul>
             </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <h1 style="color: var(--primary-color); font-weight: 700;">director - Asset Allocation</h1>
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="fas fa-tasks"></i>Asset Allocation
+                </h1>
+            </div>
+
+            <!-- Asset Assignment Filter -->
+            <div class="filter-section">
+                <div class="d-flex justify-content-center align-items-center" style="gap: 2rem;">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="assetViewMode" id="showAllAssets" value="all" checked>
+                        <label class="form-check-label" for="showAllAssets">All Assignments</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="assetViewMode" id="showCurrentAssets" value="current">
+                        <label class="form-check-label" for="showCurrentAssets">Current Assignments Only</label>
+                    </div>
+                </div>
+            </div>
 
             <!-- View All Section -->
-            <div class="card shadow-sm mb-4 border-0" style="max-width: 900px; margin: 2rem auto; background-color: var(--text-light);">
-                <div class="card-header d-flex justify-content-between align-items-center" style="background-color: var(--primary-dark); color: var(--text-light);">
-                    <h5 class="mb-0">All User-Asset Assignments</h5>
-                    
+            <div class="card asset-card">
+                <div class="card-header">
+                    <h5><i class="fas fa-list"></i>All User-Asset Assignments</h5>
+                    <button type="button" class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#assignUserAssetModal">
+                        <i class="fas fa-plus"></i> Assign User to Asset
+                    </button>
                 </div>
-                <div class="card-body rounded-bottom" style="background-color: var(--text-light);">
+                <div class="card-body">
                     <div class="row g-2 align-items-center mb-3 px-2 pt-2">
                         <div class="col-auto">
                             <label for="filterUserName" class="form-label fw-semibold" style="color: var(--primary-color);"><i class="fas fa-search me-1"></i>Filter by User Name:</label>
@@ -527,18 +822,19 @@
                             <input type="text" id="filterAssetId" class="form-control" style="border: 2px solid var(--primary-color); background-color: var(--text-light); color: var(--primary-dark);" placeholder="Type asset ID...">
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle shadow-sm rounded" id="userAssetTable" style="background-color: var(--text-light);">
-                            <thead style="background-color: var(--primary-light);">
+                    <div class="table-container">
+                        <table class="table table-hover align-middle">
+                            <thead>
                                 <tr>
-                                    <th style="color: var(--primary-color);">User ID</th>
-                                    <th style="color: var(--primary-color);">User Name</th>
-                                    <th style="color: var(--primary-color);">Job Role</th>
                                     <th style="color: var(--primary-color);">Asset ID</th>
                                     <th style="color: var(--primary-color);">Asset Name</th>
+                                    <th style="color: var(--primary-color);">User Name</th>
+                                    <th style="color: var(--primary-color);">User ID</th>
+                                    <th style="color: var(--primary-color);">Job Role</th>
+                                    <th style="color: var(--primary-color);">Time Period</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="userAssetTable">
                                 <!-- Data will be loaded here -->
                             </tbody>
                         </table>
@@ -546,44 +842,214 @@
                 </div>
             </div>
 
-           
+            <!-- Assign User to Asset Modal -->
+            <div class="modal fade" id="assignUserAssetModal" tabindex="-1" aria-labelledby="assignUserAssetModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="assignUserAssetModalLabel">
+                        <i class="fas fa-user-plus"></i>Assign User to Asset
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="assignUserAssetForm">
+                        <div class="row g-3 align-items-center mb-2">
+                            <div class="col-12 col-md-6 position-relative">
+                                <label for="userNameInput" class="form-label">User Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="userNameInput" placeholder="Type user name..." autocomplete="off">
+                                <div id="userNameSuggestions" class="list-group position-absolute w-100" style="z-index: 10;"></div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="userIdInput" class="form-label">User ID</label>
+                                <input type="text" class="form-control" id="userIdInput" readonly style="background-color: #f3f3f3;">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="jobRoleInput" class="form-label">Job Role</label>
+                            <input type="text" class="form-control" id="jobRoleInput" readonly>
+                        </div>
+                        <div class="mb-3 position-relative">
+                            <label for="assetIdInput" class="form-label">Asset ID</label>
+                            <input type="text" class="form-control" id="assetIdInput" placeholder="Type asset ID..." autocomplete="off">
+                            <div id="assetIdSuggestions" class="list-group position-absolute w-100"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="assetNameInput" class="form-label">Asset Name</label>
+                            <input type="text" class="form-control" id="assetNameInput" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="startDateInput" class="form-label">Start Date <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="startDateInput" required>
+                        </div>
+                        <div id="assetCondemnError" class="alert alert-danger py-2 px-3 mb-2 d-none" style="font-size: 0.95rem;"></div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </button>
+                    <button type="submit" form="assignUserAssetForm" class="btn btn-primary-custom">
+                        <i class="fas fa-save me-2"></i>Assign
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- End Date Modal -->
+            <div class="modal fade" id="endDateModal" tabindex="-1" aria-labelledby="endDateModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="endDateModalLabel">
+                        <i class="fas fa-calendar-times"></i>Close Asset Assignment
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div id="endDateModalStep1">
+                      <p>Do you want to close this asset record?</p>
+                      <button id="confirmCloseBtn" class="btn btn-danger">Yes, Close</button>
+                    </div>
+                    <div id="endDateModalStep2" style="display:none;">
+                      <label for="endDateInputModal" class="form-label">End Date</label>
+                      <input type="date" class="form-control" id="endDateInputModal" required>
+                      <button id="saveEndDateBtn" class="btn btn-success mt-3">Save End Date</button>
+                    </div>
+                    <div id="endDateModalError" class="alert alert-danger py-2 px-3 mb-2 d-none" style="font-size: 0.95rem;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </main>
+    </div>
 
     <!-- Footer -->
     <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-row">
+                <div class="footer-col">
+                    <h4>University of Peradeniya</h4>
+                    <p>The University of Peradeniya is a leading higher education institution in Sri Lanka, committed to excellence in teaching, research, and innovation.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/home">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contactUs">Contact</a></li>
+                        <li><a th:href="@{/}">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">User Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Training Videos</a></li>
+                        <li><a href="#">System Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe to receive updates and system announcements.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="footer-bottom">
+                <p>&copy; 2023 University of Peradeniya. All rights reserved.</p>
+                <p>Asset Management System v2.1</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // --- Load all assignments on page load ---
         let userAssetData = [];
-        function renderUserAssetTable() {
+        
+        // Render asset assignments based on radio button selection
+        function renderFilteredAssetTable() {
             const userNameValue = document.getElementById('filterUserName').value.toLowerCase();
             const assetIdValue = document.getElementById('filterAssetId').value.toLowerCase();
-            const tbody = document.querySelector('#userAssetTable tbody');
-            tbody.innerHTML = userAssetData
-                .filter(row => {
-                    const userNameMatch = row.userName.toLowerCase().includes(userNameValue);
-                    const assetIdMatch = row.assetId.toLowerCase().includes(assetIdValue);
-                    return userNameMatch && assetIdMatch;
-                })
-                .map(row => `
+            const viewMode = document.querySelector('input[name="assetViewMode"]:checked').value;
+            
+            let filtered = userAssetData.filter(row => {
+                const userNameMatch = (row.userName || '').toLowerCase().includes(userNameValue);
+                const assetIdMatch = (row.assetId || '').toLowerCase().includes(assetIdValue);
+                return userNameMatch && assetIdMatch;
+            });
+            
+            if (viewMode === 'current') {
+                filtered = filtered.filter(row => {
+                    return (row.timePeriod || '').endsWith('Present');
+                });
+            }
+            
+            if (viewMode === 'all') {
+                filtered = filtered.sort((a, b) => {
+                    const aCurrent = (a.timePeriod || '').endsWith('Present');
+                    const bCurrent = (b.timePeriod || '').endsWith('Present');
+                    if (aCurrent === bCurrent) return 0;
+                    return aCurrent ? -1 : 1;
+                });
+            }
+            
+            const tbody = document.querySelector('#userAssetTable');
+            tbody.innerHTML = filtered.map(row => {
+                let endDateBtn = '';
+                if (viewMode === 'current' && (row.timePeriod || '').endsWith('Present')) {
+                    endDateBtn = `<button class="btn btn-sm btn-warning add-end-date-btn" data-userid="${row.userId}" data-assetid="${row.assetId}">Add End Date</button>`;
+                }
+                return `
                     <tr>
-                        <td>${row.userId}</td>
-                        <td>${row.userName}</td>
-                        <td>${row.jobRole}</td>
-                        <td>${row.assetId}</td>
-                        <td>${row.assetName}</td>
+                        <td>${row.assetId || ''}</td>
+                        <td>${row.assetName || ''}</td>
+                        <td>${row.userName || ''}</td>
+                        <td>${row.userId || ''}</td>
+                        <td>${row.jobRole || ''}</td>
+                        <td>${row.timePeriod || ''} ${endDateBtn}</td>
                     </tr>
-                `).join('');
+                `;
+            }).join('');
+            
+            // Attach event listeners for end date buttons
+            document.querySelectorAll('.add-end-date-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const userId = this.getAttribute('data-userid');
+                    const assetId = this.getAttribute('data-assetid');
+                    showEndDateModal(userId, assetId);
+                });
+            });
         }
+        
         function loadUserAssetAssignments() {
             fetch('/director/assetAllocation/all')
                 .then(res => res.json())
                 .then(data => {
                     userAssetData = data;
-                    renderUserAssetTable();
+                    renderFilteredAssetTable();
                 });
         }
+        
         document.addEventListener('DOMContentLoaded', loadUserAssetAssignments);
-        document.getElementById('filterUserName').addEventListener('input', renderUserAssetTable);
-        document.getElementById('filterAssetId').addEventListener('input', renderUserAssetTable);
+        document.getElementById('filterUserName').addEventListener('input', renderFilteredAssetTable);
+        document.getElementById('filterAssetId').addEventListener('input', renderFilteredAssetTable);
+        document.getElementsByName('assetViewMode').forEach(radio => {
+            radio.addEventListener('change', renderFilteredAssetTable);
+        });
+        
         // --- User Name auto-suggest and job role auto-fill ---
         document.getElementById('userNameInput').addEventListener('input', function() {
             const query = this.value;
@@ -636,6 +1102,7 @@
             e.preventDefault();
             document.getElementById('assetCondemnError').classList.add('d-none');
             document.getElementById('assetCondemnError').textContent = '';
+            
             // Validate assetId is from suggestions
             const assetIdInput = document.getElementById('assetIdInput').value.trim();
             const assetNameInput = document.getElementById('assetNameInput').value.trim();
@@ -664,70 +1131,65 @@
                 body: JSON.stringify(payload)
             })
             .then(async res => {
-                if (res.ok) {
+                const text = await res.text();
+                if (res.ok && text === 'Success') {
                     alert('User assigned to asset successfully!');
                     location.reload();
+                } else if (text && text.includes('condemn')) {
+                    document.getElementById('assetCondemnError').textContent = 'This asset is condemned and cannot be assigned.';
+                    document.getElementById('assetCondemnError').classList.remove('d-none');
+                } else if (text && text.includes('already assigned')) {
+                    document.getElementById('assetCondemnError').innerHTML = 'That asset is already assigned and currently in use.<br><span style="color: #800000; font-weight: 500;">See <a href="#showCurrentAssets" style="color: #800000; text-decoration: underline; font-weight: 600;">Current Assignments Only</a> filter above for details.</span>';
+                    document.getElementById('assetCondemnError').classList.remove('d-none');
                 } else {
-                    const text = await res.text();
-                    if (text && text.includes('condemn')) {
-                        document.getElementById('assetCondemnError').textContent = 'This asset is condemned and cannot be assigned.';
-                        document.getElementById('assetCondemnError').classList.remove('d-none');
-                    } else {
-                        alert('Error assigning user to asset.');
-                    }
+                    alert('Error assigning user to asset.');
                 }
             });
         });
-    </script>
-        <div class="footer-container">
-            <div class="footer-row">
-                <div class="footer-col">
-                    <h4>University of Peradeniya</h4>
-                    <p>The University of Peradeniya is a leading higher education institution in Sri Lanka, committed to excellence in teaching, research, and innovation.</p>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="/home">Home</a></li>
-                        <li><a href="/about">About</a></li>
-                        <li><a href="/contactUs">Contact</a></li>
-                        <li><a th:href="@{/}">Login</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">User Guide</a></li>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Training Videos</a></li>
-                        <li><a href="#">System Updates</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Newsletter</h4>
-                    <p>Subscribe to receive updates and system announcements.</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Your Email">
-                        <button type="submit">Subscribe</button>
-                    </form>
-                </div>
-            </div>
-            <hr class="footer-divider">
-            <div class="footer-bottom">
-                <p>&copy; 2023 University of Peradeniya. All rights reserved.</p>
-                <p>Asset Management System v2.1</p>
-            </div>
-        </div>
-    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
+        // End Date Modal Functions
+        let endDateUserId = '';
+        let endDateAssetId = '';
+        
+        function showEndDateModal(userId, assetId) {
+            endDateUserId = userId;
+            endDateAssetId = assetId;
+            document.getElementById('endDateModalStep1').style.display = '';
+            document.getElementById('endDateModalStep2').style.display = 'none';
+            document.getElementById('endDateModalError').classList.add('d-none');
+            const modal = new bootstrap.Modal(document.getElementById('endDateModal'));
+            modal.show();
+            
+            document.getElementById('confirmCloseBtn').onclick = function() {
+                document.getElementById('endDateModalStep1').style.display = 'none';
+                document.getElementById('endDateModalStep2').style.display = '';
+            };
+            
+            document.getElementById('saveEndDateBtn').onclick = function() {
+                const endDate = document.getElementById('endDateInputModal').value;
+                if (!endDate) {
+                    document.getElementById('endDateModalError').textContent = 'Please select an end date.';
+                    document.getElementById('endDateModalError').classList.remove('d-none');
+                    return;
+                }
+                
+                fetch('/director/assetAllocation/endDate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId: endDateUserId, assetId: endDateAssetId, endDate })
+                })
+                .then(async res => {
+                    if (res.ok) {
+                        alert('End date saved successfully!');
+                        location.reload();
+                    } else {
+                        document.getElementById('endDateModalError').textContent = 'Error saving end date.';
+                        document.getElementById('endDateModalError').classList.remove('d-none');
+                    }
+                });
+            };
+        }
+
         // Mobile menu toggle functionality
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
             document.querySelector('.sidebar').classList.toggle('active');
@@ -747,9 +1209,12 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
     </script>
