@@ -131,7 +131,7 @@
         /* Sidebar Styles */
         .sidebar {
             width: 250px;
-            background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
+            background: var(--primary-color) !important;
             color: white;
             height: calc(100vh - 60px);
             position: sticky;
@@ -226,6 +226,7 @@
             margin-bottom: 1.2rem;
             position: relative;
             padding-bottom: 0.5rem;
+            font-size: 1.1rem;
         }
         
         .footer-col h4::after {
@@ -462,7 +463,7 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="main-header">
+<header class="main-header">
         <div class="header-container">
             <button class="mobile-menu-btn">
                 <i class="fas fa-bars"></i>
@@ -477,6 +478,17 @@
             <nav class="main-nav">
                 <ul>
                     <li><a href="/directorhome">Home</a></li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a th:href="@{/director/profile}" href="/director/profile" class="d-flex align-items-center text-light text-decoration-none" style="min-width:140px;">
+                            <span class="d-flex align-items-center">
+                                <img th:src="@{'https://ui-avatars.com/api/?name=' + ${username}}" src="https://ui-avatars.com/api/?name=User" th:title="${email}" alt="Avatar" width="36" height="36" class="rounded-circle me-2" style="object-fit:cover; background:#fff; border:1px solid #ccc;">
+                                <span>
+                                    <span th:text="${username}" class="fw-semibold text-truncate" style="max-width:80px;">Username</span>
+                                   
+                                </span>
+                            </span>
+                        </a>
+                    </li>
                     <li><a th:href="@{/}" class="btn btn-outline-light">Logout</a></li>
                 </ul>
             </nav>
@@ -490,21 +502,39 @@
             <nav>
                 <ul class="sidebar-menu">
                     <li><a href="/director/home" class="menu-item ">Dashboard</a></li>
-                    <li><a href="/director/directorStaff" class="menu-item ">Staff</a></li>
-                    <li><a href="/director/directorUserHistory" class="menu-item">User History</a></li>
-                    <li><a href="/director/directorMaintain" class="menu-item">Maintain</a></li>
-                    <li><a href="/director/directorCondemn" class="menu-item">Condemn</a></li>
-                    <li><a href="/director/directorAssetAllocation" class="menu-item ">Asset Allocation</a></li>
-                    <li><a href="/director/directorAsset" class="menu-item">Asset</a></li>
-                    <li><a href="/director/directorInvoice" class="menu-item ">Invoice</a></li>
-                    <li><a href="/director/directorMovement" class="menu-item active">Movement</a></li>
+                    <li>
+                        <a class="menu-item d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#setupSubmenu" role="button" aria-expanded="false" aria-controls="setupSubmenu">
+                            <span>Setup</span>
+                            <i class="fas fa-chevron-down small"></i>
+                        </a>
+                        <ul class="collapse ps-4" id="setupSubmenu">
+                            <li><a href="/director/directorInvoice" class="menu-item">Add Invoice</a></li>
+                            <li><a href="/director/directorStaff" class="menu-item">Add Staff</a></li>
+                            <li><a href="/director/directorAsset" class="menu-item ">Add Asset</a></li>
+                        </ul>
+                    </li>
+                        
+                        <a class="menu-item d-flex justify-content-between align-items-center active" data-bs-toggle="collapse" href="#allocationSubmenu" role="button" aria-expanded="false" aria-controls="allocationSubmenu">
+                            <span>Allocation</span>
+                            <i class="fas fa-chevron-down small"></i>
+                        </a>
+                        <ul class="collapse ps-4" id="allocationSubmenu">
+                            <li><a href="/director/directorAssetAllocation" class="menu-item">User Allocation</a></li>
+                            <li><a href="/director/directorMovement" class="menu-item active">Location Allocation</a></li>
+                        </ul>
+                        
+                        
+                    <li><a href="/director/directorUserHistory" class="menu-item">History</a></li>
+                    <li><a href="/director/directorCondemn" class="menu-item">Condemn Details</a></li>
+                    <li><a href="/director/directorMaintain" class="menu-item">Maintain Details</a></li>
+                    <li><a href="/director/directorYearlyVerification" class="menu-item">Yearly Verification</a></li>
                 </ul>
             </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <h1>Director - Movement</h1>
+            <h1>director - Movement</h1>
         </main>
     </div>
 
