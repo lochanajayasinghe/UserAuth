@@ -1004,7 +1004,7 @@
                                 <img th:src="@{'https://ui-avatars.com/api/?name=' + ${username}}" src="https://ui-avatars.com/api/?name=User" th:title="${email}" alt="Avatar" width="36" height="36" class="rounded-circle me-2" style="object-fit:cover; background:#fff; border:1px solid #ccc;">
                                 <span>
                                     <span th:text="${username}" class="fw-semibold text-truncate" style="max-width:80px;">Username</span>
-                                   
+                                    <span th:text="${email}" class="d-block small text-light" style="max-width:120px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">user@email.com</span>
                                 </span>
                             </span>
                         </a>
@@ -1077,6 +1077,7 @@
                                         <th><i class="fas fa-hashtag me-2"></i>Asset ID</th>
                                         <th><i class="fas fa-tag me-2"></i>Asset Name</th>
                                         <th><i class="fas fa-toggle-on me-2"></i>Condemnation Status</th>
+                                        <th><i class="fas fa-toggle-on me-2"></i>View</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1166,7 +1167,7 @@
         </main>
     </div>
 
-    <!-- Footer -->
+     <!-- Footer -->
     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-row">
@@ -1229,40 +1230,19 @@
                     <td><strong>${asset.assetId}</strong></td>
                     <td>${asset.name}</td>
                     <td>
-                        <div class="status-controls">
-                            <div class="form-check-custom">
-                                <input class="form-check-input" type="radio" name="condemnStatus_${asset.assetId}" id="condemnOff_${asset.assetId}" value="off" ${isCondemned ? 'disabled' : 'checked'}>
-                                <label class="form-check-label" for="condemnOff_${asset.assetId}">
-                                    <i class="fas fa-check-circle text-success"></i>Active
-                                </label>
-                            </div>
-                            <div class="form-check-custom">
-                                <input class="form-check-input" type="radio" name="condemnStatus_${asset.assetId}" id="condemnOn_${asset.assetId}" value="on" ${isCondemned ? 'checked disabled' : ''}>
-                                <label class="form-check-label" for="condemnOn_${asset.assetId}">
-                                    <i class="fas fa-exclamation-triangle text-warning"></i>Condemn
-                                </label>
-                            </div>
-                            <button class="btn view-btn" onclick="viewAsset('${asset.assetId}')">
-                                <i class="fas fa-eye"></i>View Details
-                            </button>
-                        </div>
+                        <span class="status-badge ${isCondemned ? 'status-condemned' : 'status-active'}">
+                            <i class="fas ${isCondemned ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i>
+                            ${isCondemned ? 'Condemn' : 'Active'}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn view-btn" onclick="viewAsset('${asset.assetId}')">
+                            <i class="fas fa-eye"></i>View Details
+                        </button>
                     </td>
                 </tr>
                 `;
             }).join('');
-            
-            // Add event listeners for radio buttons only if not condemned
-            assets.forEach(asset => {
-                if (asset.activityStatus) {
-                    document.getElementById(`condemnOn_${asset.assetId}`).addEventListener('change', function() {
-                        if (this.checked) {
-                            selectedAssetId = asset.assetId;
-                            const confirmModal = new bootstrap.Modal(document.getElementById('condemnConfirmModal'));
-                            confirmModal.show();
-                        }
-                    });
-                }
-            });
         }
         
         function loadAssets() {
