@@ -545,7 +545,7 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="main-header">
+<header class="main-header">
         <div class="header-container">
             <button class="mobile-menu-btn">
                 <i class="fas fa-bars"></i>
@@ -553,36 +553,63 @@
             <div class="logo-container">
                 <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
                 <div>
-                    <h5 class="mb-0">University of Peradeniya</h5>
-                    <small>Asset Management System - Director</small>
+                    <h5 class="mb-0 text-light">University of Peradeniya</h5>
+                    <small class="text-light">Asset Management System - Director</small>
                 </div>
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="/directorhome" class="menu-item active">Home</a></li>
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="/directorhome">Home</a></li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a th:href="@{/director/profile}" href="/director/profile" class="d-flex align-items-center text-light text-decoration-none" style="min-width:140px;">
+                            <span class="d-flex align-items-center">
+                                <img th:src="@{'https://ui-avatars.com/api/?name=' + ${username}}" src="https://ui-avatars.com/api/?name=User" th:title="${email}" alt="Avatar" width="36" height="36" class="rounded-circle me-2" style="object-fit:cover; background:#fff; border:1px solid #ccc;">
+                                <span>
+                                    <span th:text="${username}" class="fw-semibold text-truncate" style="max-width:80px;">Username</span>
+                                    <span th:text="${email}" class="d-block small text-light" style="max-width:120px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">user@email.com</span>
+                                </span>
+                            </span>
+                        </a>
+                    </li>
                     <li><a th:href="@{/}" class="btn btn-outline-light">Logout</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
+    <!-- Main Content with Sidebar -->
     <div class="d-flex flex-grow-1">
         <!-- Sidebar -->
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
                     <li><a href="/director/home" class="menu-item ">Dashboard</a></li>
-                    <li><a href="/director/directorStaff" class="menu-item ">Staff</a></li>
-                    <li><a href="/director/directorUserHistory" class="menu-item">User History</a></li>
-                    <li><a href="/director/directorMaintain" class="menu-item">Maintain</a></li>
-                    <li><a href="/director/directorCondemn" class="menu-item">Condemn</a></li>
-                    <li><a href="/director/directorAssetAllocation" class="menu-item ">Asset Allocation</a></li>
-                    <li><a href="/director/directorAsset" class="menu-item">Asset</a></li>
-                    <li><a href="/director/directorInvoice" class="menu-item ">Invoice</a></li>
-                    <li><a href="/director/directorMovement" class="menu-item">Movement</a></li>
+                    <li>
+                        <a class="menu-item d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#setupSubmenu" role="button" aria-expanded="false" aria-controls="setupSubmenu">
+                            <span>Setup</span>
+                            <i class="fas fa-chevron-down small"></i>
+                        </a>
+                        <ul class="collapse ps-4" id="setupSubmenu">
+                            <li><a href="/director/directorInvoice" class="menu-item">Add Invoice</a></li>
+                            <li><a href="/director/directorStaff" class="menu-item">Add Staff</a></li>
+                            <li><a href="/director/directorAsset" class="menu-item ">Add Asset</a></li>
+                        </ul>
+                    </li>
+                        
+                        <a class="menu-item d-flex justify-content-between align-items-center active" data-bs-toggle="collapse" href="#allocationSubmenu" role="button" aria-expanded="false" aria-controls="allocationSubmenu">
+                            <span>Allocation</span>
+                            <i class="fas fa-chevron-down small"></i>
+                        </a>
+                        <ul class="collapse ps-4" id="allocationSubmenu">
+                            <li><a href="/director/directorAssetAllocation" class="menu-item active">User Allocation</a></li>
+                            <li><a href="/director/directorMovement" class="menu-item">Location Allocation</a></li>
+                        </ul>
+                        
+                        
+                    <li><a href="/director/directorUserHistory" class="menu-item">History</a></li>
+                    <li><a href="/director/directorCondemn" class="menu-item">Condemn Details</a></li>
+                    <li><a href="/director/directorMaintain" class="menu-item">Maintain Details</a></li>
+                    <li><a href="/director/directorYearlyVerification" class="menu-item">Yearly Verification</a></li>
                 </ul>
             </nav>
         </aside>
