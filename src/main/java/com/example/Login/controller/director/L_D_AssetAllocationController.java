@@ -14,6 +14,29 @@ import java.util.Map;
 @RestController
 @RequestMapping("/director/assetAllocation")
 public class L_D_AssetAllocationController {
+    // Set end date for asset assignment
+    @PostMapping("/endDate")
+    public String setEndDate(@RequestBody Map<String, String> payload) {
+        String userId = payload.get("userId");
+        String assetId = payload.get("assetId");
+        String endDateStr = payload.get("endDate");
+        if (userId == null || assetId == null || endDateStr == null) return "Missing data";
+        List<AssetUser> assignments = assetUserRepository.findAll().stream()
+            .filter(u -> userId.equals(u.getUserId()) && assetId.equals(u.getAsset().getAssetId()) && u.getEndDate() == null)
+            .toList();
+        if (assignments.isEmpty()) return "Assignment not found";
+        try {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date endDate = sdf.parse(endDateStr);
+            for (AssetUser u : assignments) {
+                u.setEndDate(endDate);
+                assetUserRepository.save(u);
+            }
+            return "Success";
+        } catch (Exception e) {
+            return "Invalid date";
+        }
+    }
     @Autowired
     private AssetUserRepository assetUserRepository;
     @Autowired
@@ -54,13 +77,26 @@ public class L_D_AssetAllocationController {
     public List<Map<String, String>> getAllAssignments() {
         return assetUserRepository.findAll().stream()
             .filter(u -> u.getAsset() != null && u.getUserId() != null && !u.getUserId().trim().isEmpty())
-            .map(u -> Map.of(
-                "userId", u.getUserId(),
-                "userName", u.getUserName(),
-                "jobRole", u.getJobRole(),
-                "assetId", u.getAsset().getAssetId(),
-                "assetName", u.getAsset().getName()
-            ))
+            .map(u -> {
+                String start = u.getStartDate() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(u.getStartDate()) : "";
+                String end = u.getEndDate() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(u.getEndDate()) : "";
+                String timePeriod;
+                if (!start.isEmpty() && !end.isEmpty()) {
+                    timePeriod = start + " - " + end;
+                } else if (!start.isEmpty()) {
+                    timePeriod = start + " - Present";
+                } else {
+                    timePeriod = "";
+                }
+                return Map.of(
+                    "userId", u.getUserId(),
+                    "userName", u.getUserName(),
+                    "jobRole", u.getJobRole(),
+                    "assetId", u.getAsset().getAssetId(),
+                    "assetName", u.getAsset().getName(),
+                    "timePeriod", timePeriod
+                );
+            })
             .collect(Collectors.toList());
     }
 
@@ -77,6 +113,17 @@ public class L_D_AssetAllocationController {
         // Prevent assignment if asset is condemned (activityStatus == false)
         if (!asset.isActivityStatus()) {
             return "Error: This asset is condemned and cannot be assigned.";
+        }
+        // If asset is already assigned, end previous assignment
+        List<AssetUser> currentAssignments = assetUserRepository.findAll().stream()
+            .filter(u -> assetId.equals(u.getAsset().getAssetId()) && u.getEndDate() == null)
+            .toList();
+        if (!currentAssignments.isEmpty()) {
+            java.util.Date today = new java.util.Date();
+            for (AssetUser u : currentAssignments) {
+                u.setEndDate(today);
+                assetUserRepository.save(u);
+            }
         }
         AssetUser assetUser = new AssetUser();
         assetUser.setUserId(userId);
