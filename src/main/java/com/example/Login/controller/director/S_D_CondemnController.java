@@ -23,5 +23,8 @@ public class S_D_CondemnController {
         return condemnService.condemnAsset(condemn);
     }
 
-    
+    @GetMapping("/condemnDetails")
+    public Condemn getCondemnDetails(@RequestParam String assetId) {
+        return condemnService.getLatestCondemnByAssetId(assetId);
+    }
 }
