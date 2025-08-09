@@ -1,29 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asset Management System | University of Peradeniya</title>
+    <title>Admin Profile | Asset Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #800000;
             --primary-dark: #600000;
             --primary-light: #a04040;
+            --secondary-color: #f8f9fa;
             --accent-color: #ffc107;
-            --text-light: #f8f9fa;
             --text-dark: #343a40;
+            --text-light: #f8f9fa;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
+            --gradient-primary: linear-gradient(135deg, #800000 0%, #a04040 100%);
+            --gradient-light: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
         }
         
+        /* Base Styles */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             color: var(--text-dark);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            background-color: #f5f5f5;
+            margin: 0;
         }
         
         /* Header Styles */
@@ -46,92 +53,22 @@
             padding: 0 20px;
         }
         
-        .logo-container {
-            display: flex;
-            align-items: center;
-            transition: var(--transition);
-        }
+        .logo-container { display: flex; align-items: center; transition: var(--transition); }
+        .logo-container:hover { transform: translateX(3px); }
+        .logo-img { height: 50px; margin-right: 15px; transition: var(--transition); filter: brightness(1.1) drop-shadow(0 0 2px rgba(0,0,0,0.3)); }
+        .logo-img:hover { transform: scale(1.05); }
         
-        .logo-container:hover {
-            transform: translateX(3px);
-        }
-        
-        .logo-img {
-            height: 40px;
-            margin-right: 10px;
-            transition: var(--transition);
-        }
-        
-        .logo-img:hover {
-            transform: scale(1.05);
-        }
-        
-        .main-nav ul {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            align-items: center;
-        }
-        
-        .main-nav li {
-            margin-left: 15px;
-            position: relative;
-        }
-        
-        .main-nav a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 0.8rem;
-            border-radius: 4px;
-            transition: var(--transition);
-            display: inline-block;
-        }
-        
-        .main-nav a:not(.login-btn):hover {
-            background-color: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-        }
-        
-        .main-nav a:not(.login-btn)::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 50%;
-            background-color: var(--accent-color);
-            transition: var(--transition);
-            transform: translateX(-50%);
-        }
-        
-        .main-nav a:not(.login-btn):hover::after {
-            width: 70%;
-        }
-        
-        .login-btn {
-            background-color: var(--accent-color);
-            color: #212529;
-            padding: 0.6rem 1.2rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-            border: 2px solid transparent;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .login-btn:hover {
-            background-color: #e0a800;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-        
+        .main-nav ul { display: flex; list-style: none; margin: 0; padding: 0; align-items: center; }
+        .main-nav li { margin-left: 15px; position: relative; }
+        .main-nav a { color: white; text-decoration: none; padding: 0.5rem 0.8rem; border-radius: 4px; transition: var(--transition); display: inline-block; }
+        .main-nav a:not(.login-btn):hover { background-color: rgba(255, 255, 255, 0.15); transform: translateY(-2px); }
+        .login-btn { background-color: var(--accent-color); color: #212529; padding: 0.6rem 1.2rem; border-radius: 4px; text-decoration: none; font-weight: 600; transition: var(--transition); border: 2px solid transparent; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+        .login-btn:hover { background-color: #e0a800; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); border-color: rgba(0, 0, 0, 0.1); }
+
         /* Sidebar Styles */
         .sidebar {
             width: 250px;
-            background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
+            background: var(--primary-color) !important;
             color: white;
             height: calc(100vh - 60px);
             position: sticky;
@@ -140,442 +77,80 @@
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
             padding-top: 1rem;
         }
-        
-        .sidebar-menu {
-            padding: 0;
-            list-style: none;
-        }
-        
-        .menu-item {
-            display: block;
-            padding: 0.8rem 1.5rem;
-            color: white;
-            text-decoration: none;
-            transition: var(--transition);
-            margin: 0.25rem 1rem;
-            border-left: 4px solid transparent;
-            font-size: 0.95rem;
-            border-radius: 0 4px 4px 0;
-            position: relative;
-        }
-        
-        .menu-item:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-left: 4px solid var(--accent-color);
-            transform: translateX(5px);
-        }
-        
-        .menu-item.active {
-            background-color: rgba(255, 255, 255, 0.2);
-            border-left: 4px solid var(--accent-color);
-            font-weight: 500;
-        }
-        
-        .menu-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 0;
-            background-color: rgba(255, 255, 255, 0.05);
-            transition: var(--transition);
-            z-index: -1;
-        }
-        
-        .menu-item:hover::before {
-            width: 100%;
-        }
-        
+        .sidebar-menu { padding: 0; list-style: none; }
+        .menu-item { display: block; padding: 0.8rem 1.5rem; color: white; text-decoration: none; transition: var(--transition); margin: 0.25rem 1rem; border-left: 4px solid transparent; font-size: 0.95rem; border-radius: 0 4px 4px 0; position: relative; }
+        .menu-item:hover { background-color: rgba(255, 255, 255, 0.1); border-left: 4px solid var(--accent-color); transform: translateX(5px); }
+        .menu-item.active { background-color: rgba(255, 255, 255, 0.2); border-left: 4px solid var(--accent-color); font-weight: 500; }
+        .menu-item::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 0; background-color: rgba(255, 255, 255, 0.05); transition: var(--transition); z-index: -1; }
+        .menu-item:hover::before { width: 100%; }
+
         /* Main Content Styles */
-        .main-content {
-            flex: 1;
-            padding: 2rem;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin: 1rem;
-            border: 4px solid #fff;
-        }
-        
+        .main-content { flex: 1; padding: 2.5rem; background: var(--gradient-light); border-radius: 20px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); margin: 1.5rem; max-width: 1200px; width: 100%; position: relative; overflow: hidden; }
+        .main-content::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--gradient-primary); border-radius: 20px 20px 0 0; }
+
+        /* Page Header Styles */
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; padding: 2rem; background: var(--gradient-light); border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); position: relative; overflow: hidden; }
+        .page-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(128, 0, 0, 0.03) 0%, rgba(255, 193, 7, 0.03) 100%); pointer-events: none; }
+        .page-title { color: var(--primary-color); font-weight: 700; display: flex; align-items: center; font-size: 1.5rem; margin: 0; position: relative; z-index: 1; }
+        .page-title i { margin-right: 15px; padding: 12px; background: var(--gradient-primary); color: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(128, 0, 0, 0.3); }
+
         /* Footer Styles */
-        .main-footer {
-            background-color: var(--primary-color);
-            color: var(--text-light);
-            padding: 40px 0;
-        }
-        
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .footer-row {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-        
-        .footer-col {
-            width: 25%;
-            margin-bottom: 20px;
-        }
-        
-        .footer-col h4 {
-            color: var(--accent-color);
-            margin-bottom: 1.2rem;
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-        
-        .footer-col h4::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 40px;
-            height: 2px;
-            background-color: var(--accent-color);
-        }
-        
-        .footer-col ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .footer-col li {
-            margin-bottom: 0.6rem;
-            transition: var(--transition);
-        }
-        
-        .footer-col li:hover {
-            transform: translateX(5px);
-        }
-        
-        .footer-col a {
-            color: white;
-            text-decoration: none;
-            transition: var(--transition);
-            display: inline-block;
-            padding: 0.2rem 0;
-        }
-        
-        .footer-col a:hover {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-        
-        .social-icons {
-            display: flex;
-            margin-top: 1.5rem;
-        }
-        
-        .social-icons a {
-            color: white;
-            margin-right: 15px;
-            font-size: 1.2rem;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .social-icons a:hover {
-            background-color: var(--accent-color);
-            color: var(--text-dark);
-            transform: translateY(-3px);
-        }
-        
-        .newsletter-form {
-            display: flex;
-            margin-top: 1.5rem;
-        }
-        
-        .newsletter-form input {
-            flex: 1;
-            padding: 0.6rem;
-            border: none;
-            border-radius: 4px 0 0 4px;
-            background-color: rgba(255, 255, 255, 0.9);
-        }
-        
-        .newsletter-form button {
-            background-color: var(--accent-color);
-            color: #212529;
-            border: none;
-            padding: 0 1.2rem;
-            border-radius: 0 4px 4px 0;
-            font-weight: 600;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-        
-        .newsletter-form button:hover {
-            background-color: #e0a800;
-        }
-        
-        .footer-divider {
-            border-color: rgba(255,255,255,0.1);
-            margin: 20px 0;
-        }
-        
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-        }
-        
-        /* Button Styles */
-        .btn-hero {
-            padding: 0.8rem 1.8rem;
-            font-weight: 600;
-            border-radius: 4px;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .btn-hero-primary {
-            background-color: var(--accent-color);
-            color: #212529;
-            border: 2px solid transparent;
-        }
-        
-        .btn-hero-primary:hover {
-            background-color: #e0a800;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .btn-hero-outline {
-            border: 2px solid white;
-            color: white;
-            background-color: transparent;
-        }
-        
-        .btn-hero-outline:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* Card Styles */
-        .feature-card {
-            border: none;
-            border-radius: 8px;
-            transition: var(--transition);
-            height: 100%;
-            border-top: 4px solid var(--primary-color);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        
+        .main-footer { background-color: var(--primary-color); color: var(--text-light); padding: 40px 0; margin-top: auto; }
+        .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .footer-row { display: flex; flex-wrap: wrap; justify-content: space-between; }
+        .footer-col { width: 25%; margin-bottom: 20px; padding: 0 15px; }
+        .footer-col h4 { color: var(--accent-color); margin-bottom: 1.2rem; position: relative; padding-bottom: 0.5rem; font-size: 1.1rem; }
+        .footer-col h4::after { content: ''; position: absolute; left: 0; bottom: 0; width: 40px; height: 2px; background-color: var(--accent-color); }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col li { margin-bottom: 0.6rem; }
+        .footer-col a { color: white; text-decoration: none; transition: var(--transition); display: inline-block; padding: 0.2rem 0; font-size: 0.9rem; }
+        .footer-col a:hover { color: var(--accent-color); transform: translateX(3px); }
+        .social-icons { display: flex; margin-top: 1.5rem; gap: 10px; }
+        .social-icons a { color: white; font-size: 1rem; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: var(--transition); background-color: rgba(255, 255, 255, 0.1); }
+        .social-icons a:hover { background-color: var(--accent-color); color: var(--text-dark); transform: translateY(-3px); }
+        .newsletter-form { display: flex; margin-top: 1.5rem; }
+        .newsletter-form input { flex: 1; padding: 0.6rem; border: none; border-radius: 4px 0 0 4px; background-color: rgba(255, 255, 255, 0.9); font-size: 0.9rem; }
+        .newsletter-form button { background-color: var(--accent-color); color: #212529; border: none; padding: 0 1.2rem; border-radius: 0 4px 4px 0; font-weight: 600; transition: var(--transition); cursor: pointer; font-size: 0.9rem; }
+        .newsletter-form button:hover { background-color: #e0a800; }
+        .footer-divider { border-color: rgba(255,255,255,0.1); margin: 20px 0; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; padding-top: 20px; }
+
         /* Responsive Adjustments */
         @media (max-width: 992px) {
-            .footer-col {
-                width: 50%;
-            }
-            
-            .sidebar {
-                width: 70px;
-                overflow: hidden;
-            }
-            
-            .menu-text {
-                display: none;
-            }
+            .footer-col { width: 50%; }
+            .sidebar { width: 70px; overflow: hidden; }
+            .menu-text { display: none; }
+            .menu-item { justify-content: center; padding: 0.8rem 0.5rem; }
+            .menu-item i { margin-right: 0; }
+            .main-content { margin: 1rem; padding: 2rem; }
+            .page-title { font-size: 1.5rem; }
         }
-        
         @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .main-nav {
-                margin-top: 1rem;
-                width: 100%;
-            }
-            
-            .main-nav ul {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            
-            .main-nav li {
-                margin: 0.3rem;
-            }
-            
-            .footer-col {
-                width: 100%;
-            }
-            
-            .sidebar {
-                position: fixed;
-                height: 100vh;
-                top: 0;
-                z-index: 900;
-                transform: translateX(-100%);
-                padding-top: 60px;
-            }
-            
-            .sidebar.active {
-                transform: translateX(0);
-            }
-            
-            .mobile-menu-btn {
-                display: block !important;
-                background: none;
-                border: none;
-                font-size: 1.5rem;
-                color: white;
-                cursor: pointer;
-                margin-right: 1rem;
-                transition: var(--transition);
-            }
-            
-            .mobile-menu-btn:hover {
-                color: var(--accent-color);
-                transform: scale(1.1);
-            }
-            
-            .btn-hero {
-                padding: 0.7rem 1.5rem;
-                font-size: 0.9rem;
-                margin-bottom: 0.5rem;
-            }
+            .header-container { flex-direction: column; text-align: center; }
+            .main-nav { margin-top: 1rem; width: 100%; }
+            .main-nav ul { justify-content: center; flex-wrap: wrap; }
+            .main-nav li { margin: 0.3rem; }
+            .footer-col { width: 100%; }
+            .sidebar { position: fixed; height: 100vh; top: 0; z-index: 900; transform: translateX(-100%); padding-top: 60px; }
+            .sidebar.active { transform: translateX(0); }
+            .mobile-menu-btn { display: block !important; background: none; border: none; font-size: 1.5rem; color: white; cursor: pointer; margin-right: 1rem; transition: var(--transition); }
+            .mobile-menu-btn:hover { color: var(--accent-color); transform: scale(1.1); }
+            .main-content { margin: 0.5rem; padding: 1.5rem; border-radius: 16px; }
+            .footer-bottom { flex-direction: column; text-align: center; gap: 10px; }
+            .page-title { font-size: 1.3rem; }
         }
-        
-        .mobile-menu-btn {
-            display: none;
-        }
-        body {
-            background: #f5f5f5;
-            color: var(--text-dark);
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            min-height: 100vh;
-        }
-        .who-header {
-            text-align: center;
-            margin-top: 48px;
-            margin-bottom: 0;
-            letter-spacing: 2px;
-        }
-        .who-title {
-            font-size: 3.2rem;
-            font-weight: 700;
-            color: #ff9800;
-            margin-bottom: 0.5rem;
-            letter-spacing: 1px;
-        }
-        .profile-pic {
-            width: 210px;
-            height: 210px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 7px solid #ff9800;
-            background: #fff;
-            margin: 32px auto 18px auto;
-            display: block;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
-        }
-        .who-desc {
-            color: #d1d1d1;
-            font-size: 1.08rem;
-            max-width: 700px;
-            margin: 0 auto 32px auto;
-            text-align: center;
-        }
-        .who-username {
-            color: #ff9800;
-            font-size: 1.25rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-        .who-email {
-            color: #bdbdbd;
-            font-size: 1.08rem;
-            margin-bottom: 0.5rem;
-        }
-        .who-roles {
-            margin-bottom: 1.5rem;
-        }
-        .who-role-badge {
-            background: linear-gradient(90deg, #800000 0%, #a04040 100%);
-            color: #fff;
-            font-size: 1.08rem;
-            margin-right: 10px;
-            margin-bottom: 7px;
-            padding: 10px 28px;
-            border-radius: 30px;
-            letter-spacing: 0.5px;
-            display: inline-block;
-        }
-        .who-cards {
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            margin: 48px auto 0 auto;
-            max-width: 900px;
-            flex-wrap: wrap;
-        }
-        .who-card {
-            background: #fff;
-            border-radius: 18px;
-            box-shadow: 0 8px 32px rgba(128,0,0,0.10);
-            border: 2px solid var(--primary-color);
-            padding: 2.2rem 1.5rem 1.5rem 1.5rem;
-            text-align: center;
-            width: 220px;
-            min-height: 180px;
-            transition: var(--transition);
-            margin-bottom: 24px;
-        }
-        .who-card:hover {
-            transform: translateY(-7px) scale(1.04);
-            box-shadow: 0 16px 40px rgba(128,0,0,0.18);
-            border-color: var(--accent-color);
-        }
-        .who-card i {
-            font-size: 2.2rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-        .who-card-title {
-            font-size: 1.18rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--primary-color);
-            letter-spacing: 0.5px;
-        }
-        .who-card-link {
-            color: var(--accent-color);
-            font-size: 1.02rem;
-            font-weight: 600;
-            text-decoration: underline;
-            margin-top: 0.7rem;
-            display: inline-block;
-            letter-spacing: 0.5px;
-        }
-        @media (max-width: 900px) {
-            .who-cards { gap: 18px; }
-            .who-card { width: 180px; padding: 1.5rem 1rem 1rem 1rem; }
-        }
-        @media (max-width: 600px) {
-            .who-cards { flex-direction: column; align-items: center; }
-            .who-card { width: 90vw; max-width: 320px; }
-        }
+        .mobile-menu-btn { display: none; }
+    </style>
+
+    <!-- Profile specific styles -->
+    <style>
+        .profile-card { max-width: 980px; margin: 30px auto; border-radius: 16px; box-shadow: 0 12px 30px rgba(0,0,0,.08); border: 0; overflow: hidden; }
+        .profile-header { background: var(--gradient-primary); color: #fff; padding: 24px; }
+        .avatar { width: 96px; height: 96px; border-radius: 50%; border: 3px solid rgba(255,255,255,.7); background: #fff; object-fit: cover; }
+        .info-label { font-weight: 600; color: var(--primary-dark); }
+        .badge-role { background: var(--accent-color); color: #212529; font-weight: 600; }
+        .kv { padding: 10px 0; border-bottom: 1px dashed rgba(0,0,0,.08); }
+        .kv:last-child { border-bottom: 0; }
     </style>
 </head>
 <body>
@@ -598,10 +173,11 @@
                     <li sec:authorize="isAuthenticated()">
                         <a th:href="@{/admin/profile}" href="/admin/profile" class="d-flex align-items-center text-light text-decoration-none" style="min-width:140px;">
                             <span class="d-flex align-items-center">
-                                <img th:src="@{'https://ui-avatars.com/api/?name=' + ${username}}" src="https://ui-avatars.com/api/?name=User" th:title="${email}" alt="Avatar" width="36" height="36" class="rounded-circle me-2" style="object-fit:cover; background:#fff; border:1px solid #ccc;">
+                                <img th:src="${#strings.isEmpty(profilePhotoUrl)} ? @{https://ui-avatars.com/api/?name={u}(u=${username})} : @{${profilePhotoUrl}}"
+                                     th:attr="onerror=|this.onerror=null;this.src='@{https://ui-avatars.com/api/?name={u}(u=${username})}'|"
+                                     th:title="${email}" alt="Avatar" width="36" height="36" class="rounded-circle me-2" style="object-fit:cover; background:#fff; border:1px solid #ccc;">
                                 <span>
                                     <span th:text="${username}" class="fw-semibold text-truncate" style="max-width:80px;">Username</span>
-                                   
                                 </span>
                             </span>
                         </a>
@@ -613,60 +189,108 @@
     </header>
 
     <!-- Main Content with Sidebar -->
-
     <div class="d-flex flex-grow-1">
         <!-- Sidebar -->
         <aside class="sidebar">
             <nav>
                 <ul class="sidebar-menu">
-                    <li><a href="/admin/home" class="menu-item">Dashboard</a></li>
-                    <li><a href="/admin/adminStaff" class="menu-item">Staff</a></li>
-                    <li><a href="/admin/adminUserHistory" class="menu-item">User History</a></li>
-                    <li><a href="/admin/adminMaintain" class="menu-item">Maintain</a></li>
-                    <li><a href="/admin/adminCondemn" class="menu-item">Condemn</a></li>
-                    <li><a href="/admin/adminAssetAllocation" class="menu-item">Asset Allocation</a></li>
-                    <li><a href="/admin/adminAsset" class="menu-item">Asset</a></li>
-                    <li><a href="/admin/adminInvoice" class="menu-item">Invoice</a></li>
-                    <li><a href="/admin/adminMovement" class="menu-item">Movement</a></li>
-                    <li><a href="/admin/profile" class="menu-item active">Profile</a></li>
+                    <li><a href="/admin/home" class="menu-item ">Dashboard</a></li>
+                    <li>
+                        <a class="menu-item d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#setupSubmenu" role="button" aria-expanded="false" aria-controls="setupSubmenu">
+                            <span>Setup</span>
+                            <i class="fas fa-chevron-down small"></i>
+                        </a>
+                        <ul class="collapse ps-4" id="setupSubmenu">
+                            <li><a href="/admin/adminInvoice" class="menu-item">Add Invoice</a></li>
+                            <li><a href="/admin/adminStaff" class="menu-item">Add Staff</a></li>
+                            <li><a href="/admin/adminAsset" class="menu-item ">Add Asset</a></li>
+                        </ul>
+                    </li>
+                        
+                        <a class="menu-item d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#allocationSubmenu" role="button" aria-expanded="false" aria-controls="allocationSubmenu">
+                            <span>Allocation</span>
+                            <i class="fas fa-chevron-down small"></i>
+                        </a>
+                        <ul class="collapse ps-4" id="allocationSubmenu">
+                            <li><a href="/admin/adminAssetAllocation" class="menu-item">User Allocation</a></li>
+                            <li><a href="/admin/adminMovement" class="menu-item">Location Allocation</a></li>
+                        </ul>
+                        
+                    <li><a href="/admin/adminUserHistory" class="menu-item">History</a></li>
+                    <li><a href="/admin/adminCondemn" class="menu-item">Condemn Details</a></li>
+                    <li><a href="/admin/adminMaintain" class="menu-item">Maintain Details</a></li>
+                    <li><a href="/admin/adminYearlyVerification" class="menu-item">Yearly Verification</a></li>
                 </ul>
             </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <div class="who-header">
-                <div style="font-size:1.1rem; color:#bdbdbd; margin-bottom:10px; letter-spacing:1.5px;">A BIT ABOUT ME</div>
-                <div class="who-title">Who Am I?</div>
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="fas fa-user-circle"></i>Profile
+                </h1>
             </div>
-            <div class="d-flex justify-content-center mt-4 mb-4">
-                <div class="card shadow-lg border-0" style="min-width:340px; max-width:420px; background:#fff; border-radius:18px;">
-                    <div class="card-body text-center p-4">
-                        <!-- Profile Photo Upload -->
-                        <form th:action="@{/admin/profile/photo}" method="post" enctype="multipart/form-data" id="photoUploadForm">
-                            <div class="mb-3 position-relative">
-                                <label for="profilePhotoInput" class="d-block" style="cursor:pointer;">
-                                    <img id="profilePhotoPreview" th:src="${profilePhotoUrl != null} ? ${profilePhotoUrl} : 'https://ui-avatars.com/api/?name=' + (${fullName} ?: ${username})" src="https://ui-avatars.com/api/?name=User" alt="Profile Photo" class="profile-pic mb-3" style="box-shadow:0 2px 16px rgba(128,0,0,0.10);">
-                                    <span class="position-absolute bottom-0 end-0 translate-middle p-2 bg-warning rounded-circle" style="border:2px solid #fff; cursor:pointer;">
-                                        <i class="fas fa-camera" style="color:#800000;"></i>
-                                    </span>
-                                </label>
-                                <input type="file" name="photo" id="profilePhotoInput" accept="image/*" style="display:none;" onchange="previewProfilePhoto(event)">
+            <div class="card profile-card">
+                <div class="profile-header d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <img th:if="${profilePhotoUrl != null}" th:src="${profilePhotoUrl}" alt="Avatar" class="avatar me-3">
+                        <img th:if="${profilePhotoUrl == null}" th:src="@{'https://ui-avatars.com/api/?name=' + ${username}}" alt="Avatar" class="avatar me-3">
+                        <div>
+                            <h3 class="mb-0" th:text="${fullName}">Full Name</h3>
+                            <div class="text-white-50">
+                                <i class="fa-solid fa-user me-1"></i><span th:text="${username}">username</span>
                             </div>
-                            <button type="submit" class="btn btn-sm btn-outline-warning mb-2">Update Photo</button>
-                        </form>
-                        <div class="fw-bold" style="font-size:1.45rem; color:var(--primary-color); margin-bottom:0.5rem;"> <span th:text="${fullName}">Full Name</span> </div>
-                        <div style="font-size:1.08rem; color:#888; margin-bottom:0.5rem;"> <span th:text="${email}">email@email.com</span> </div>
-                        <div class="mb-2">
-                            <span th:if="${roles != null and #lists.size(roles) > 0}" th:each="role : ${roles}" th:text="${role.name}" class="who-role-badge">ROLE</span>
-                            <span th:if="${roles == null or #lists.size(roles) == 0}" class="text-muted">N/A</span>
                         </div>
-                        <div class="who-desc mt-3 text-center" style="color:#888; font-size:1.08rem;"> <span th:text="${description}">Hi I'm Jack Smith. Click here to add your own text and edit me. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</span> </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <form th:action="@{/admin/profile/photo}" method="post" enctype="multipart/form-data" class="d-flex align-items-center gap-2">
+                            <th:block th:if="${_csrf != null}">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            </th:block>
+                            <input class="form-control form-control-sm" type="file" name="photo" accept="image/*" required>
+                            <button class="btn btn-warning btn-sm" type="submit"><i class="fa-solid fa-upload me-1"></i>Upload</button>
+                        </form>
+                        <form th:if="${profilePhotoUrl != null}" th:action="@{/admin/profile/photo/delete}" method="post">
+                            <th:block th:if="${_csrf != null}">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            </th:block>
+                            <button class="btn btn-outline-light btn-sm" type="submit"><i class="fa-solid fa-trash me-1"></i>Delete</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="kv">
+                                <div class="info-label"><i class="fa-solid fa-envelope me-2"></i>Email</div>
+                                <div th:text="${email}">user@email.com</div>
+                            </div>
+                            <div class="kv">
+                                <div class="info-label"><i class="fa-solid fa-id-card me-2"></i>Username</div>
+                                <div th:text="${username}">username</div>
+                            </div>
+                            <div class="kv">
+                                <div class="info-label"><i class="fa-solid fa-phone me-2"></i>Phone</div>
+                                <div th:text="${phone}">+94 00 000 0000</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="kv">
+                                <div class="info-label"><i class="fa-solid fa-user-tie me-2"></i>Roles</div>
+                                <div>
+                                    <span th:each="r : ${roles}" class="badge badge-role me-1" th:text="${#strings.replace(r.name, 'ROLE_', '')}">DIRECTOR</span>
+                                </div>
+                            </div>
+                            <div class="kv">
+                                <div class="info-label"><i class="fa-solid fa-file-lines me-2"></i>Description</div>
+                                <div th:text="${description}">No description provided.</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            
+        
         </main>
     </div>
 
@@ -690,7 +314,7 @@
                         <li><a href="/home">Home</a></li>
                         <li><a href="/about">About</a></li>
                         <li><a href="/contactUs">Contact</a></li>
-                        <li><a th:href="@{/login}">Login</a></li>
+                        <li><a th:href="@{/}">Login</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -719,12 +343,14 @@
         </div>
     </footer>
 
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Mobile menu toggle functionality
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
             document.querySelector('.sidebar').classList.toggle('active');
         });
+        
         // Add active class to current nav item
         document.querySelectorAll('.main-nav a').forEach(link => {
             link.addEventListener('click', function() {
@@ -734,26 +360,17 @@
                 this.classList.add('active');
             });
         });
+        
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
             });
         });
-        // Profile photo preview
-        function previewProfilePhoto(event) {
-            const input = event.target;
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('profilePhotoPreview').src = e.target.result;
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
     </script>
 </body>
 </html>
