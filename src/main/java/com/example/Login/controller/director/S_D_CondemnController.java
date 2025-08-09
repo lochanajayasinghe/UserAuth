@@ -22,4 +22,6 @@ public class S_D_CondemnController {
     public String condemnAsset(@RequestBody Condemn condemn) {
         return condemnService.condemnAsset(condemn);
     }
+
+    
 }
