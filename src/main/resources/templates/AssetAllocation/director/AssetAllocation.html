@@ -842,61 +842,7 @@
                 </div>
             </div>
 
-            <!-- Assign User to Asset Modal -->
-            <div class="modal fade" id="assignUserAssetModal" tabindex="-1" aria-labelledby="assignUserAssetModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="assignUserAssetModalLabel">
-                        <i class="fas fa-user-plus"></i>Assign User to Asset
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <form id="assignUserAssetForm">
-                        <div class="row g-3 align-items-center mb-2">
-                            <div class="col-12 col-md-6 position-relative">
-                                <label for="userNameInput" class="form-label">User Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="userNameInput" placeholder="Type user name..." autocomplete="off">
-                                <div id="userNameSuggestions" class="list-group position-absolute w-100" style="z-index: 10;"></div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <label for="userIdInput" class="form-label">User ID</label>
-                                <input type="text" class="form-control" id="userIdInput" readonly style="background-color: #f3f3f3;">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="jobRoleInput" class="form-label">Job Role</label>
-                            <input type="text" class="form-control" id="jobRoleInput" readonly>
-                        </div>
-                        <div class="mb-3 position-relative">
-                            <label for="assetIdInput" class="form-label">Asset ID</label>
-                            <input type="text" class="form-control" id="assetIdInput" placeholder="Type asset ID..." autocomplete="off">
-                            <div id="assetIdSuggestions" class="list-group position-absolute w-100"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="assetNameInput" class="form-label">Asset Name</label>
-                            <input type="text" class="form-control" id="assetNameInput" readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="startDateInput" class="form-label">Start Date <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="startDateInput" required>
-                        </div>
-                        <div id="assetCondemnError" class="alert alert-danger py-2 px-3 mb-2 d-none" style="font-size: 0.95rem;"></div>
-                    </form>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                        <i class="fas fa-times me-2"></i>Cancel
-                    </button>
-                    <button type="submit" form="assignUserAssetForm" class="btn btn-primary-custom">
-                        <i class="fas fa-save me-2"></i>Assign
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+           
             <!-- End Date Modal -->
             <div class="modal fade" id="endDateModal" tabindex="-1" aria-labelledby="endDateModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
