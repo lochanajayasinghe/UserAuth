@@ -19,7 +19,24 @@ public class AdminDirectorController {
     private UserRepository userRepository;
 
     @GetMapping("/user/home")
-    public String userHome() {
+    public String userHome(Model model, Authentication authentication) {
+        if (authentication != null) {
+            String username = authentication.getName();
+            User user = userRepository.findByUsername(username).orElse(null);
+            if (user != null) {
+                model.addAttribute("username", user.getUsername());
+                model.addAttribute("email", user.getEmail());
+                model.addAttribute("profilePhotoUrl", user.getProfilePhotoUrl());
+            } else {
+                model.addAttribute("username", username);
+                model.addAttribute("email", "");
+                model.addAttribute("profilePhotoUrl", null);
+            }
+        } else {
+            model.addAttribute("username", "");
+            model.addAttribute("email", "");
+            model.addAttribute("profilePhotoUrl", null);
+        }
         return "Dashboard/user-home";
     }
 
