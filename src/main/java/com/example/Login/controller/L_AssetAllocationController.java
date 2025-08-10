@@ -7,6 +7,10 @@ import com.example.Login.repository.AssetUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+import org.springframework.security.core.Authentication;
+import com.example.Login.model.User;
+import com.example.Login.repository.UserRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,10 +23,26 @@ public class L_AssetAllocationController {
     private AssetUserRepository assetUserRepository;
     @Autowired
     private AssetRepository assetRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     // Serve the Asset Allocation page for both uppercase and lowercase paths
     @GetMapping
-    public String assetAllocationPage() {
+    public String assetAllocationPage(Model model, Authentication authentication) {
+        if (authentication != null) {
+            String uname = authentication.getName();
+            User user = userRepository.findByUsername(uname).orElse(null);
+            if (user != null) {
+                model.addAttribute("username", user.getUsername());
+                model.addAttribute("profilePhotoUrl", user.getProfilePhotoUrl());
+            } else {
+                model.addAttribute("username", uname);
+                model.addAttribute("profilePhotoUrl", null);
+            }
+        } else {
+            model.addAttribute("username", "");
+            model.addAttribute("profilePhotoUrl", null);
+        }
         return "AssetAllocation/AssetAllocation";
     }
 
