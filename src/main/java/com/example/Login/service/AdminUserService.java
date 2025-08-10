@@ -37,6 +37,7 @@ public class AdminUserService {
                 user.getUsername(),
                 user.getFullName(),
                 user.getEmail(),
+                user.getProfilePhotoUrl(),
                 roleNames,
                 user.isEnabled()
         );
