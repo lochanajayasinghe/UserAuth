@@ -2,11 +2,13 @@ package com.example.Login.controller;
 
 import com.example.Login.model.User;
 import com.example.Login.repository.RoleRepository;
+import com.example.Login.repository.UserRepository;
 import com.example.Login.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import java.util.Map;
 public class AuthController {
     private final AuthService authService;
     private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
 
 
     @GetMapping("/login")
@@ -137,7 +140,21 @@ public class AuthController {
     //     return "AssetAllocation/AssetAllocation";
     // }
     @GetMapping("/Condemn")
-    public String Condemn(Model model) {
+    public String Condemn(Model model, Authentication authentication) {
+        if (authentication != null) {
+            String uname = authentication.getName();
+            User user = userRepository.findByUsername(uname).orElse(null);
+            if (user != null) {
+                model.addAttribute("username", user.getUsername());
+                model.addAttribute("profilePhotoUrl", user.getProfilePhotoUrl());
+            } else {
+                model.addAttribute("username", uname);
+                model.addAttribute("profilePhotoUrl", null);
+            }
+        } else {
+            model.addAttribute("username", "");
+            model.addAttribute("profilePhotoUrl", null);
+        }
         return "Condemn/Condemn";
     }
     // @GetMapping("/Invoice")
