@@ -950,14 +950,14 @@
                 <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png" alt="University Logo" class="logo-img">
                 <div>
                     <h5 class="mb-0 text-light">University of Peradeniya</h5>
-                    <small class="text-light">Asset Management System </small>
+                    <small class="text-light">Asset Management System  </small>
                 </div>
             </div>
             <nav class="main-nav">
                 <ul>
                     <li><a href="/user/home">Home</a></li>
                     <li sec:authorize="isAuthenticated()">
-                        <a th:href="@{/user/profile}" href="/user/profile" class="d-flex align-items-center text-light text-decoration-none" style="min-width:140px;">
+                        <a th:href="@{//profile}" href="/profile" class="d-flex align-items-center text-light text-decoration-none" style="min-width:140px;">
                             <span class="d-flex align-items-center">
                                 <img th:src="@{'https://ui-avatars.com/api/?name=' + ${username}}" src="https://ui-avatars.com/api/?name=User" th:title="${email}" alt="Avatar" width="36" height="36" class="rounded-circle me-2" style="object-fit:cover; background:#fff; border:1px solid #ccc;">
                                 <span>
