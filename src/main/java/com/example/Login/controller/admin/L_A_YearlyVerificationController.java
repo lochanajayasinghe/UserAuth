@@ -41,4 +41,6 @@ public class L_A_YearlyVerificationController {
         boolean ok = yearlyVerificationService.toggleVerification(assetId, year, verified, user);
         return Map.of("success", ok);
     }
+
+    
 }
