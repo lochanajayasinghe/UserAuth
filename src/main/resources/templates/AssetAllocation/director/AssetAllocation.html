@@ -728,7 +728,7 @@
                                 <img th:src="@{'https://ui-avatars.com/api/?name=' + ${username}}" src="https://ui-avatars.com/api/?name=User" th:title="${email}" alt="Avatar" width="36" height="36" class="rounded-circle me-2" style="object-fit:cover; background:#fff; border:1px solid #ccc;">
                                 <span>
                                     <span th:text="${username}" class="fw-semibold text-truncate" style="max-width:80px;">Username</span>
-                                    <span th:text="${email}" class="d-block small text-light" style="max-width:120px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">user@email.com</span>
+                                   
                                 </span>
                             </span>
                         </a>
@@ -776,7 +776,7 @@
             </nav>
         </aside>
 
-        <!-- Main Content -->
+         <!-- Main Content -->
         <main class="main-content">
             <!-- Page Header -->
             <div class="page-header">
@@ -840,34 +840,7 @@
                 </div>
             </div>
 
-           
-            <!-- End Date Modal -->
-            <div class="modal fade" id="endDateModal" tabindex="-1" aria-labelledby="endDateModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="endDateModalLabel">
-                        <i class="fas fa-calendar-times"></i>Close Asset Assignment
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <div id="endDateModalStep1">
-                      <p>Do you want to close this asset record?</p>
-                      <button id="confirmCloseBtn" class="btn btn-danger">Yes, Close</button>
-                    </div>
-                    <div id="endDateModalStep2" style="display:none;">
-                      <label for="endDateInputModal" class="form-label">End Date</label>
-                      <input type="date" class="form-control" id="endDateInputModal" required>
-                      <button id="saveEndDateBtn" class="btn btn-success mt-3">Save End Date</button>
-                    </div>
-                    <div id="endDateModalError" class="alert alert-danger py-2 px-3 mb-2 d-none" style="font-size: 0.95rem;"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-        </main>
-    </div>
+
 
     <!-- Footer -->
     <footer class="main-footer">
@@ -979,7 +952,7 @@
         }
         
         function loadUserAssetAssignments() {
-            fetch('/director/assetAllocation/all')
+            fetch('/assetAllocation/all')
                 .then(res => res.json())
                 .then(data => {
                     userAssetData = data;
@@ -995,101 +968,115 @@
         });
         
         // --- User Name auto-suggest and job role auto-fill ---
-        document.getElementById('userNameInput').addEventListener('input', function() {
-            const query = this.value;
-            if (query.length < 1) {
-                document.getElementById('userNameSuggestions').innerHTML = '';
-                return;
-            }
-            fetch('/director/assetAllocation/assetUsers/suggest?query=' + encodeURIComponent(query))
-                .then(res => res.json())
-                .then(data => {
-                    const suggestions = data.map(user => `<button type="button" class="list-group-item list-group-item-action" data-userid="${user.userId}" data-name="${user.userName}" data-jobrole="${user.jobRole}"><strong>${user.userId}</strong> - ${user.userName}</button>`).join('');
-                    document.getElementById('userNameSuggestions').innerHTML = suggestions;
-                    document.querySelectorAll('#userNameSuggestions button').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            document.getElementById('userNameInput').value = this.getAttribute('data-name');
-                            document.getElementById('jobRoleInput').value = this.getAttribute('data-jobrole');
-                            document.getElementById('userIdInput').value = this.getAttribute('data-userid');
-                            selectedUserId = this.getAttribute('data-userid');
-                            document.getElementById('userNameSuggestions').innerHTML = '';
+        (function() {
+            const userNameInput = document.getElementById('userNameInput');
+            if (!userNameInput) return;
+            userNameInput.addEventListener('input', function() {
+                const query = this.value;
+                const suggEl = document.getElementById('userNameSuggestions');
+                if (query.length < 1) {
+                    if (suggEl) suggEl.innerHTML = '';
+                    return;
+                }
+                fetch('/assetAllocation/assetUsers/suggest?query=' + encodeURIComponent(query))
+                    .then(res => res.json())
+                    .then(data => {
+                        const suggestions = data.map(user => `<button type="button" class="list-group-item list-group-item-action" data-userid="${user.userId}" data-name="${user.userName}" data-jobrole="${user.jobRole}"><strong>${user.userId}</strong> - ${user.userName}</button>`).join('');
+                        if (suggEl) suggEl.innerHTML = suggestions;
+                        document.querySelectorAll('#userNameSuggestions button').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                const nameEl = document.getElementById('userNameInput');
+                                const roleEl = document.getElementById('jobRoleInput');
+                                const idEl = document.getElementById('userIdInput');
+                                if (nameEl) nameEl.value = this.getAttribute('data-name');
+                                if (roleEl) roleEl.value = this.getAttribute('data-jobrole');
+                                if (idEl) idEl.value = this.getAttribute('data-userid');
+                                selectedUserId = this.getAttribute('data-userid');
+                                if (suggEl) suggEl.innerHTML = '';
+                            });
                         });
                     });
-                });
-        });
+            });
+        })();
 
         // --- Asset ID auto-suggest and asset name auto-fill ---
-        document.getElementById('assetIdInput').addEventListener('input', function() {
-            const query = this.value;
-            if (query.length < 1) {
-                document.getElementById('assetIdSuggestions').innerHTML = '';
-                return;
-            }
-            fetch('/director/assetAllocation/assets/suggest?query=' + encodeURIComponent(query))
-                .then(res => res.json())
-                .then(data => {
-                    const suggestions = data.map(asset => `<button type="button" class="list-group-item list-group-item-action" data-id="${asset.assetId}" data-name="${asset.name}">${asset.assetId} - ${asset.name}</button>`).join('');
-                    document.getElementById('assetIdSuggestions').innerHTML = suggestions;
-                    document.querySelectorAll('#assetIdSuggestions button').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            document.getElementById('assetIdInput').value = this.getAttribute('data-id');
-                            document.getElementById('assetNameInput').value = this.getAttribute('data-name');
-                            document.getElementById('assetIdSuggestions').innerHTML = '';
+        (function() {
+            const assetIdInput = document.getElementById('assetIdInput');
+            if (!assetIdInput) return;
+            assetIdInput.addEventListener('input', function() {
+                const query = this.value;
+                const suggEl = document.getElementById('assetIdSuggestions');
+                if (query.length < 1) {
+                    if (suggEl) suggEl.innerHTML = '';
+                    return;
+                }
+                fetch('/assetAllocation/assets/suggest?query=' + encodeURIComponent(query))
+                    .then(res => res.json())
+                    .then(data => {
+                        const suggestions = data.map(asset => `<button type="button" class="list-group-item list-group-item-action" data-id="${asset.assetId}" data-name="${asset.name}">${asset.assetId} - ${asset.name}</button>`).join('');
+                        if (suggEl) suggEl.innerHTML = suggestions;
+                        document.querySelectorAll('#assetIdSuggestions button').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                const idEl = document.getElementById('assetIdInput');
+                                const nameEl = document.getElementById('assetNameInput');
+                                if (idEl) idEl.value = this.getAttribute('data-id');
+                                if (nameEl) nameEl.value = this.getAttribute('data-name');
+                                if (suggEl) suggEl.innerHTML = '';
+                            });
                         });
                     });
-                });
-        });
+            });
+        })();
 
         // --- Form submit: assign user to asset ---
         let selectedUserId = '';
-        document.getElementById('assignUserAssetForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            document.getElementById('assetCondemnError').classList.add('d-none');
-            document.getElementById('assetCondemnError').textContent = '';
-            
-            // Validate assetId is from suggestions
-            const assetIdInput = document.getElementById('assetIdInput').value.trim();
-            const assetNameInput = document.getElementById('assetNameInput').value.trim();
-            if (!assetIdInput || !assetNameInput) {
-                document.getElementById('assetCondemnError').textContent = 'Please select a valid asset from the suggestions.';
-                document.getElementById('assetCondemnError').classList.remove('d-none');
-                return;
-            }
-            const startDateInput = document.getElementById('startDateInput').value;
-            if (!startDateInput) {
-                document.getElementById('assetCondemnError').textContent = 'Please select a start date.';
-                document.getElementById('assetCondemnError').classList.remove('d-none');
-                return;
-            }
-            const payload = {
-                userId: selectedUserId,
-                userName: document.getElementById('userNameInput').value,
-                jobRole: document.getElementById('jobRoleInput').value,
-                assetId: assetIdInput,
-                assetName: assetNameInput,
-                startDate: startDateInput
-            };
-            fetch('/director/assetAllocation/assign', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            })
-            .then(async res => {
-                const text = await res.text();
-                if (res.ok && text === 'Success') {
-                    alert('User assigned to asset successfully!');
-                    location.reload();
-                } else if (text && text.includes('condemn')) {
-                    document.getElementById('assetCondemnError').textContent = 'This asset is condemned and cannot be assigned.';
-                    document.getElementById('assetCondemnError').classList.remove('d-none');
-                } else if (text && text.includes('already assigned')) {
-                    document.getElementById('assetCondemnError').innerHTML = 'That asset is already assigned and currently in use.<br><span style="color: #800000; font-weight: 500;">See <a href="#showCurrentAssets" style="color: #800000; text-decoration: underline; font-weight: 600;">Current Assignments Only</a> filter above for details.</span>';
-                    document.getElementById('assetCondemnError').classList.remove('d-none');
-                } else {
-                    alert('Error assigning user to asset.');
+        (function() {
+            const form = document.getElementById('assignUserAssetForm');
+            if (!form) return;
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const errorEl = document.getElementById('assetCondemnError');
+                if (errorEl) { errorEl.classList.add('d-none'); errorEl.textContent = ''; }
+                // Validate assetId is from suggestions
+                const assetIdInput = (document.getElementById('assetIdInput')?.value || '').trim();
+                const assetNameInput = (document.getElementById('assetNameInput')?.value || '').trim();
+                if (!assetIdInput || !assetNameInput) {
+                    if (errorEl) { errorEl.textContent = 'Please select a valid asset from the suggestions.'; errorEl.classList.remove('d-none'); }
+                    return;
                 }
+                const startDateInput = document.getElementById('startDateInput')?.value;
+                if (!startDateInput) {
+                    if (errorEl) { errorEl.textContent = 'Please select a start date.'; errorEl.classList.remove('d-none'); }
+                    return;
+                }
+                const payload = {
+                    userId: selectedUserId,
+                    userName: document.getElementById('userNameInput')?.value,
+                    jobRole: document.getElementById('jobRoleInput')?.value,
+                    assetId: assetIdInput,
+                    assetName: assetNameInput,
+                    startDate: startDateInput
+                };
+                fetch('/assetAllocation/assign', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+                .then(async res => {
+                    const text = await res.text();
+                    if (res.ok && text === 'Success') {
+                        alert('User assigned to asset successfully!');
+                        location.reload();
+                    } else if (text && text.includes('condemn')) {
+                        if (errorEl) { errorEl.textContent = 'This asset is condemned and cannot be assigned.'; errorEl.classList.remove('d-none'); }
+                    } else if (text && text.includes('already assigned')) {
+                        if (errorEl) { errorEl.innerHTML = 'That asset is already assigned and currently in use.<br><span style=\"color: #800000; font-weight: 500;\">See <a href=\"#showCurrentAssets\" style=\"color: #800000; text-decoration: underline; font-weight: 600;\">Current Assignments Only</a> filter above for details.</span>'; errorEl.classList.remove('d-none'); }
+                    } else {
+                        alert('Error assigning user to asset.');
+                    }
+                });
             });
-        });
+        })();
 
         // End Date Modal Functions
         let endDateUserId = '';
@@ -1117,7 +1104,7 @@
                     return;
                 }
                 
-                fetch('/director/assetAllocation/endDate', {
+                fetch('/assetAllocation/endDate', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ userId: endDateUserId, assetId: endDateAssetId, endDate })
